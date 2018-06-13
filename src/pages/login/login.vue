@@ -57,7 +57,6 @@ export default class shopIndex extends Vue {
 
   clearLoginName() {
     //  this.loginName = ""
-    console.log(111);
   }
   doLogin() {
     if (this.loginName == "" || this.password == "") {

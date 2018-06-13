@@ -10,7 +10,8 @@ import Vant from 'vant';
 import Api from './config/fetch';
 import MutationTreeType from './store/mutation-types';
 import MintUI from 'mint-ui';
-
+import iView from 'iview';
+Vue.use(iView);
 Vue.use(MutationTreeType);
 Vue.use(VueLazyload, {
     preLoad: 1.3,

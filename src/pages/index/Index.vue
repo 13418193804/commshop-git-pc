@@ -6,7 +6,49 @@
 
 
 
-  
+  <Row>
+        <Col :xs="{ span:24 }" :sm="{span:24}" :md="{span:24}" :lg="{ span:16 ,offset:4}" >
+          11234
+          <div>
+
+
+          </div>
+        </Col>
+    </Row>
+
+
+
+
+  <Row>
+        <Col :xs="{ span:24 }" :sm="{span:24}" :md="{span:24}" :lg="{ span:16 ,offset:4}" >
+       <van-tabs :active="active" @click="changeTab" class="index_tabs flex-1" >
+
+
+<!-- :style="$route.query.active?'margin-top:-45px':''" -->
+  <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index" >
+
+
+      </van-tab>
+  </van-tabs>
+        </Col>
+    </Row>
+
+
+  <Row>
+        <Col :xs="{ span: 0 }" :sm="{span: 0}"  :md="{span:3}" :lg="{ span: 4 }" ></Col>
+        <Col :xs="{ span:24 }" :sm="{span:24}" :md="{span:18}" :lg="{ span: 16}" >
+        
+
+
+        
+        </Col>
+        <Col :xs="{ span: 0 }" :sm="{span:0}"  :md="{span:3}" :lg="{ span: 4  }" ></Col>
+    </Row>
+
+
+
+
+  <winbeet></winbeet>
   </div>
 </template>
 
@@ -18,29 +60,44 @@ import { Action } from "vuex-class";
 import { Toast, ImagePreview } from "vant";
 import { Watch } from "vue-property-decorator";
 import Wintabe from "../../components/Wintabe.vue";
+import Winbeet from "../../components/Winbeet.vue";
 
 @Component({
   components: {
-    Wintabe
+    Wintabe,
+    Winbeet
   },
   mixins: [mixin]
 })
 export default class shopIndex extends Vue {
-
-
-
   mounted() {
- Vue.prototype.$reqFormPost1(
-      "/address/queryprovince",
-      {
-      
-      },
-      res => {
-        console.log(1,res)
-      }
-    );
+    // Vue.prototype.$reqFormPost1("/address/queryprovince", {}, res => {
+    //   console.log(1, res);
+    // });
+    this.initIndex()
+  }
+  indexList=[]
+  changeTab(){
 
   }
+  active= '0';
+  initIndex() {
+    Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
+      if (res.returnCode !== 200) {
+        console.log("网络请求错误！");
+        return;
+      }
+
+    
+      this.indexList = res.data;
+
+      // if (this.indexList.length > 0) {
+      //   this.changeTab(this.active);
+      // }
+    });
+  }
+
+
 }
 </script>
 
