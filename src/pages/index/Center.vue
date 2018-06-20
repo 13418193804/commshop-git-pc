@@ -11,17 +11,12 @@
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
   <el-breadcrumb-item>个人中心</el-breadcrumb-item>
 </el-breadcrumb>
-
-</div>
-
 </div>
 </div>
-
-
+</div>
 
 <div class=" flex   flex-pack-center">
        <div  style="width:60%;margin-bottom:10px;">
-          
 <div class="flex">
     <div class="borderSet" style="margin-right:20px;padding:20px;">
 <div style="padding:10px 20px;" v-for="(item,index) in menu">

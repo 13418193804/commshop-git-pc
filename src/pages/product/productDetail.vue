@@ -4,9 +4,25 @@
 
 
 <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
-  <winbeet></winbeet>
 
-  
+
+
+<div class=" flex   flex-pack-center">
+       <div  style="width:60%;">
+<div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+  <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+</el-breadcrumb>
+</div>
+</div>
+</div>
+
+
+
+
+
+  <winbeet></winbeet>
   </div>
   </div>
 </template>
