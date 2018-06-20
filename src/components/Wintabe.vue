@@ -84,7 +84,7 @@
 
    
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;">
+       <div  style="width:60%;padding:5px 0;">
          <div style="" class="flex flex-pack-justify flex-align-center">
             <img  src="../assets/image/logo拷贝.png"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
@@ -129,7 +129,7 @@
 {{items.name}}
   </div>
       <div class="goodsBody" v-if="items.columnNum ===1" >
-                  <div v-for="(goods,goodsIndex) in items.items" @click="goDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
+                  <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
       <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
                       <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;">
                         <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
@@ -199,11 +199,18 @@ export default class Comhead extends Vue {
   rightClick() {
     this.$emit("rightClick");
   }
-
-goCenter(){
-  this.$router.push('/center')
-}
-  loginModel =false;
+  goProductDetail(goodsId) {
+    this.$router.push({
+      path: "/productdetail",
+      query: {
+        goodsId: goodsId
+      }
+    });
+  }
+  goCenter() {
+    this.$router.push("/center");
+  }
+  loginModel = false;
   changeLoginModel() {
     this.loginModel = !this.loginModel;
   }
@@ -238,16 +245,23 @@ goCenter(){
   indexList = [];
   active = "0";
 
-  changeTab(active) {
-    if (active !== "-1" && this.$route.path != "/") {
+  changeTab(active, shit) {
+    // shit 立刻检测  通常进来时不检测
+    if (
+      this.active == "-1" &&
+      this.$route.path != "/" &&
+      typeof shit == "string"
+    ) {
+      console.log("传值", active);
       this.$router.replace({
-        path: "/",
+        name: "index",
         params: {
           active: active
         }
       });
       return;
     }
+
     this.active = active;
 
     if (!this.indexList[active].children) {
@@ -303,7 +317,7 @@ goCenter(){
       this.indexList = res.data;
 
       if (this.indexList.length > 0) {
-        this.changeTab(this.active);
+        this.changeTab(this.active, true);
       }
     });
   }
@@ -313,7 +327,6 @@ goCenter(){
       ? (this.active = this.$route.params.active)
       : "";
     this.$route.params.active = "";
-    console.log(this.$route);
     this.initIndex();
   }
 }
