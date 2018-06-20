@@ -245,10 +245,14 @@ export default class Comhead extends Vue {
   indexList = [];
   active = "0";
 
-  changeTab(active,shit) {
-// shit 立刻检测  通常进来时不检测
-    if (this.active == "-1" && this.$route.path != "/" && typeof shit =='string') {
-      console.log('传值',active)
+  changeTab(active, shit) {
+    // shit 立刻检测  通常进来时不检测
+    if (
+      this.active == "-1" &&
+      this.$route.path != "/" &&
+      typeof shit == "string"
+    ) {
+      console.log("传值", active);
       this.$router.replace({
         name: "index",
         params: {
@@ -313,7 +317,7 @@ export default class Comhead extends Vue {
       this.indexList = res.data;
 
       if (this.indexList.length > 0) {
-        this.changeTab(this.active,true);
+        this.changeTab(this.active, true);
       }
     });
   }

@@ -12,7 +12,7 @@
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
     <el-breadcrumb separator-class="el-icon-arrow-right">
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-  <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+  <el-breadcrumb-item>{{detatil.goodsName}}</el-breadcrumb-item>
 </el-breadcrumb>
 </div>
 </div>
@@ -20,6 +20,115 @@
 
 
 
+
+<div class=" flex   flex-pack-center">
+       <div  style="width:60%;" class="flex">
+
+<div style="width:500px;">
+
+<img v-lazy="detatil.goodsImg.split(',')[0]" style="width:100%;"/>
+<div class="flex">
+  <div v-for="(item,index) in detatil.goodsImg.split(',')">
+<img v-lazy="item" style="width:100px;margin-right:10px;"/>
+  </div>
+</div>
+</div>
+
+<div class="flex-1" style="padding:0 10px;">
+<div class="goodsName">
+  {{detatil.goodsName}}
+</div>
+  <div class="">
+  {{detatil.jingle}}
+</div>
+
+
+<div style="border:1px solid #e5e5e5;margin:20px 0;background-color:#FCFCFC;font-size:14px;">
+<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
+  <div style="width:50px">价格</div>
+  <div><span class="marketPrice" style="font-size:20px;margin-right:10px">￥{{detatil.marketPrice}}</span>
+  <span class="labelPrice">原价￥{{detatil.labelPrice}}</span></div>
+</div>
+<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
+  <div style="width:50px">限制</div>
+  <div>此商品不可与优惠券叠加使用</div>
+</div>
+<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
+  <div style="width:50px">领券</div>
+  <div>
+    <span style="color:red">立即领取></span>
+  </div>
+</div>
+
+
+<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
+  <div style="width:50px">服务</div>
+  <div class="flex flex-around-justify flex-align-center">
+    <div>
+    <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>7天无忧退换货</span></span>
+    </div>
+     <div>
+    <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>24小时快速退款</span></span>
+    </div>
+     <div>
+    <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>中宜自营严选</span></span>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+
+ <div style='font-size:14px;max-height:300px;overflow:auto;'>
+      <div v-for='(item,indextop) in detatil.skuKey' :key="indextop" class="flex  flex-align-center">
+      <div style='padding:5px 20px 0;color:#585858;'>{{item.skuKeyIdName}}</div>
+      <div class='skuKeyBox'>
+      <div v-for="(items,index) in  item.valueList" :key="index">
+        <div  :class="chosenList[indextop] === items ?'sku_box_select':'sku_box' " 
+        :style="items.disable?'color:#ccc;':''+ chosenList[indextop] === items.skuValueId?'border-color:#f4c542;color:#f4c542':'' " @click.stop='selectSku(indextop,items)'  >{{items.skuValueName}}</div>
+      </div>
+      </div>
+     
+      </div>
+    </div>
+
+
+
+   <div class='num_box flex flex-align-center'>
+      <div class="flex flex-align-center" style="color:#585858;">数量</div>
+
+    <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;"/>
+    </div>
+<div class="flex">
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding:0 50px;margin-right:10px;"  @click.stop="doChangeModel(goods.goodsId)">立即购买</van-button>
+      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;padding:0 50px;"  @click.stop="doChangeModel(goods.goodsId)">加入购物车</van-button>
+<div style="width:45px;height:45px;border:1px solid #e5e5e5;margin:0 10px;text-align:center;">
+<div>收藏</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+<div class=" flex   flex-pack-center">
+       <div  style="width:60%;margin-top:20px">
+
+<div style="height:40px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
+     <div class="taber selecttaber">大家还看了</div>
+     <div  class="taber">新品推荐</div>
+   </div>
+
+<div style="height:500px;">
+
+
+</div>
+
+
+</div>
+</div>
 
 
   <winbeet></winbeet>
@@ -39,21 +148,146 @@ import Wintabe from "../../components/Wintabe.vue";
 import Winbeet from "../../components/Winbeet.vue";
 @Component({
   components: {
-     Wintabe,
+    Wintabe,
     Winbeet
   },
   mixins: [mixin]
 })
-
 export default class ProductDetail extends Vue {
-
   mounted() {
- 
+    this.goodsId = this.$route.query.goodsId;
+    this.getProductDetail();
+  }
+  goodsId = "";
+  detatil = {
+    commentList: [],
+    detail: {
+      imageList: []
+    },
+    goodsImg: "",
+    goodsName: "",
+    jingle: "",
+    labelPrice: 0,
+    marketPrice: 0,
+    onlineStatus: "",
+    sku: [],
+    skuKey: [],
+    storageNum: 0
+  };
+num=1;
+  skuattr = [];
+  chosenList = [];
+  chosensku = [];
+  skuItem = {};
+    commentnum = 0;
+  praise = "0";
+
+  getProductDetail() {
+    Vue.prototype.$reqFormPost1(
+      "/goods/front/detail",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        goodsId: this.goodsId
+      },
+      res => {
+        if (res.returnCode != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          return;
+        }
+
+        this.detatil = res.data;
+
+        if (res.data.singleStatus) {
+          this.skuItem = res.data.sku[0];
+        }
+        console.log('-----------')
+        // 评论数量
+        this.commentnum = res.data.commentNum;
+        // 好评计算
+        if (res.data.commentList.length > 0) {
+          let total = 0;
+          for (let i = 0; i < res.data.commentList.length; i++) {
+            total = res.data.commentList[i].star + total;
+          }
+          total = total / (res.data.commentList.length * 5) * 100;
+          const praisenum = total.toFixed(0);
+          this.praise = praisenum;
+        }
+
+        // this.tabgoodslist = res.data.likeList;
+        // this.likeList = res.data.likeList;
+        // this.newList = res.data.newList;
+
+        // this.couponList = res.data.couponList;
+
+        this.detatil.skuKey.forEach((keyItem, keyIndex) => {
+          keyItem.valueList.forEach((valueItem, valueIndex) => {
+            let opt = { disable: true, chosen: false };
+            this.detatil.sku.forEach((skuItem, skuIndex) => {
+              if (valueItem.skuValueId === skuItem.attrs[keyIndex].valueId) {
+                opt.disable = false;
+                return false;
+              }
+            });
+            (<any>Object).assign(valueItem, opt);
+          });
+        });
+
+
+
+
+
+
+      }
+    );
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
+.goodsName {
+  font-weight: 600;
+  font-size: 18px;
+}
+.skuKeyBox {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.sku_box {
+  margin: 10px 0px 0px 20px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid #7f7f7f;
+  background-color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100px;
+}
+.num_box {
+  font-size: 16px;
+  padding: 20px;
+}
+.taber{
+  line-height: 40px;
+  padding:0 30px;
+cursor: pointer;
+  
+}
+.selecttaber{
+border-top:1px #e5e5e5 solid;
+border-left:1px #e5e5e5 solid;
+border-right:1px #e5e5e5 solid;
+border-bottom:3px #ffc630 solid;
+background-color:#fff;
+box-sizing: border-box;
+color:#ffc630;
+}
 </style>
