@@ -34,7 +34,17 @@ export default new Router({
                     path: '/user',
                     name: 'user',
                     component: r => require.ensure([], () => r(require('../pages/index/User')), 'user')
-                }
+                },
+                {
+                    path: '/messagelist',
+                    name: 'messagelist',
+                    component: r => require.ensure([], () => r(require('../pages/index/MessageList')), 'messagelist')
+                },
+                {
+                    path: '/addresslist',
+                    name: 'addresslist',
+                    component: r => require.ensure([], () => r(require('../pages/address/addresslist')), 'addresslist')
+                },
             ]
         },
         {
@@ -65,11 +75,6 @@ export default new Router({
             path: '/settle',
             name: 'settle',
             component: r => require.ensure([], () => r(require('../pages/order/settle')), 'settle')
-        },
-        {
-            path: '/addresslist',
-            name: 'addresslist',
-            component: r => require.ensure([], () => r(require('../pages/address/addresslist')), 'addresslist')
         },
         {
             path: '/address',
@@ -201,11 +206,6 @@ export default new Router({
             path: '/invoice',
             name: 'invoice',
             component: r => require.ensure([], () => r(require('../pages/order/invoice.vue')))
-        },
-        {
-            path: '/messagelist',
-            name: 'messagelist',
-            component: r => require.ensure([], () => r(require('../pages/index/MessageList.vue')))
         },
         {
             path: '/addcomment',

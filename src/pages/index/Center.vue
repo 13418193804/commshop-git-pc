@@ -24,9 +24,9 @@
           
 <div class="flex">
     <div class="borderSet" style="margin-right:20px;padding:20px;">
-<div style="padding:10px 20px;" v-for="(item,index) in menu">
+<div style="padding:10px 20px;" v-for="(item,index) in menu" :key="index">
             <div class="title">{{item.title}}</div>
-            <div class="content" :class="menuName == items.name ?'selectContent':''" v-for="(items,indexs) in item.menu" @click="selectMenu(items)">{{items.name}}</div>
+            <div class="content" :class="menuName == items.name ?'selectContent':''" v-for="(items,indexs) in item.menu" @click="selectMenu(items)" :key="indexs">{{items.name}}</div>
 </div>
 
     </div>
@@ -67,13 +67,13 @@ export default class shopIndex extends Vue {
           url:'/center',
         },  {
           name: '消息通知',
-          url:'/',
+          url:'/messagelist',
         },  {
           name: '账号信息',
           url:'/user',
         },  {
           name: '地址管理',
-          url:'/',
+          url:'/addresslist',
         },  {
           name: '我的收藏',
           url:'/',

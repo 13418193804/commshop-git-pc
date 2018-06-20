@@ -1,18 +1,14 @@
 <template>
-  <div class="messagePage" style="background-color: #f3f3f3;">
+  <div class="tab-contents">
 
-    <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="消息中心" isRightIcon="true"  ></comhead>
-     <ul
-  v-infinite-scroll="loadMore"
-  :infinite-scroll-disabled="loading"
-  infinite-scroll-distance="20" >
-        <li v-for="(item,index) in messagelist" :key="index">
-          <div class="flex flex-pack-justify" style="border-bottom:1px solid #f4f4f4;background-color: #fff;" :style="handlePX('padding',20)">
-            <div style="font-size:12px;color:#a9a9a9;">{{item.content}}</div>
-            <div style="font-size:12px;color:#a9a9a9;text-align: right;vertical-align: middle;" :style="handlePX('width',300)">{{item.updateTime}}</div> 
+        
+        <div style="padding:30px;">
+          <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" style="padding:15px 0;border-bottom:1px dashed #E5E5E5;">
+            <div :style="item.status==false?'color:#000':'color:#E5E5E5'"><span v-if="item.status==true" style="display: inline-block;vertical-align: middle;background-color:#FF0506;border-radius: 50px;width:10px;height:10px;"></span>{{item.content}}<span style="color:#FDD273;">查看详情》</span></div>
+            <div style="color:#B4B4B4;">{{item.updateTime}}</div>
           </div>
-        </li>
- </ul>
+        </div>
+
   </div>
 </template>
 
@@ -22,47 +18,23 @@ import Component from "vue-class-component";
 import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast } from "vant";
-import comhead from "../../components/Comhead.vue";
-
-// import { recommendList } from '../../service/getData';
-
-// //MD5加密
-// export const md5Encrypt = (encryptString) => {
-//     let md5 = crypto.createHash('md5').update(encryptString).digest('hex');
-//     return md5;
-// };
 
 @Component({
-  components: {
-          comhead
-  },
+  components: {  },
   mixins: [mixin]
 })
-export default class shopIndex extends Vue {
-  loading=false
-  pageSize = 20;
+export default class messagelist extends Vue {
   messagelist=[];
   page=0;
-  loadMore(){
-    let self = this;
-    self.loading=true;    
-    setTimeout(() => {
-      if(!self.loading){
-        self.page+=1;
-        self.getList();
-        self.loading = false;
-      }
-    }, 1000);
-  }
-  getList() {
+   getList() {
  Vue.prototype.$reqFormPost("/message/list", {
    
       userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
         .userId,
       token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
         .token,
-      page: this.page,
-      pageSize: 20
+      // page: this.page,
+      // pageSize: 20
  }, res => {
       if (res == null) {
         console.log("网络请求错误！");
@@ -75,25 +47,13 @@ export default class shopIndex extends Vue {
         Toast(res.data.message);
         return;
       }
-    console.log(res)
+      console.log(res.data.data)
     this.messagelist = res.data.data.messageList;
-       if (res.data.data.messageList.length == 20) {
-          this.loading = false;
-        }
     });
 
 
   }
-  handlePX(CssName, PxNumber) {
-    return (
-      CssName +
-      ":" +
-      this.$store.getters[Vue.prototype.MutationTreeType.SYSTEM].availWidth /
-        750 *
-        PxNumber +
-      "px;"
-    );
-  }
+
   mounted() {
     this.getList();
   }
@@ -103,11 +63,4 @@ export default class shopIndex extends Vue {
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
 
-.messagePage{
-    background-color:#f7f7f7;
-    height:100vh;
-    width:100%;
-}
 </style>
-
-
