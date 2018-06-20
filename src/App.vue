@@ -90,11 +90,11 @@ export default class App extends Vue {
   color: #ffc630;
 }
 .van-tabs__nav-bar {
-  background-color: rgb(255, 198, 48);
+  /* background-color: rgb(255, 198, 48);
   left: 22px;
   width: 36px !important;
   bottom: 20px;
-  border-radius: 30px;
+  border-radius: 30px; */
 }
 .van-tabs__nav{
   -webkit-overflow-scrolling: touch;
@@ -194,9 +194,7 @@ color:#f44!important;
 </style>
 
 <style>
-.index_tabs .van-tabs__wrap {
-  margin-right: 36px;
-}
+
 
 .index_tabs .van-swipe__indicators > i {
   width: 8px;
@@ -210,5 +208,6 @@ color:#f44!important;
 }
 .van-tabs__wrap {
   overflow-x: auto;
+
 }
 </style>

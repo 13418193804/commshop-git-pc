@@ -17,27 +17,29 @@ export default new Router({
     routes: [
 
         {
-            path: '/',
-            component: TabContainer,
+            path: '/center',
+            component: r => require.ensure([], () => r(require('../pages/index/Center')), 'Center'),
             children: [
                 {
-                    path: '/',
-                    component: index
+                    path: '/center',
+                    name: 'center',
+                    component: r => require.ensure([], () => r(require('../pages/index/mine')), 'collection')
                 },
                 {
-                    path: '/category',
-                    component: r => require.ensure([], () => r(require('../pages/index/category')), 'category')
-                },
-                {
-                    path: '/cart',
-                    name: 'cart',
-                    component: r => require.ensure([], () => r(require('../pages/index/Cart')), 'cart')
+                    path: '/collection',
+                    name: 'collection',
+                    component: r => require.ensure([], () => r(require('../pages/collection/collection')), 'collection')
                 },
                 {
                     path: '/user',
+                    name: 'user',
                     component: r => require.ensure([], () => r(require('../pages/index/User')), 'user')
                 }
             ]
+        },
+        {
+            path: '/',
+            component: index
         },
         {
             path: '/productlist',
@@ -114,11 +116,7 @@ export default new Router({
             name: 'refund',
             component: r => require.ensure([], () => r(require('../pages/order/refund')), 'refund')
         },
-        {
-            path: '/collection',
-            name: 'collection',
-            component: r => require.ensure([], () => r(require('../pages/collection/collection')), 'collection')
-        },
+
         {
             path: '/add_bank_card',
             name: 'add_bank_card',

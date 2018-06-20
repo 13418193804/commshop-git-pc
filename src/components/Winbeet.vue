@@ -1,7 +1,27 @@
 <template>
   <div class="alter-container">
-  
-      22
+    <div style="height:100px;"></div>
+    <div class="btm flex flex-align-center flex-around-justify" style="padding:0 15%">
+        <div class="flex flex-align-center ">
+          <img src="../assets/image/7天.png" style="width:40px;"/>
+          <div style="color:#fff;margin:0 10px">7天无忧退换货</div>
+        </div>
+
+  <div class="flex flex-align-center">
+          <img src="../assets/image/48小时拷贝.png" style="width:40px;"/>
+          <div style="color:#fff;margin:0 10px">48小时快速退款</div>
+        </div>
+
+
+          <div class="flex flex-align-center">
+          <img src="../assets/image/7天.png" style="width:40px;"/>
+          <div style="color:#fff;margin:0 10px">中宜严选品质</div>
+        </div>
+  <div style="text-align:center;">
+<img src="../assets/image/二维码.png" style="width:45px;"/>
+          <div style="color:#fff">扫码下载中宜严选app</div>
+  </div>
+    </div>
   </div>
   <!-- end container -->
 </template>
@@ -13,7 +33,6 @@ import { Prop } from "vue-property-decorator";
 
 @Component
 export default class Comhead extends Vue {
-
   type = "H5";
   leftScale = "1.5";
   textindex = 1;
@@ -21,13 +40,19 @@ export default class Comhead extends Vue {
     this.$emit("rightClick");
   }
 
-
-  mounted() {
-  }
+  mounted() {}
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+.btm {
+  position: fixed;
+  bottom: 0;
+  height: 100px;
+  width:100%;
+  background-color: #000;
+  z-index: 999;
+}
 .vhead {
   border-bottom: solid 1px #e5e5e5;
   justify-content: flex-end;

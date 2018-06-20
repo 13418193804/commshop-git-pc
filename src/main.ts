@@ -11,6 +11,11 @@ import Api from './config/fetch';
 import MutationTreeType from './store/mutation-types';
 import MintUI from 'mint-ui';
 import iView from 'iview';
+
+import ElementUI from 'element-ui';
+
+Vue.use(ElementUI);
+
 Vue.use(iView);
 Vue.use(MutationTreeType);
 Vue.use(VueLazyload, {

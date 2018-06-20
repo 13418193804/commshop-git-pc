@@ -1,8 +1,41 @@
 <template>
   <div class="tab-contents" style="    overflow: hidden;">
 
-<wintabe ref="wintabe" ></wintabe>
 
+<wintabe ref="wintabe" :table="true" :router="true"></wintabe>
+
+<div class=" flex   flex-pack-center">
+       <div  style="width:60%;">
+<div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+  <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+</el-breadcrumb>
+
+</div>
+
+</div>
+</div>
+
+
+
+<div class=" flex   flex-pack-center">
+       <div  style="width:60%;margin-bottom:10px;">
+          
+<div class="flex">
+    <div class="borderSet" style="margin-right:20px;padding:20px;">
+<div style="padding:10px 20px;" v-for="(item,index) in menu">
+            <div class="title">{{item.title}}</div>
+            <div class="content" :class="menuName == items.name ?'selectContent':''" v-for="(items,indexs) in item.menu" @click="selectMenu(items)">{{items.name}}</div>
+</div>
+
+    </div>
+    <div class="borderSet flex-1">
+        <router-view></router-view>
+    </div>
+</div>
+</div>
+</div>
   <winbeet></winbeet>
   </div>
 </template>
@@ -25,18 +58,78 @@ import Winbeet from "../../components/Winbeet.vue";
   mixins: [mixin]
 })
 export default class shopIndex extends Vue {
-  mounted() {
+  menu = [
+    {
+      title : "账号管理",
+      menu:[
+        {
+          name: '个人中心',
+          url:'/center',
+        },  {
+          name: '消息通知',
+          url:'/',
+        },  {
+          name: '账号信息',
+          url:'/user',
+        },  {
+          name: '地址管理',
+          url:'/',
+        },  {
+          name: '我的收藏',
+          url:'/',
+        },  {
+          name: '我的成员',
+          url:'/',
+        },{
+          name: '我的奖励',
+          url:'/',
+        },{
+          name: '我的银行卡',
+          url:'/',
+        },
+      ]
+    },  {
+      title : "账号管理",
+      menu:[
+        {
+          name: '我的订单',
+          url:'/',
+        },  {
+          name: '优惠券',
+          url:'/',
+        },
+      ]
+    },
+    {
+      title : "账号管理",
+      menu:[
+        {
+          name: '在线客服',
+          url:'/',
+        },
+      ]
+    },
 
-    // console.log(this.$route.query)
-    console.log('index')
+  ]
+  menuName = '个人中心'
+selectMenu(items){
+    if(items.url == '/'){
+      return 
+    }
+    this.$router.push(items.url);
+      this.menuName = items.name
+
+}
+  
+  mounted() {
     // Vue.prototype.$reqFormPost1("/address/queryprovince", {}, res => {
     //   console.log(1, res);
     // });
-    this.doNone()
+    this.doNone();
   }
   //隐藏首页tab
-  doNone(){
-    console.log(this.$refs.wintabe)
+  doNone() {
+    console.log(this.$refs.wintabe);
   }
   goDetail(goodsId) {
     console.log(goodsId);
@@ -46,76 +139,6 @@ export default class shopIndex extends Vue {
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
-
-.radios,
-.playlists {
-  margin: 14px 10px 10px;
-  .title {
-    color: #000;
-    font-size: 16px;
-    margin-bottom: 11px;
-    font-weight: normal;
-  }
-  .list {
-    display: flex;
-    flex-wrap: wrap;
-    .list-item {
-      flex: 1;
-      width: 45%;
-      flex-basis: 40%;
-      background-color: #fff;
-      font-size: 14px;
-      margin-bottom: 10px;
-      &:nth-child(2n + 1) {
-        margin-right: 8px;
-      }
-      .list-media {
-        position: relative;
-        margin-bottom: 5px;
-      }
-      .list-info {
-        height: 36px;
-        padding: 0 7px 5px;
-        color: #000;
-        .list_tit {
-          @include ellipsis;
-        }
-      }
-      .listen_count {
-        position: absolute;
-        left: 5px;
-        bottom: 7px;
-        line-height: 12px;
-        color: #fff;
-      }
-      .icon {
-        background-image: url("../../assets/list_sprite.png");
-        background-repeat: no-repeat;
-        background-size: 24px 60px;
-      }
-      .icon_listen {
-        float: left;
-        width: 10px;
-        height: 10px;
-        background-position: 0 -50px;
-        margin-right: 5px;
-      }
-      .icon_play {
-        height: 24px;
-        bottom: 5px;
-        right: 5px;
-        width: 24px;
-        position: absolute;
-        background-position: 0 0;
-      }
-      img {
-        width: 100%;
-        display: block;
-        min-height: 145px;
-      }
-    }
-  }
-}
 
 .tab-contents {
   position: relative;
@@ -317,5 +340,23 @@ export default class shopIndex extends Vue {
 :-ms-input-placeholder {
   /* Internet Explorer 10+ */
   font-size: 14px;
+}
+.borderSet {
+  border: 1px solid #e5e5e5;
+}
+.title {
+  font-weight: 600;
+  font-size: 16px;
+}
+.content {
+  font-size: 14px;
+    padding:5px 0 !important;
+text-align:center;
+    
+}
+.selectContent{
+  color:#ffc630;
+  border-bottom:2px #ffc630 solid;
+box-sizing: border-box;
 }
 </style>
