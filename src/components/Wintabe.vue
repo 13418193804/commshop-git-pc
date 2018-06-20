@@ -95,6 +95,7 @@
   <img src="../assets/image/放大镜.png"/>
     </div>
   </div>
+  <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px"/>
   <img src="../assets/image/购物车.png"/>
 </div>
 <div> 
@@ -199,6 +200,9 @@ export default class Comhead extends Vue {
     this.$emit("rightClick");
   }
 
+goCenter(){
+  this.$router.push('/center')
+}
   loginModel =false;
   changeLoginModel() {
     this.loginModel = !this.loginModel;
