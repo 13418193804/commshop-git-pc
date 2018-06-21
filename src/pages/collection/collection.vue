@@ -96,7 +96,7 @@ export default class collection extends Vue {
       },
       res => {
         if (res.returnCode != 200) {
-          console.log(res);
+                  this["$Message"].warning(res.message);
           return;
         }
         console.log("收藏", res.data.goodsList);
