@@ -141,7 +141,10 @@
     </div>
   </div>
   <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px"/>
+  <div style="    position: relative;">
+    <div class="messageFexid" style="right:10px">{{cartLen}}</div>
   <img src="../assets/image/购物车.png"/>
+  </div>
 </div>
 <div> 
 </div>
@@ -410,10 +413,7 @@ export default class Comhead extends Vue {
           pageId: this.indexList[active].pageId
         },
         res => {
-          if (res == null) {
-            console.log("网络请求错误！");
-            return;
-          }
+         
           if (res.returnCode != 200) {
             this["$Message"].warning(res.message);
             return;
@@ -449,8 +449,13 @@ export default class Comhead extends Vue {
     }
   }
   initIndex() {
+console.log('调用')
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
+
       if (res.returnCode !== 200) {
+        console.log('------')
+        console.log(res)
+            this["$Message"].warning(res.message);
         console.log("网络请求错误！");
         return;
       }
@@ -462,12 +467,41 @@ export default class Comhead extends Vue {
       }
     });
   }
+  getNumber(cartList = []) {
+    let num = 0;
+    cartList.forEach((item, index) => {
+      num += item.num;
+    });
+    return num.toString();
+  }
+  cartLen= '0';
+  getCartList() {
+    Vue.prototype.$reqFormPost1(
+      "/shop/cart/query",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token
+      },
+      res => {
+       if (res.returnCode !== 200) {
+            this["$Message"].warning(res.message);
+        console.log("网络请求错误！");
+        return;
+      }
+
+     this.cartLen = this.getNumber(res.data.carts)
+      }
+    );
+  }
   mounted() {
     this.table ? (this.active = "-1") : "";
     (this.$route.params.active || "") != ""
       ? (this.active = this.$route.params.active)
       : "";
     this.$route.params.active = "";
+
     this.initIndex();
 
 
@@ -479,7 +513,14 @@ if (this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] < 60) {
     this.timelop();
       }
 
-      
+ if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+      this.getCartList();
+    }
+
   }
 }
 </script>

@@ -101,8 +101,8 @@
     <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;"/>
     </div>
 <div class="flex">
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding:0 50px;margin-right:10px;"  @click.stop="doChangeModel(goods.goodsId)">立即购买</van-button>
-      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;padding:0 50px;"  @click.stop="doChangeModel(goods.goodsId)">加入购物车</van-button>
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding:0 50px;margin-right:10px;    overflow: hidden;"  @click.stop="doChangeModel(goods.goodsId)">立即购买</van-button>
+      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;padding:0 50px;"  @click.stop="addCart()">加入购物车</van-button>
 <div style="width:45px;height:45px;border:1px solid #e5e5e5;margin:0 10px;text-align:center;">
 <div>收藏</div>
 </div>
@@ -223,6 +223,116 @@ export default class ProductDetail extends Vue {
       this.tabgoodslist = this.newList;
       this.tabindex = 1;
     }
+  }
+  addCart() {
+    if (!this.skuItem["skuId"]) {
+      Toast("请选择规格属性");
+      return;
+    }
+
+    Vue.prototype.$reqFormPost1(
+      "/shop/cart/add",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        goodsId: this.goodsId,
+        skuId: this.skuItem["skuId"]
+      },
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log("网络请求错误！");
+          return;
+        }
+        this["$Message"].success("加入成功");
+      }
+    );
+  }
+  selectSku(indextop, main) {
+    if (main.disable) {
+      return;
+    }
+
+    if (
+      (this.chosenList[indextop] || "") != "" &&
+      this.chosenList[indextop] === main.skuValueId
+    ) {
+      this.chosenList[indextop] = "";
+      this.chosensku[indextop] = "";
+      this.chosensku.splice(0, this.chosensku.length);
+    } else {
+      this.chosenList[indextop] = main.skuValueId;
+      this.chosensku[indextop] = main.skuValueName;
+    }
+
+    this.chosenList = this.chosenList;
+    this.skuItem = {};
+
+    let skuItemOpt = false;
+
+    this.detatil.skuKey.forEach((keyItem, keyIndex) => {
+      keyItem.valueList.forEach((valueItem, valueIndex) => {
+        valueItem.disable = true;
+        for (let i = 0; i < this.detatil.sku.length; i++) {
+          if (
+            this.detatil.sku[i].attrs[keyIndex].valueId != valueItem.skuValueId
+          ) {
+            continue;
+          }
+          let tag = true;
+          for (let j = 0; j < this.detatil.sku[i].attrs.length; j++) {
+            if (keyIndex == j) {
+              continue;
+            }
+            if (
+              (this.chosenList[j] || "") != "" &&
+              this.chosenList[j] != this.detatil.sku[i].attrs[j].valueId
+            ) {
+              tag = false;
+              break;
+            }
+          }
+          if (tag) {
+            valueItem.disable = false;
+            break;
+          }
+        }
+      });
+    });
+    if (this.chosenList.length === this.detatil.skuKey.length) {
+      let optionChosen = () => {
+        let count = true;
+        this.chosenList.forEach((item, index) => {
+          if (item === "") {
+            count = false;
+            return false;
+          }
+        });
+        return count;
+      };
+      if (optionChosen) {
+        for (let i = 0; i < this.detatil.sku.length; i++) {
+          let count = 0;
+          for (let j = 0; j < this.chosenList.length; j++) {
+            if (this.chosenList[j] === this.detatil.sku[i].attrs[j].valueId) {
+              console.log(
+                this.chosenList[j] === this.detatil.sku[i].attrs[j].valueId,
+                this.detatil.sku[i].attrs[j]
+              );
+              count += 1;
+              if (count === this.chosenList.length) {
+                this.skuItem = this.detatil.sku[i];
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    this.chosenList.push();
+    this.chosensku.push();
   }
   getProductDetail() {
     Vue.prototype.$reqFormPost1(
