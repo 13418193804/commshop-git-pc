@@ -6,12 +6,12 @@
          
           <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token">
           {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
-          <span>退出</span>
+          <span @click="loginOut()">退出</span>
           </div>
-          <div class="contentBox borderleft " @click="changeLoginModel()" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
+          <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
           <span>登录</span>
           </div>
-              <div class="contentBox borderleft " v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
+              <div class="contentBox borderleft " @click="changeLoginModel('sign')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
           <span>注册</span>
           </div>
           
@@ -46,8 +46,9 @@
 
 
    <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
-      <div style="height:400px;width:400px;background-color:#fff;">
-
+      <div style="height:400px;width:380px;background-color:#fff;position: relative;">
+            <img src="../assets/image/关闭按钮1.png" style="width:35px;position: absolute;right: -50px;top: -50px;border-radius: 50%;" @click="close()"/>
+      <div v-if="modelType=='login'">
           <div style="text-align:center;padding:20px;">
             <img src="../assets/image/LOGO.png" style="width:80px;"/>
           </div> 
@@ -65,8 +66,8 @@
 <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
       <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doLogin">登录</van-button>
 </div>
-        <div class="flex  flex-align-center flex-pack-center">
-          <div @click="gosign()" class="flex  flex-align-center flex-pack-center">
+        <div class="flex  flex-align-center flex-pack-center" style="    padding: 10px 0;">
+          <div @click="modelType = 'sign'" class="flex  flex-align-center flex-pack-center">
             <img src="../assets/image/新用户注册.png" style="width:20px">
             <span  style="margin:0 5px">注册新用户</span>
           </div>
@@ -76,6 +77,50 @@
             <span  style="margin:0 5px">忘记密码?</span>
           </div>
         </div>
+      </div>
+
+<div v-if="modelType=='sign'">
+  <div style="text-align:center;font-size:18px;margin-top: 25px;">注册页</div>
+
+  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+            <input placeholder="请输入手机号码" v-model="sign_loginName" style="border:0;width:100%;"/>
+     </div>       
+          </div>
+
+
+          
+  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+            <input placeholder="请输入验证码" v-model="sign_code" style="border:0;width:100%;"/>
+     </div>       
+      <van-button  @click="getVistyCode()"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
+          </div>
+
+
+  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+            <input type="password" placeholder="请输入6-12位密码" v-model="sign_password" style="border:0;width:100%;"/>
+     </div>       
+          </div>
+
+
+  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+            <input type="password" placeholder="请确认密码" v-model="sign_repassword" style="border:0;width:100%;"/>
+     </div>       
+          </div>
+
+<div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
+      <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doSign">立即注册</van-button>
+</div>
+<div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;">《用户协议》</a></p></div>  
+
+
+
+
+</div>
+
       </div>
    </div>
 
@@ -119,7 +164,8 @@
             </div>
     
       <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
-        <div style="height:10px;background-color:#f7f7f7;"></div>
+        
+        <div style="height:10px;background-color:#f7f7f7;width:100vw;margin-left: -20vw;"></div>
 
 
 <div style="margin:20px 0">
@@ -199,6 +245,86 @@ export default class Comhead extends Vue {
   rightClick() {
     this.$emit("rightClick");
   }
+
+  isGetverify = true; //当前允许发送验证码
+
+  sign_loginName = "";
+  sign_code = "";
+  sign_password = "";
+  sign_repassword = "";
+
+  getVistyCode() {
+    //验证手机号码
+    if (!this.isGetverify) {
+
+      return;
+    }
+
+    //getCode
+    Vue.prototype.$reqFormPost1(
+      "/auth/getsmscode",
+      { mobile: this.sign_loginName, type: "REGISTER" },
+      res => {
+        if (res.returnCode != 200) {
+          this["$Message"].warning(res.message);
+          return;
+        }
+
+        this["$Message"].success("发送成功");
+        this.timelop();
+      }
+    );
+  }
+
+  doSign() {
+    //验证
+
+    Vue.prototype.$reqFormPost1(
+      "/auth/register",
+      {
+        loginName: this.sign_loginName,
+        password: require("crypto")
+          .createHash("md5")
+          .update(this.loginName + this.password)
+          .digest("hex"),
+        code: this.sign_code,
+        recommontId: "" //推荐者ID
+      },
+      res => {
+        if (res.returnCode != 200) {
+          this["$Message"].warning(res.message);
+          return;
+        }
+        this["$Message"].success("注册成功");
+        this.modelType = "login";
+      }
+    );
+  }
+  timer = 60;
+  timerNum = 60;
+  timelop() {
+    let self = this;
+    console.log("获取验证码");
+    self.timer = setInterval(function() {
+      self.isGetverify = false;
+      if (self.timerNum >= 1) {
+        self.timerNum--;
+      } else {
+        self.timerNum = 60;
+      }
+      self.$store.commit(Vue.prototype.MutationTreeType.VERCODE, self.timerNum);
+    }, 1000);
+  }
+  get vistyText() {
+    if (this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] < 60) {
+      this.isGetverify = false;
+      return this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] + "s";
+    } else {
+      this.isGetverify = true;
+      return "获取验证码";
+    }
+  }
+
   goProductDetail(goodsId) {
     this.$router.push({
       path: "/productdetail",
@@ -207,11 +333,23 @@ export default class Comhead extends Vue {
       }
     });
   }
+  modelType = "login";
+  loginOut() {
+    this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, {
+      userId: "",
+      token: ""
+    });
+    localStorage.removeItem(Vue.prototype.MutationTreeType.TOKEN_INFO);
+  }
   goCenter() {
     this.$router.push("/center");
   }
   loginModel = false;
-  changeLoginModel() {
+  close() {
+    this.changeLoginModel("");
+  }
+  changeLoginModel(type) {
+    this.modelType = type;
     this.loginModel = !this.loginModel;
   }
   loginName = "13418193804";
@@ -231,6 +369,7 @@ export default class Comhead extends Vue {
       },
       res => {
         if (res.returnCode != 200) {
+          this["$Message"].warning(res.message);
           return;
         }
         console.log(res.data);
@@ -276,6 +415,7 @@ export default class Comhead extends Vue {
             return;
           }
           if (res.returnCode != 200) {
+            this["$Message"].warning(res.message);
             return;
           }
           (<any>Object).assign(this.indexList[active], {
@@ -290,6 +430,7 @@ export default class Comhead extends Vue {
               },
               res => {
                 if (res.returnCode != 200) {
+                  this["$Message"].warning(res.message);
                   return;
                 }
                 this.indexList[active].children.push({
@@ -328,6 +469,17 @@ export default class Comhead extends Vue {
       : "";
     this.$route.params.active = "";
     this.initIndex();
+
+
+if (this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] < 60) {
+  this.isGetverify = false
+      this.timerNum = this.$store.getters[
+        Vue.prototype.MutationTreeType.VERCODE
+      ];
+    this.timelop();
+      }
+
+      
   }
 }
 </script>

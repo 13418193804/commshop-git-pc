@@ -78,10 +78,9 @@ export default class User extends Vue {
       },
       res => {
         if (res.returnCode != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          return;
+      
+                          this["$Message"].warning(res.message);
+  return;
         }
         console.log("=-------------", res.data);
         this.userInfo = res.data;

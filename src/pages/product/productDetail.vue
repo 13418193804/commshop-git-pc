@@ -27,7 +27,7 @@
 <div style="width:500px;">
 
 <img v-lazy="detatil.goodsImg.split(',')[0]" style="width:100%;"/>
-<div class="flex">
+<div class="flex" style="    overflow: auto;">
   <div v-for="(item,index) in detatil.goodsImg.split(',')">
 <img v-lazy="item" style="width:100px;margin-right:10px;"/>
   </div>
@@ -86,7 +86,7 @@
       <div class='skuKeyBox'>
       <div v-for="(items,index) in  item.valueList" :key="index">
         <div  :class="chosenList[indextop] === items ?'sku_box_select':'sku_box' " 
-        :style="items.disable?'color:#ccc;':''+ chosenList[indextop] === items.skuValueId?'border-color:#f4c542;color:#f4c542':'' " @click.stop='selectSku(indextop,items)'  >{{items.skuValueName}}</div>
+        :style="items.disable?'color:#ccc;border-color:#ccc;':''+ chosenList[indextop] === items.skuValueId?'border-color:#f4c542;color:#f4c542':'' " @click.stop='selectSku(indextop,items)'  >{{items.skuValueName}}</div>
       </div>
       </div>
      
@@ -121,10 +121,41 @@
      <div  class="taber">新品推荐</div>
    </div>
 
-<div style="height:500px;">
-
-
+<div style="height:320px;">
+<div class="flex" style="    overflow: auto;">
+   <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" >
+                  <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
+                      <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:25px;"/>
+                      <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
+                      <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
+                    </div>
+                    <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;" >
+                      <div>
+                        <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
+                        <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
+                      </div>
+                      <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
+                      <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+                    </div>
+                </div>
 </div>
+</div>
+
+
+
+
+<div style="height:40px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
+     <div class="taber selecttaber">商品详情</div>
+     <div  class="taber">评价</div>
+   </div>
+
+
+<div>
+
+  
+</div>
+
+
 
 
 </div>
@@ -174,14 +205,25 @@ export default class ProductDetail extends Vue {
     skuKey: [],
     storageNum: 0
   };
-num=1;
+  num = 1;
   skuattr = [];
   chosenList = [];
   chosensku = [];
   skuItem = {};
-    commentnum = 0;
+  commentnum = 0;
   praise = "0";
-
+  tabindex = 0;
+  selecttablist(index) {
+    this.tabgoodslist = [];
+    if (index == 0) {
+      this.tabgoodslist = this.likeList;
+      this.tabindex = 0;
+    }
+    if (index == 1) {
+      this.tabgoodslist = this.newList;
+      this.tabindex = 1;
+    }
+  }
   getProductDetail() {
     Vue.prototype.$reqFormPost1(
       "/goods/front/detail",
@@ -194,9 +236,7 @@ num=1;
       },
       res => {
         if (res.returnCode != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
+          this["$Message"].warning(res.message);
           return;
         }
 
@@ -205,7 +245,7 @@ num=1;
         if (res.data.singleStatus) {
           this.skuItem = res.data.sku[0];
         }
-        console.log('-----------')
+        console.log("-----------");
         // 评论数量
         this.commentnum = res.data.commentNum;
         // 好评计算
@@ -219,9 +259,9 @@ num=1;
           this.praise = praisenum;
         }
 
-        // this.tabgoodslist = res.data.likeList;
-        // this.likeList = res.data.likeList;
-        // this.newList = res.data.newList;
+        this.tabgoodslist = res.data.likeList;
+        this.likeList = res.data.likeList;
+        this.newList = res.data.newList;
 
         // this.couponList = res.data.couponList;
 
@@ -237,15 +277,12 @@ num=1;
             (<any>Object).assign(valueItem, opt);
           });
         });
-
-
-
-
-
-
       }
     );
   }
+  tabgoodslist = [];
+  likeList = [];
+  newList = [];
 }
 </script>
 
@@ -275,19 +312,18 @@ num=1;
   font-size: 16px;
   padding: 20px;
 }
-.taber{
+.taber {
   line-height: 40px;
-  padding:0 30px;
-cursor: pointer;
-  
+  padding: 0 30px;
+  cursor: pointer;
 }
-.selecttaber{
-border-top:1px #e5e5e5 solid;
-border-left:1px #e5e5e5 solid;
-border-right:1px #e5e5e5 solid;
-border-bottom:3px #ffc630 solid;
-background-color:#fff;
-box-sizing: border-box;
-color:#ffc630;
+.selecttaber {
+  border-top: 1px #e5e5e5 solid;
+  border-left: 1px #e5e5e5 solid;
+  border-right: 1px #e5e5e5 solid;
+  border-bottom: 3px #ffc630 solid;
+  background-color: #fff;
+  box-sizing: border-box;
+  color: #ffc630;
 }
 </style>
