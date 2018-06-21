@@ -101,8 +101,8 @@
     <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;"/>
     </div>
 <div class="flex">
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding:0 50px;margin-right:10px;    overflow: hidden;"  @click.stop="doChangeModel(goods.goodsId)">立即购买</van-button>
-      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;padding:0 50px;"  @click.stop="addCart()">加入购物车</van-button>
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;"  @click.stop="doChangeModel(goods.goodsId)">立即购买</van-button>
+      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;"  @click.stop="addCart()">加入购物车</van-button>
 <div style="width:45px;height:45px;border:1px solid #e5e5e5;margin:0 10px;text-align:center;">
 <div>收藏</div>
 </div>
@@ -152,6 +152,11 @@
 
 <div>
 
+  <div style="background-color:#ffffff;margin-top:10px;">
+          <div v-for="(item,index) in detatil.detail.imageList" :key="index">
+            <img v-lazy="item" style="width:100%;"/>
+          </div>
+        </div>
   
 </div>
 
@@ -247,6 +252,8 @@ export default class ProductDetail extends Vue {
           return;
         }
         this["$Message"].success("加入成功");
+        let a: any = this.$refs.wintabe;
+        a.getCartList();
       }
     );
   }
