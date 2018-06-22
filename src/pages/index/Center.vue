@@ -71,7 +71,7 @@ export default class shopIndex extends Vue {
           url:'/addresslist',
         },  {
           name: '我的收藏',
-          url:'/',
+          url:'/collection',
         },  {
           name: '我的成员',
           url:'/',

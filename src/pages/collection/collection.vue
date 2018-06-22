@@ -2,18 +2,22 @@
   <div class="tab-contents" style="height:-webkit-fill-available;background-color:#FFFFFF;">
 <div>
   <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
-  <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList">
-    <div class="flex flex-align-center" style="width:200px;overflow:hidden;margin:10px">
-                        <div>
-<img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
-                  <div>
-                     <span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
-                  <div> <span class="textLabel marketPrice" >￥{{item.marketPrice}}</span></div>
-
-
-                        </div>
-                      </div>
-    </el-col>
+  <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index">
+    <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"> 
+      <div style="position: relative;">
+        <div v-if="index==classindex" style="position: absolute;top:-10px;right:-10px;">
+          <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="favdelete(item)"/>
+        </div>
+        <div :class="index==classindex?'overclass':'outclass'" class="flex flex-v flex-pack-center">
+          <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;vertical-align: middle;"/>
+          <div style="width:200px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height:25px;line-height:25px;background-color:#EFF1F1;">{{item.jingle}}</div>
+        </div>
+        <div><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
+        <div> <span class="textLabel marketPrice" >￥{{item.marketPrice}}</span></div>
+      </div>
+      
+    </div>
+  </el-col>
 </el-row>
 
 
@@ -37,15 +41,17 @@ export default class collection extends Vue {
   goodsList = [];
   checkedGoods = [];
   isShow = false;
-
+  classindex=999;
   toggle() {
     this.isShow = !this.isShow;
   }
-  favdelete() {
-    if (this.checkedGoods.length == 0) {
-      Toast("没有选商品");
-      return;
-    }
+  over(index){
+    this.classindex=index
+  }
+  out(index){
+    this.classindex=NaN;    
+  }
+  favdelete(item) {
     Vue.prototype.$reqFormPost(
       "/fav/delete",
       {
@@ -53,7 +59,7 @@ export default class collection extends Vue {
           .userId,
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
-        goodsIds: this.checkedGoods
+        goodsIds: item.goodsId
       },
       res => {
         if (res == null) {
@@ -145,5 +151,15 @@ export default class collection extends Vue {
 }
 .bg-purple-light {
   background: #e5e9f2;
+}
+.outclass{
+  border:1px solid #EAEAEA;
+  border-radius: 5px;
+}
+.overclass{
+  box-shadow:0px 0px 5px 5px #F3F3F3;
+  border:1px solid #FFCF63;
+  border-radius: 5px;
+  height:260px;
 }
 </style>
