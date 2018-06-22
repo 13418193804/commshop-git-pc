@@ -532,8 +532,12 @@ export default class Comhead extends Vue {
           return;
         }
         this.cartList = res.data.carts;
+
+        
         this.totalMoney = res.data.totalMoney;
         this.cartLen = this.getNumber(res.data.carts);
+    this.$emit("getCartList");
+        
       }
     );
   }

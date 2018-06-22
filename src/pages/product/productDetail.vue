@@ -97,7 +97,6 @@
 
    <div class='num_box flex flex-align-center'>
       <div class="flex flex-align-center" style="color:#585858;">数量</div>
-
     <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;"/>
     </div>
 <div class="flex">

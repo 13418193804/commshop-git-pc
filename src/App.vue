@@ -29,7 +29,9 @@ export default class App extends Vue {
 
 
 
-
+.pointer{
+  cursor: pointer;
+}
 .lineTwo{
    overflow: hidden;
   text-overflow: ellipsis;
