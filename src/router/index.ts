@@ -53,6 +53,11 @@ export default new Router({
             component: index
         },
         {
+            path: '/cart',
+            name: 'cart',
+            component: r => require.ensure([], () => r(require('../pages/index/cart')), 'cart')
+        },
+        {
             path: '/productlist',
             name: 'productlist',
             component: r => require.ensure([], () => r(require('../pages/product/productList')), 'user')

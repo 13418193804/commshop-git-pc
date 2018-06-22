@@ -141,9 +141,49 @@
     </div>
   </div>
   <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px"/>
-  <div style="    position: relative;">
+  <div style="    position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
     <div class="messageFexid" style="right:10px">{{cartLen}}</div>
-  <img src="../assets/image/购物车.png"/>
+      <img src="../assets/image/购物车.png"/>
+      <div class="cartFexid" v-if="cartModel">
+        <div style=" "> 
+          <div style="width:30px;height:30px;">X</div>
+        </div>
+
+        <div style="   height: 310px;overflow:auto;">
+<div v-for="(item,index) in cartList" class="cartItem flex flex-align-center">
+      <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
+       <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+       </div>
+       <div class="flex-1" style="overflow: hidden;">
+
+         <div>
+           <span class="textLabel" style="color:#000000;font-size:15px">{{item.goodsName}}</span>
+          </div>
+         <div style="color:#666;" class="textLabel">
+        <span v-if="item.skuKeyValue.length>2 ">
+<span v-for="items in JSON.parse(item.skuKeyValue)" style="margin-right:10px;">
+  <span>{{items.key}}:{{items.value}} X {{item.num}}</span>
+</span>
+        </span>
+        <span v-else>
+          X {{item.num}}
+        </span>
+         </div>
+       </div>
+
+       <div style="padding:10px;">
+            <span class="marketPrice" style="font-size:20">￥{{item.price}}</span>
+       </div>
+
+</div>
+        </div>
+<div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
+       <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
+            <van-button  style="background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
+
+</div>
+ 
+      </div>
   </div>
 </div>
 <div> 
@@ -195,9 +235,7 @@
                           <span style="color:#E05459;font-size:20">￥{{goods.marketPrice}}</span>
                           <span style="color:#C5C4C4;text-decoration:line-through;font-size:14px" >原价:{{goods.labelPrice}}</span>
                         </div>
-
 <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
-
                       </div>
                       </div>
                    </div>
@@ -242,6 +280,13 @@ export default class Comhead extends Vue {
     console.log(this.active);
     // this.changeTab()
   }
+  cartModel = false
+  mouseover() {
+    this.cartModel = true
+  }
+  mouseout() {
+    console.log("222");
+  }
   type = "H5";
   leftScale = "1.5";
   textindex = 1;
@@ -259,10 +304,8 @@ export default class Comhead extends Vue {
   getVistyCode() {
     //验证手机号码
     if (!this.isGetverify) {
-
       return;
     }
-
     //getCode
     Vue.prototype.$reqFormPost1(
       "/auth/getsmscode",
@@ -277,6 +320,9 @@ export default class Comhead extends Vue {
         this.timelop();
       }
     );
+  }
+  goCart(){
+    this.$router.push('/cart')
   }
 
   doSign() {
@@ -405,15 +451,13 @@ export default class Comhead extends Vue {
     }
 
     this.active = active;
-
-    if (!this.indexList[active].children) {
+    if (active != "-1" && !this.indexList[active].children) {
       Vue.prototype.$reqFormPost1(
         "/page/info",
         {
           pageId: this.indexList[active].pageId
         },
         res => {
-         
           if (res.returnCode != 200) {
             this["$Message"].warning(res.message);
             return;
@@ -449,24 +493,20 @@ export default class Comhead extends Vue {
     }
   }
   initIndex() {
-console.log('调用')
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
-
       if (res.returnCode !== 200) {
-        console.log('------')
-        console.log(res)
-            this["$Message"].warning(res.message);
+        console.log(res);
+        this["$Message"].warning(res.message);
         console.log("网络请求错误！");
         return;
       }
-
       this.indexList = res.data;
-
       if (this.indexList.length > 0) {
         this.changeTab(this.active, true);
       }
     });
   }
+  cartList = [];
   getNumber(cartList = []) {
     let num = 0;
     cartList.forEach((item, index) => {
@@ -474,7 +514,8 @@ console.log('调用')
     });
     return num.toString();
   }
-  cartLen= '0';
+  cartLen = "0";
+  totalMoney = 0;
   getCartList() {
     Vue.prototype.$reqFormPost1(
       "/shop/cart/query",
@@ -485,16 +526,18 @@ console.log('调用')
           .token
       },
       res => {
-       if (res.returnCode !== 200) {
-            this["$Message"].warning(res.message);
-        console.log("网络请求错误！");
-        return;
-      }
-
-     this.cartLen = this.getNumber(res.data.carts)
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log("网络请求错误！");
+          return;
+        }
+        this.cartList = res.data.carts;
+        this.totalMoney = res.data.totalMoney;
+        this.cartLen = this.getNumber(res.data.carts);
       }
     );
   }
+
   mounted() {
     this.table ? (this.active = "-1") : "";
     (this.$route.params.active || "") != ""
@@ -504,23 +547,21 @@ console.log('调用')
 
     this.initIndex();
 
-
-if (this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] < 60) {
-  this.isGetverify = false
+    if (this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] < 60) {
+      this.isGetverify = false;
       this.timerNum = this.$store.getters[
         Vue.prototype.MutationTreeType.VERCODE
       ];
-    this.timelop();
-      }
+      this.timelop();
+    }
 
- if (
+    if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
       this.getCartList();
     }
-
   }
 }
 </script>
@@ -588,5 +629,20 @@ if (this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] < 60) {
 }
 .goodsItem {
   width: 50%;
+}
+.cartFexid {
+  height: 400px;
+  width: 380px;
+  background-color: #fff;
+  position: absolute;
+  bottom: -400px;
+  left: -190px;
+  z-index: 990;
+  overflow: hidden;
+  box-shadow: 1px 1px 10px #eee;
+  border:1px solid #FAFAFA;
+}
+.cartItem{
+  padding:5px 0;
 }
 </style>
