@@ -130,7 +130,6 @@ export const reqUrlGet1 = (url, data, callBack) => {
 
     axios.get(bizUrl + url + '?' + querystring.encode(data))
         .then(res => {
-            console.log('正常',url,res);
             let resp: ResponseObject = new ResponseObject();
             if (res.status !== 200) {
                 resp.returnCode = res.status;
@@ -142,11 +141,8 @@ export const reqUrlGet1 = (url, data, callBack) => {
                 resp.message = res.data.message;
                 resp.data = res.data.data;
                 callBack(resp);
-
             }
-
         }).catch(error => {
-            console.log('检测错误',url,error)
             let resp: ResponseObject = new ResponseObject();
             let message = error.toString();
             console.error(message);
