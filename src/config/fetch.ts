@@ -98,7 +98,7 @@ export const reqUrlGet = (url, data, callBack) => {
                 // })
                 localStorage.removeItem(MutationTreeType.TOKEN_INFO);
 
-                if (window.confirm('账号已在其他设备登录,是否重新登陆?')) {
+                if (window.confirm('账号已在其他设备登录,是否重新登录?')) {
                     window['myvue'].$router.push({ name: 'login' });
                     return true;
                 }
@@ -164,6 +164,7 @@ export const reqFormPost1 = (url, data, callBack, headers) => {
         };
         data = querystring.encode(data);
     }
+    console.log('data',data)
     axios.post(bizUrl + url, data,
         {
             headers: headers

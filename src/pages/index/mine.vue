@@ -15,20 +15,19 @@ import Component from "vue-class-component";
 import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast } from "vant";
+import axios from "axios";
 
 @Component({
-  components: {  },
+  components: {},
   mixins: [mixin]
 })
 export default class collection extends Vue {
-  
-
   mounted() {
+   
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
-
 </style>

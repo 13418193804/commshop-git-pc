@@ -16,7 +16,7 @@
 
 <div class="contentBox2 ">
 
-<div style="line-height: 32px;margin:20px;">
+<div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;" v-if="address">
   
     <i class="iconfont icon-location"></i>
 
@@ -39,7 +39,7 @@
 
 </div>
 
-<div style="padding:30px 20px;border-top:1px solid #e5e5e5;">
+<div style="padding:30px 20px;">
 
       <van-button  style="border-radius:4%;background-color:#fff;color:red;border:1px solid red;min-width:150px;margin-right:10px;overflow: hidden;"  >地址切换</van-button>
       <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;"  >新建地址</van-button>
@@ -109,10 +109,9 @@
         <div>商品合计：</div><div>￥{{totalPrice}}</div>
       </div>
        <div class="flex">
-        <div>运费：</div><div>{{freight.toFixed(2)}}</div>
+        <div>运费：</div><div>{{freight}}</div>
       </div>
     </div>
-
 </div>
 
 
@@ -122,10 +121,28 @@
 
 <div style="height:40px;line-height:40px;">给卖家的话（选填） <span style="margin:0 20px;color:#999">选填内容已和卖家协商确认</span></div>
 
-<div>
+<div style="border:1px solid #e5e5e5;">
 
-  <textarea type="text" name="content"  rows="12" style="width: 100%"   
-                   readonly="readonly" ></textarea>  
+  <textarea type="text" name="content"  rows="7" style="width: 100%;border:none"   
+                    ></textarea>  
+
+</div>
+
+
+<div style="padding:20px 0;" class="flex flex-pack-justify flex-align-center">
+
+<div>应付金额</div>
+
+<div class="flex flex-align-center">
+ <div style="padding:0 20px;">
+    <span style="color:red;font-size:18px;">￥{{totalPrice}}</span>
+  </div>
+  <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
+  @click="onSubmit">
+<span>去付款</span>
+  </div>
+  </div>
+
 
 </div>
 
@@ -194,8 +211,60 @@ getPreInfo(prepareId) {
       }
     );
   }
+  pageType = "";
+  titlevalue="";
+  couponId="";
+  titleType="";
+  invoiceTitle="";
+  invoiceNo="";
+  remark="";
+ onSubmit() {
+    if (!this.address) {
+          this["$Message"].warning('请选择一个收货地址');
+      return;
+    }
+    Vue.prototype.$reqFormPost(
+      "/prepare/order/submit",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        couponId:this.couponId,
+        titleType:this.titleType,
+        invoiceTitle:this.invoiceTitle,
+        invoiceNo:this.invoiceNo,
+        prepareId: this.prepareId,
+        remark:this.remark
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
 
-
+        this.$router.replace({
+          name: "pay",
+          query: {
+            contactname:this.address['contactname'],
+            contactmobile:this.address['contactmobile'],
+            address:this.address['province'] + this.address['city'] + this.address['country'] + this.address['address'],
+            body:res.data.data.body,
+            payId:res.data.data.payId,
+            payTotal:res.data.data.payTotal
+          }
+        });
+        console.log(res.data.data);
+      }
+    );
+  }
   mounted() {
     this.prepareId = this.$store.getters[
       Vue.prototype.MutationTreeType.PREPAREID

@@ -1,63 +1,49 @@
 <template>
-  <div class="tab-contents" style="height:-webkit-fill-available;background-color:#f7f7f7;">
-            <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="支付" isRightIcon="true"  ></comhead>
-     <div class="flex" style="height: 5px;">
-         <img src="../../assets/jiange.png" style="width:100%;"/>
-     </div>
+  <div class="tab-contents">
+   
 
-      <div style="padding:15px 0 0 15px;background-color:#fff;">
-        <div class="flex">
-          <img src="../../assets/image/提交成功.png" :style="handlePX('width',40)+handlePX('height',40)"/>
-          <div>订单提交成功，请尽快付款！</div>
-        </div>
-        <div :style="handlePX('line-height',80)" style="color:#A3A3A3;">温馨提示：24小时内未付款将自动取消</div>
-        <div style="color:#A3A3A3;border-top:1px solid #EFEFEF;" :style="handlePX('line-height',80)">支付金额:<span class="marketPrice">￥{{obj.payTotal}}</span>  </div>
-      </div>
+<wintabe ref="wintabe" :table="true" :router="true"></wintabe>
 
-      <div class="flex-1" style="padding:15px;background-color:#fff;margin-top:5px;">
-        <div class="flex flex-pack-justify" style="font-size: 16px;">
-          <span>收货人:{{address.contactname}}</span>
-          <span style="margin-right:10px;">{{address.contactmobile}}</span>
-        </div>
-        <div class="flex flex-align-center">
-          <div>
-            <i class="iconfont icon-location" style="font-size:22px;"></i>
-          </div>
-          <div class="lineTwo">收货地址：{{address.province}}{{address.city}}{{address.country}}{{address.address}}</div>
-        </div>
-      </div>
+<div class=" flex   flex-pack-center">
+       <div  style="width:60%;">
+<div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
+  选择支付方式
+</div>
+</div>
+</div>
 
-<div style="padding-top:15px;background-color:#fff;margin-top:5px;">
-  <div :style="handlePX('height',80)+handlePX('line-height',80)" style="margin-left:15px;color:#A3A3A3;border-bottom:1px solid #EFEFEF;">选择支付方式</div>
-  <van-radio-group v-model="payActive">
-    <van-cell-group>
-      <van-cell  clickable @click="payActive = 'ali'">
-        <template slot="title">
-          <div :style="handlePX('height',80)" class="flex flex-align-center">        
-            <van-radio name="ali" />
-            <img src="../../assets/image/支付宝.png" style="vertical-align:sub;" :style="handlePX('width',40)+handlePX('height',40)"/>
-            <span>支付宝支付</span>
-          </div>
-        </template>
-      </van-cell>
-      <van-cell  clickable @click="payActive = 'wechat'">
-        <template slot="title">
-          <div :style="handlePX('height',80)" class="flex flex-align-center">
-            <van-radio name="wechat" />
-            <img src="../../assets/image/微信.png" style="vertical-align:sub;" :style="handlePX('width',40)+handlePX('height',40)"/>
-            <span>微信支付</span>
-          </div>
-        </template>
-      </van-cell>
-    </van-cell-group>
-  </van-radio-group>
+<div class=" flex   flex-pack-center ">
+
+<div class="contentBox2 flex">
+
+    <div style="width:200px;height:90px;" :style="payActive == 'ali'?'border:1px  solid #F4C542':''" @click="payActive = 'ali'">支付宝</div>
+    <div style="width:200px;height:90px;" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">微信</div>
+
+</div>
 </div>
 
 
-<div style="margin:100px 15px 0;">
-    <van-button size="large" @click="dopay" style="color:#ffffff;background-color:#F4C542;">支付</van-button>
+<div class=" flex   flex-pack-center ">
+
+<div class="btmContent" style="padding:20px;font-size:14px;text-align:right">
+    <span>实付总额：</span><span style="font-size:16px;color:red">￥{{obj.payTotal}}</span>
+</div>
+</div>
+<div class=" flex   flex-pack-center ">
+
+  <div style="width:60%;">
+
+     <div  style="margin:20px 0;float:right;background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
+  @click="dopay">
+<span>立即支付</span>
+  </div>
+
+  </div>
 </div>
 
+
+
+  <winbeet></winbeet>
 
   </div>
 </template>
@@ -69,10 +55,13 @@ import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast } from "vant";
 // import { recommendList } from '../../service/getData';
-import comhead from "../../components/Comhead.vue";
-
+import Wintabe from "../../components/Wintabe.vue";
+import Winbeet from "../../components/Winbeet.vue";
 @Component({
-  components: { comhead },
+  components: { 
+     Wintabe,
+    Winbeet
+   },
   mixins: [mixin]
 })
 export default class shopIndex extends Vue {
@@ -115,8 +104,7 @@ export default class shopIndex extends Vue {
         }
       );
     }else{
-//  console.log("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
-//        this.obj["payId"] +"#wechat_redirect")
+
         window.location.href ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
        this.obj["payId"] +"#wechat_redirect"
      
@@ -146,6 +134,18 @@ export default class shopIndex extends Vue {
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
+.contentBox2{
+    border: 1px #e5e5e5 solid;
+  width: 60%;
+  font-size:14.2px;
+  margin-bottom:20px;
+}
+.btmContent {
+  background-color: #f9f9f9;
+  width: 60%;
+  border: 1px #e5e5e5 solid;
+  margin-top: 10px;
+}
 </style>
 
 

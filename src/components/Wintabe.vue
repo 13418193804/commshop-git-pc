@@ -4,8 +4,9 @@
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:60%;color:#fff;font-size:14px;">
          
-          <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token">
+          <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
           {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
+
           <span @click="loginOut()">退出</span>
           </div>
           <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
@@ -427,6 +428,7 @@ export default class Comhead extends Vue {
           Vue.prototype.MutationTreeType.TOKEN_INFO,
           JSON.stringify(res.data)
         );
+        this.loginModel = false
       }
     );
   }
@@ -528,9 +530,14 @@ export default class Comhead extends Vue {
       res => {
         if (res.returnCode !== 200) {
           this["$Message"].warning(res.message);
-          console.log("网络请求错误！");
+          console.log(res)
+          if(res.returnCode ==400 && res.message =='账号已在其他设备登录'){
+            this.loginOut();
+            this.loginModel = true;
+          }
           return;
         }
+
         this.cartList = res.data.carts;
 
         
