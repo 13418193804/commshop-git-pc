@@ -44,7 +44,7 @@ export default new Router({
                     path: '/addresslist',
                     name: 'addresslist',
                     component: r => require.ensure([], () => r(require('../pages/address/addresslist')), 'addresslist')
-                },
+                }
             ]
         },
         {

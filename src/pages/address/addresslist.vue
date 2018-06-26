@@ -45,6 +45,7 @@
           </div>
         </div>
       </div>
+      
       <!-- 新增 -->
       <div style=" position: relative;">
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >

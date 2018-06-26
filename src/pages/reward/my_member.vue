@@ -15,12 +15,11 @@
             <span >{{item.nickName}}</span>
           </div>
           <div style="">
-            <span :style="handlePX('line-height', 85)">{{item.mobile}}</span>
+            <span :style="handlePX('line-height', 85)">  {{item.mobile}} </span>
             </div>
 </div>
         </li>
         </ul>
-   
 <div class="flex flex-pack-center flex-align-center" style="font-size:14px;padding:15px;">
 
     <div v-if="!loading">加载中...</div>

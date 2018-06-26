@@ -6,10 +6,13 @@
    </div>
 
      <div>
+       
  <div class="flex flex-align-center" style="padding:18px 0;margin:0 20px;">
         <div style="font-size:15px;padding:0 20px;width:140px">用户头像：</div>
-        <img v-lazy="userInfo.userIcon" style="width:50px;height:50px;"/>
+        <img v-lazy="userInfo.userIcon" style="width:50px;height:50px;    border-radius: 60px;" @click="clickLogo()"/>
+        <input type="file" ref="logo" @change="changeLogo" style="display:none"/>
       </div>
+
  <div class="flex flex-align-center" style="padding:18px 0;margin:0 20px;">
         <div style="font-size:15px;padding:0 20px;width:140px">用户名：</div>
   <div style="border:1px #e5e5e5 solid;    padding: 8px 10px;">
@@ -20,7 +23,7 @@
 <div class="flex flex-align-center" style="padding:18px 0;margin:0 20px;">
         <div style="font-size:15px;padding:0 20px;width:140px">手机号码：</div>
   <div>
-   {{userInfo.mobile}}
+    {{userInfo.mobile.substring(0,3)}}****{{ userInfo.mobile.substring(7,13)}}
   </div>
       </div>
 
@@ -29,8 +32,8 @@
         <div style="font-size:15px;padding:0 20px;width:140px">性别：</div>
   <div>
    
- <el-radio v-model="radio" label="1">男</el-radio>
-  <el-radio v-model="radio" label="2">女</el-radio>
+ <el-radio v-model="radio" label="男">男</el-radio>
+  <el-radio v-model="radio" label="女">女</el-radio>
   </div>
       </div>
 
@@ -40,7 +43,7 @@
   <div style="padding:30px;"> 
 
 
-      <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;padding:0 60px;"  @click.stop="doChangeModel(goods.goodsId)">保存</van-button>
+      <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;padding:0 60px;"  @click.stop="doUpdate()">保存</van-button>
 
 
 
@@ -66,7 +69,24 @@ import { Toast } from "vant";
 })
 export default class User extends Vue {
   userInfo = {};
-  radio = "1";
+
+  radio = "男";
+  clickLogo(){
+    let a:any = this.$refs['logo']
+     a.click();
+  }
+  changeLogo(){
+   let a:any = this.$refs.logo
+  let form = new FormData();
+  form.append('file',a.files[0])
+Vue.prototype.$reqFormUpload(
+      "/fileupload",
+      form,
+      res => {
+      this.userInfo['userIcon'] = res.data.data.filename
+      }
+    );
+  }
   queryuserinfo() {
     Vue.prototype.$reqFormPost1(
       "/user/query",
@@ -78,14 +98,42 @@ export default class User extends Vue {
       },
       res => {
         if (res.returnCode != 200) {
-      
-                          this["$Message"].warning(res.message);
-  return;
+     this["$Message"].warning(res.message);
+        return;
         }
         console.log("=-------------", res.data);
         this.userInfo = res.data;
+        
+        this.radio = this.userInfo['sex']
       }
     );
+  }
+
+  doUpdate(){
+    // 
+Vue.prototype.$reqFormPost1(
+      "/user/update",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+          userIcon:this.userInfo['userIcon'],
+          sex:this.radio,
+          nickName:this.userInfo['nickName']
+      },
+      res => {
+        if (res.returnCode != 200) {
+     this["$Message"].warning(res.message);
+        return;
+        }
+        this["$Message"].success('保存成功');
+        this.userInfo = res.data;
+    this.queryuserinfo();
+        
+      }
+    );
+
   }
   mounted() {
     this.queryuserinfo();
