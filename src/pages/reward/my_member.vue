@@ -1,33 +1,21 @@
 <template>
   <div class="">
-    <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="我的成员" isRightIcon="true"  ></comhead>
-    <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> -->
-      <ul
-  v-infinite-scroll="loadMore"
-  :infinite-scroll-disabled="loading"
-  infinite-scroll-distance="20" >
-
-        <li v-for="(item, index) in memberList" :key="index">
-<div class="van-cell van-hairline" style="    justify-content: space-between;">
-          <div >
-             <img v-if="item.userIcon" v-lazy="item.userIcon" :style="handlePX('width', 85)+handlePX('height', 85)" style="vertical-align: middle;border-radius: 100%;"/>
-            <img v-else src="../../assets/image/userIcon.png" :style="handlePX('width', 85)+handlePX('height', 85)" style="vertical-align: middle;border-radius: 100%;"/>
-            <span >{{item.nickName}}</span>
-          </div>
-          <div style="">
-            <span :style="handlePX('line-height', 85)">  {{item.mobile}} </span>
+        <div style="padding:30px;">
+          <div class="flex flex-pack-justify" v-for="(item,index) in memberList" :key="index" style="padding:15px 0;border-bottom:1px dashed #E5E5E5;">
+            <div >
+              <img v-if="item.userIcon" v-lazy="item.userIcon"  style="vertical-align: middle;border-radius: 100%;width:25px;height:25px;"/>
+              <img v-else src="../../assets/image/userIcon.png"  style="vertical-align: middle;border-radius: 100%;width:25px;height:25px;"/>
+              <span>{{item.nickName}}</span>
             </div>
-</div>
-        </li>
-        </ul>
-<div class="flex flex-pack-center flex-align-center" style="font-size:14px;padding:15px;">
+            <div>
+              <span>{{item.mobile}}</span>
+              </div>
+            </div>
+        </div>
 
-    <div v-if="!loading">加载中...</div>
-    <div v-else>-</div>
-  
-</div>
-
-
+      <div class="flex flex-align-center flex-v">
+          <div v-if="memberList.length==0" style="color:#BFBFBF;padding:120px 0 30px;">暂无成员~~~</div>
+      </div>
 
   </div>
 </template>
@@ -61,8 +49,8 @@ export default class my_member extends Vue {
           .userId,
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
-        page: this.pageindex,
-        pageSize: 20
+        // page: this.pageindex,
+        // pageSize: 20
       },
       res => {
         if (res == null) {
@@ -76,17 +64,18 @@ export default class my_member extends Vue {
           Toast(res.data.message)
           return;
         }
-
-        console.log("请求完成", res.data.data.memberList);
-        let memberList = this.memberList ? this.memberList : [];
-        for (let i = 0; i < res.data.data.memberList.length; i++) {
-          memberList.push(res.data.data.memberList[i]);
-        }
-        if (res.data.data.memberList.length == 20) {
-          this.loading = false;
-        }
-        this.memberList = memberList;
-        console.log(this.finished);
+        this.memberList = res.data.data.messageList;
+        
+        // console.log("请求完成", res.data.data.memberList);
+        // let memberList = this.memberList ? this.memberList : [];
+        // for (let i = 0; i < res.data.data.memberList.length; i++) {
+        //   memberList.push(res.data.data.memberList[i]);
+        // }
+        // if (res.data.data.memberList.length == 20) {
+        //   this.loading = false;
+        // }
+        // this.memberList = memberList;
+        // console.log(this.finished);
         // if (res.data.data.memberList) {
         // this.finished = true;
         // this.finished = true;
