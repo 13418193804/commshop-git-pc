@@ -25,7 +25,7 @@
 </div>
 
     </div>
-    <div class="borderSet flex-1">
+    <div class=" flex-1" :class="menuName !='我的订单'?'borderSet':''">
         <router-view></router-view>
     </div>
 </div>

@@ -79,6 +79,7 @@ export default class shopIndex extends Vue {
             .userId,
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .token,
+            clientType:'WEB',
           body: this.obj["body"],
           outTradeNo: this.obj["payId"],
           totalFee: 0.01
