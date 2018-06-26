@@ -4,6 +4,43 @@
 
 <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
 
+<div class=" flex   flex-pack-center">
+       <div  style="width:60%;">
+<div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
+  选择支付方式
+</div>
+</div>
+</div>
+
+<div class=" flex   flex-pack-center ">
+
+<div class="contentBox2 flex">
+
+    <div style="width:200px;height:90px;" :style="payActive == 'ali'?'border:1px  solid #F4C542':''" @click="payActive = 'ali'">支付宝</div>
+    <div style="width:200px;height:90px;" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">微信</div>
+
+</div>
+</div>
+
+
+<div class=" flex   flex-pack-center ">
+
+<div class="btmContent" style="padding:20px;font-size:14px;text-align:right">
+    <span>实付总额：</span><span style="font-size:16px;color:red">￥{{obj.payTotal}}</span>
+</div>
+</div>
+<div class=" flex   flex-pack-center ">
+
+  <div style="width:60%;">
+
+     <div  style="margin:20px 0;float:right;background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
+  @click="dopay">
+<span>立即支付</span>
+  </div>
+
+  </div>
+</div>
+
 
 
   <winbeet></winbeet>
@@ -67,8 +104,7 @@ export default class shopIndex extends Vue {
         }
       );
     }else{
-//  console.log("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
-//        this.obj["payId"] +"#wechat_redirect")
+
         window.location.href ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
        this.obj["payId"] +"#wechat_redirect"
      
@@ -98,6 +134,18 @@ export default class shopIndex extends Vue {
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
+.contentBox2{
+    border: 1px #e5e5e5 solid;
+  width: 60%;
+  font-size:14.2px;
+  margin-bottom:20px;
+}
+.btmContent {
+  background-color: #f9f9f9;
+  width: 60%;
+  border: 1px #e5e5e5 solid;
+  margin-top: 10px;
+}
 </style>
 
 

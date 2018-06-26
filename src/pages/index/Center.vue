@@ -88,7 +88,7 @@ export default class shopIndex extends Vue {
       menu:[
         {
           name: '我的订单',
-          url:'/',
+          url:'/orderlist',
         },  {
           name: '优惠券',
           url:'/',

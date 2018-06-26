@@ -124,7 +124,7 @@
 <div style="border:1px solid #e5e5e5;">
 
   <textarea type="text" name="content"  rows="7" style="width: 100%;border:none"   
-                   readonly="readonly" ></textarea>  
+                    ></textarea>  
 
 </div>
 
@@ -211,8 +211,60 @@ getPreInfo(prepareId) {
       }
     );
   }
+  pageType = "";
+  titlevalue="";
+  couponId="";
+  titleType="";
+  invoiceTitle="";
+  invoiceNo="";
+  remark="";
+ onSubmit() {
+    if (!this.address) {
+          this["$Message"].warning('请选择一个收货地址');
+      return;
+    }
+    Vue.prototype.$reqFormPost(
+      "/prepare/order/submit",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        couponId:this.couponId,
+        titleType:this.titleType,
+        invoiceTitle:this.invoiceTitle,
+        invoiceNo:this.invoiceNo,
+        prepareId: this.prepareId,
+        remark:this.remark
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
 
-
+        this.$router.replace({
+          name: "pay",
+          query: {
+            contactname:this.address['contactname'],
+            contactmobile:this.address['contactmobile'],
+            address:this.address['province'] + this.address['city'] + this.address['country'] + this.address['address'],
+            body:res.data.data.body,
+            payId:res.data.data.payId,
+            payTotal:res.data.data.payTotal
+          }
+        });
+        console.log(res.data.data);
+      }
+    );
+  }
   mounted() {
     this.prepareId = this.$store.getters[
       Vue.prototype.MutationTreeType.PREPAREID
