@@ -45,6 +45,21 @@ export default new Router({
                     name: 'addresslist',
                     component: r => require.ensure([], () => r(require('../pages/address/addresslist')), 'addresslist')
                 },
+                {
+                    path: '/my_member',
+                    name: 'my_member',
+                    component: r => require.ensure([], () => r(require('../pages/reward/my_member')), 'my_member')
+                },
+                {
+                    path: '/my_bankcard',
+                    name: 'my_bankcard',
+                    component: r => require.ensure([], () => r(require('../pages/bank_card/my_bankcard')), 'my_bankcard')
+                },
+                {
+                    path: '/my_reward',
+                    name: 'my_reward',
+                    component: r => require.ensure([], () => r(require('../pages/reward/my_reward')), 'my_reward')
+                },
             ]
         },
         {
@@ -134,11 +149,6 @@ export default new Router({
             component: r => require.ensure([], () => r(require('../pages/bank_card/add_bank_card')), 'add_bank_card')
         },
         {
-            path: '/my_bankcard',
-            name: 'my_bankcard',
-            component: r => require.ensure([], () => r(require('../pages/bank_card/my_bankcard')), 'my_bankcard')
-        },
-        {
             path: '/about_us',
             name: 'about_us',
             component: r => require.ensure([], () => r(require('../pages/setting/about_us')), 'about_us')
@@ -167,16 +177,6 @@ export default new Router({
             path: '/reward',
             name: 'reward',
             component: r => require.ensure([], () => r(require('../pages/reward/reward')), 'reward')
-        },
-        {
-            path: '/my_member',
-            name: 'my_member',
-            component: r => require.ensure([], () => r(require('../pages/reward/my_member')), 'my_member')
-        },
-        {
-            path: '/my_reward',
-            name: 'my_reward',
-            component: r => require.ensure([], () => r(require('../pages/reward/my_reward')), 'my_reward')
         },
         {
             path: '/present_record',

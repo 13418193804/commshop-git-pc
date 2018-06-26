@@ -1,31 +1,85 @@
 <template>
   <div class="tab-contents">
-<comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="我的银行卡" isRightIcon="true"  ></comhead>
-  
-  <div v-for="(item, index) in cardlist" :key="index" :style="handlePX('height', 300)+handlePX('padding', 30)" style="border-bottom:15px solid #f5f5f5;">
-    <div class="flex flex-align-center" :style="handlePX('height', 140)" style="border:1px solid #d9d9d9;border-radius:8px;box-sizing:border-box;">
-      <img src="../../assets/image/招商银行.png" :style="handlePX('height', 70)+handlePX('widht', 70)+handlePX('margin-left', 20)" style="border-radius:50%;"/>
-      <div :style="handlePX('margin-left', 20)+handlePX('width', 200)">
-        <div>{{item.bankName}}</div>
-        <div style="font-size:12px;">信用卡</div>
+      <div class="flex flex-around-justify" style="padding:10px 0;background-color:#F8F8F8;">
+        <div>银行卡</div>
+        <div>卡号</div>
+        <div>操作</div>
       </div>
-      <div :style="handlePX('padding-top', 20)">{{item.cardId}}</div>
-    </div>
-    <div :style="handlePX('height', 40)+handlePX('line-height', 40)+handlePX('margin-top', 20)" class="flex flex-pack-justify">
-      <div>
-        <van-radio-group v-model="isDefaultid" :change="isDefaultchange()">
-        <van-radio :name="item.id">默认地址</van-radio>
-        </van-radio-group>
-      </div>
-      <div @click="deletebankcard(item.id)"><img src="../../assets/image/删除.png" :style="handlePX('height', 40)+handlePX('widht', 40)" style="vertical-align: top;"/>删除</div>
-    </div>
-  </div>
 
-  <div :style="handlePX('height', 300)+handlePX('padding', 30)">
-    <div @click="addbangcard()" :style="handlePX('height', 140)" class="flex flex-pack-center flex-align-center" style="color:#959595;border:1px solid #d9d9d9;border-radius:8px;box-sizing:border-box;">
-      +添加银行卡
-    </div>
-  </div>
+      <div v-if="cardlist.length>0" style="padding:15px;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
+      <div  v-for="(item,index) in cardlist" :key="index" class="flex flex-around-justify" style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;">
+        <div class="flex">
+          <img src="../../assets/image/招商银行.png"  style="vertical-align: middle;width:30px;height:25px;"/>
+          <div>{{item.bankName}}</div>
+        </div>
+        <div>{{item.cardId}}</div>
+        <div v-if="item.isDefault==true" style="background-color:#C6C6C6;width:60px;height:20px;color:#fff;text-align: center;line-height:20px;">默认地址</div>
+        <div v-else @click="isDefaultchange(item.id)" style="height:20px;line-height:20px;"><span style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;"></span>设为地址</div>
+        <div @click="del(item)">
+          <img src="../../assets/image/删除.png" style="width:20px;height:15;"/>
+        </div>
+      </div>
+      </div>
+
+      <div class="flex flex-align-center flex-v">
+          <div v-if="cardlist.length==0" style="color:#BFBFBF;padding:120px 0 30px;">您还未新增银行卡~~~</div>
+          <div @click="addbangcard()" style="width:90px;height:30px;color:#FFC630;border:1px solid #FFC630;text-align: center;line-height:30px;">新建地址</div>
+      </div>
+      <!-- 删除 -->
+      <div style=" position: relative;">
+        <div style="background-color:rgba(0, 0, 0, 0.5);z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="delshow" >
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
+            <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:350px;height:200px;">
+              <div>是否删除此银行卡？</div>
+              <div class="flex flex-around-justify flex-v" style="width:300px;height:80px;padding-left:15px;border:1px solid #E5E5E5;">
+                <div>银行卡:{{delcard.bankName}}</div>
+                <div>卡号:{{delcard.cardId}}</div>
+                <div>持卡人:{{delcard.realName}}</div>
+                <div>支行:{{delcard.subBranch}}</div>
+              </div>
+              <div class="flex">
+                <div @click="deletebankcard()" style="width:90px;height:24px;background-color:#FCCB52;color:#fff;text-align: center;line-height:24px;margin-right:5px;">确定</div>
+                <div @click="delcancel()" style="width:90px;height:24px;color:#FCCB52;text-align: center;line-height:24px;border:1px solid #FCCB52;">取消</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 新增 -->
+      <div style=" position: relative;">
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
+            <div class="flex flex-around-justify flex-v flex-align-center" style="background-color:#fff;width:340px;height:270px;padding:20px;position: relative;">
+              
+              <div style="position: absolute;top:10px;right:10px;">
+                <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="addcancel()"/>
+              
+              </div>
+              <div style="text-align: center;">选择银行卡</div>
+              <div class="flex flex-pack-justify" style="width:250px;">
+                <div style="width:60px;">持卡人：</div>
+                <input style="height:20px;width:190px;" v-model="realName"/>
+              </div>
+              <div class="flex flex-pack-justify" style="width:250px;">
+                <div style="width:60px;">开户银行：</div>
+                <input style="height:20px;width:190px;" v-model="bankName"/>
+              </div>
+              <div class="flex flex-pack-justify" style="width:250px;">
+                <div style="width:60px;">银行卡号：</div>
+                <input style="height:20px;width:190px;" v-model="cardId"/>
+              </div>
+              <div class="flex flex-pack-justify" style="width:250px;">
+                <div style="width:60px;">支行：</div>
+                <input style="height:20px;width:190px;" v-model="subBranch"/>
+              </div>
+              <div class="flex">
+                <div @click="addcard()" style="width:90px;height:24px;background-color:#FCCB52;color:#fff;text-align: center;line-height:24px;margin-right:5px;">确定</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
   </div>
 </template>
@@ -47,6 +101,25 @@ import comhead from "../../components/Comhead.vue";
 export default class mybankcard extends Vue {
   cardlist = [];
   isDefaultid = "";
+  delshow=false;
+  delcard="";
+  delcardid="";
+  addshow=false;
+  cardId="";
+  bankName="";
+  realName="";
+  subBranch="";
+
+  del(card){
+    this.delcard=card;
+    this.delcardid=card.id;
+    this.delshow=true;
+  }
+  delcancel(){
+    this.delcard="";
+    this.delcardid="";
+    this.delshow=false;
+  }
   getBankCardList() {
     Vue.prototype.$reqFormPost(
       "/bank/card/list",
@@ -80,17 +153,34 @@ export default class mybankcard extends Vue {
       }
     );
   }
-  deletebankcard(cardid) {
+  addcard() {
+    if (this.realName == "") {
+      Toast('请输入持卡人真实姓名');
+      return;
+    }
+    if (this.bankName == "") {
+      Toast('请填写开户银行名称');
+      return;
+    }
+    if (this.cardId == "") {
+      Toast('请填写银行卡号');
+      return;
+    }
+    if (this.subBranch == "") {
+      Toast('请填写银行卡所在支行');
+      return;
+    }
     Vue.prototype.$reqFormPost(
-      "/bank/card/delete",
+      "/bank/card/add",
       {
-        userId: this.$store.getters[
-          Vue.prototype.MutationTreeType.TOKEN_INFO
-        ].userId,
-        token: this.$store.getters[
-          Vue.prototype.MutationTreeType.TOKEN_INFO
-        ].token,
-        id: cardid
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        cardId: this.cardId,
+        bankName: this.bankName,
+        realName: this.realName,
+        subBranch: this.subBranch
       },
       res => {
         if (res == null) {
@@ -105,11 +195,43 @@ export default class mybankcard extends Vue {
           return;
         }
         this.getBankCardList();
+        console.log(res.data);
+      }
+    );
+  }
+  deletebankcard() {
+    Vue.prototype.$reqFormPost(
+      "/bank/card/delete",
+      {
+        userId: this.$store.getters[
+          Vue.prototype.MutationTreeType.TOKEN_INFO
+        ].userId,
+        token: this.$store.getters[
+          Vue.prototype.MutationTreeType.TOKEN_INFO
+        ].token,
+        id: this.delcardid,
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        this.delcard="";
+        this.delcardid="";
+        this.delshow=false;
+        this.getBankCardList();
         console.log("/bank/card/delete", res.data.message);
       }
     );
   }
-  isDefaultchange() {
+  isDefaultchange(id) {
     Vue.prototype.$reqFormPost(
       "/bank/card/setdefault",
       {
@@ -119,7 +241,7 @@ export default class mybankcard extends Vue {
         token: this.$store.getters[
           Vue.prototype.MutationTreeType.TOKEN_INFO
         ].token,
-        id: this.isDefaultid
+        id: id
       },
       res => {
         if (res == null) {
@@ -134,14 +256,12 @@ export default class mybankcard extends Vue {
           return;
         }
         console.log("/bank/card/setdefault", res.data.message);
+        this.getBankCardList();
       }
     );
   }
   addbangcard() {
-    this.$router.push({
-      path: "/add_bank_card",
-      query: {}
-    });
+    this.addshow=true;
   }
   handlePX(CssName, PxNumber) {
     return (
@@ -152,6 +272,13 @@ export default class mybankcard extends Vue {
         PxNumber +
       "px;"
     );
+  }
+  addcancel(){
+    this.addshow=false;
+    this.cardId="";    
+    this.bankName="";    
+    this.realName="";    
+    this.subBranch="";    
   }
   mounted() {
     this.getBankCardList();

@@ -74,13 +74,13 @@ export default class shopIndex extends Vue {
           url:'/collection',
         },  {
           name: '我的成员',
-          url:'/',
+          url:'/my_member',
         },{
           name: '我的奖励',
-          url:'/',
+          url:'/my_reward',
         },{
           name: '我的银行卡',
-          url:'/',
+          url:'/my_bankcard',
         },
       ]
     },  {
