@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents">
+  <div class="">
 
         
         <div style="padding:30px;">

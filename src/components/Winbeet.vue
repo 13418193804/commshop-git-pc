@@ -40,14 +40,16 @@ export default class Comhead extends Vue {
     this.$emit("rightClick");
   }
 
-  mounted() {}
+  mounted() {
+    
+  }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .btm {
-  position: fixed;
-  bottom: 0;
+ position: absolute;
+ bottom: 0;
   height: 100px;
   width:100%;
   background-color: #000;

@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents" style="height:-webkit-fill-available;background-color:#f5f5f5;">
+  <div class="" style="height:-webkit-fill-available;background-color:#f5f5f5;">
     <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="我的奖励" isRightIcon="true"  ></comhead>
     <div class="flex flex-align-center" style="background-color:#ffffff;">
         <div :style="handlePX('height', 300)" class="flex flex-pack-center flex-align-center flex-1 flex-v">

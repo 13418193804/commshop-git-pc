@@ -1,40 +1,44 @@
 <template>
   <div class="tab-contents" style="height:-webkit-fill-available;">
-            <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="订单详情" isRightIcon="true"  ></comhead>
-            <div class="flex flex-pack-justify flex-align-center" style="background-color:#f7f7f7;padding: 10px;font-size: 16px;">
-                <div style="font-size:16px">订单状态</div>
-               
-                <!-- <div :style="formatStatusColor(detail.orderStatus)">{{formatStatus(detail.orderStatus)}}</div> -->
-                <span  :style="formatStatusColor(detail.orderStatus)">{{formatStatus(detail.orderStatus)}}</span>
-             <!-- v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'" -->
-              <!-- <span v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND'" style="color:red">退款中</span>
-                <span v-if="detail.detailList[0].refundStatus == 'SUCCEED_REFUND'" style="color:#ffc630;">已退款</span>
-                <span v-if="detail.detailList[0].refundStatus == 'FAIL_REFUND'" style="color:#ffc630;">已拒绝</span>
-                             <span v-if="detail.detailList[0].refundStatus == 'WAIT_GOODS_BACK'" style="color:#ffc630;">待寄回</span>
-   <span v-if="detail.detailList[0].refundStatus == 'WAIT_RECVGOODS'" style="color:#ffc630;">退货中</span> -->
-
+          
+   <div style="border:1px #e5e5e5 solid;">
+     
+       <div class="flex flex-align-center" style="background-color:#f7f7f7;padding: 10px;font-size: 14.8px;">
+            <span style="margin-right:30px;">下单时间：{{detail.createTime}}</span>
+<span>订单号：{{detail.orderId}}</span>
             </div>
-     <div class="flex" style="height: 5px;">
-         <img src="../../assets/jiange.png" style="width:100%;"/>
-     </div>
+
+
         <div class="flex flex-align-center" style="padding:10px;">
          <div  style="flex:1;">
     <div class="flex flex-pack-justify" style="font-size: 16px;">
-      <span>收货人：{{detail.contactName}}</span>
-      <span style="margin-right:10px;">{{detail.contactPhone}}</span>
     </div>
-      <div class="flex flex-align-center" style="padding: 5px;font-size: 14px; " >
-                  <div>
-                    <i class="iconfont icon-location" style="margin-right:10px;font-size:22px;"></i>
-                  </div>
-                    <div class="lineTwo">
-                     收货地址：    {{detail.provinceName}}{{detail.cityName}}{{detail.countryName}}{{detail.address}}
+      <div style="padding: 5px;font-size: 14px; " >
+
+            <div class="lineTwo flex flex-align-center xuxian">
+                    <div style="width:95px;"> 收货人：</div><div>{{detail.contactName}}</div>
+                    </div>
+                   <div class="lineTwo flex flex-align-center xuxian">
+                    <div style="width:95px;"> 联系方式：</div><div>{{detail.contactPhone}}</div>
+                    </div>
+
+                    <div class="lineTwo flex flex-align-center xuxian">
+                    <div style="width:95px;"> 收货地址：</div><div>{{detail.provinceName}}{{detail.cityName}}{{detail.countryName}}{{detail.address}}</div>
                     </div>
 
               </div>
               </div>
            </div>
-        <div style="height:10px;background-color:#f7f7f7;"></div>
+   </div>
+
+  <div class="flex flex-pack-justify flex-align-center" style="background-color:#f7f7f7;padding: 10px;margin-top:20px;font-size: 16px;">
+                <span  :style="formatStatusColor(detail.orderStatus)">{{formatStatus(detail.orderStatus)}}</span>
+            </div>
+
+
+
+
+
     <div>
         <div v-for="(item,index) in detail.detailList" :key="index">
                 <div  class="product">
@@ -147,9 +151,7 @@
   <div v-if="detail.orderId">
         订单编号：{{detail.orderId}}
     </div>
-  <div v-if="detail.createTime">
-        创建时间：{{detail.createTime}}
-    </div>
+
  <div v-if="detail.payTime">
         支付时间：{{detail.payTime}}
     </div>
@@ -254,11 +256,8 @@ import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast, Dialog } from "vant";
 
-// import { recommendList } from '../../service/getData';
-import comhead from "../../components/Comhead.vue";
-
 @Component({
-  components: { comhead },
+  components: {  },
   mixins: [mixin]
 })
 export default class orderdetail extends Vue {
@@ -551,6 +550,10 @@ export default class orderdetail extends Vue {
   align-items: center;
   padding: 10px;
   background-color: #fff;
+}
+.xuxian{
+     border-bottom: 1px #eee dashed;
+     padding:10px 0;
 }
 </style>
 

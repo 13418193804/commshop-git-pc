@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents" style="height:-webkit-fill-available;background-color:#FFFFFF;">
+  <div class="" style="height:-webkit-fill-available;background-color:#FFFFFF;">
 <div>
   <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
   <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index">

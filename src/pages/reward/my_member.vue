@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents">
+  <div class="">
     <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="我的成员" isRightIcon="true"  ></comhead>
     <!-- <van-pull-refresh v-model="isLoading" @refresh="onRefresh"> -->
       <ul

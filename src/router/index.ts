@@ -65,6 +65,11 @@ export default new Router({
                     name: 'my_reward',
                     component: r => require.ensure([], () => r(require('../pages/reward/my_reward')), 'my_reward')
                 },
+                {
+                    path: '/orderdetail',
+                    name: 'orderdetail',
+                    component: r => require.ensure([], () => r(require('../pages/order/orderdetail')), 'orderdetail')
+                },
             ]
         },
         {
@@ -123,11 +128,7 @@ export default new Router({
             name: 'paysuccess',
             component: r => require.ensure([], () => r(require('../pages/order/paysuccess')), 'paysuccess')
         },
-        {
-            path: '/orderdetail',
-            name: 'orderdetail',
-            component: r => require.ensure([], () => r(require('../pages/order/orderdetail')), 'orderdetail')
-        },
+     
         {
             path: '/ship',
             name: 'ship',
