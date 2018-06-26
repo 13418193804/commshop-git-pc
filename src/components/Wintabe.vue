@@ -146,8 +146,9 @@
     <div class="messageFexid" style="right:10px">{{cartLen}}</div>
       <img src="../assets/image/购物车.png"/>
       <div class="cartFexid" v-if="cartModel">
-        <div style=" "> 
-          <div style="width:30px;height:30px;">X</div>
+        <div style="    display: flex;
+    justify-content: flex-end;"> 
+          <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">X</div>
         </div>
 
         <div style="   height: 310px;overflow:auto;">

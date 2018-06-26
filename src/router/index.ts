@@ -44,6 +44,11 @@ export default new Router({
                     path: '/addresslist',
                     name: 'addresslist',
                     component: r => require.ensure([], () => r(require('../pages/address/addresslist')), 'addresslist')
+                },
+                {
+                    path: '/orderlist',
+                    name: 'orderlist',
+                    component: r => require.ensure([], () => r(require('../pages/order/orderlist')), 'orderlist')
                 }
             ]
         },
@@ -92,11 +97,7 @@ export default new Router({
             name: 'selectaddress',
             component: r => require.ensure([], () => r(require('../pages/address/selectaddress')), 'selectaddress')
         },
-        {
-            path: '/orderlist',
-            name: 'orderlist',
-            component: r => require.ensure([], () => r(require('../pages/order/orderlist')), 'orderlist')
-        },
+    
         {
             path: '/pay',
             name: 'pay',

@@ -1,27 +1,63 @@
 <template>
   <div class="tab-contents">
-    
-    <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false"  title="我的订单" isRightIcon="true"  ></comhead>
-     
-        <van-tabs :active="active" :sticky="true" @click="changePage">
-           <ul
-  v-infinite-scroll="loadMore"
-  :infinite-scroll-disabled="loading"
-  infinite-scroll-distance="20" >
-  <van-tab v-for="(n,sindex) in orderTitleList"  :title="n.name" style="" :key="sindex">
-<!-- border-top:1px #e5e5e5 solid; -->
-      <div  v-if="active == sindex">
-  
-        <li v-for="(item,index) in orderList[returnKey()].orderList" @click="goDetail(item)" :key="index">
 
-  <div>
-          <div class="orderTitle textLabel">  
+     <div class="flex" style="background-color:#FBFBFB;border:1px solid #e5e5e5;">
+       <div v-for="(item,index) in orderTitleList" @click="changePage(index)" class="flex-1" :style="active == index ?'background-color:#E1E1E1':''" style="height:37px;line-height:37px;text-align:center;">
+           <span> {{item.name}}</span>
+       </div>
+
+     </div>
+     <!-- v-infinite-scroll="loadMore"
+  :infinite-scroll-disabled="loading"
+  infinite-scroll-distance="20" -->
+    
+      <div  v-if="active == Pageindex">
+  
+
+  <div v-for="(item,index) in orderList[returnKey()].orderList" @click="goDetail(item)" :key="index" style="border:1px #e5e5e5 solid;margin-top: 20px;">
+          <div class="orderTitle textLabel  flex   flex-pack-justify">  
+
+
               <div style="padding-left:10px;">
-                订单号:{{item.orderId}}
+              <span style="margin-right:30px;">  下单时间:{{item.createTime}}</span>
+                <span>  订单号:{{item.orderId}}</span>
               </div>
+            
               <div  class="flex flex-align-center" >
                 
-                  <span v-if="active == '0' && item.detailList[0].refundStatus == 'SUCCEED_REFUND' " style="color:red">退款完成</span>
+                
+                     <div style="padding:0 15px;position: relative;"  @click.stop="doDeleteOrder(item.orderId)"  v-if=" active == '0' && item.orderStatus === 'ORDER_FINISH'&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND') ">
+                       <div class="deleteBorder"> </div>
+                <i class="iconfont icon-iconfontshanchu3" style="" ></i>
+              </div>
+              <div v-else style="width:10px"></div>
+              </div>
+          </div>
+    <div class="detailBody">
+        <div v-for="items in  item.detailList">
+    <div class="product1">
+       <div class="flex flex-align-center">
+        <img v-lazy='items.goodsImg' style='height:80px;width:80px;border-radius: 5px;
+    border: 1px #e5e5e5 solid;'/>
+      </div>
+      <div class="flex-1" style='font-size:12px;overflow:hidden;padding:0 10px;'>
+        <div class='lineTwoType'>{{items.goodsName}}</div>
+        <div style='  overflow: hidden;text-overflow: ellipsis;color:#999'>
+         <div style="color:#666;" class="textLabel">
+        <span v-if="items.skuKeyValue.length>2 ">
+<span v-for="items1 in JSON.parse(items.skuKeyValue)" style="margin-right:10px;">
+  <span>{{items1.key}}:{{items1.value}} X {{items.goodsNum}}</span>
+</span>
+        </span>
+        <span v-else>
+          X {{items.goodsNum}}
+        </span>
+         </div>
+              </div>
+      </div>
+<div class="flex-1" style="font-size:14.8px">
+  <div class="  flex   flex-pack-center  flex  flex-align-center">
+      <span v-if="active == '0' && item.detailList[0].refundStatus == 'SUCCEED_REFUND' " style="color:red">退款完成</span>
                 <span :style="formatStatusColor(item.orderStatus)" v-else-if="active != '5' ">{{formatStatus(item.orderStatus)}}</span>
                 <!-- v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND'"  -->
 
@@ -35,45 +71,8 @@
                 <span v-if="item.detailList[0].refundStatus == 'WAIT_RECVGOODS'" style="color:#ffc630;">退货中</span> -->
                 <span v-if="item.detailList[0].refundStatus == 'FAIL_REFUND'" style="color:red;">已拒绝</span>
                 </span>
-                     <div style="padding:0 15px;position: relative;"  @click.stop="doDeleteOrder(item.orderId)"  v-if=" active == '0' && item.orderStatus === 'ORDER_FINISH'&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND') ">
-                       <div class="deleteBorder"> </div>
-                <i class="iconfont icon-iconfontshanchu3" style="" ></i>
-              </div>
-              <div v-else style="width:10px"></div>
-              </div>
-          </div>
-    <div class="detailBody">
-        <div v-for="items in  item.detailList">
-    <div class="product1">
-       <div class="flex flex-align-center">
-        <img v-lazy='items.goodsImg' style='height:80px;width:80px'/>
-      </div>
-      <div class="flex-1" style='font-size:12px;overflow:hidden;padding:0 10px;'>
-        <div class='lineTwoType'>{{items.goodsName}}</div>
-        <div style='  overflow: hidden;text-overflow: ellipsis;color:#999'>
-          <div> {{items.jingle}}</div>
-          <!-- <span v-for=" item.skuKeyValue" wx:for-item="i" style='margin-right:5px'>{{i.key}}:{{i.value}}</span> -->
-        </div>
-      </div>
-      <div style='text-align:center;font-size:14px'>
-        <div >￥{{items.goodsPrice}}</div>
-        <div class="labelPrice" v-if="items.labelPrice">￥{{items.labelPrice}}</div>
-        <div>X {{items.goodsNum}}</div>
-      </div>
-    </div>
-</div>
-
-</div>
-<div style="text-align:right;font-size:15px;padding:5px 10px;">
-      <span style='margin:0 10rpx ;'>共<span style='margin:0 10rpx;'>
-          {{item.orderGoodsNum}}
-        </span>件商品</span>
-        <span>合计：<span>￥{{item.orderTotalPrice.toFixed(2)}}</span>
-        <span>(含运费{{item.transportPrice.toFixed(2)}})</span>
-        </span>
-</div>
-
-    <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_PAY'">
+  </div>
+ <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_PAY'">
       <van-button size="small" style="margin-right:10px;" @click.stop="doCancel(item)">取消订单</van-button>
       <van-button size="small" style="margin-right:10px;" :style="formatButtonColor()"  @click.stop="payOrder(item)">支付订单</van-button>
     </div>
@@ -137,24 +136,36 @@
       <van-button size="small" style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)">再次购买</van-button>
     </div>
 
-  <div style="background-color:#f7f7f7;height:10px;">
+
+</div>
+
+
+      <div style='text-align:center;font-size:16px;width:180px;'>
+       <div style=""><span>￥{{item.orderTotalPrice.toFixed(2)}}</span></div>
+      <div style="font-size:12.6px;color:#999">  <span>(含运费{{item.transportPrice.toFixed(2)}})</span></div>
+       
+      </div>
+    </div>
+</div>
+
+</div>
+
+
+   
 
   </div>
-  </div>
- </li>
 
       </div>
 
 
-  </van-tab>
  <div class="flex flex-align-center flex-pack-center"  style="font-size:14px;padding:15px;">
     <div v-if="orderList[returnKey()].loading">加载中...</div>
     <div v-else>-</div>
   
 </div>
 
-        </ul>
-</van-tabs>
+
+
 
   </div>
 </template>
@@ -166,13 +177,15 @@ import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast, Dialog } from "vant";
 // import { recommendList } from '../../service/getData';
-import comhead from "../../components/Comhead.vue";
 import axios from "axios";
 
+import Wintabe from "../../components/Wintabe.vue";
+import Winbeet from "../../components/Winbeet.vue";
 @Component({
   components: {
-    comhead
-  },
+    Wintabe,
+    Winbeet
+},
   mixins: [mixin]
 })
 export default class orderList extends Vue {
@@ -514,14 +527,17 @@ doDeleteOrder(orderId){
       }
     });
   }
+  Pageindex = 0;
   changePage(index) {
     this.active = index;
+    this.Pageindex = index
     this.getOrderList(this.orderTitleList[index].status,true);
   }
   mounted() {
     this.orderTitleList.forEach((item, index) => {
       if (this.$route.query.orderStatus == item.status) {
         this.active = index;
+        this.Pageindex = index;
         return;
       }
     });
@@ -543,12 +559,13 @@ doDeleteOrder(orderId){
   justify-content: center;
 }
 .orderTitle {
+  
+  background-color:#F1F1F1;
   font-size: 14px;
 
-  display: flex;
-  height: 50px;
-  line-height: 50px;
-  justify-content: space-between;
+  height: 44px;
+  line-height: 44px;
+
 }
 .detailBody {
 }
@@ -561,9 +578,8 @@ doDeleteOrder(orderId){
   top: 15px;
 }
 .settingBody {
-  border-top: 1px #e5e5e5 solid;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   height: 50px;
 }
@@ -579,6 +595,7 @@ doDeleteOrder(orderId){
   padding: 10px;
   background-color: #fff;
 }
+
 </style>
 
 
