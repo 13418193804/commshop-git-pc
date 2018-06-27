@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents">
+  <div class="">
         <div style="padding:30px;">
           <div class="flex flex-pack-justify" v-for="(item,index) in memberList" :key="index" style="padding:15px 0;border-bottom:1px dashed #E5E5E5;">
             <div >

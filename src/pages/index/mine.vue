@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents">
+  <div class="">
 
         个人中心
         <div>

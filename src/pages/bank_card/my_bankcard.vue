@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents">
+  <div class="">
       <div class="flex flex-around-justify" style="padding:10px 0;background-color:#F8F8F8;">
         <div>银行卡</div>
         <div>卡号</div>

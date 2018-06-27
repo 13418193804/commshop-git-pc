@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-contents">
+  <div class="">
    <div style="height:40px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
      <div class="taber selecttaber">基本信息</div>
      <div  class="taber">修改密码</div>

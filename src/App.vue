@@ -28,7 +28,10 @@ export default class App extends Vue {
 @import './style/reset';
 
 
-
+.tab-contents{
+  min-height: 100vh;
+  position: relative;
+}
 .pointer{
   cursor: pointer;
 }
