@@ -23,7 +23,7 @@
 
       <div class="flex flex-align-center flex-v">
           <div v-if="cardlist.length==0" style="color:#BFBFBF;padding:120px 0 30px;">您还未新增银行卡~~~</div>
-          <div @click="addbangcard()" style="width:90px;height:30px;color:#FFC630;border:1px solid #FFC630;text-align: center;line-height:30px;">新建地址</div>
+          <div @click="addbangcard()" style="width:90px;height:30px;color:#FFC630;border:1px solid #FFC630;text-align: center;line-height:30px;">新建银行卡</div>
       </div>
       <!-- 删除 -->
       <div style=" position: relative;">
@@ -196,6 +196,7 @@ export default class mybankcard extends Vue {
         }
         this.getBankCardList();
         console.log(res.data);
+        this.addshow=false;
       }
     );
   }
