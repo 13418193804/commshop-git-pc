@@ -29,3 +29,6 @@
     // 2.0
     // this.$store.commit('PREPAREID','1')
     // console.log(this.$store.getters['PREPAREID'])
+// npm run dev   启动
+// npm install  引入依赖库
+// npm run build  打包
