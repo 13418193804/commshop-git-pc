@@ -16,8 +16,13 @@
 
 <div class="contentBox2 flex">
 
-    <div style="width:200px;height:90px;" :style="payActive == 'ali'?'border:1px  solid #F4C542':''" @click="payActive = 'ali'">支付宝</div>
-    <div style="width:200px;height:90px;" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">微信</div>
+    <div style="height:90px;margin:10px;" class="flex" :style="payActive == 'ali'?'border:1px  solid #F4C542':''" @click="payActive = 'ali'">
+        <img src="../../assets/image/支付宝1.png" />
+
+    </div>
+    <div style="margin:10px;height:90px;" class="flex" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">
+        <img src="../../assets/image/微信支付.png" />
+    </div>
 
 </div>
 </div>

@@ -55,7 +55,7 @@
          </div>
               </div>
       </div>
-<div class="flex-1" style="font-size:14.8px">
+<div class="flex-1" style="font-size:14.8px;width:250px;">
   <div class="  flex   flex-pack-center  flex  flex-align-center">
       <span v-if="active == '0' && item.detailList[0].refundStatus == 'SUCCEED_REFUND' " style="color:red">退款完成</span>
                 <span :style="formatStatusColor(item.orderStatus)" v-else-if="active != '5' ">{{formatStatus(item.orderStatus)}}</span>

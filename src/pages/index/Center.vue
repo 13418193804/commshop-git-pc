@@ -18,14 +18,14 @@
 <div class=" flex   flex-pack-center">
        <div  style="width:60%;margin-bottom:10px;">
 <div class="flex">
-    <div class="borderSet" style="margin-right:20px;padding:20px;">
+    <div class="borderSet" style="margin-right:20px;padding:20px;min-width: 152px;">
 <div style="padding:10px 20px;" v-for="(item,index) in menu" :key="index">
             <div class="title">{{item.title}}</div>
             <div class="content" :class="menuName == items.name ?'selectContent':''" v-for="(items,indexs) in item.menu" @click="selectMenu(items)" :key="indexs">{{items.name}}</div>
 </div>
 
     </div>
-    <div class=" flex-1" :class="menuName !='我的订单'?'borderSet':''">
+    <div class=" flex-1" :class="menuName !='我的订单' ?'borderSet':''">
         <router-view></router-view>
     </div>
 </div>
@@ -95,6 +95,7 @@ export default class shopIndex extends Vue {
         },
       ]
     },
+    
     {
       title : "账号管理",
       menu:[
@@ -347,9 +348,11 @@ selectMenu(items){
   font-size: 14px;
     padding:5px 0 !important;
 text-align:center;
+  border-bottom:2px #fff solid;
     
 }
 .selectContent{
+
   color:#ffc630;
   border-bottom:2px #ffc630 solid;
 box-sizing: border-box;

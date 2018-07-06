@@ -31,51 +31,19 @@
            </div>
    </div>
 
-  <div class="flex flex-pack-justify flex-align-center" style="background-color:#f7f7f7;padding: 10px;margin-top:20px;font-size: 16px;">
-                <span  :style="formatStatusColor(detail.orderStatus)">{{formatStatus(detail.orderStatus)}}</span>
-            </div>
+
+
+<div style="border:1px #e5e5e5 solid ;margin-top:20px;">
+
+  <div class="flex flex-pack-justify flex-align-center" style="background-color:#f7f7f7;padding: 10px;font-size: 16px;">
+             <div>   <span  :style="formatStatusColor(detail.orderStatus)">{{formatStatus(detail.orderStatus)}}</span></div>
+        
+        
+        
 
 
 
-
-
-    <div>
-        <div v-for="(item,index) in detail.detailList" :key="index">
-                <div  class="product">
-                     <div class="flex flex-align-center">
-        <img v-lazy='item.goodsImg' style='height:70px;width:70px'/>
-      </div>
-      <div class="flex-1" style='font-size:16px;overflow:hidden;padding:0 10px;'>
-       <div style=" height:100%;">
-        <div class='lineTwoType'>{{item.goodsName}}</div>
-            <div style='  overflow: hidden;text-overflow: ellipsis;white-space: nowrap;color:#999'>
-          <div style="font-size:14px;color:#666">{{item.jingle}}</div>
-       </div>
-          <!-- <span v-for=" item.skuKeyValue" wx:for-item="i" style='margin-right:5px'>{{i.key}}:{{i.value}}</span> -->
-        </div>
-      </div>
-      <div style='text-align:center;font-size:14px'>
-        <div >￥{{item.goodsPrice}}</div>
-        <div class="labelPrice">￥{{item.goodsPrice}}</div>
-        <div>X {{item.goodsNum}}</div>
-      </div>
-    </div>
-        </div>
- </div>
-
- <div>
-        <div class="flex flex-pack-justify" style="margin-left:10px;border-bottom:1px #e5e5e5 solid;padding:10px;">
-                <div>运费</div>
-                <div style="margin-right:10px;">￥{{detail.transportPrice.toFixed(2)}}</div>
-        </div>
-
-      <div class="flex flex-pack-justify" style="margin:0 0 0 10px;padding:10px;border-bottom:1px #e5e5e5 solid;">
-                <div>订单总价</div>
-                <div style="margin-right:10px;" class="marketPrice">￥{{detail.orderTotalPrice.toFixed(2)}}</div>
-        </div>
-
-
-<div class="flex flex-pack-justify flex-end-justify" style="margin:0 0 0 10px;padding:10px;">
+<div class="flex flex-pack-justify flex-end-justify" style="margin:0 0 0 10px;">
 
             <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_PAY'">
       <van-button size="small" style="margin-right:10px;" @click="doCancel()">取消订单</van-button>
@@ -141,50 +109,133 @@
         </div>
 
 
+            </div>
 
-    </div>
 
-        <div style="height:10px;background-color:#f7f7f7;"></div>
 
-<div style="padding:10px;    line-height: 24px;color:#999;font-size:14px;">
-    
-  <div v-if="detail.orderId">
-        订单编号：{{detail.orderId}}
-    </div>
 
- <div v-if="detail.payTime">
-        支付时间：{{detail.payTime}}
-    </div>
- <div v-if="detail.shipTime">
-        发货时间：{{detail.shipTime}}
-    </div>
- <div v-if="detail.detailList[0].refundOrderList[0]">
-        申请退款时间：{{detail.detailList[0].refundOrderList[0].createTime}}
-    </div>
-    
-  <div v-if=" detail.detailList[0].refundStatus === 'FAIL_REFUND'">
-        拒绝退款时间：{{detail.detailList[0].refundOrderList[0].updateTime}}
-    
-  </div>
+
+    <div>
+
+<div style="width:-webkit-fill-available;height:47px;    border-bottom: 1px #e5e5e5 solid;margin:0 20px 0;border-bottomd:1px solid #e5e5e5;" class="flex flex-pack-justify flex-align-center">
+    <div style="width:70px;margin-left:40px;">商品信息</div>
+    <div style="width:315px;"></div>
+    <div style="margin: 0 20px;">单价</div>
+    <div style="margin: 0 20px;">数量</div>
+    <div style="margin: 0 20px;">小计</div>
 </div>
 
-        <div style="height:10px;background-color:#f7f7f7;" v-if="detail.detailList[0].refundStatus == 'FAIL_REFUND'"></div>
 
-      <div style="margin:0 0 0 10px;padding:10px;" v-if="detail.detailList[0].refundStatus == 'FAIL_REFUND'">
-      <div>
-        退回原因
-      </div>
-      <p style="color:#999;">
-        {{detail.detailList[0].refundOrderList[0].merchantRemark}}
-      </p>
-      </div>
-        <div style="height:10px;background-color:#f7f7f7;"></div>
+
+        <div v-for="(item,index) in detail.detailList" :key="index">
+                <div  class="flex  flex-align-center flex-pack-justify" style="padding:15px 0;margin:0 20px;border-bottom: 1px #e5e5e5 solid;">
+            <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px 0 20px;overflow:hidden;">
+       <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+       </div>
+
+
+ 
+       <div  style="overflow: hidden;width:230px;" >
+         <div>
+           <span class="textLabel" style="color:#000000;font-size:15px">{{item.goodsName}}</span>
+          </div>
+         <div style="color:#666;" class="textLabel">
+        <span v-if="item.skuKeyValue.length>2 ">
+<span v-for="items in JSON.parse(item.skuKeyValue)" style="margin-right:10px;">
+  <span>{{items.key}}:{{items.value}} X {{item.goodsNum}}</span>
+</span>
+        </span>
+        <span v-else>
+          X {{item.goodsNum}}
+        </span>
+         </div>
+       </div>
+<div>
+<span class="" style="font-size:20">￥{{item.goodsPrice}}</span>
+</div>
+<div style="">
+  {{item.goodsNum}}
+</div>
+
+
+<div>
+  <span class="marketPrice" style="font-size:20">￥{{(item.goodsPrice * item.goodsNum).toFixed(2)}}</span>
+</div>
+    </div>
+    
+        </div>
+
+
+ </div>
+
+
+
+ <div style="background-color:#F8F8F8;font-size:15px;margin-top:20px;">
+
+<div class="flex flex-pack-justify" style="margin-left:10px;padding:5px 10px;">
+                <div>商品合计：</div>
+                <div style="margin-right:10px;">￥{{detail.goodsPrice.toFixed(2)}}</div>
+        </div>
+        <div class="flex flex-pack-justify" style="margin-left:10px;padding:5px 10px;">
+                <div>运费：</div>
+                <div style="margin-right:10px;">￥{{detail.transportPrice.toFixed(2)}}</div>
+        </div>
+
+      <div class="flex flex-pack-justify" style="margin:0 0 0 10px;padding:5px 10px;">
+                <div>总计：</div>
+                <div style="margin-right:10px;" class="marketPrice">￥{{detail.orderTotalPrice.toFixed(2)}}</div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<div style="padding:10px; border:1px solid #e5e5e5;margin:20px 0; line-height: 24px;color:#999;font-size:14px;">
+
+
+ <div v-if="detail.payTime" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="width:115px;text-align:right;"> 支付时间：</div>{{detail.payTime}}
+    </div>
+    
+    
+ <div v-if="detail.shipTime" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="width:115px;text-align:right;"> 发货时间：</div>{{detail.shipTime}}
+    </div>
+    
+ <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="width:115px;text-align:right;"> 申请退款时间：</div>{{detail.detailList[0].refundOrderList[0].createTime}}
+    </div>
+
+     <div v-if="detail.detailList[0].refundStatus === 'FAIL_REFUND'" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="width:115px;text-align:right;"> 拒绝退款时间：</div>{{detail.detailList[0].refundOrderList[0].updateTime}}
+    </div>
+
+    
+ <div v-if="detail.detailList[0].refundStatus == 'FAIL_REFUND'" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="width:115px;text-align:right;"> 退回原因：</div>{{detail.detailList[0].refundOrderList[0].merchantRemark}}
+    </div>
         
+ <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="width:115px;text-align:right;"> 售后类型：</div>{{detail.detailList[0].refundOrderList[0].refundType=='REFUND'?'退款':'退货/退款'}} 
+    </div>
+    
+ <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="width:115px;text-align:right;"> 售后原因：</div> {{detail.detailList[0].refundOrderList[0].refundReason}}
+    </div>
+        
+</div>
+
+
+
+<!--         
 <div class="flex flex-pack-justify flex-align-center" style="padding: 10px;font-size: 14px;">
     <div>服务时间：9:00 - 22:00</div>
     <van-button size="small" onclick="showMeiQia()">联系客服</van-button>
 
-</div>
+</div> -->
 
 <div v-if="detail.detailList[0].refundOrderList[0]">
         <div style="height:10px;background-color:#f7f7f7;"></div>

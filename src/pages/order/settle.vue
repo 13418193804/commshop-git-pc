@@ -172,19 +172,18 @@ import Winbeet from "../../components/Winbeet.vue";
   components: {
     Wintabe,
     Winbeet
-    },
-
+  },
 
   mixins: [mixin]
 })
 export default class shopIndex extends Vue {
-prepareId = ''
-shopCartList = []
-address = {}
-totalPrice = ''
-goodsSum = ''
-freight =''
-getPreInfo(prepareId) {
+  prepareId = "";
+  shopCartList = [];
+  address = {};
+  totalPrice = "";
+  goodsSum = "";
+  freight = "";
+  getPreInfo(prepareId) {
     Vue.prototype.$reqFormPost1(
       "/prepare/order/query",
       {
@@ -195,32 +194,31 @@ getPreInfo(prepareId) {
         prepareId: prepareId
       },
       res => {
-       if (res.returnCode !== 200) {
+        if (res.returnCode !== 200) {
           this["$Message"].warning(res.message);
           console.log("网络请求错误！");
           return;
         }
-      
+
         this.shopCartList = res.data.shopCartList;
         this.address = res.data.address;
-        console.log('address',this.address)
-        this.totalPrice = res.data.totalPrice ;
+        console.log("address", this.address);
+        this.totalPrice = res.data.totalPrice;
         this.goodsSum = res.data.goodsSum;
         this.freight = res.data.freight;
-
       }
     );
   }
   pageType = "";
-  titlevalue="";
-  couponId="";
-  titleType="";
-  invoiceTitle="";
-  invoiceNo="";
-  remark="";
- onSubmit() {
+  titlevalue = "";
+  couponId = "";
+  titleType = "";
+  invoiceTitle = "";
+  invoiceNo = "";
+  remark = "";
+  onSubmit() {
     if (!this.address) {
-          this["$Message"].warning('请选择一个收货地址');
+      this["$Message"].warning("请选择一个收货地址");
       return;
     }
     Vue.prototype.$reqFormPost(
@@ -230,12 +228,12 @@ getPreInfo(prepareId) {
           .userId,
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
-        couponId:this.couponId,
-        titleType:this.titleType,
-        invoiceTitle:this.invoiceTitle,
-        invoiceNo:this.invoiceNo,
+        couponId: this.couponId,
+        titleType: this.titleType,
+        invoiceTitle: this.invoiceTitle,
+        invoiceNo: this.invoiceNo,
         prepareId: this.prepareId,
-        remark:this.remark
+        remark: this.remark
       },
       res => {
         if (res == null) {
@@ -253,12 +251,16 @@ getPreInfo(prepareId) {
         this.$router.replace({
           name: "pay",
           query: {
-            contactname:this.address['contactname'],
-            contactmobile:this.address['contactmobile'],
-            address:this.address['province'] + this.address['city'] + this.address['country'] + this.address['address'],
-            body:res.data.data.body,
-            payId:res.data.data.payId,
-            payTotal:res.data.data.payTotal
+            contactname: this.address["contactname"],
+            contactmobile: this.address["contactmobile"],
+            address:
+              this.address["province"] +
+              this.address["city"] +
+              this.address["country"] +
+              this.address["address"],
+            body: res.data.data.body,
+            payId: res.data.data.payId,
+            payTotal: res.data.data.payTotal
           }
         });
         console.log(res.data.data);
@@ -277,14 +279,13 @@ getPreInfo(prepareId) {
 </script>
 
 <style lang="scss" scoped>
-
-.contentBox2{
-    border: 1px #e5e5e5 solid;
+.contentBox2 {
+  border: 1px #e5e5e5 solid;
   width: 60%;
-  font-size:14.2px;
-  margin-bottom:20px;
+  font-size: 14.2px;
+  margin-bottom: 20px;
 }
-.content_title{
+.content_title {
   min-width: 90px;
 }
 </style>

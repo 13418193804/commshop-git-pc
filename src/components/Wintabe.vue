@@ -116,25 +116,15 @@
       <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doSign">立即注册</van-button>
 </div>
 <div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;">《用户协议》</a></p></div>  
-
-
-
-
 </div>
-
       </div>
    </div>
 
-
-
-
-   
 <div class=" flex   flex-pack-center">
        <div  style="width:60%;padding:5px 0;">
          <div style="" class="flex flex-pack-justify flex-align-center">
             <img  src="../assets/image/logo拷贝.png"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
- 
   <div class="flex flex-align-center" style="border:1px #EAEAEA solid;">
     <input  style="border:none;margin:0 10px" placeholder="搜索商品"/>
     <div style="width:30px;height:30px;background-color:#F4C542" class="flex flex-align-center flex-pack-center">
@@ -152,7 +142,7 @@
         </div>
 
         <div style="   height: 310px;overflow:auto;">
-<div v-for="(item,index) in cartList" class="cartItem flex flex-align-center">
+<div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
        </div>
