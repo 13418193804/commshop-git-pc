@@ -224,10 +224,10 @@
                         <div class="textLabel"  style="color:#A3A3A3;" >{{goods.jingle}}</div>
 
                           <div>
-                          <span style="color:#E05459;font-size:20">￥{{goods.marketPrice}}</span>
+                          <span style="display:inline-block;color:#E05459;font-size:20;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
                           <span style="color:#C5C4C4;text-decoration:line-through;font-size:14px" >原价:{{goods.labelPrice}}</span>
                         </div>
-<van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
+<van-button class="btn_yellow" @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
                       </div>
                       </div>
                    </div>
@@ -646,5 +646,8 @@ export default class Comhead extends Vue {
 }
 .cartItem{
   padding:5px 0;
+}
+.btn_yellow{
+  height: 30px;line-height: 30px; border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;
 }
 </style>
