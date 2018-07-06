@@ -45,50 +45,52 @@
           </div>
         </div>
       </div>
-      
+
       <!-- 新增 -->
       <div style=" position: relative;">
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
-          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
-            <div class="flex flex-around-justify flex-v" style="background-color:#fff;width:450px;height:270px;padding:20px;">
-              <div v-if="!updateaddressid">新增地址</div>
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+              <div @click="close()" class="add_colose"><i class="iconfont icon-close"></i></div>
+              <div v-if="!updateaddressid" class="add_titile">新增地址</div>
+             
               <div v-if="updateaddressid">修改地址</div>
-              <div class="flex">
+              <div class="flex region">
                 <div style="padding-right:15px;">所在地区</div>
-                <select v-model="provinceid" @change='changeprovince' style="width:110px;margin-right:5px;">
+                <select v-model="provinceid" @change='changeprovince'>
                   <option v-for="(item,index) in province" v-bind:value="item.id" :key="index">
                     {{item.name}}
                   </option>
                 </select>
-                <select v-model="cityid" @change='changecity' style="width:110px;margin-right:5px;">
+                <select v-model="cityid" @change='changecity'>
                   <option v-for="(item,index) in city" v-bind:value="item.id" :key="index">
                     {{item.name}}
                   </option>
                 </select>
-                <select v-model="countryid" style="width:110px;">
+                <select v-model="countryid">
                   <option v-for="(item,index) in country" v-bind:value="item.id" :key="index">
                     {{item.name}}
                   </option>
                 </select>
               </div>
-              <div class="flex">
+              <div class="flex region">
                 <div style="padding-right:15px;">详细地址</div>
-                <textarea style="height:45px;width:340px;resize:none" v-model="address"/>
+                <textarea v-model="address"/>
               </div>
-              <div class="flex">
+              <div class="flex region">
                 <div class="flex">
                   <div style="padding-right:27px;">收货人</div>
-                  <input style="width:130px;" v-model="contactName"/>
+                  <input  v-model="contactName"/>
                 </div>
-                <div class="flex">
-                  <div style="padding-right:24px;padding-left:8px;">手机号码</div>
-                  <input style="width:130px;" v-model="contactMobile"/>
+                <div class="flex region">
+                  <div style="padding-right:24px;padding-left:15px;">手机号码</div>
+                  <input v-model="contactMobile"/>
                 </div>
               </div>
-              <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:10px;"><span :style="isDefault==1?'background-color:#FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
-              <div class="flex">
-                <div @click="addaddress()" style="width:90px;height:24px;background-color:#FCCB52;color:#fff;text-align: center;line-height:24px;margin-right:5px;">确定</div>
-                <div @click="addcancel()" style="width:90px;height:24px;color:#FCCB52;text-align: center;line-height:24px;border:1px solid #FCCB52;">取消</div>
+              <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
+              <div class="flex region_btn">
+                <div @click="addaddress()">确定</div>
+                <div @click="addcancel()">取消</div>
               </div>
             </div>
           </div>
@@ -136,6 +138,10 @@ export default class addresslist extends Vue {
     }else{
       this.isDefault=0
     }
+  }
+
+  close(){
+    this.addshow=false;
   }
   getAddressList() {
     Vue.prototype.$reqFormPost(
@@ -466,5 +472,36 @@ export default class addresslist extends Vue {
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
-
+.add_colose{
+  position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
+}
+.add_titile{
+  line-height: 40px;font-size: 14px;
+}
+.region{
+  line-height: 30px;margin-bottom: 20px;
+}
+.region select{
+  height:30px;border:1px solid #e5e5e5;width:180px;margin-right:16px;width:150px;outline: none;
+  background: #fff;
+}
+.region select:last-child{
+  margin-right:0 ;
+}
+.region input{
+  border:1px solid #e5e5e5;width:198px;padding-left:10px;height:30px;
+}
+.region textarea{
+  border:1px solid #e5e5e5;height:76px;width:482px;resize:none;padding-left: 10px;
+}
+.region_btn{
+  margin-top:40px;
+}
+.region_btn>div{
+    width: 155px;height: 40px;color:#fff;text-align: center;line-height: 40px;
+    border: 1px solid rgb(252, 203, 82);background: rgb(252, 203, 82);cursor: pointer;
+}
+.region_btn>div:last-child{
+  background: #fff;color: rgb(252, 203, 82);margin-left:15px;
+}
 </style>
