@@ -15,7 +15,6 @@ Vue.use(Router);
 
 export default new Router({
     routes: [
-
         {
             path: '/center',
             component: r => require.ensure([], () => r(require('../pages/index/Center'))),
