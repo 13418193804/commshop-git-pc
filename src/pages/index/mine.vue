@@ -6,10 +6,18 @@
                 <p>用户昵称</p>
             </li>
             <li>
-                <span><img src="../../assets/discount.png" alt="" srcset=""></span> <span>我的积分</span><span style="color:#ffdc99;margin-left:10px;">5</span>
+                <div>
+                  <img src="../../assets/discount.png" alt="" srcset="">
+                  <span>我的积分</span>
+                  <span style="color:#ffdc99;">5</span>
+                </div>
             </li>
             <li>
-                <span><img src="../../assets/integral.png" alt="" srcset=""></span><span>优惠券</span><span style="color:#ffdc99;margin-left:10px;">2张</span>
+              <div>
+                <span><img src="../../assets/integral.png" alt="" srcset=""></span>
+                <span>优惠券</span>
+                <span style="color:#ffdc99;">2张</span>
+              </div>
             </li>
       </ul>
   </div>
@@ -52,12 +60,13 @@ ul.personal li:nth-child(1){
 .personal_cur{
   border-right:1px dashed #e5e5e5;background: #fffdfa;
 }
-ul.personal li span{
-  float: left;
-  margin-right: 10px;line-height: 31px;
-}
-ul.personal li span:nth-child(1){
-  margin-left: 65px;
-
+ul.personal li{;
+  line-height: 31px;
+  div{
+    overflow: hidden;justify-content: center;display: flex;
+    span,img{
+      float: left;margin-right: 5px;
+    }
+  }
 }
 </style>

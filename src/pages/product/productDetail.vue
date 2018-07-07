@@ -29,7 +29,7 @@
 <img v-lazy="detatil.goodsImg.split(',')[0]" style="width:100%;"/>
 <div class="flex" style="    overflow: auto;">
   <div v-for="(item,index) in detatil.goodsImg.split(',')">
-<img v-lazy="item" style="width:100px;margin-right:10px;"/>
+    <img v-lazy="item" style="width:100px;margin-right:10px;"/>
   </div>
 </div>
 </div>
@@ -86,12 +86,13 @@
       <div class='skuKeyBox'>
       <div v-for="(items,index) in  item.valueList" :key="index">
         <div  :class="chosenList[indextop] === items ?'sku_box_select':'sku_box' " 
-        :style="items.disable?'color:#ccc;border-color:#ccc;':''+ chosenList[indextop] === items.skuValueId?'border-color:#f4c542;color:#f4c542':'' " @click.stop='selectSku(indextop,items)'  >{{items.skuValueName}}</div>
+        :style="items.disable?'color:#ccc;border-color:#ccc;':''+ chosenList[indextop] === 
+        items.skuValueId?'border-color:#f4c542;color:#f4c542':'' " 
+        @click.stop='selectSku(indextop,items)'  >{{items.skuValueName}}</div>
       </div>
       </div>
-     
       </div>
-    </div>
+  </div>
 
 
 
@@ -103,11 +104,17 @@
       <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;"  @click.stop="doChangeModel(goods.goodsId)">立即购买</van-button>
       <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;"  @click.stop="addCart()">加入购物车</van-button>
 <div style="width:45px;height:45px;border:1px solid #e5e5e5;margin:0 10px;text-align:center;">
-<div>收藏</div>
+
+<div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
+  <p><i class="iconfont icon-shoucang1"></i></p>
+  {{detatil.favStatus ? "已收藏" : "收藏"}}
+  <!-- <span v-bind:style="{'display':config.isHaveSearch ? 'block':'none'}" >搜索</span> -->
+</div>
 </div>
 </div>
 
 </div>
+
 </div>
 </div>
 
@@ -121,51 +128,37 @@
    </div>
 
 <div style="height:320px;">
-<div class="flex" style="    overflow: auto;">
-   <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" >
-                  <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
-                      <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:25px;"/>
-                      <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
-                      <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
-                    </div>
-                    <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;" >
-                      <div>
-                        <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
-                        <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
-                      </div>
-                      <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
-                      <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
-                    </div>
-                </div>
-</div>
-</div>
-
-
-
-
-<div style="height:40px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
-     <div class="taber selecttaber">商品详情</div>
-     <div  class="taber">评价</div>
-   </div>
-
-
-<div>
-
-  <div style="background-color:#ffffff;margin-top:10px;">
-          <div v-for="(item,index) in detatil.detail.imageList" :key="index">
-            <img v-lazy="item" style="width:100%;"/>
+  <div class="flex" style="    overflow: auto;">
+    <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" >
+        <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
+            <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:25px;"/>
+            <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
+            <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
           </div>
-        </div>
-  
+          <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;" >
+            <div>
+              <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
+              <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
+            </div>
+            <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
+            <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+          </div>
+      </div>
+  </div>
 </div>
-
-
-
-
+<div style="height:40px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
+    <div class="taber selecttaber">商品详情</div>
+    <div  class="taber">评价</div>
+</div>
+<div>
+  <div style="background-color:#ffffff;margin-top:10px;">
+      <div v-for="(item,index) in detatil.detail.imageList" :key="index">
+        <img v-lazy="item" style="width:100%;"/>
+      </div>
+  </div>
 </div>
 </div>
-
-
+</div>
   <winbeet></winbeet>
   </div>
   </div>
@@ -194,7 +187,7 @@ export default class ProductDetail extends Vue {
     this.getProductDetail();
   }
   goodsId = "";
-  detatil = {
+  detatil:any= {
     commentList: [],
     detail: {
       imageList: []
@@ -207,7 +200,7 @@ export default class ProductDetail extends Vue {
     onlineStatus: "",
     sku: [],
     skuKey: [],
-    storageNum: 0
+    storageNum: 0,
   };
   num = 1;
   skuattr = [];
@@ -228,6 +221,52 @@ export default class ProductDetail extends Vue {
       this.tabindex = 1;
     }
   }
+  updataCollect(){
+    if(this.detatil.favStatus == 0){
+        console.log("添加收藏" + this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId);
+        console.log("this.detatil.favStatus = " + this.detatil.favStatus);
+        Vue.prototype.$reqFormPost1(
+          "/fav/add",
+          {
+            userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
+            token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
+            goodsId: this.goodsId,
+          },
+          res =>{
+            if(res.returnCode !==200){
+              this["$Message"].warning(res.message);
+              console.log("网络请求错误！");
+            }else{
+              this["$Message"].success("收藏成功");
+              this.getProductDetail();
+            }
+          }
+        )
+    } else{
+      console.log("取消收藏" + this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId);
+        Vue.prototype.$reqFormPost1(
+        "/fav/delete",
+        {
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
+          goodsIds: this.goodsId,
+        },
+        res =>{
+          if(res.returnCode !==200){
+            this["$Message"].warning(res.message);
+            console.log("网络请求错误！");
+          }else{
+            
+            this["$Message"].success("已取消收藏");
+            // getProductDetail
+            this.getProductDetail();
+          }
+        }
+      )
+    }
+     
+  }
+  
   addCart() {
     if (!this.skuItem["skuId"]) {
       Toast("请选择规格属性");
@@ -441,5 +480,12 @@ export default class ProductDetail extends Vue {
   background-color: #fff;
   box-sizing: border-box;
   color: #ffc630;
+}
+
+.collection{
+  cursor:pointer;
+}
+.collection_cur{
+  color: red;
 }
 </style>
