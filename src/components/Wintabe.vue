@@ -3,49 +3,32 @@
   
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:60%;color:#fff;font-size:14px;">
-         
-          <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
-          {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
+            <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
+            {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
+              <span @click="loginOut()">退出</span>
+            </div>
+            <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
+              <span>登录</span>
+            </div>
+            <div class="contentBox borderleft " @click="changeLoginModel('sign')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
+              <span>注册</span>
+            </div>
+            <div class="contentBox borderleft ">
+              <span>我的订单</span>
+            </div>
+            <div class="contentBox borderleft ">
+              <span>消息</span>
+            </div>
+            <div class="contentBox borderleft ">
+              <span>在线客服</span>
+            </div>
 
-          <span @click="loginOut()">退出</span>
-          </div>
-          <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
-          <span>登录</span>
-          </div>
-              <div class="contentBox borderleft " @click="changeLoginModel('sign')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
-          <span>注册</span>
-          </div>
-          
-
-    <div class="contentBox borderleft ">
-          <span>我的订单</span>
-          </div>
-
-              <div class="contentBox borderleft ">
-          <span>消息</span>
-          </div>
-
-
-              <div class="contentBox borderleft ">
-          <span>在线客服</span>
-          </div>
-
-              <div class="contentBox borderleft borderright">
-          <span>APP</span>
-          </div>
-          
-
+            <div class="contentBox borderleft borderright">
+              <span>APP</span>
+            </div>
         </div>
-
    </div>
    <div style="height:52px;"></div>
-
-
-
-
-
-
-
    <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
       <div style="height:400px;width:380px;background-color:#fff;position: relative;">
             <img src="../assets/image/关闭按钮1.png" style="width:35px;position: absolute;right: -50px;top: -50px;border-radius: 50%;" @click="close()"/>
@@ -170,6 +153,7 @@
 </div>
         </div>
 <div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
+<<<<<<< HEAD
        <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
             <van-button  style="background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
 </div>
@@ -196,62 +180,81 @@
                        <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
     </el-carousel-item>
   </el-carousel>
+=======
+    <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
+    <van-button  style="background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
+
+</div>
+</div>
+</div>
+</div>
+<div> 
+</div>
+ </div>
+
+<!-- <div style="height:50px;background-color:red">123</div> -->
+<!-- 头部导航菜单 -->
+<van-tabs :active="active" @click="changeTab" class="index_tabs flex-1" style="width:100%;" >
+<!-- :style="$route.query.active?'margin-top:-45px':''" -->
+<van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index">
+<div v-if="active == index">
+       <!-- {{item.catId}}  -->
+       <!-- 二级菜单 -->
+        <div class="flex flex-pack-center two_classify">
+            <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
+              <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
+              <p class="flex-pack-center">{{catItem.catName}}</p>
+>>>>>>> 176432173b9a215fe6e1dc23868c578c60005d1e
             </div>
-    
-      <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
-        
-        <div style="height:10px;background-color:#f7f7f7;width:100vw;margin-left: -20vw;"></div>
-
-
-<div style="margin:20px 0">
-
-<div style="    text-align: center;border-bottom: 1px solid #e5e5e5;
-    font-size: 28px;">
-{{items.name}}
-  </div>
-      <div class="goodsBody" v-if="items.columnNum ===1" >
-                  <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
-      <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
-                      <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;">
-                        <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
-                      </div>
-                      <div style="padding:10px">
-
-             <div >
-                          <img src="../assets/image/新品特价.png" v-if="goods.isBargain"    style="vertical-align: middle;"/>
-                          <span class="textLabel" style="color:#000000;font-size:15px">{{goods.goodsName}}</span>
-                        </div>
-                        <div class="textLabel"  style="color:#A3A3A3;" >{{goods.jingle}}</div>
-
-                          <div>
-                          <span style="display:inline-block;color:#E05459;font-size:20;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
-                          <span style="color:#C5C4C4;text-decoration:line-through;font-size:14px" >原价:{{goods.labelPrice}}</span>
-                        </div>
-<van-button class="btn_yellow" @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
-                      </div>
-                      </div>
-                   </div>
-                   </div>
-                   </div>
-
+        </div>
+        <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
+          <!-- 轮播图 -->
+          <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
+                <el-carousel :interval="5000" arrow="always" style="width:100vw;    margin-left: -20vw;">
+                <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
+                                  <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
+                </el-carousel-item>
+              </el-carousel>
           </div>
-
+            
+          <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
+            <div style="height:10px;background-color:#f7f7f7;width:100vw;margin-left: -20vw;"></div>
+            <div style="margin:20px 0">
+                  <div style="    text-align: center;border-bottom: 1px solid #e5e5e5;
+                      font-size: 28px;">
+                  {{items.name}}
+                  </div>
+                  <div class="goodsBody" v-if="items.columnNum ===1" >
+                      <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
+                        <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
+                          <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;">
+                            <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+                          </div>
+                          <div style="padding:10px">
+                            <div >
+                                <img src="../assets/image/新品特价.png" v-if="goods.isBargain"    style="vertical-align: middle;"/>
+                                <span class="textLabel" style="color:#000000;font-size:15px">{{goods.goodsName}}</span>
+                            </div>
+                            <div class="textLabel"  style="color:#A3A3A3;" >{{goods.jingle}}</div>
+                            <div>
+                              <span style="display:inline-block;color:#E05459;font-size:20;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
+                              <span style="color:#C5C4C4;text-decoration:line-through;font-size:14px" >原价:{{goods.labelPrice}}</span>
+                            </div>
+                            <van-button class="btn_yellow" @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
+                          </div>
+                          </div>
+                        </div>
+                  </div>
             </div>
-            </div>
+          </div>
+        </div>
+</div>
       </van-tab>
   </van-tabs>
      <!-- <div style="height:50px;background-color:red">123</div> -->
-
-       </div>
-
-
-
-</div>
-
-
-
-
   </div>
+</div>
+</div>
   <!-- end container -->
 </template>
 
@@ -319,7 +322,6 @@ export default class Comhead extends Vue {
 
   doSign() {
     //验证
-
     Vue.prototype.$reqFormPost1(
       "/auth/register",
       {
@@ -424,9 +426,38 @@ export default class Comhead extends Vue {
     );
   }
   indexList = [];
+  catList = [];
   active = "0";
 
+  twoList(active){
+      console.log("点击"+ this.catList[active].catId);
+      sessionStorage.catId = this.catList[active].catId
+      this.$router.push({
+        path: "/productClassify"
+       
+      });
+  }
+  
   changeTab(active, shit) {
+    console.log(this.indexList[active].catId);
+    //二级菜单
+    Vue.prototype.$reqFormPost1(
+      "/user/cat/list",
+      {
+        parentId: this.indexList[active].catId
+      },
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log(res.message);
+          return;
+        }
+        this["$Message"].success("成功");
+        this.catList = res.data;
+        console.log(res.data);
+      }
+    );
+
     // shit 立刻检测  通常进来时不检测
     if (
       this.active == "-1" &&
@@ -528,14 +559,10 @@ export default class Comhead extends Vue {
           }
           return;
         }
-
         this.cartList = res.data.carts;
-
-        
         this.totalMoney = res.data.totalMoney;
         this.cartLen = this.getNumber(res.data.carts);
-    this.$emit("getCartList");
-        
+        this.$emit("getCartList");
       }
     );
   }
@@ -649,5 +676,18 @@ export default class Comhead extends Vue {
 }
 .btn_yellow{
   height: 30px;line-height: 30px; border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;
+}
+
+.two_classify{
+  width: 100%;background:#fefefe;height:100px;padding:20px;
+  div{
+    flex: 1;cursor: pointer;
+    p{
+      width:100%;text-align: center;
+      img{
+        width:35px;height:35px;border-radius: 50px;background: #ccc;
+      }
+    }
+  }
 }
 </style>
