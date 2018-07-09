@@ -172,22 +172,22 @@
 <div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
        <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
             <van-button  style="background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
-
 </div>
- 
       </div>
   </div>
 </div>
 <div> 
 </div>
          </div>
-
      <!-- <div style="height:50px;background-color:red">123</div> -->
 <van-tabs :active="active" @click="changeTab" class="index_tabs flex-1" style="width:100%;" >
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
   <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index" >
+      <!-- 商品二级分类   取item 看有没有catid  是一级id   -->
 
 <div v-if="active == index">
+    <!-- {{item.catId}} -->
+  
         <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
               <!-- 轮播图 -->
             <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
