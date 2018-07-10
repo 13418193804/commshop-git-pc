@@ -507,6 +507,7 @@ export default class ProductDetail extends Vue {
   cursor: pointer;
 }
 .selecttaber {
+
   border-top: 1px #e5e5e5 solid;
   border-left: 1px #e5e5e5 solid;
   border-right: 1px #e5e5e5 solid;
@@ -514,6 +515,7 @@ export default class ProductDetail extends Vue {
   background-color: #fff;
   box-sizing: border-box;
   color: #ffc630;
+  
 }
 
 .collection{
