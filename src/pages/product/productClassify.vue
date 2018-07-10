@@ -3,18 +3,24 @@
     <div class="tab-contents" style="    overflow: hidden;">
       <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
       <div class=" flex flex-pack-center">
-          <div  style="width:60%;">
+          <div  style="width:1200px;">
               <!-- 商品列表页-->
                 <div class="classify_shop">
                     <div class="classify_top">
                         <div class="flex">
                           <div> 分类</div>
-                          <div> <span>床上用品</span><span>被枕</span> </div>
+                          <div> <span 
+                          v-for="(catItem,index) in catList" :key="index" class="colorGray" 
+                          :class="{ colorYellow:changeRed == index}" @click="seachList(index)" 
+                          >
+                            {{catItem.catName}}
+                            </span>
+                          </div>
                         </div>
                         <div class="flex">
                           <div> 排序</div>
                           <div> <span style="color:#f4c542">默认</span>
-                          <span class="sortPrice">价格</span><span class="sortTime">上架时间</span> </div>
+                          <span class="sortPrice">价格</span><span class="sortTime">销量</span> </div>
                         </div>
                     </div>
                     <!-- 新品上架 -->
@@ -69,10 +75,61 @@ import Winbeet from "../../components/Winbeet.vue";
 export default class ProductDetail extends Vue {
   mounted() {
     console.log('进入该页面',sessionStorage.catId)
-    this.catId = sessionStorage.catId
+    this.catId = sessionStorage.catId,
+    this.parentId = sessionStorage.parentId
+
     this.getproductList();
+    this.getSecCatList();
   }
-  catId = ''
+
+  parentId = ''
+  changeRed= "0"
+  getSecCatList(){
+    //二级菜单
+    Vue.prototype.$reqFormPost1(
+      "/user/cat/list",
+      {
+        parentId: this.parentId
+      },
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log(res.message);
+          return;
+        }
+        this["$Message"].success("成功");
+        this.catList = res.data;
+        console.log(res.data);
+      }
+    );
+  }
+  // 搜索列表
+  seachList(index){
+    this.changeRed = index;
+    Vue.prototype.$reqFormPost1(
+      "/user/goods/list",
+      {
+        catId: this.catId,
+        sortName: '',
+        sortStatus: ''
+      },
+      console.log('点击后的id', this.catId),
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log(res.message);
+          return;
+        }
+        this["$Message"].success("成功");
+        this.catList = res.data;
+        console.log(res.data);
+      }
+    );
+  }
+  catId = '';
+  catList = []
+  sortName = ''
+  sortStatus = ''
   getproductList(){
     console.log('开始取商品列表')
     Vue.prototype.$reqFormPost1(
@@ -129,62 +186,7 @@ export default class ProductDetail extends Vue {
     }
   }
  
-  // getProductDetail() {
-  //   Vue.prototype.$reqFormPost1(
-  //     "/goods/front/detail",
-  //     {
-  //       userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  //         .userId,
-  //       token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  //         .token,
-  //       goodsId: this.goodsId
-  //     },
-  //     res => {
-  //       if (res.returnCode != 200) {
-  //         this["$Message"].warning(res.message);
-  //         return;
-  //       }
 
-  //       this.detatil = res.data;
-
-  //       if (res.data.singleStatus) {
-  //         this.skuItem = res.data.sku[0];
-  //       }
-  //       console.log("-----------");
-  //       // 评论数量
-  //       this.commentnum = res.data.commentNum;
-  //       // 好评计算
-  //       if (res.data.commentList.length > 0) {
-  //         let total = 0;
-  //         for (let i = 0; i < res.data.commentList.length; i++) {
-  //           total = res.data.commentList[i].star + total;
-  //         }
-  //         total = total / (res.data.commentList.length * 5) * 100;
-  //         const praisenum = total.toFixed(0);
-  //         this.praise = praisenum;
-  //       }
-
-  //       this.tabgoodslist = res.data.likeList;
-  //       this.likeList = res.data.likeList;
-  //       this.newList = res.data.newList;
-
-  //       // this.couponList = res.data.couponList;
-
-  //       this.detatil.skuKey.forEach((keyItem, keyIndex) => {
-  //         keyItem.valueList.forEach((valueItem, valueIndex) => {
-  //           let opt = { disable: true, chosen: false };
-  //           this.detatil.sku.forEach((skuItem, skuIndex) => {
-  //             if (valueItem.skuValueId === skuItem.attrs[keyIndex].valueId) {
-  //               opt.disable = false;
-  //               return false;
-  //             }
-  //           });
-  //           (<any>Object).assign(valueItem, opt);
-  //         });
-  //       });
-  //     }
-  //   );
-  // }
   tabgoodslist = [];
   likeList = [];
   newList = [];
@@ -194,17 +196,28 @@ export default class ProductDetail extends Vue {
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
 .classify_shop{
-  padding: 20px;
   .classify_top{
-    div,div:nth-of-type(1){
+    div{
       color:#a8a8a8;margin-right:20px;height:60px;line-height:60px;border-bottom:1px solid #ededed;
       span{
-        color:#2a2a2a;padding-right:30px;cursor: pointer;
+        padding-right:30px;cursor: pointer;
+      }
+      .colorGray{
+        color:#2a2a2a;
+      }
+      .colorYellow{
+        color:#f4c542;
       }
       .sortPrice{
         background: url(../../assets/down.png) no-repeat right 17px center;
       }
-      :hover{
+      .sortTime{
+        background: url(../../assets/down.png) no-repeat right 17px center;
+      }
+    }
+    div:nth-of-type(2){
+      width:90%;
+      span:hover{
         color:#f4c542;
       }
     }
@@ -226,19 +239,19 @@ export default class ProductDetail extends Vue {
 }
 .shop_list{
   ul{
-    overflow:hidden;
+    overflow:hidden;margin-bottom:20px;
     li{
-      width:280px;border-radius: 3px;float: left;margin-right:30px;cursor: pointer;
+      width:277px;border-radius: 3px;float: left;margin-right:30px;cursor: pointer;
       .shop_img{
         border:1px solid #ededed;margin-bottom:30px;
         img{
-          
+          width:100%;height:230px;
         }
          h4{
            height:54px;line-height:54px;background: #eff1f1;text-align: center;font-size: 22px;color: #a3a3a3;
            width:100%;
          }    
-      } 
+      }
       .shop_details{
         div{
           margin-bottom:12px;
@@ -254,6 +267,9 @@ export default class ProductDetail extends Vue {
           font-size:16px;
         }
       }
+    }
+    :nth-of-type(4),:nth-of-type(8),:nth-of-type(12){
+      margin-right: 0;
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="alter-container">
   
    <div class="toplabel flex   flex-pack-center">
-        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:60%;color:#fff;font-size:14px;">
+        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
             {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
               <span @click="loginOut()">退出</span>
@@ -28,6 +28,7 @@
             </div>
         </div>
    </div>
+
    <div style="height:52px;"></div>
    <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
       <div style="height:400px;width:380px;background-color:#fff;position: relative;">
@@ -104,7 +105,7 @@
    </div>
 
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;padding:5px 0;">
+       <div  style="width:1200px;padding:5px 0;">
          <div style="" class="flex flex-pack-justify flex-align-center">
             <img  src="../assets/image/logo拷贝.png"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
@@ -170,14 +171,17 @@
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
 <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index">
 <div v-if="active == index">
-       <!-- {{item.catId}}  -->
        <!-- 二级菜单 -->
-        <div class="flex flex-pack-center two_classify">
+        <div class="flex flex-pack-center two_classify" v-if="item.catId && catList.length >0" >
             <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
-              <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
+              <p class="flex-pack-center">
+                     <img v-lazy="catItem.catIcon"/></p>
               <p class="flex-pack-center">{{catItem.catName}}</p>
             </div>
         </div>
+       <!--  <div class="flex flex-pack-center" v-else>
+            
+        </div> -->
         <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
           <!-- 轮播图 -->
           <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
@@ -400,35 +404,17 @@ export default class Comhead extends Vue {
   catList = [];
   active = "0";
 
-  twoList(active){
-      console.log("点击"+ this.catList[active].catId);
-      sessionStorage.catId = this.catList[active].catId
-      this.$router.push({
-        path: "/productClassify"
-       
-      });
-  }
+twoList(active,catList){
+    console.log(this.indexList,this.active)
+    sessionStorage.catId = this.catList[active].catId;
+    sessionStorage.parentId = this.indexList[this.active].catId
+    this.$router.push({
+      path: "/productClassify"
+    }); 
+}
   
-  changeTab(active, shit) {
+changeTab(active, shit) {
     console.log(this.indexList[active].catId);
-    //二级菜单
-    Vue.prototype.$reqFormPost1(
-      "/user/cat/list",
-      {
-        parentId: this.indexList[active].catId
-      },
-      res => {
-        if (res.returnCode !== 200) {
-          this["$Message"].warning(res.message);
-          console.log(res.message);
-          return;
-        }
-        this["$Message"].success("成功");
-        this.catList = res.data;
-        console.log(res.data);
-      }
-    );
-
     // shit 立刻检测  通常进来时不检测
     if (
       this.active == "-1" &&
@@ -479,6 +465,7 @@ export default class Comhead extends Vue {
                 });
 
                 this.indexList.push();
+                this.getSecCatList(active);
               }
             );
           }
@@ -486,6 +473,25 @@ export default class Comhead extends Vue {
       );
     } else {
     }
+  }
+  //二级菜单
+  getSecCatList(active){
+    Vue.prototype.$reqFormPost1(
+      "/user/cat/list",
+      {
+        parentId: this.indexList[active].catId
+      },
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log(res.message);
+          return;
+        }
+        this["$Message"].success("成功");
+        this.catList = res.data;
+        console.log(res.data);
+      }
+    );
   }
   initIndex() {
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {

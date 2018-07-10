@@ -108,7 +108,6 @@
 <div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
   <p><i class="iconfont icon-shoucang1"></i></p>
   {{detatil.favStatus ? "已收藏" : "收藏"}}
-  <!-- <span v-bind:style="{'display':config.isHaveSearch ? 'block':'none'}" >搜索</span> -->
 </div>
 </div>
 </div>
