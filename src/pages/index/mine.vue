@@ -60,7 +60,7 @@ ul.personal li:nth-child(1){
 .personal_cur{
   border-right:1px dashed #e5e5e5;background: #fffdfa;
 }
-ul.personal li{;
+ul.personal li{
   line-height: 31px;
   div{
     overflow: hidden;justify-content: center;display: flex;
