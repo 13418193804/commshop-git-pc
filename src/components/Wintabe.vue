@@ -4,7 +4,8 @@
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
-            {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
+               <i class="user_img"><img v-lazy="$store.getters[MutationTreeType.TOKEN_INFO].qrCode"/></i>
+              {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
               <span @click="loginOut()">退出</span>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
@@ -167,66 +168,80 @@
 <!-- 头部导航菜单 -->
 <van-tabs :active="active" @click="changeTab" class="index_tabs flex-1" style="width:100%;" >
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
-<van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index">
-<div v-if="active == index">
-       <!-- {{item.catId}}  -->
-       <!-- 二级菜单 -->
-        <div class="flex flex-pack-center two_classify" v-if=" item.catId &&catList.length>0">
-            <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
-              <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
-              <p class="flex-pack-center">{{catItem.catName}}</p>
-            </div>
-        </div>
-       <!--  <div class="flex flex-pack-center" v-else>
-            
-        </div> -->
-        <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
-          <!-- 轮播图 -->
-          <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
-                <el-carousel :interval="5000" arrow="always" style="width:100vw;    margin-left: -20vw;">
-                <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
-                                  <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
-                </el-carousel-item>
-              </el-carousel>
-          </div>
-            
-          <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
-            <div style="height:10px;background-color:#f7f7f7;width:100vw;margin-left: -20vw;"></div>
-            <div style="margin:20px 0">
-                  <div style="    text-align: center;border-bottom: 1px solid #e5e5e5;
-                      font-size: 28px;">
-                  {{items.name}}
+    <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index">
+          <div v-if="active == index">
+                <!-- {{item.catId}}  -->
+                <!-- 二级菜单 -->
+                  <div class="flex flex-pack-center two_classify" v-if="item.catId &&catList.length>0">
+                      <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
+                        <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
+                        <p class="flex-pack-center">{{catItem.catName}}</p>
+                      </div>
                   </div>
-                  <div class="goodsBody" v-if="items.columnNum ===1" >
-                      <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
-                        <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
-                          <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;">
-                            <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
-                          </div>
-                          <div style="padding:10px">
-                            <div >
-                                <img src="../assets/image/新品特价.png" v-if="goods.isBargain"    style="vertical-align: middle;"/>
-                                <span class="textLabel" style="color:#000000;font-size:15px">{{goods.goodsName}}</span>
+                  <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
+                    <!-- 轮播图 -->
+                    <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
+                          <el-carousel :interval="5000" arrow="always" style="width:100vw;    margin-left: -20vw;">
+                          <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
+                                            <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
+                          </el-carousel-item>
+                        </el-carousel>
+                    </div>
+                      
+                    <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
+                      <div style="height:10px;background-color:#f7f7f7;width:100vw;margin-left: -20vw;"></div>
+                      <div style="margin:20px 0">
+                            <div class="index_headline">
+                                <i class="user_img"><img v-lazy="items.letter"/></i>
+                                <i>{{items.name}}</i>
+                                <p>{{items.nameEn}}</p>
                             </div>
-                            <div class="textLabel"  style="color:#A3A3A3;" >{{goods.jingle}}</div>
-                            <div>
-                              <span style="display:inline-block;color:#E05459;font-size:20;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
-                              <span style="color:#C5C4C4;text-decoration:line-through;font-size:14px" >原价:{{goods.labelPrice}}</span>
+                            <div class="goodsBody" v-if="items.columnNum ===1" >
+                                <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
+                                  <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
+                                    <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;">
+                                      <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+                                    </div>
+                                    <div style="padding:10px">
+                                      <div >
+                                          <img src="../assets/image/新品特价.png" v-if="goods.isBargain"    style="vertical-align: middle;"/>
+                                          <span class="textLabel" style="color:#000000;font-size:15px">{{goods.goodsName}}</span>
+                                      </div>
+                                      <div class="textLabel"  style="color:#A3A3A3;" >{{goods.jingle}}</div>
+                                      <div>
+                                        <span style="display:inline-block;color:#E05459;font-size:20;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
+                                        <span style="color:#C5C4C4;text-decoration:line-through;font-size:14px" >原价:{{goods.labelPrice}}</span>
+                                      </div>
+                                      <van-button class="btn_yellow" @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
+                                    </div>
+                                    </div>
+                                  </div>
                             </div>
-                            <van-button class="btn_yellow" @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
-                          </div>
-                          </div>
-                        </div>
+                      </div>
+                    </div>
                   </div>
-            </div>
           </div>
-        </div>
-</div>
-      </van-tab>
+    </van-tab>
   </van-tabs>
      <!-- <div style="height:50px;background-color:red">123</div> -->
   </div>
 </div>
+ <!-- 浮动标识 -->
+ <div class="float_icon">
+    <div class="icon_app"
+      v-on:mouseover="mouseover_code()" v-on:mouseout="mouseout_code()"
+    >
+      <p>下载app</p>
+    </div>
+    <div class="icon_code" v-if="cartModel_code"></div>
+
+    <div class="icon_service">
+      <p>联系客服</p>
+    </div>
+    <div class="icon_top">
+      <p>返回顶部</p>
+    </div>
+ </div>
 </div>
   <!-- end container -->
 </template>
@@ -410,7 +425,14 @@ twoList(active,catList){
       path: "/productClassify"
     }); 
 }
-  
+
+cartModel_code = false
+mouseover_code(){
+  this.cartModel_code = true
+}
+mouseout_code(){
+  this.cartModel_code = false
+}
 changeTab(active, shit) {
     // shit 立刻检测  通常进来时不检测
     if (
@@ -429,7 +451,7 @@ changeTab(active, shit) {
 
     this.active = active;
     if(active != "-1"){
-                this.getSecCatList(active);
+        this.getSecCatList(active);
     }
     
     if (active != "-1" && !this.indexList[active].children) {
@@ -588,15 +610,54 @@ changeTab(active, shit) {
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
-      this.getCartList();
-      
-  this.queryuserinfo()
+      this.getCartList();  
+      this.queryuserinfo()
     }
   }
 }
+
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+
+.user_img img{
+  width:30px;height:30px;border-radius: 50px;vertical-align: middle;
+}
+.float_icon{
+  position:absolute;bottom: 180px;right:30px;
+  div{
+    width:70px;height:70px;border:1px solid #f4f4f4;cursor: pointer;margin-bottom:12px;
+    p{
+      text-align:center;height:30px;line-height: 30px;color:#7c7c7c;background:#ccc;  
+    }
+  }
+  .icon_app{
+    background:url(../assets/phone1.png) no-repeat center bottom 2px;position: relative;
+  }
+  // 二维码
+  .icon_code{
+      width:80px;height:80px;background:#ccc;position: absolute;right:88px;bottom:160px;
+  }
+  .icon_service{
+    background:url(../assets/service1.png) no-repeat center bottom 2px;
+  }
+  .icon_top{
+    background:url(../assets/jt_up.png) no-repeat center bottom 2px;
+  }
+  //hover-icon
+  div:hover p{
+     background: #F4C542;color:#fff;
+  }
+  .icon_app:hover{
+    background:url(../assets/phone2.png) no-repeat center bottom 2px;color:#f4c542;
+  }
+  .icon_service:hover{
+    background:url(../assets/service2.png) no-repeat center bottom 2px;color:#f4c542;
+  }
+  .icon_top:hover{
+    background:url(../assets/jt_hover.png) no-repeat center bottom 2px;color:#f4c542;
+  }
+} 
 .vhead {
   border-bottom: solid 1px #e5e5e5;
   justify-content: flex-end;
@@ -651,6 +712,15 @@ changeTab(active, shit) {
   z-index: 1000;
   background-color: #0000007f;
   height: 100vh;
+}
+.index_headline{
+  text-align: center;border-bottom: 1px solid #e5e5e5;font-size: 28px;padding-bottom: 30px;
+  i{
+    font-size: 30px;color:#3d3d3d;
+  }
+  p{
+    font-size:18px;color:#313131;
+  }
 }
 .goodsBody {
   width: -webkit-fill-available;
