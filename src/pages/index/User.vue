@@ -145,6 +145,7 @@ recPassword(){
       }
     );
   }
+  
   queryuserinfo() {
     Vue.prototype.$reqFormPost1(
       "/user/query",

@@ -2,21 +2,23 @@
   <div class="">
       <ul class="personal">
             <li class="personal_cur">
-                <p><img src="../../assets/pic_adim.png" alt="" srcset=""></p>
-                <p>用户昵称</p>
+                
+                <p  v-if="userInfo.userIcon"><img src="../../assets/pic_adim.png" alt="" srcset=""></p>
+                <p  v-else ><img src="../../assets/pic_adim.png" alt="" srcset=""></p>
+                <p>{{userInfo.nickName}}</p>
             </li>
             <li>
                 <div>
                   <img src="../../assets/discount.png" alt="" srcset="">
                   <span>我的积分</span>
-                  <span style="color:#ffdc99;">5</span>
+                  <span style="color:#ffdc99;">{{userInfo.score}}</span>
                 </div>
             </li>
             <li>
               <div>
                 <span><img src="../../assets/integral.png" alt="" srcset=""></span>
                 <span>优惠券</span>
-                <span style="color:#ffdc99;">2张</span>
+                <span style="color:#ffdc99;">{{userInfo.couponCount}}张</span>
               </div>
             </li>
       </ul>
@@ -30,14 +32,25 @@ import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast } from "vant";
 import axios from "axios";
+import { Prop, Watch } from "vue-property-decorator";
 
 @Component({
   components: {},
   mixins: [mixin]
 })
 export default class collection extends Vue {
+
+userInfo = {}
   mounted() {
-   
+ if(!sessionStorage.userInfo){
+   setTimeout(()=>{
+    this.userInfo =   JSON.parse(sessionStorage.userInfo)
+   },1000)
+ }else{
+    this.userInfo =   JSON.parse(sessionStorage.userInfo)
+ }
+
+
   }
 }
 </script>

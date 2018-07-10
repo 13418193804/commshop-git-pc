@@ -26,7 +26,7 @@
 
     </div>
     <div class=" flex-1" :class="menuName !='我的订单' &&  $route.path !=='/orderdetail' ?'borderSet':''">
-        <router-view></router-view>
+        <router-view ></router-view>
     </div>
 </div>
 </div>
@@ -116,11 +116,11 @@ selectMenu(items){
       this.menuName = items.name
 
 }
-  
+
+
+
   mounted() {
-    // Vue.prototype.$reqFormPost1("/address/queryprovince", {}, res => {
-    //   console.log(1, res);
-    // });
+
     this.doNone();
   }
   //隐藏首页tab
