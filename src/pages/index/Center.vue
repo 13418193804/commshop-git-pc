@@ -25,7 +25,7 @@
 </div>
 
     </div>
-    <div class=" flex-1" :class="menuName !='我的订单' ?'borderSet':''">
+    <div class=" flex-1" :class="menuName !='我的订单' &&  $route.path !=='/orderdetail' ?'borderSet':''">
         <router-view></router-view>
     </div>
 </div>

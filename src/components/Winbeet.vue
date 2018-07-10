@@ -1,6 +1,6 @@
 <template>
   <div class="alter-container">
-    <div style="height:100px;"></div>
+    <div style="height:200px;"></div>
     <div class="btm flex flex-align-center flex-around-justify" style="padding:0 15%">
         <div class="flex flex-align-center ">
           <img src="../assets/image/7天.png" style="width:40px;"/>
