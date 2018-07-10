@@ -154,7 +154,6 @@
 </div>
         </div>
 <div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
-<<<<<<< HEAD
        <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
             <van-button  style="background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
 </div>
@@ -181,31 +180,6 @@
                        <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
     </el-carousel-item>
   </el-carousel>
-=======
-    <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
-    <van-button  style="background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
-
-</div>
-</div>
-</div>
-</div>
-<div> 
-</div>
- </div>
-
-<!-- <div style="height:50px;background-color:red">123</div> -->
-<!-- 头部导航菜单 -->
-<van-tabs :active="active" @click="changeTab" class="index_tabs flex-1" style="width:100%;" >
-<!-- :style="$route.query.active?'margin-top:-45px':''" -->
-<van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index">
-<div v-if="active == index">
-       <!-- 二级菜单 -->
-        <div class="flex flex-pack-center two_classify" v-if="item.catId && catList.length >0" >
-            <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
-              <p class="flex-pack-center">
-                     <img v-lazy="catItem.catIcon"/></p>
-              <p class="flex-pack-center">{{catItem.catName}}</p>
->>>>>>> 176432173b9a215fe6e1dc23868c578c60005d1e
             </div>
         </div>
        <!--  <div class="flex flex-pack-center" v-else>
