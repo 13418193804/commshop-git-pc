@@ -87,6 +87,7 @@ Vue.prototype.$reqFormUpload(
       }
     );
   }
+  
   queryuserinfo() {
     Vue.prototype.$reqFormPost1(
       "/user/query",

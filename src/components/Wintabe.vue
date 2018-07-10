@@ -414,7 +414,6 @@ twoList(active,catList){
 }
   
 changeTab(active, shit) {
-    console.log(this.indexList[active].catId);
     // shit 立刻检测  通常进来时不检测
     if (
       this.active == "-1" &&
@@ -487,9 +486,7 @@ changeTab(active, shit) {
           console.log(res.message);
           return;
         }
-        this["$Message"].success("成功");
         this.catList = res.data;
-        console.log(res.data);
       }
     );
   }
@@ -543,7 +540,29 @@ changeTab(active, shit) {
       }
     );
   }
+  queryuserinfo(  ) {
+    Vue.prototype.$reqFormPost1(
+      "/user/query",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token
+      },
+      res => {
+        if (res.returnCode != 200) {
+        
+     this["$Message"].warning(res.message);
+        return;
+        }
 
+       sessionStorage.userInfo = JSON.stringify(res.data)
+       this.userInfo = res.data
+      }
+    );
+  }
+  userInfo = {}
+  
   mounted() {
     this.table ? (this.active = "-1") : "";
     (this.$route.params.active || "") != ""
@@ -567,6 +586,8 @@ changeTab(active, shit) {
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
       this.getCartList();
+      
+  this.queryuserinfo()
     }
   }
 }
