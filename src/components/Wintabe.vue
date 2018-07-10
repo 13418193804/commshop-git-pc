@@ -124,14 +124,12 @@
     justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">X</div>
         </div>
-
         <div style="   height: 310px;overflow:auto;">
 <div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
        </div>
        <div class="flex-1" style="overflow: hidden;">
-
          <div>
            <span class="textLabel" style="color:#000000;font-size:15px">{{item.goodsName}}</span>
           </div>
@@ -173,7 +171,7 @@
 <div v-if="active == index">
        <!-- {{item.catId}}  -->
        <!-- 二级菜单 -->
-        <div class="flex flex-pack-center two_classify">
+        <div class="flex flex-pack-center two_classify" v-if=" item.catId &&catList.length>0">
             <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
               <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
               <p class="flex-pack-center">{{catItem.catName}}</p>
@@ -420,7 +418,6 @@ changeTab(active, shit) {
       this.$route.path != "/" &&
       typeof shit == "string"
     ) {
-      console.log("传值", active);
       this.$router.replace({
         name: "index",
         params: {
@@ -431,7 +428,13 @@ changeTab(active, shit) {
     }
 
     this.active = active;
+    if(active != "-1"){
+                this.getSecCatList(active);
+    }
+    
     if (active != "-1" && !this.indexList[active].children) {
+
+      
       Vue.prototype.$reqFormPost1(
         "/page/info",
         {
@@ -464,12 +467,12 @@ changeTab(active, shit) {
                 });
 
                 this.indexList.push();
-                this.getSecCatList(active);
               }
             );
           }
         }
       );
+      
     } else {
     }
   }

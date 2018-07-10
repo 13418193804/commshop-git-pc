@@ -225,39 +225,22 @@
  <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="width:115px;text-align:right;"> 售后原因：</div> {{detail.detailList[0].refundOrderList[0].refundReason}}
     </div>
- 
-
-
 <div v-if="detail.detailList[0].refundOrderList[0]">
-
-
 <div class="flex">
-
   <div v-for="n in  detail.detailList[0].refundOrderList[0].refundImg?detail.detailList[0].refundOrderList[0].refundImg.split(','):[]">
           <img :src="n" style="width: 80px;height: 80px;padding:10px;"/>
     </div>
 </div>
-
-
-
 <div v-if="detail.detailList[0].refundStatus == 'WAIT_GOODS_BACK' ||detail.detailList[0].refundStatus ==  'WAIT_RECVGOODS'">
-
  <div style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="margin-left:10px;"> 请在七天内将商品寄回一下地址并填写物流单号：</div> 
     </div>
-        </div>
-        </div>
-
  <div  style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="width:115px;text-align:right;padding-right:10px;"> {{detail.detailList[0].refundOrderList[0].contactName}}</div>{{detail.detailList[0].refundOrderList[0].contactMobile}}
     </div>
- 
-
  <div  style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="width:115px;text-align:right;"><i class="iconfont icon-location" style="margin-right:10px;font-size:22px;"></i></div>  <div class="lineTwo">{{detail.detailList[0].refundOrderList[0].provinceName}}{{detail.detailList[0].refundOrderList[0].cityName}}{{detail.detailList[0].refundOrderList[0].countryName}}{{detail.detailList[0].refundOrderList[0].address}}</div>
     </div>
-
-
     <div v-if="detail.detailList[0].refundStatus == 'WAIT_GOODS_BACK'||detail.detailList[0].refundStatus ==  'WAIT_RECVGOODS'"  style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="width:115px;text-align:right;line-height:45px;"> 物流单号：</div>
 <div class="flex flex-pack-justify flex-align-center" style="    width: 100%;">
@@ -265,8 +248,8 @@
      <van-button size="small" :style="formatButtonColor()" @click="inputTransNo()" v-if="!detail.detailList[0].refundOrderList[0].transNo">填写</van-button>
 </div>
     </div>
-        
-
+           </div>
+    </div>
     <div style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="width:115px;text-align:right;line-height:45px;"> 服务时间：</div>
 <div class="flex flex-pack-justify flex-align-center" style="    width: 100%;">
@@ -274,21 +257,8 @@
         <van-button size="small" onclick="showMeiQia()" style="   ">联系客服</van-button>
 </div>
     </div>
-        
-
-
-
 </div>
-
-
-
-
-
-
         </div>
-
-
-
 </template>
 
 <script lang="ts">

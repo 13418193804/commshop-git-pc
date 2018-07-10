@@ -1,4 +1,5 @@
 <template>
+
   <div class="tab-contents" style="height:-webkit-fill-available;">
   
     <comhead ref="comhead" isLeftIcon="icon-zuo" leftIconName="angle-left" @leftClick="false" title="申请售后" isRightIcon="true"></comhead>
