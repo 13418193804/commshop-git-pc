@@ -4,8 +4,9 @@
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
-               <i class="user_img"><img v-lazy="$store.getters[MutationTreeType.TOKEN_INFO].qrCode"/></i>
-              {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
+               <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
+           <span v-if="userInfo.nickName|| userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
+           <span v-else>{{userInfo.loginName}}</span>   
               <span @click="loginOut()">退出</span>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
