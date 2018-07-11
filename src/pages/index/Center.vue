@@ -91,7 +91,7 @@ export default class shopIndex extends Vue {
           url:'/orderlist',
         },  {
           name: '优惠券',
-          url:'/',
+          url:'/discount',
         },
       ]
     },
