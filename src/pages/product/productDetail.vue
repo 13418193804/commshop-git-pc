@@ -23,9 +23,7 @@
 
 <div class=" flex   flex-pack-center">
        <div  style="width:60%;" class="flex">
-
 <div style="width:500px;">
-
 <img v-lazy="detatil.goodsImg.split(',')[0]" style="width:100%;"/>
 <div class="flex" style="    overflow: auto;">
   <div v-for="(item,index) in detatil.goodsImg.split(',')">
@@ -93,21 +91,17 @@
       </div>
       </div>
   </div>
-
-
-
    <div class='num_box flex flex-align-center'>
       <div class="flex flex-align-center" style="color:#585858;">数量</div>
     <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;"/>
     </div>
 <div class="flex">
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;"  @click.stop="doChangeModel(goods.goodsId)">立即购买</van-button>
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;"  @click.stop="addCar()">立即购买</van-button>
       <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;"  @click.stop="addCart()">加入购物车</van-button>
 <div style="width:45px;height:45px;border:1px solid #e5e5e5;margin:0 10px;text-align:center;">
-
 <div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
   <p><i class="iconfont icon-shoucang1"></i></p>
-  {{detatil.favStatus ? "已收藏" : "收藏"}}
+  <span style="color:#999">{{detatil.favStatus ? "已收藏" : "收藏"}}</span>
 </div>
 </div>
 </div>
@@ -219,6 +213,47 @@ export default class ProductDetail extends Vue {
       this.tabgoodslist = this.newList;
       this.tabindex = 1;
     }
+  }
+
+
+   addCar() {
+    if (!this.skuItem["skuId"]) {
+      Toast("请选择规格属性");
+      return;
+    }
+    Vue.prototype.$reqFormPost(
+      "/prepare/order/direct",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        goodsId: this.goodsId,
+        skuId: this.skuItem["skuId"],
+        num: this.num
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        console.log(res);
+
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
+        this.$router.push({
+          path: "/settle"
+        });
+        console.log("预支付订单ID", res.data.data.prepareId);
+      }
+    );
+    // console.log(this.skuItem.skuId);
   }
   updataCollect(){
     if(this.detatil.favStatus == 0){
@@ -472,6 +507,7 @@ export default class ProductDetail extends Vue {
   cursor: pointer;
 }
 .selecttaber {
+
   border-top: 1px #e5e5e5 solid;
   border-left: 1px #e5e5e5 solid;
   border-right: 1px #e5e5e5 solid;
@@ -479,12 +515,13 @@ export default class ProductDetail extends Vue {
   background-color: #fff;
   box-sizing: border-box;
   color: #ffc630;
+  
 }
 
 .collection{
   cursor:pointer;
 }
 .collection_cur{
-  color: red;
+  color: #ffc630;
 }
 </style>

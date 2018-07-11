@@ -20,9 +20,9 @@
         <img src="../../assets/image/支付宝1.png" />
 
     </div>
-    <div style="margin:10px;height:90px;" class="flex" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">
+    <!-- <div style="margin:10px;height:90px;" class="flex" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">
         <img src="../../assets/image/微信支付.png" />
-    </div>
+    </div> -->
 
 </div>
 </div>

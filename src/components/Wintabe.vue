@@ -4,8 +4,9 @@
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
-               <i class="user_img"><img v-lazy="$store.getters[MutationTreeType.TOKEN_INFO].qrCode"/></i>
-              {{$store.getters[MutationTreeType.TOKEN_INFO].loginName}}
+               <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
+           <span v-if="userInfo.nickName|| userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
+           <span v-else>{{userInfo.loginName}}</span>   
               <span @click="loginOut()">退出</span>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
@@ -145,14 +146,12 @@
     justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">X</div>
         </div>
-
         <div style="   height: 310px;overflow:auto;">
 <div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
        </div>
        <div class="flex-1" style="overflow: hidden;">
-
          <div>
            <span class="textLabel" style="color:#000000;font-size:15px">{{item.goodsName}}</span>
           </div>

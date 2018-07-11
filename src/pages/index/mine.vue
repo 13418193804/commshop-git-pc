@@ -3,7 +3,9 @@
       <ul class="personal">
             <li class="personal_cur">
                 
-                <p  v-if="userInfo.userIcon"><img src="../../assets/pic_adim.png" alt="" srcset=""></p>
+                <p  v-if="userInfo.userIcon"><img :src="userInfo.userIcon" style="border-radius: 50%;
+    width: 80px;
+    height: 80px;" alt="" srcset=""></p>
                 <p  v-else ><img src="../../assets/pic_adim.png" alt="" srcset=""></p>
                 <p>{{userInfo.nickName}}</p>
             </li>

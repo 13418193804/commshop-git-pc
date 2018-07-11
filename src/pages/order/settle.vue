@@ -41,8 +41,8 @@
 
 <div style="padding:30px 20px;">
 
-      <van-button  style="border-radius:4%;background-color:#fff;color:red;border:1px solid red;min-width:150px;margin-right:10px;overflow: hidden;"  >地址切换</van-button>
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;"  >新建地址</van-button>
+      <van-button  style="border-radius:4%;background-color:#fff;color:red;border:1px solid red;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('change')" >地址切换</van-button>
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('add')" >新建地址</van-button>
 </div>
 </div>
 </div>
@@ -148,12 +148,100 @@
 
 
 </div>
-  
-  
   </div>
+</div>
+</div>
 
-</div>
-</div>
+<div style=" position: relative;">
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
+<div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+              <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
+     <div  class="add_titile">切换地址</div>
+              <div class="flex region" style="height:560px;    overflow: auto;">
+                  <div>
+                <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres" :style=" address.addressId == item.addressId?'border-color:#f4c542':''">
+                      <div class="flex">
+<div style="width:100px;text-align:right;">收货人：</div>
+      {{item.contactname}}
+                      </div>
+     <div class="flex">
+<div style="width:100px;text-align:right;">联系方式：</div>
+        {{item.contactmobile.substring(0,3)}}****{{ item.contactmobile.substring(7,13)}}
+                      </div>
+     <div class="flex">
+<div style="width:100px;text-align:right;">收货地址：</div>
+      {{item.address}}
+                      </div>
+                  </div>
+                  </div>
+
+
+        </div>
+        </div>
+        </div>
+
+        </div>
+        </div>
+
+      <!-- 新增 -->
+      <div style=" position: relative;">
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+              <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
+              <div v-if="!updateaddressid" class="add_titile">新增地址</div>
+              <div v-if="updateaddressid">修改地址</div>
+              <div class="flex region">
+                <div style="padding-right:15px;">所在地区</div>
+                <select v-model="provinceid" @change='changeprovince'>
+                  <option v-for="(item,index) in province" v-bind:value="item.id" :key="index">
+                    {{item.name}}
+                  </option>
+                </select>
+                <select v-model="cityid" @change='changecity'>
+                  <option v-for="(item,index) in city" v-bind:value="item.id" :key="index">
+                    {{item.name}}
+                  </option>
+                </select>
+                <select v-model="countryid">
+                  <option v-for="(item,index) in country" v-bind:value="item.id" :key="index">
+                    {{item.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="flex region">
+                <div style="padding-right:15px;">详细地址</div>
+                <textarea v-model="address1"/>
+              </div>
+              <div class="flex region">
+                <div class="flex">
+                  <div style="padding-right:27px;">收货人</div>
+                  <input  v-model="contactName"/>
+                </div>
+                <div class="flex region">
+                  <div style="padding-right:24px;padding-left:15px;">手机号码</div>
+                  <input v-model="contactMobile"/>
+                </div>
+              </div>
+              <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
+              <div class="flex region_btn">
+                <div @click="addaddress()">确定</div>
+                <div @click="addcancel()">取消</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
 
   <winbeet></winbeet>
   </div>
@@ -177,6 +265,332 @@ import Winbeet from "../../components/Winbeet.vue";
   mixins: [mixin]
 })
 export default class shopIndex extends Vue {
+   isdef(){
+    if(this.isDefault==0){
+      this.isDefault=1
+    }else{
+      this.isDefault=0
+    }
+  }
+
+  addcancel(){
+
+      this.withchangeModel = false
+  this.addshow= false
+  }
+
+    addaddress() {
+
+    if(this.provinceid==""){
+      Toast("请选择省份");
+      return;
+    }
+    if(this.cityid==""){
+      Toast("请选择城市");
+      return;      
+    }
+    if(this.countryid==""){
+      Toast("请选择市区");
+      return;
+    }
+    if(this.address1==""){
+      Toast("请填写详细地址");
+      return;
+    }
+    if(this.contactName==""){
+      Toast("请填写收货人");
+      return;
+    }
+    if(this.contactMobile==""){
+      Toast("请手机号码");
+      return;
+    }
+    if(this.updateaddressid){
+      Vue.prototype.$reqFormPost(
+      "/address/update",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        addressId:this.updateaddressid,
+        provinceId:this.provinceid,
+        cityId:this.cityid,
+        countryId:this.countryid,
+        address:this.address1,
+        contactName:this.contactName,
+        contactMobile:this.contactMobile,
+        isDefault:this.isDefault
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        Toast("新建地址成功");
+        this.getAddressList();
+        this.provinceid="";
+        this.cityid="";
+        this.countryid="";
+        this.address1="";
+        this.contactName="";
+        this.contactMobile="";
+        this.isDefault=0;
+        this.addshow=false;
+        this.updateaddressid="";
+      }
+    );
+    }else{
+      Vue.prototype.$reqFormPost(
+      "/address/add",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        provinceId:this.provinceid,
+        cityId:this.cityid,
+        countryId:this.countryid,
+        address:this.address1,
+        contactName:this.contactName,
+        contactMobile:this.contactMobile,
+        isDefault:this.isDefault
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        Toast("新建地址成功");
+        this.getAddressList();
+        this.provinceid="";
+        this.cityid="";
+        this.countryid="";
+        this.address1="";
+        this.contactName="";
+        this.contactMobile="";
+        this.isDefault=0;
+        this.addshow=false;
+        this.updateaddressid="";
+      }
+    );
+    }
+    
+  }
+
+
+
+changeprovince(){
+    this.cityid="";
+    this.city=[];
+    this.countryid="";
+    this.country=[];
+    this.querycity();
+  }
+  changecity(){
+    this.countryid="";
+    this.country=[];
+    this.querycountry();
+  }
+
+  setDefaultAddress(addressId){
+    if(addressId==this.address[
+      'addressId'
+    ]){
+      return
+    }
+
+    
+
+
+
+   Vue.prototype.$reqFormPost(
+      "/prepare/order/update",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+          prepareId:this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID],
+        addressId: addressId
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        
+ this.getPreInfo(
+      this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
+    );
+ this.withchangeModel = false
+  this.addshow= false
+      }
+    );
+
+
+
+  }
+
+  querycity(){
+    Vue.prototype.$reqFormPost(
+      "/address/querycity",
+      {
+        provinceId:this.provinceid
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        console.log(res.data.data.region)
+        this.city=res.data.data.region
+      }
+    );
+  }
+
+   getAddressList() {
+    Vue.prototype.$reqFormPost(
+      "/address/list",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        console.log("地址列表", res.data.data.addressList);
+        this.addressList = res.data.data.addressList;
+        this.addressList.forEach((item, index) => {
+          item["id"] = item.addressId;
+          item["name"] = item.contactname;
+          item["tel"] = item.contactmobile;
+          item["readdress"] = item.address;
+          item["address"] =
+            item.province + item.city + item.country + item.address;
+        });
+      }
+    );
+  }
+  querycountry(){
+    Vue.prototype.$reqFormPost(
+      "/address/querycountry",
+      {
+        cityId:this.cityid
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        console.log(res.data.data.region)
+        this.country=res.data.data.region
+      }
+    );
+  }
+
+
+
+  withchangeModel=false;
+
+addressList = [];
+  // 删除地址信息
+  deladdress="";
+  deladdressid=""
+  delshow=false;
+  // 新增地址
+  addshow=false;
+  province=[];
+  provinceid="";
+  city=[];
+  cityid="";
+  country=[];
+  countryid="";
+
+  updateaddressid='';
+  address1:any='';
+  contactName="";
+  contactMobile="";
+  isDefault=0;
+
+
+
+
+
+changeModel(type){
+if(type=='change'){
+  console.log('切换地址')
+  this.withchangeModel = true;
+this.getAddressList()
+}else{
+
+    this.getprovince();
+      this.addshow=false;
+    this.provinceid="";
+    this.cityid="";
+    this.countryid="";
+    this.address1="";
+    this.contactName="";
+    this.contactMobile="";
+    this.isDefault=0;    
+    this.updateaddressid="";
+  this.addshow= true;
+
+}
+ 
+ 
+}
+
+
+
+
+
   prepareId = "";
   shopCartList = [];
   address = {};
@@ -267,13 +681,40 @@ export default class shopIndex extends Vue {
       }
     );
   }
+   getprovince(){
+    Vue.prototype.$reqFormPost(
+      "/address/queryprovince",
+      {},
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        console.log(res.data.data.region)
+        this.province=res.data.data.region
+      }
+    );
+  }
   mounted() {
+
+
     this.prepareId = this.$store.getters[
       Vue.prototype.MutationTreeType.PREPAREID
     ];
+ 
+
     this.getPreInfo(
       this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
     );
+
+
   }
 }
 </script>
@@ -287,6 +728,43 @@ export default class shopIndex extends Vue {
 }
 .content_title {
   min-width: 90px;
+}
+.add_colose{
+  position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
+}
+.add_titile{
+  line-height: 40px;font-size: 14px;
+}
+.region{
+  line-height: 30px;margin-bottom: 20px;
+}
+.region select{
+  height:30px;border:1px solid #e5e5e5;width:180px;margin-right:16px;width:150px;outline: none;
+  background: #fff;
+}
+.region select:last-child{
+  margin-right:0 ;
+}
+.region input{
+  border:1px solid #e5e5e5;width:198px;padding-left:10px;height:30px;
+}
+.region textarea{
+  border:1px solid #e5e5e5;height:76px;width:482px;resize:none;padding-left: 10px;
+}
+.region_btn{
+  margin-top:40px;
+}
+.region_btn>div{
+    width: 155px;height: 40px;color:#fff;text-align: center;line-height: 40px;
+    border: 1px solid rgb(252, 203, 82);background: rgb(252, 203, 82);cursor: pointer;
+}
+.region_btn>div:last-child{
+  background: #fff;color: rgb(252, 203, 82);margin-left:15px;
+}
+.bc_addres{
+  border:#e5e5e5 1px solid;
+  min-width:600px;
+    margin-bottom: 20px;
 }
 </style>
 

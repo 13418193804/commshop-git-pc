@@ -74,6 +74,12 @@ export default new Router({
                     name: 'discount',
                     component: r => require.ensure([], () => r(require('../pages/index/discount')))
                 },
+                {
+                    path: '/refund',
+                    name: 'refund',
+                    component: r => require.ensure([], () => r(require('../pages/order/refund')))
+                },
+        
             ]
         },
         {
@@ -148,12 +154,7 @@ export default new Router({
             name: 'forget',
             component: r => require.ensure([], () => r(require('../pages/login/forget')))
         },
-        {
-            path: '/refund',
-            name: 'refund',
-            component: r => require.ensure([], () => r(require('../pages/order/refund')))
-        },
-
+   
         {
             path: '/add_bank_card',
             name: 'add_bank_card',
