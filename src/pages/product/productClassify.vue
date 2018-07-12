@@ -33,6 +33,7 @@
                        <ul class="flex">
                            <li  v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
                               <div class="shop_img">
+                                <div class="hot" v-if="shopItem.hotStatus"><img src="../../assets/hot.png"></div>
                                 <img v-lazy="shopItem.goodsImg.split(',')[0]" style="height:270px;">
                                 <h4 class="ellipsis">{{shopItem.jingle}}</h4>
                               </div>
@@ -148,6 +149,7 @@ export default class ProductDetail extends Vue {
         return;
       }
       this.shopList = res.data.goodsList;
+      console.log(this.shopList)
     });
   }
 
@@ -277,7 +279,14 @@ export default class ProductDetail extends Vue {
       cursor: pointer;
       .shop_img {
         border: 1px solid #ededed;
-        margin-bottom: 30px;
+        margin-bottom: 30px;position: relative;
+        // 热卖
+        .hot{
+          position: absolute;left: 0;top: 0;
+          img{
+            width:33px;height:38px;
+          }
+        }
         img {
           width: 100%;
           height: 230px;

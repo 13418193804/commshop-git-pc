@@ -5,7 +5,7 @@
 <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
 
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;">
+       <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
     <el-breadcrumb separator-class="el-icon-arrow-right">
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -16,7 +16,7 @@
 </div>
 
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;margin-bottom:10px;">
+       <div  style="width:1200px;margin-bottom:10px;">
 <div class="flex">
     <div class="borderSet" style="margin-right:20px;padding:20px;min-width: 152px;">
 <div style="padding:10px 20px;" v-for="(item,index) in menu" :key="index">
@@ -91,7 +91,7 @@ export default class shopIndex extends Vue {
           url:'/orderlist',
         },  {
           name: '优惠券',
-          url:'/discount',
+          url:'/discountLobby',
         },
       ]
     },

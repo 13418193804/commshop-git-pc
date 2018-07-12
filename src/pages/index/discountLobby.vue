@@ -3,18 +3,28 @@
      <div class="collar" @click="skip()"><img src="../../assets/discounticon.png"/> 领卷中心</div>
      <div class="collarnav">
        <ul>
-         <li :class="nav_active == '0' ?'navcur':''" @click="discountList('0')">未使用</li>
-         <li :class="nav_active == '1' ?'navcur':''" @click="discountList('1')">已使用</li>
-         <li :class="nav_active == '2' ?'navcur':''" @click="discountList('2')">已失效</li>
+         <li :class="status == 'UNUSED' ?'navcur':''" @click="discountList('UNUSED')">未使用</li>
+         <li :class="status == 'USED' ?'navcur':''" @click="discountList('USED')">已使用</li>
+         <li :class="status == 'OVERDUE' ?'navcur':''" @click="discountList('OVERDUE')">已失效</li>
        </ul>
-       <div class="discountBox">
-        <div class="dis_list">
-            <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">100</span>元</p>
-            <div><span style="margin-right:15px;color: #fff;">满299-100</span><i style="color: #fff;">2018.02.24-2018.03.24</i></div>
-
-            <div class="newtext">新人专享：全场通用</div>
+       <div class="discountBox" v-if="discList.length>0">
+          <div class="dis_list" v-for="(item,index) in discList"  :key="index">
+              <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
+                {{item.coupon.couponDenomination}}</span>元</p>
+                <div class="distype" 
+                  @click="goshop()"
+                  >
+                  去使用</div>
+              <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                  <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
+                  <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+              </div>
+              <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+          </div>
+      </div>
+       <div class="nodiscount" v-else>
+            <img src="../../assets/WechatIMG683.png" />
         </div>
-    </div>
      </div>
   </div>
 </template>
@@ -34,39 +44,52 @@ import { Toast } from "vant";
   mixins: [mixin]
 })
 export default class User extends Vue {
-  nav_active = '0';
   couponId = ''
-
+  status = 'UNUSED'
+  page = 0
+  pageSize =  10
+  discList = [];
+  //领券中心
   skip(){
-    console.log('跳转')
     this.$router.push({
       path: "/discount",
     });
   }
-  discountList(nav_active){
-     this.nav_active = nav_active
-
+  discountList(status){
+    if(this.status == status){
+       return;
+    }
+    if(!status){
+        status = this.status 
+    }
+     this.status = status
+     console.log('状态',this.status),
      Vue.prototype.$reqFormPost1(
-        "/coupon/list",
-        console.log('优惠券',this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token),
-        console.log('用户id',this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId),
+        "/coupon/user/linklist",
         {
-          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .token,
-          merchantUserId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
+          status: this.status,
+          page: this.page,
+          pageSize: this.pageSize,
         },
         res => {
           if (res.returnCode != 200) {
             this["$Message"].warning(res.message);
             return;
           }
-          this["$Message"].success('成功');
+          this.discList = res.data.couponList;
         }
       );
   }
+  goshop(){
+    this.$router.push({
+      path:"/"
+    })
+  }
   mounted() {
-    this.discountList(this.nav_active);
+    console.log('---')
+    this.discountList(false);
   }
 }
 </script>
@@ -85,7 +108,7 @@ export default class User extends Vue {
     ul{
       overflow: hidden;background:#fbfbfb;margin-top:10px;
       li{
-        float: left;width:88px;height:26px;line-height:26px;text-align: center;color: #9b9b9b;cursor: pointer;
+        float: left;width:88px;height:30px;line-height:30px;text-align: center;color: #9b9b9b;cursor: pointer;
       }
       .navcur{
         background: #e1e1e1;color: #141414;
@@ -94,14 +117,27 @@ export default class User extends Vue {
   }
 
   .discountBox{
-    overflow: hidden;padding:30px 40px;
+    overflow: hidden;padding-top:10px;
     .dis_list{
-      float: left;width: 50%;height:118px;background:#fccb52;padding:15px 15px 0 15px;border-radius: 6px;
-      position: relative;
+      float: left;width: 330px;height:118px;background:#fccb52;padding:15px 15px 0 15px;border-radius: 6px;
+      position: relative;margin-bottom:10px;margin-right:10px;
       .newtext{
         position: absolute;bottom: 0;color: #fff;
       }
     }  
+    .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
+      margin-right: 0;
+    }
+    .distype{
+      height:19px;line-height:19px;color:#ffc630;position: absolute;right:15px;top:15px;background: #fff;cursor: pointer;
+      text-align: center;border-radius: 3px;padding: 0 7px;line-height: 19px;border:1px solid #fff;
+    }
+    .distypeed{
+      background: #fccb52;color:#fff;
+    }
+  }
+  .nodiscount{
+    text-align: center;padding-top: 65px;
   }
 }
 </style>

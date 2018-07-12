@@ -26,7 +26,7 @@
             </div>
 
             <div class="contentBox borderleft borderright">
-              <span>APP</span>
+              <span> <img src="../assets/phone1.png" style="vertical-align: middle;"/>APP</span>
             </div>
         </div>
    </div>
@@ -220,12 +220,14 @@
                             <div class="goodsBody" v-if="items.columnNum ===1" >
                                 <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
                                   <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
-                                    <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;">
+                                    <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
+                                      <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
                                       <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
                                     </div>
+                                    
                                     <div style="padding:10px">
                                       <div >
-                                          <img src="../assets/image/新品特价.png" v-if="goods.isBargain"    style="vertical-align: middle;"/>
+                                          <img src="../assets/image/新品特价.png" v-if="goods.isBargain"  style="vertical-align: middle;height:20px;font-size: 12px;"/>
                                           <span class="textLabel" style="color:#000000;font-size:18px">{{goods.goodsName}}</span>
                                       </div>
                                       <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
@@ -433,7 +435,6 @@ mobile =this.forget_Name
       } else {
         self.timerNum = 60;
         clearInterval(self.timer);  
-        console.log('停止')
       }
       self.$store.commit(Vue.prototype.MutationTreeType.VERCODE, self.timerNum);
     }, 1000);
@@ -623,6 +624,7 @@ changeTab(active, shit) {
             children: res.data
           });
           this.indexList.push();
+          
           if (this.indexList[active].catId) {
             Vue.prototype.$reqFormPost1(
               "/user/goods/list",
@@ -639,7 +641,7 @@ changeTab(active, shit) {
                   columnNum: 1,
                   items: res.data.goodsList
                 });
-
+                console.log('首页',res.data.goodsList)
                 this.indexList.push();
               }
             );
@@ -916,6 +918,10 @@ changeTab(active, shit) {
       }
     }
   }
+}
+// 热卖
+.hot{
+  position: absolute;left: 0;top: 0;
 }
 
 </style>
