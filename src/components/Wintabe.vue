@@ -5,8 +5,8 @@
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
                <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
-           <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
-           <span v-else>{{userInfo.loginName}}</span>   
+                   <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
+                 <span v-else>{{userInfo.loginName}}</span>   
               <span @click="loginOut()">退出</span>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
@@ -530,7 +530,12 @@ mobile =this.forget_Name
   loginName = "13418193804";
   password = "5164659";
   doLogin() {
-    if (this.loginName == "" || this.password == "") {
+    if (this.loginName == "") {
+         this["$Message"].warning('请输入账号')
+      return;
+    }
+    if (this.password == "") {
+         this["$Message"].warning('请输入密码')
       return;
     }
     Vue.prototype.$reqFormPost1(
@@ -547,13 +552,16 @@ mobile =this.forget_Name
           this["$Message"].warning(res.message);
           return;
         }
-        console.log(res.data);
+
         this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, res.data);
         localStorage.setItem(
           Vue.prototype.MutationTreeType.TOKEN_INFO,
           JSON.stringify(res.data)
         );
+      this.queryuserinfo()
+        
         this.loginModel = false
+        
       }
     );
   }
