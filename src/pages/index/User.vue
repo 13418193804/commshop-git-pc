@@ -94,23 +94,23 @@ export default class User extends Vue {
   newPassword = ''
   renewPassword = ''
   recPassword(){
-    console.log('调用',this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId)
-      if( (this.oldPassword || '') == ''){     
-          this["$Message"].warning('请输入原密码');
-          return 
-      }
-      if( (this.newPassword || '') == ''){     
-          this["$Message"].warning('请输入新密码');
-          return 
-      }
-      if( (this.renewPassword || '') == ''){     
-          this["$Message"].warning('请确定密码');
-          return 
-      }
-      if( (this.newPassword  !== this.renewPassword)){     
-          this["$Message"].warning('密码不一致');
-          return 
-      }
+       if (this.oldPassword == "") {
+         this["$Message"].warning('请输入原密码');
+      return;
+    }
+
+    if (this.newPassword == "") {
+         this["$Message"].warning('新密码不能为空');
+      return;
+    }
+      if (this.newPassword.length<6) {
+         this["$Message"].warning('新密码长度不能小于6位');
+      return;
+    }
+    if (this.renewPassword !== this.renewPassword ) {
+         this["$Message"].warning('两次输入密码不一致');      
+      return;
+    }
     Vue.prototype.$reqFormPost1(
         "/user/password/update",
         {
