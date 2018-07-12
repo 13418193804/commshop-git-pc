@@ -106,8 +106,6 @@
       <div style="color:#666">配送方式</div>
       <div>快递</div>
     </div>
-
-
    <div>
       <div class="flex">
         <div>商品合计：</div><div>￥{{totalPrice}}</div>
