@@ -75,6 +75,11 @@ export default new Router({
                     component: r => require.ensure([], () => r(require('../pages/index/discount')))
                 },
                 {
+                    path: '/discountLobby',
+                    name: 'discountLobby',
+                    component: r => require.ensure([], () => r(require('../pages/index/discountLobby')))
+                },
+                {
                     path: '/refund',
                     name: 'refund',
                     component: r => require.ensure([], () => r(require('../pages/order/refund')))
