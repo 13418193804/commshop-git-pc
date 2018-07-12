@@ -16,11 +16,9 @@
 <div class="contentBox2 ">
 <div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;"  v-if="address">
 
-
 <div class="flex ">
     <i class="iconfont icon-location"></i>
     <span>已选地址</span>
-
   <div  style="margin-left:15px;background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:100px;height:32px;font-size:14.8px;" class="flex flex-align-center flex-pack-center pointer" 
   @click="update()">
 <span>修改</span>
