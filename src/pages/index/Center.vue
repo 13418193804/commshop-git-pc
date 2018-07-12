@@ -76,7 +76,7 @@ export default class shopIndex extends Vue {
           name: '我的成员',
           url:'/my_member',
         },{
-          name: '我的奖励',
+          name: '我的积分',
           url:'/my_reward',
         },{
           name: '我的银行卡',

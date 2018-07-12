@@ -104,9 +104,9 @@
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-                  <input placeholder="请输入验证码" v-model="forget_code" style="border:0;width:100%;"/>
+                  <input placeholder="请输入验证码" v-model="forget_code" maxlength="11" style="border:0;width:100%;"/>
           </div>       
-          <van-button  @click="getVistyCode('RESETPAYPASSWORD')"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
+          <van-button  @click="getVistyCode('FINDPASSWORD')"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
@@ -115,7 +115,7 @@
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-              <input type="password" placeholder="请再输入一次密码" v-model="forget_password" style="border:0;width:100%;"/>
+              <input type="password" placeholder="请再输入一次密码" v-model="forget_repassword" style="border:0;width:100%;"/>
             </div>       
         </div>
 
@@ -202,7 +202,7 @@
                   <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
                     <!-- 轮播图 -->
                     <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
-                          <el-carousel :interval="5000" arrow="always" style="width:100vw;margin-left: -20vw;">
+                          <el-carousel :interval="5000" arrow="always">
                           <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
                                             <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
                           </el-carousel-item>
@@ -213,7 +213,7 @@
                       <div style="background-color:#f7f7f7;"></div>
                       <div style="margin:20px 0">
                             <div class="index_headline">
-                                <i class="user_img"><img v-lazy="items.letter"/></i>
+                                <i class="user_img" >{{items.letter}}</i>
                                 <i>{{items.name}}</i>
                                 <p>{{items.nameEn}}</p>
                             </div>
@@ -233,7 +233,7 @@
                                         <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
                                         <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice}}</span>
                                       </div>
-                                      <van-button class="btn_yellow" @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
+                                      <van-button class="btn_yellow" @click.stop="goProductDetail(goods.goodsId)">立即抢购</van-button>
                                     </div>
                                     </div>
                                   </div>
@@ -334,24 +334,41 @@ export default class Comhead extends Vue {
   forget_repassword = "";
 
   getVistyCode(type) {
-    //验证手机号码
-    if( (this.forget_Name || '') == ''){     
-        this["$Message"].warning('请先输入手机号');
-        return ;
+    let mobile = ''
+    if(type=='REGISTER'){
+  if ((this.sign_loginName || "") == "") {
+      this["$Message"].warning("请输入手机号码");
+      return;
     }
+    if (this.sign_loginName.length != 11) {
+      this["$Message"].warning("手机号码格式不对");
+      return;
+    }
+mobile =this.sign_loginName
+    }else{
+
+  if(this.forget_Name ==''){
+      this["$Message"].warning('请输入手机号码');
+     return
+   }
+
+mobile =this.forget_Name
+    }
+
+    //验证手机号码
+ 
     if (!this.isGetverify) {
       return;
     }
     //getCode
     Vue.prototype.$reqFormPost1(
       "/auth/getsmscode",
-      { mobile: this.sign_loginName, type: type },
+      { mobile:mobile , type: type },
       res => {
         if (res.returnCode != 200) {
           this["$Message"].warning(res.message);
           return;
         }
-
         this["$Message"].success("发送成功");
         this.timelop();
       }
@@ -362,6 +379,27 @@ export default class Comhead extends Vue {
   }
 
   doSign() {
+  if ((this.loginName || "") == "") {
+       this["$Message"].warning("请输入手机号码");
+      return;
+    }
+       if ((this.sign_code || "") == "") {
+       this["$Message"].warning("请输入验证码");
+      return;
+    }
+       if ((this.sign_code || "") == "") {
+       this["$Message"].warning("请输入密码");
+      return;
+    }
+    //验证
+    if (this.sign_password.length < 6) {
+       this["$Message"].warning("请输入最少6位的密码");
+      return;
+    }
+    if(this.sign_password != this.sign_repassword){
+       this["$Message"].warning('两次输入密码不一致 ')
+      return
+    }
     //验证
     Vue.prototype.$reqFormPost1(
       "/auth/register",
@@ -369,7 +407,7 @@ export default class Comhead extends Vue {
         loginName: this.sign_loginName,
         password: require("crypto")
           .createHash("md5")
-          .update(this.loginName + this.password)
+          .update( this.sign_password)
           .digest("hex"),
         code: this.sign_code,
         recommontId: "" //推荐者ID
@@ -388,7 +426,6 @@ export default class Comhead extends Vue {
   timerNum = 60;
   timelop() {
     let self = this;
-    console.log("获取验证码");
     self.timer = setInterval(function() {
       self.isGetverify = false;
       if (self.timerNum >= 1) {
@@ -399,7 +436,7 @@ export default class Comhead extends Vue {
         console.log('停止')
       }
       self.$store.commit(Vue.prototype.MutationTreeType.VERCODE, self.timerNum);
-    }, 100);
+    }, 1000);
   }
 
   get vistyText() {
@@ -414,16 +451,42 @@ export default class Comhead extends Vue {
   }
 
   goforget(){
-    console.log('忘记密码',this.forget_Name)
+ //验证
+   if(this.loginName ==''){
+     this["$Message"].warning('请输入手机号码');
+     return
+   }
+   if(this.forget_code ==''){
+     this["$Message"].warning('请输入验证码')
+     return
+   }
+
+   if(this.forget_password==''){
+     this["$Message"].warning('请输入确认密码')
+     return
+   }
+
+   if(this.forget_repassword==''){
+     this["$Message"].warning('请输入新密码');
+     return 
+   }
+    if (this.forget_password.length<6|| this.forget_repassword.length<6) {
+        this["$Message"].warning('最低字符为6位')
+      return;
+    }
+     if(this.forget_password != this.forget_repassword){
+        this["$Message"].warning('两次输入密码不一致');
+      return
+    }
+    
     Vue.prototype.$reqFormPost1(
       "/user/password/find",
       {
         mobile: this.forget_Name,
-      
         smsCode: this.forget_code,
         password: require("crypto")
           .createHash("md5")
-          .update(this.loginName + this.forget_password)
+          .update( this.forget_password)
           .digest("hex"),
       },
       res => {
@@ -431,7 +494,7 @@ export default class Comhead extends Vue {
           this["$Message"].warning(res.message);
           return;
         }
-        this["$Message"].success("注册成功");
+        this["$Message"].success("找回密码成功");
         this.modelType = "login";
       }
     );
@@ -476,7 +539,7 @@ export default class Comhead extends Vue {
         loginName: this.loginName,
         password: require("crypto")
           .createHash("md5")
-          .update(this.loginName + this.password)
+          .update( this.password)
           .digest("hex")
       },
       res => {
