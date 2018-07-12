@@ -5,7 +5,7 @@
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
                <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
-           <span v-if="userInfo.nickName|| userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
+           <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
            <span v-else>{{userInfo.loginName}}</span>   
               <span @click="loginOut()">退出</span>
             </div>
@@ -193,7 +193,7 @@
           <div v-if="active == index">
                 <!-- {{item.catId}}  -->
                 <!-- 二级菜单 -->
-                  <div class="flex flex-pack-center two_classify" v-if="item.catId &&catList.length>0">
+                  <div class="flex flex-pack-center two_classify" v-if="item.catId &&catList&& catList.length>0">
                       <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
                         <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
                         <p class="flex-pack-center">{{catItem.catName}}</p>
@@ -668,6 +668,7 @@ changeTab(active, shit) {
         return;
       }
       this.indexList = res.data;
+      
       if (this.indexList.length > 0) {
         this.changeTab(this.active, true);
       }
