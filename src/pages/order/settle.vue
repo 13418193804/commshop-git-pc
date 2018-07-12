@@ -13,13 +13,19 @@
 
 
 <div class=" flex   flex-pack-center ">
-
 <div class="contentBox2 ">
+<div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;"  v-if="address">
 
-<div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;" v-if="address">
-  
+
+<div class="flex ">
     <i class="iconfont icon-location"></i>
+    <span>已选地址</span>
 
+  <div  style="margin-left:15px;background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:100px;height:32px;font-size:14.8px;" class="flex flex-align-center flex-pack-center pointer" 
+  @click="update()">
+<span>修改</span>
+  </div>
+</div>
 
 <div class="flex">
 <div class="content_title">收货人：</div>
@@ -192,8 +198,10 @@
               <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
               <div v-if="!updateaddressid" class="add_titile">新增地址</div>
               <div v-if="updateaddressid">修改地址</div>
+    
               <div class="flex region">
                 <div style="padding-right:15px;">所在地区</div>
+           
                 <select v-model="provinceid" @change='changeprovince'>
                   <option v-for="(item,index) in province" v-bind:value="item.id" :key="index">
                     {{item.name}}
@@ -279,33 +287,51 @@ export default class shopIndex extends Vue {
   this.addshow= false
   }
 
+
+
+  update(){
+
+    this.updateaddressid= this.address['addressId'];
+    this.addshow=true;
+    this.provinceid=this.address['provinceid'];
+    this.cityid=this.address['cityid'];
+    this.countryid=this.address['countryid'];
+    this.address1=this.address['address'];
+    this.contactName=this.address['contactname'];
+    this.contactMobile=this.address['contactmobile'];
+    this.isDefault=this.address['isdefault'];
+
+    this.getprovince();
+    this.querycity();
+    this.querycountry();
+  }
     addaddress() {
 
     if(this.provinceid==""){
-      Toast("请选择省份");
+      this["$Message"].warning("请选择省份");
       return;
     }
     if(this.cityid==""){
-      Toast("请选择城市");
+      this["$Message"].warning("请选择城市");
       return;      
     }
     if(this.countryid==""){
-      Toast("请选择市区");
+      this["$Message"].warning("请选择市区");
       return;
     }
     if(this.address1==""){
-      Toast("请填写详细地址");
+      this["$Message"].warning("请填写详细地址");
       return;
     }
     if(this.contactName==""){
-      Toast("请填写收货人");
+      this["$Message"].warning("请填写收货人");
       return;
     }
     if(this.contactMobile==""){
-      Toast("请手机号码");
+      this["$Message"].warning("请手机号码");
       return;
     }
-    if(this.updateaddressid){
+    if((this.updateaddressid||'')!=''){
       Vue.prototype.$reqFormPost(
       "/address/update",
       {
@@ -334,8 +360,7 @@ export default class shopIndex extends Vue {
           Toast(res.data.message);
           return;
         }
-        Toast("新建地址成功");
-        this.getAddressList();
+        this["$Message"].success("保存成功");
         this.provinceid="";
         this.cityid="";
         this.countryid="";
