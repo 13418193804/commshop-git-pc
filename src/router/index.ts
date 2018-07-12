@@ -73,8 +73,7 @@ export default new Router({
                     path: '/refund',
                     name: 'refund',
                     component: r => require.ensure([], () => r(require('../pages/order/refund')))
-                },
-        
+                }
             ]
         },
         {
