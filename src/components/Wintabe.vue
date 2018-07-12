@@ -35,76 +35,96 @@
    <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
       <div style="height:400px;width:380px;background-color:#fff;position: relative;">
             <img src="../assets/image/关闭按钮1.png" style="width:35px;position: absolute;right: -50px;top: -50px;border-radius: 50%;" @click="close()"/>
+      <!-- 登录 -->
       <div v-if="modelType=='login'">
           <div style="text-align:center;padding:20px;">
-            <img src="../assets/image/LOGO.png" style="width:80px;"/>
-          </div> 
-          
+              <img src="../assets/image/LOGO.png" style="width:80px;"/>
+          </div>  
           <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
-<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-            <input placeholder="请输入手机号码" v-model="loginName" style="border:0;width:100%;"/>
-     </div>       
+              <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+              <input placeholder="请输入手机号码" v-model="loginName" style="border:0;width:100%;"/>
+              </div>       
           </div>
           <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
-<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-            <input  placeholder="请输入密码" type="password" v-model="password"  style="border:0;width:100%;"/>
+              <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+                <input  placeholder="请输入密码" type="password" v-model="password"  style="border:0;width:100%;"/>
+              </div>
           </div>
+          <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
+                <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doLogin">登录</van-button>
           </div>
-<div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
-      <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doLogin">登录</van-button>
-</div>
-        <div class="flex  flex-align-center flex-pack-center" style="    padding: 10px 0;">
-          <div @click="modelType = 'sign'" class="flex  flex-align-center flex-pack-center">
-            <img src="../assets/image/新用户注册.png" style="width:20px">
-            <span  style="margin:0 5px">注册新用户</span>
-          </div>
-          <div  style="background-color:#A3A3A3;margin:5px 15px;width:1px;height:20px;" ></div>
-          <div @click="goforget()" class="flex  flex-align-center flex-pack-center">
-            <img src="../assets/image/忘记密码.png" style="width:20px;">
-            <span  style="margin:0 5px">忘记密码?</span>
-          </div>
+           <div class="flex  flex-align-center flex-pack-center" style="    padding: 10px 0;">
+              <div @click="modelType = 'sign'" class="flex  flex-align-center flex-pack-center">
+                <img src="../assets/image/新用户注册.png" style="width:20px">
+                <span  style="margin:0 5px">注册新用户</span>
+              </div>
+              <div  style="background-color:#A3A3A3;margin:5px 15px;width:1px;height:20px;" ></div>
+              <div @click="modelType = 'forget'" class="flex  flex-align-center flex-pack-center">
+                <img src="../assets/image/忘记密码.png" style="width:20px;">
+                <span  style="margin:0 5px">忘记密码?</span>
+              </div>
         </div>
       </div>
-
-<div v-if="modelType=='sign'">
-  <div style="text-align:center;font-size:18px;margin-top: 25px;">注册页</div>
-
-  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
-<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-            <input placeholder="请输入手机号码" v-model="sign_loginName" style="border:0;width:100%;"/>
-     </div>       
-          </div>
-
-
-          
-  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
-<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-            <input placeholder="请输入验证码" v-model="sign_code" style="border:0;width:100%;"/>
-     </div>       
-      <van-button  @click="getVistyCode()"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
-          </div>
-
-
-  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
-<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-            <input type="password" placeholder="请输入6-12位密码" v-model="sign_password" style="border:0;width:100%;"/>
-     </div>       
-          </div>
-
-
-  <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
-<div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-            <input type="password" placeholder="请确认密码" v-model="sign_repassword" style="border:0;width:100%;"/>
-     </div>       
-          </div>
-
-<div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
-      <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doSign">立即注册</van-button>
-</div>
-<div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;">《用户协议》</a></p></div>  
-</div>
+      <!-- 注册 -->
+      <div v-if="modelType=='sign'">
+        <div style="text-align:center;font-size:18px;margin-top: 25px;">注册页</div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+              <input placeholder="请输入手机号码" v-model="sign_loginName" style="border:0;width:100%;"/>
+          </div>       
+        </div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+                <input placeholder="请输入验证码" v-model="sign_code" style="border:0;width:100%;"/>
+          </div>       
+            <van-button  @click="getVistyCode('REGISTER')"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
+        </div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+                <input type="password" placeholder="请输入6-12位密码" v-model="sign_password" style="border:0;width:100%;"/>
+          </div>       
+        </div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+              <input type="password" placeholder="请确认密码" v-model="sign_repassword" style="border:0;width:100%;"/>
+            </div>       
+        </div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
+              <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doSign">立即注册</van-button>
+        </div>
+        <div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;">《用户协议》</a></p></div>  
       </div>
-   </div>
+      <!-- 忘记密码 -->
+      <div v-if="modelType=='forget'">
+        <div style="text-align:center;font-size:18px;margin-top: 25px;">忘记密码页</div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+              <input placeholder="请输入手机号码" v-model="forget_Name" style="border:0;width:100%;"/>
+          </div>       
+        </div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+                  <input placeholder="请输入验证码" v-model="forget_code" style="border:0;width:100%;"/>
+          </div>       
+          <van-button  @click="getVistyCode('RESETPAYPASSWORD')"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
+        </div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+                <input type="password" placeholder="请输入新密码" v-model="forget_password" style="border:0;width:100%;"/>
+          </div>       
+        </div>
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
+            <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
+              <input type="password" placeholder="请再输入一次密码" v-model="forget_password" style="border:0;width:100%;"/>
+            </div>       
+        </div>
+
+        <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
+              <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="goforget()">保存</van-button>
+        </div>
+      </div>
+  </div>
+</div>
 
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;padding:5px 0;">
@@ -182,7 +202,7 @@
                   <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
                     <!-- 轮播图 -->
                     <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
-                          <el-carousel :interval="5000" arrow="always" style="width:100vw;    margin-left: -20vw;">
+                          <el-carousel :interval="5000" arrow="always" style="width:100vw;margin-left: -20vw;">
                           <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
                                             <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
                           </el-carousel-item>
@@ -190,7 +210,7 @@
                     </div>
                       
                     <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
-                      <div style="height:10px;background-color:#f7f7f7;width:100vw;margin-left: -20vw;"></div>
+                      <div style="background-color:#f7f7f7;"></div>
                       <div style="margin:20px 0">
                             <div class="index_headline">
                                 <i class="user_img"><img v-lazy="items.letter"/></i>
@@ -206,12 +226,12 @@
                                     <div style="padding:10px">
                                       <div >
                                           <img src="../assets/image/新品特价.png" v-if="goods.isBargain"    style="vertical-align: middle;"/>
-                                          <span class="textLabel" style="color:#000000;font-size:15px">{{goods.goodsName}}</span>
+                                          <span class="textLabel" style="color:#000000;font-size:18px">{{goods.goodsName}}</span>
                                       </div>
-                                      <div class="textLabel"  style="color:#A3A3A3;" >{{goods.jingle}}</div>
+                                      <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
                                       <div>
-                                        <span style="display:inline-block;color:#E05459;font-size:20;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
-                                        <span style="color:#C5C4C4;text-decoration:line-through;font-size:14px" >原价:{{goods.labelPrice}}</span>
+                                        <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
+                                        <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice}}</span>
                                       </div>
                                       <van-button class="btn_yellow" @click.stop="doChangeModel(goods.goodsId)">立即抢购</van-button>
                                     </div>
@@ -228,7 +248,7 @@
   </div>
 </div>
  <!-- 浮动标识 -->
- <div class="float_icon">
+ <div class="float_icon" id="to-top-btn" v-show="backTopShow">
     <div class="icon_app"
       v-on:mouseover="mouseover_code()" v-on:mouseout="mouseout_code()"
     >
@@ -239,7 +259,7 @@
     <div class="icon_service">
       <p>联系客服</p>
     </div>
-    <div class="icon_top">
+    <div class="icon_top"  @click="backTop()">
       <p>返回顶部</p>
     </div>
  </div>
@@ -264,12 +284,34 @@ export default class Comhead extends Vue {
     console.log(this.active);
     // this.changeTab()
   }
+//返回顶部
+  backTop() {
+    let back = setInterval(() => {
+      if(document.body.scrollTop||document.documentElement.scrollTop){
+        document.body.scrollTop-=100;
+        document.documentElement.scrollTop-=100;
+      }else {
+        clearInterval(back)
+      }
+    });
+  }
+//返回顶部显示隐藏
+  handleScroll(){
+    if (document.documentElement.scrollTop + document.body.scrollTop > 100) {
+      this.backTopShow=true;
+    }
+    else {
+      this.backTopShow=false;
+    }
+  }
+    
+  backTopShow = false
   cartModel = false
   mouseover() {
     this.cartModel = true
   }
   mouseout() {
-    console.log("222");
+    
   }
   type = "H5";
   leftScale = "1.5";
@@ -282,18 +324,28 @@ export default class Comhead extends Vue {
 
   sign_loginName = "";
   sign_code = "";
+
   sign_password = "";
   sign_repassword = "";
 
-  getVistyCode() {
+  forget_Name ="";
+  forget_code = "";
+  forget_password = "";
+  forget_repassword = "";
+
+  getVistyCode(type) {
     //验证手机号码
+    if( (this.forget_Name || '') == ''){     
+        this["$Message"].warning('请先输入手机号');
+        return ;
+    }
     if (!this.isGetverify) {
       return;
     }
     //getCode
     Vue.prototype.$reqFormPost1(
       "/auth/getsmscode",
-      { mobile: this.sign_loginName, type: "REGISTER" },
+      { mobile: this.sign_loginName, type: type },
       res => {
         if (res.returnCode != 200) {
           this["$Message"].warning(res.message);
@@ -343,10 +395,13 @@ export default class Comhead extends Vue {
         self.timerNum--;
       } else {
         self.timerNum = 60;
+        clearInterval(self.timer);  
+        console.log('停止')
       }
       self.$store.commit(Vue.prototype.MutationTreeType.VERCODE, self.timerNum);
-    }, 1000);
+    }, 100);
   }
+
   get vistyText() {
     if (this.$store.getters[Vue.prototype.MutationTreeType.VERCODE] < 60) {
       this.isGetverify = false;
@@ -354,7 +409,32 @@ export default class Comhead extends Vue {
     } else {
       this.isGetverify = true;
       return "获取验证码";
+      
     }
+  }
+
+  goforget(){
+    console.log('忘记密码',this.forget_Name)
+    Vue.prototype.$reqFormPost1(
+      "/user/password/find",
+      {
+        mobile: this.forget_Name,
+      
+        smsCode: this.forget_code,
+        password: require("crypto")
+          .createHash("md5")
+          .update(this.loginName + this.forget_password)
+          .digest("hex"),
+      },
+      res => {
+        if (res.returnCode != 200) {
+          this["$Message"].warning(res.message);
+          return;
+        }
+        this["$Message"].success("注册成功");
+        this.modelType = "login";
+      }
+    );
   }
 
   goProductDetail(goodsId) {
@@ -590,6 +670,8 @@ changeTab(active, shit) {
   userInfo = {}
   
   mounted() {
+    // 添加一个滚动滚动监听事件：
+    window.addEventListener('scroll', this.handleScroll);
     this.table ? (this.active = "-1") : "";
     (this.$route.params.active || "") != ""
       ? (this.active = this.$route.params.active)
@@ -625,7 +707,7 @@ changeTab(active, shit) {
   width:30px;height:30px;border-radius: 50px;vertical-align: middle;
 }
 .float_icon{
-  position:absolute;bottom: 180px;right:30px;
+  position:fixed;bottom: 90px;right:25px;z-index:9999;
   div{
     width:70px;height:70px;border:1px solid #f4f4f4;cursor: pointer;margin-bottom:12px;
     p{
@@ -637,7 +719,7 @@ changeTab(active, shit) {
   }
   // 二维码
   .icon_code{
-      width:80px;height:80px;background:#ccc;position: absolute;right:88px;bottom:160px;
+      width:80px;height:80px;background:#ccc;position: absolute;right:88px;bottom:160px;z-index:9999;
   }
   .icon_service{
     background:url(../assets/service1.png) no-repeat center bottom 2px;
@@ -737,7 +819,7 @@ changeTab(active, shit) {
   background-color: #fff;
   position: absolute;
   bottom: -400px;
-  left: -190px;
+  left: -344px;
   z-index: 990;
   overflow: hidden;
   box-shadow: 1px 1px 10px #eee;
@@ -747,7 +829,8 @@ changeTab(active, shit) {
   padding:5px 0;
 }
 .btn_yellow{
-  height: 30px;line-height: 30px; border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;
+  height: 36px;line-height: 36px; border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;
+  width:130px;padding:0;cursor: pointer;
 }
 
 .two_classify{
@@ -762,4 +845,5 @@ changeTab(active, shit) {
     }
   }
 }
+
 </style>

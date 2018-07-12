@@ -13,7 +13,7 @@
       </div>
       <div class="flex flex-align-center" style="padding:18px 0;margin:0 20px;">
           <div style="font-size:15px;padding:0 20px;width:140px">用户名：</div>
-          <div style="border:1px #e5e5e5 solid;    padding: 8px 10px;">
+          <div style="border:1px #e5e5e5 solid;">
             <input v-model="userInfo.nickName" style="border:0;"/>
           </div>
       </div>
@@ -81,7 +81,7 @@ import { Toast } from "vant";
 })
 export default class User extends Vue {
   userInfo = {};
-  user_active = "1";
+  user_active = "0";
   radio = "男";
   clickLogo(){
     let a:any = this.$refs['logo']
@@ -93,46 +93,47 @@ export default class User extends Vue {
   oldPassword = ''
   newPassword = ''
   renewPassword = ''
-recPassword(){
-  console.log('调用',this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId)
-    if( (this.oldPassword || '') == ''){     
-        this["$Message"].warning('请输入原密码');
-        return 
-    }
-    if( (this.newPassword || '') == ''){     
-        this["$Message"].warning('请输入新密码');
-        return 
-    }
-    if( (this.renewPassword || '') == ''){     
-        this["$Message"].warning('请确定密码');
-        return 
-    }
-    if( (this.newPassword  !== this.renewPassword)){     
-        this["$Message"].warning('密码不一致');
-        return 
-    }
-  Vue.prototype.$reqFormPost1(
-        "/user/password/update",
-      {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-          oldPassword:this.oldPassword,
-          newPassword:this.newPassword,
-      },
-      res => {
-        if (res.returnCode != 200) {
-          this["$Message"].warning(res.message);
-          return;
-        }
-        this["$Message"].success('保存成功');
-        this.userInfo = res.data;
-        this.queryuserinfo();
-        console.log(res.data);
+  recPassword(){
+    console.log('调用',this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId)
+      if( (this.oldPassword || '') == ''){     
+          this["$Message"].warning('请输入原密码');
+          return 
       }
+      if( (this.newPassword || '') == ''){     
+          this["$Message"].warning('请输入新密码');
+          return 
+      }
+      if( (this.renewPassword || '') == ''){     
+          this["$Message"].warning('请确定密码');
+          return 
+      }
+      if( (this.newPassword  !== this.renewPassword)){     
+          this["$Message"].warning('密码不一致');
+          return 
+      }
+    Vue.prototype.$reqFormPost1(
+        "/user/password/update",
+        {
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .token,
+            // oldPassword:this.oldPassword,
+            oldPassword:require('crypto').createHash('md5').update(this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].loginName+this.oldPassword).digest('hex'),
+            newPassword:this.newPassword,
+        },
+        res => {
+          if (res.returnCode != 200) {
+            this["$Message"].warning(res.message);
+            return;
+          }
+          this["$Message"].success('保存成功');
+          this.userInfo = res.data;
+          this.queryuserinfo();
+          console.log(res.data);
+        }
     );
-}
+  }
   changeLogo(){
    let a:any = this.$refs.logo
     let form = new FormData();

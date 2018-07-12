@@ -73,6 +73,13 @@ export default class App extends Vue {
 }
 </style>
 <style>
+/* 首页导航样式修改 */
+.van-tabs__wrap--scrollable .van-tab{
+  flex:0 1 auto;
+}
+.van-tabs__line{
+  background-color:#f4c542;
+}
 .van-tabbar-item__text{
   position: relative;
 }

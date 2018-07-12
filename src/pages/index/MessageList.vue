@@ -27,29 +27,29 @@ export default class messagelist extends Vue {
   messagelist=[];
   page=0;
    getList() {
- Vue.prototype.$reqFormPost("/message/list", {
-   
-      userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-        .userId,
-      token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-        .token,
-      // page: this.page,
-      // pageSize: 20
- }, res => {
-      if (res == null) {
-        console.log("网络请求错误！");
-        return;
-      }
-      if (res.data.status != 200) {
-        console.log(
-          "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-        );
-        Toast(res.data.message);
-        return;
-      }
-      console.log(res.data.data)
-    this.messagelist = res.data.data.messageList;
-    });
+      Vue.prototype.$reqFormPost("/message/list", {
+        
+            userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+              .userId,
+            token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+              .token,
+            // page: this.page,
+            // pageSize: 20
+      }, res => {
+            if (res == null) {
+              console.log("网络请求错误！");
+              return;
+            }
+            if (res.data.status != 200) {
+              console.log(
+                "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+              );
+              Toast(res.data.message);
+              return;
+            }
+            console.log(res.data.data)
+          this.messagelist = res.data.data.messageList;
+          });
 
 
   }
