@@ -8,7 +8,7 @@
 
 
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;">
+       <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
     <el-breadcrumb separator-class="el-icon-arrow-right">
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -22,7 +22,7 @@
 
 
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;" class="flex">
+       <div  style="width:1200px;" class="flex">
 <div style="width:500px;">
 <img v-lazy="detatil.goodsImg.split(',')[0]" style="width:100%;"/>
 <div class="flex" style="    overflow: auto;">
@@ -113,9 +113,9 @@
 
 
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;margin-top:20px">
+       <div  style="width:1200px;margin-top:20px">
 
-<div style="height:40px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
+<div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
      <div class="taber selecttaber">大家还看了</div>
      <div  class="taber">新品推荐</div>
    </div>
@@ -139,17 +139,49 @@
       </div>
   </div>
 </div>
-<div style="height:40px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
-    <div class="taber selecttaber">商品详情</div>
-    <div  class="taber">评价</div>
+<div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
+    <div class="taber" :class="shop_active == '0'?' selecttaber' :'taber'" @click="evaluateList('0')">商品详情</div>
+    <div  class="taber" :class="shop_active == '1'?' selecttaber' :'taber'" @click="evaluateList('1')">评价</div>
 </div>
-<div>
-  <div style="background-color:#ffffff;margin-top:10px;">
-      <div v-for="(item,index) in detatil.detail.imageList" :key="index">
-        <img v-lazy="item" style="width:100%;"/>
+  <div>
+    <div style="background-color:#ffffff;margin-top:10px;">
+        <div v-for="(item,index) in detatil.detail.imageList" :key="index">
+          <img v-lazy="item" style="width:100%;"/>
+        </div>
+    </div>
+  </div>
+<!-- 评价 -->
+  <div class="evaluate_nav" v-if="shop_active == '1'">
+      <div class="nav_top">
+          <div class="evaluate_left">
+              <div><span>95%</span>好评</div>
+              <div class="star"><img src="../../assets/image/星星.png"></div>
+          </div>
+          <div class="evaluate_right">
+            <h6>大家都写到</h6>
+            <div class="btn_evaluate">
+                <span :class="btn_active == '1'?' btn_border' :''" @click="btnList('1')">全部（999+）</span>
+                <span :class="btn_active == '2'?' btn_border' :''" @click="btnList('2')">有图（666）</span>
+            </div>   
+          </div>
+      </div>
+      <!-- 评论列表 -->
+      <div class="evaluate_list" v-for="(item,index) in appraiseList" :key="index">  
+          <div class="flex user">
+              <div><img v-lazy="item.user.userIcon"/></div>
+              <div>{{item.user.mobile}}</div>
+              <div v-for="(item,index) in item.star" :key="index"><img src="../../assets/image/星星.png" style="width:20px;height:20px;"></div>
+          </div>
+          
+          <div class="style" style="color:#a1a1a1">款式：高等</div>
+          <p>{{item.commentContent}}</p>
+          <div class="flex evaluate_pic">
+              <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div>
+          </div>
+          <div class="time">{{item.createTime}}</div>
       </div>
   </div>
-</div>
+   
 </div>
 </div>
   <winbeet></winbeet>
@@ -178,6 +210,7 @@ export default class ProductDetail extends Vue {
   mounted() {
     this.goodsId = this.$route.query.goodsId;
     this.getProductDetail();
+    this.evaluateList(this.shop_active,status);
   }
   goodsId = "";
   detatil:any= {
@@ -200,9 +233,13 @@ export default class ProductDetail extends Vue {
   chosenList = [];
   chosensku = [];
   skuItem = {};
+  appraiseList = [];
+  status = 1;
   commentnum = 0;
   praise = "0";
   tabindex = 0;
+  shop_active = '0';
+  btn_active = '1';
   selecttablist(index) {
     this.tabgoodslist = [];
     if (index == 0) {
@@ -214,8 +251,41 @@ export default class ProductDetail extends Vue {
       this.tabindex = 1;
     }
   }
-
-
+//获取评价列表
+  evaluateList(shop_active,status){
+      if(this.status == status){
+        return;
+      }
+      if(!status){
+          status = this.status 
+      }
+      this.shop_active = shop_active;
+      
+      console.log('商品id',this.goodsId)
+      console.log('商品',this.status)
+      
+      if(this.shop_active == '1'){
+        Vue.prototype.$reqFormPost1(
+        "/comment/list",
+        {
+          goodsId: this.goodsId,
+          status: this.status,
+        },
+        res => {
+          console.log(res)
+        if (res.returnCode != 200) {
+            this["$Message"].warning(res.message);
+            return;
+          }
+          this.appraiseList = res.data.commentList;
+        }
+      );
+    }
+  }
+  //评论筛选
+  btnList(btn_active){
+      this.btn_active = btn_active;
+  }
    addCar() {
     if (!this.skuItem["skuId"]) {
       Toast("请选择规格属性");
@@ -502,8 +572,8 @@ export default class ProductDetail extends Vue {
   padding: 20px;
 }
 .taber {
-  line-height: 40px;
-  padding: 0 30px;
+  line-height: 55px;
+  width:160px;text-align: center;
   cursor: pointer;
 }
 .selecttaber {
@@ -517,11 +587,65 @@ export default class ProductDetail extends Vue {
   color: #ffc630;
   
 }
-
 .collection{
   cursor:pointer;
 }
 .collection_cur{
   color: #ffc630;
+}
+//评价
+.evaluate_nav{
+  .nav_top{
+    border-bottom: 1px solid #eeeeee;padding:10px 0;overflow: hidden;
+    .evaluate_left{
+      width:225px;height: 130px; border-right: 1px solid #eeeeee;float:left;
+      div{
+        font-size: 16px;margin-bottom: 20px;
+        span{
+          font-size:22px;color: #e05459;
+        }
+      }
+      .star{
+        img{
+          width: 20px;height:20px;
+        }
+      }
+    }
+    .evaluate_right{
+      float:left;
+      h6{
+        color:#a1a1a1;font-size: 14px;margin-bottom:15px; padding-top: 8px;padding-left: 40px;
+      }
+      .btn_evaluate{
+        padding-left: 40px;
+        span{
+          display:inline-block;border: 1px solid #797979;border-radius: 3px;color:#000;font-size:16px;width: 120px;height:35px;
+          line-height: 35px;text-align: center;margin-right: 15px;
+        }
+        .btn_border{
+          color:#f4c542;;border: 1px solid #f4c542;
+        }
+      }
+    }
+  }
+}
+
+.evaluate_list{
+  .user{
+    div{
+      margin-right:10px;height: 58px;line-height:58px;margin-bottom:10px;
+      img{
+        width: 38px;height: 38px;border-radius: 50px;vertical-align: middle
+      }
+    }
+  }
+  p{
+    padding:10px 0;color: #585858;font-size: 16px;
+  }
+  .evaluate_pic{
+    div{
+      margin:0 10px 10px 0;
+    }
+  }
 }
 </style>
