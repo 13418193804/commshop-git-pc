@@ -57,20 +57,22 @@
     <span style="color:red">立即领取></span>
   </div>
 </div>
-
-
-<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
+<div class="flex flex-align-center" style="  padding: 10px 0; margin: 0 20px;">
   <div style="width:50px">服务</div>
   <div class="flex flex-around-justify flex-align-center">
+    
+    <!-- <div >v-for="(detatil,index) in detatil.slogan"  :key="index" -->
+    <div v-for="(item,index) in detatil.slogan.split(';')" :key="index">
+      <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span>
+           <span>{{item}}</span>
+      </span> 
+    </div>
+    <!-- <div>
+      <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>24小时快速退款</span></span>
+    </div>
     <div>
-    <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>7天无忧退换货</span></span>
-    </div>
-     <div>
-    <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>24小时快速退款</span></span>
-    </div>
-     <div>
-    <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>中宜自营严选</span></span>
-    </div>
+      <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span><span>中宜自营严选</span></span>
+    </div> -->
   </div>
 </div>
 
@@ -113,43 +115,64 @@
 
 
 <div class=" flex   flex-pack-center">
-       <div  style="width:1200px;margin-top:20px">
-
-<div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
-     <div class="taber selecttaber">大家还看了</div>
-     <div  class="taber">新品推荐</div>
-   </div>
-
-<div style="height:320px;">
-  <div class="flex" style="    overflow: auto;">
-    <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" >
-        <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
-            <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:25px;"/>
-            <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
-            <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
-          </div>
-          <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;" >
-            <div>
-              <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
-              <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
+  <div  style="width:1200px;margin-top:20px">
+      <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
+          <div class="taber" :class="new_active == '0'?' selecttaber' :'taber'" @click="new_actdiv('0')">大家还看了</div>
+          <div  class="taber" :class="new_active == '1'?' selecttaber' :'taber'" @click="new_actdiv('1')">新品推荐</div>
+      </div>
+      <!-- 大家还看了 -->
+      <div style="height:320px;" v-if=" new_active== '0'">
+        <div class="flex" style="    overflow: auto;">
+          <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" >
+              <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
+                  <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:25px;"/>
+                  <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
+                  <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
+                </div>
+                <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;" >
+                  <div>
+                    <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
+                    <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
+                  </div>
+                  <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
+                  <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+                </div>
             </div>
-            <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
-            <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+        </div>
+      </div>
+      <!-- 新品 -->
+      <div v-if=" new_active== '1'">
+          <div class="flex" style="    overflow: auto;">
+            <div v-for="(items,index) in new_detatil" :key="index" @click="goProductDetail(items.goodsId)" >
+                <div class="flex flex-pack-center flex-align-center" style="width:200px;margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
+                  
+                    <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
+                    <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
+                  </div>
+                  <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;width:200px;" >
+                    <div>
+                      <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
+                      <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
+                    </div>
+                    <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
+                    <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+                  </div>
+              </div>
           </div>
       </div>
-  </div>
-</div>
+
 <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
     <div class="taber" :class="shop_active == '0'?' selecttaber' :'taber'" @click="evaluateList('0')">商品详情</div>
     <div  class="taber" :class="shop_active == '1'?' selecttaber' :'taber'" @click="evaluateList('1')">评价</div>
 </div>
-  <div>
-    <div style="background-color:#ffffff;margin-top:10px;">
-        <div v-for="(item,index) in detatil.detail.imageList" :key="index">
-          <img v-lazy="item" style="width:100%;"/>
-        </div>
-    </div>
+
+<div>
+  <div style="background-color:#ffffff;margin-top:10px;">
+      <div v-for="(item,index) in detatil.detail.imageList" :key="index">
+        <img v-lazy="item" style="width:100%;"/>
+      </div>
   </div>
+</div>
 <!-- 评价 -->
   <div class="evaluate_nav" v-if="shop_active == '1'">
       <div class="nav_top">
@@ -239,7 +262,9 @@ export default class ProductDetail extends Vue {
   praise = "0";
   tabindex = 0;
   shop_active = '0';
+  new_active = '0';
   btn_active = '1';
+  new_detatil = [];
   selecttablist(index) {
     this.tabgoodslist = [];
     if (index == 0) {
@@ -250,6 +275,12 @@ export default class ProductDetail extends Vue {
       this.tabgoodslist = this.newList;
       this.tabindex = 1;
     }
+
+  }
+  // 新品推荐切换
+  new_actdiv(new_active){
+    this.new_active = new_active;
+    console.log('新品',this.new_active)
   }
 //获取评价列表
   evaluateList(shop_active,status){
@@ -498,8 +529,9 @@ export default class ProductDetail extends Vue {
           this["$Message"].warning(res.message);
           return;
         }
-
         this.detatil = res.data;
+        this.new_detatil = res.data.newList;
+        console.log('数据',this.new_detatil);
 
         if (res.data.singleStatus) {
           this.skuItem = res.data.sku[0];

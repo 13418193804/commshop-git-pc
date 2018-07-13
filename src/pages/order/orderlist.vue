@@ -117,8 +117,6 @@
           
     </div>
 
-
-
      <div class="settingBody" v-if="item.orderStatus === 'ORDER_END_GOODS'">
         <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
       <van-button size="small" style="margin-right:10px;" @click.stop="doRefund(item)">退换/售后</van-button>

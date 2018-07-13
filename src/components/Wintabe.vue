@@ -531,7 +531,7 @@ myOrder(){
 }
   goProductDetail(goodsId) {
     this.$router.push({
-      path: "/addresslist",
+      path: "/productDetail",
       query: {
         goodsId: goodsId
       }
