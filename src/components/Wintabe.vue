@@ -3,11 +3,19 @@
   
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
-            <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox">
+            <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
+            v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
                    <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
                  <span v-else>{{userInfo.loginName}}</span>   
+                 
               <span @click="loginOut()">退出</span>
+              <div class="top_select" v-if="select_block">
+                <div @click="myCollect()">我的收藏</div>
+                <div @click="mySite()">地址管理</div>
+                <div @click="myAward()">我的奖励</div>
+                <div @click="loginOut()">退出登录</div>
+              </div>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
               <span>登录</span>
@@ -16,7 +24,7 @@
               <span>注册</span>
             </div>
             <div class="contentBox borderleft ">
-              <span>我的订单</span>
+              <span @click="myOrder()">我的订单</span>
             </div>
             <div class="contentBox borderleft ">
               <span>消息</span>
@@ -500,10 +508,30 @@ mobile =this.forget_Name
       }
     );
   }
-
+// 导航跳转
+myCollect() {
+  this.$router.push({
+    path: "/collection",
+  });
+}
+mySite() {
+  this.$router.push({
+    path: "/addresslist",
+  });
+}
+myAward() {
+  this.$router.push({
+    path: "/discountLobby",
+  });
+}
+myOrder(){
+  this.$router.push({
+    path:"/orderlist",
+  })
+}
   goProductDetail(goodsId) {
     this.$router.push({
-      path: "/productdetail",
+      path: "/addresslist",
       query: {
         goodsId: goodsId
       }
@@ -586,6 +614,15 @@ mouseover_code(){
 mouseout_code(){
   this.cartModel_code = false
 }
+
+select_block = false
+mouseover_select(){
+  this.select_block = true
+}
+mouseout_select(){
+  this.select_block = false
+}
+
 changeTab(active, shit) {
     // shit 立刻检测  通常进来时不检测
     if (
@@ -923,5 +960,17 @@ changeTab(active, shit) {
 .hot{
   position: absolute;left: 0;top: 0;
 }
-
+//头部下拉菜单
+.contentBox{
+  position: relative;
+}
+.top_select{
+  position: absolute;background: #fff;width: 100%;border:1px solid #efefef;border-top:0;right:0;
+  div{
+    text-align: center;line-height: 50px;border-bottom: 1px solid #efefef;color:#000;cursor: pointer;
+  }
+  :hover{
+    color: #f4c542;background: #f8f8f8;
+  }
+}
 </style>

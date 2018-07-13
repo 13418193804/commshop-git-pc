@@ -90,10 +90,11 @@ export default class User extends Vue {
 .discountBox{
   overflow: hidden;padding:30px 40px;padding-right:10px;
   .dis_list{
-    float: left;width: 330px;height:118px;background:#ccc;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
-    margin-bottom:10px;position: relative;margin-right: 10px;
+    float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
+    margin-bottom:10px;position: relative;margin-right: 10px;background :url(../../assets/image/领卷中心背景.png) no-repeat;
+      background-size: 100%;
     .newtext{
-      position: absolute;bottom: 0;color: #fff;
+      position: absolute;bottom: 4px;color: #fff;
     }
   }
   .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
@@ -103,8 +104,8 @@ export default class User extends Vue {
     margin-right: 5px;
   }
   .distype{
-    height:19px;line-height:19px;color:#ffc630;position: absolute;right:15px;top:15px;background: #fff;cursor: pointer;
-    text-align: center;border-radius: 3px;padding: 0 7px;line-height: 19px;border:1px solid #fff;
+    height:30px;line-height:30px;color:#ffc630;position: absolute;right:15px;top:20px;background: #fff;cursor: pointer;
+    text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
   }
   .distypeed{
     background: #fccb52;color:#fff;

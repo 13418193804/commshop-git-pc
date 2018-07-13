@@ -22,9 +22,9 @@
               <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
           </div>
       </div>
-       <div class="nodiscount" v-else>
-            <img src="../../assets/WechatIMG683.png" />
-        </div>
+      <div class="nodiscount" v-else>
+          <img src="../../assets/WechatIMG683.png" />
+      </div>
      </div>
   </div>
 </template>
@@ -119,18 +119,20 @@ export default class User extends Vue {
   .discountBox{
     overflow: hidden;padding-top:10px;
     .dis_list{
-      float: left;width: 330px;height:118px;background:#fccb52;padding:15px 15px 0 15px;border-radius: 6px;
+      float: left;width: 330px;height:118px;background :url(../../assets/image/领卷中心背景.png) no-repeat;
+      background-size: 100%;
+      padding:15px 15px 0 15px;border-radius: 6px;
       position: relative;margin-bottom:10px;margin-right:10px;
       .newtext{
-        position: absolute;bottom: 0;color: #fff;
+        position: absolute;bottom: 4px;color: #fff;
       }
     }  
     .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
       margin-right: 0;
     }
     .distype{
-      height:19px;line-height:19px;color:#ffc630;position: absolute;right:15px;top:15px;background: #fff;cursor: pointer;
-      text-align: center;border-radius: 3px;padding: 0 7px;line-height: 19px;border:1px solid #fff;
+      height:30px;line-height:30px;color:#ffc630;position: absolute;right:15px;top:20px;background: #fff;cursor: pointer;
+      text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
     }
     .distypeed{
       background: #fccb52;color:#fff;
