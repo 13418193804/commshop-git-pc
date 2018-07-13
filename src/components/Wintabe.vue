@@ -131,11 +131,44 @@
          <div style="" class="flex flex-pack-justify flex-align-center">
             <img  src="../assets/image/logo拷贝.png"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
+  
+
   <div class="flex flex-align-center" style="border:1px #EAEAEA solid;">
-    <input  style="border:none;margin:0 10px" placeholder="搜索商品"/>
-    <div style="width:30px;height:30px;background-color:#F4C542" class="flex flex-align-center flex-pack-center">
-  <img src="../assets/image/放大镜.png"/>
+   <div style="    position: relative;min-width:250px;"> 
+     <input  style="border:none;margin:0 10px" v-model="keyword" placeholder="搜索商品" @focus="onFocus()" @blur="onblur()"/>
+   
+   
+   
+   
+    <div style="position: absolute;    width: 100%;font-size:14px;  
+    border: 1px #e5e5e5 solid; background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
+    
+<div style="color:#999;">
+搜索记录
+</div>
+<div class="flex flex-pack-justify  flex-align-center" style="padding-left:5px;" >
+  <div>记录1</div>
+  <div><i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" ></i></div>
+</div>
+
+    <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
+        <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word)">
+      </div>
+</div>
+
+    </div> 
+
+
+
+     </div>
+    
+    
+    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect()" class="flex flex-align-center flex-pack-center">
+  <img src="../assets/image/放大镜.png" />
     </div>
+
+
+
   </div>
   <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px"/>
   <div style="    position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
@@ -147,6 +180,8 @@
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">X</div>
         </div>
         <div style="   height: 310px;overflow:auto;">
+
+          
 <div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
@@ -170,8 +205,12 @@
        <div style="padding:10px;">
             <span class="marketPrice" style="font-size:20">￥{{item.price}}</span>
        </div>
-
 </div>
+
+<div class=" flex  flex-align-center   flex-pack-center">
+  <img src="../assets/空购物车拷贝.png" style="width:180px;height:180px;"/>
+</div>
+
         </div>
 <div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
     <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
@@ -281,11 +320,43 @@ export default class Comhead extends Vue {
   @Prop({ required: false })
   router: boolean;
 
+
   @Watch("table", { deep: true })
   watchCount(newVal, oldVal) {
     console.log(this.active);
     // this.changeTab()
   }
+  filterModel=false
+  onFocus(){
+//搜索
+console.log('=======')
+this.filterModel = true
+  }
+onblur(){
+// 离开
+setTimeout(()=>{
+this.filterModel = false
+
+},500)
+
+}
+keyword =''
+doSelect(keyword){
+
+  if(this.$route.path == '/productclassify'){
+    this.$emit('filterproduct');
+    return
+  }
+
+  
+  this.$router.push(
+    {
+      name:'productclassify',
+    },
+  )
+  
+}
+
 //返回顶部
   backTop() {
     let back = setInterval(() => {
@@ -571,9 +642,10 @@ mobile =this.forget_Name
   active = "0";
 
 twoList(active,catList){
-    console.log(this.indexList,this.active)
+  
     sessionStorage.catId = this.catList[active].catId;
     sessionStorage.parentId = this.indexList[this.active].catId
+    sessionStorage.keyword = ''
     this.$router.push({
       path: "/productClassify"
     }); 
@@ -742,7 +814,24 @@ changeTab(active, shit) {
     );
   }
   userInfo = {}
-  
+  hotwordList = []
+  gethotword() {
+    Vue.prototype.$reqUrlGet("/hotword/query", {}, res => {
+      if (res == null) {
+        console.log("网络请求错误！");
+        return;
+      }
+      if (res.data.status != 200) {
+        console.log(
+          "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+        );
+          this["$Message"].warning(res.data.message);
+        return;
+      }
+
+      this.hotwordList = res.data.data;
+    });
+  }
   mounted() {
     // 添加一个滚动滚动监听事件：
     window.addEventListener('scroll', this.handleScroll);
@@ -770,6 +859,7 @@ changeTab(active, shit) {
       this.getCartList();  
       this.queryuserinfo()
     }
+    this.gethotword()
   }
 }
 
@@ -923,5 +1013,8 @@ changeTab(active, shit) {
 .hot{
   position: absolute;left: 0;top: 0;
 }
+.hotwordItem{
+  font-size:14px;
 
+}
 </style>

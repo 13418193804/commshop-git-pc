@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tab-contents" style="    overflow: hidden;">
-      <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
+      <wintabe ref="wintabe" :table="true" :router="true" @filterproduct="getproductList()" ></wintabe>
       <div class=" flex flex-pack-center">
           <div  style="width:1200px;">
               <!-- 商品列表页-->
@@ -24,9 +24,8 @@
                         </div>
                     </div>
                     <!-- 新品上架 -->
-                    <div class="headline flex-pack-center">
+                    <div class="headline flex-pack-center" v-if="false">
                       <h2>{{secItem.catName}}</h2>
-                      <!-- <h3>XINGPING SHANGJIA </h3> -->
                     </div>
                     <!-- 商品列表 -->
                     <div class="shop_list">
@@ -74,15 +73,21 @@ import Winbeet from "../../components/Winbeet.vue";
   mixins: [mixin]
 })
 export default class ProductDetail extends Vue {
+  keyword = "";
   mounted() {
-    (this.catId = sessionStorage.catId),
-      (this.parentId = sessionStorage.parentId);
+    let a: any = this.$refs.wintabe;
+
+  console.log()
+  
+      this.catId = sessionStorage.catId;
+      this.parentId = sessionStorage.parentId;
+
+
     this.getSecCatList();
   }
-
+  // H:\项目分类\康扬医德快\back-yidekuai
   parentId = "";
   changeRed = "0";
-
   goProductDetail(goodsId) {
     this.$router.push({
       path: "/productdetail",
@@ -91,27 +96,34 @@ export default class ProductDetail extends Vue {
       }
     });
   }
-  getSecCatList() {
-    //二级菜单
-    Vue.prototype.$reqFormPost1(
-      "/user/cat/list",
-      {
-        parentId: this.parentId
-      },
-      res => {
-        if (res.returnCode !== 200) {
-          this["$Message"].warning(res.message);
-          console.log(res.message);
-          return;
-        }
-        this.catList = res.data;
+  getCarList() {}
 
+  getSecCatList() {
+    let data = {};
+    let a: any = this.$refs.wintabe;
+
+    if ((this.keyword || "") == "") {
+      (<any>Object).assign(data, {
+        parentId: this.parentId
+      });
+    }
+
+    //二级菜单
+    Vue.prototype.$reqFormPost1("/user/cat/list", data, res => {
+      if (res.returnCode !== 200) {
+        console.log(res);
+        this["$Message"].warning(res.message);
+        console.log(res.message);
+        return;
+      }
+      this.catList = res.data;
+      if ((this.keyword || "") == "") {
         let a = this.catList.filter((item, index) => {
           return item.catId == this.catId;
         });
         this.checkSecCat(a[0]);
       }
-    );
+    });
   }
 
   checkSecCat(item) {
@@ -119,28 +131,34 @@ export default class ProductDetail extends Vue {
     this.catId = item.catId;
     this.getproductList();
   }
+
   sortStatus: any = false;
   doPriceFitler(sortName) {
-
     if (this.sortName !== sortName) {
       this.sortName = sortName;
     } else {
-        this.sortStatus= !this.sortStatus
+      this.sortStatus = !this.sortStatus;
     }
     this.getproductList();
   }
 
   getproductList() {
-    console.log(this.sortName)
     let data = {
       catId: this.catId
     };
-    if ((this.sortName || "") !== "") {
+
+
+  if ((this.sortName || "") !== "") {
       (<any>Object).assign(data, { sortName: this.sortName });
     }
-    if (this.sortStatus  !='' || this.sortStatus  !=undefined) {
+    if (this.sortStatus != "" || this.sortStatus != undefined) {
       (<any>Object).assign(data, { sortStatus: this.sortStatus });
     }
+
+    // let a: any = this.$refs.wintabe;
+    // if ((this.keyword || "") !== "") {
+    //   (<any>Object).assign(data, { keyWord: this.keyword});
+    // }
 
     Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
       if (res.returnCode !== 200) {
@@ -149,7 +167,6 @@ export default class ProductDetail extends Vue {
         return;
       }
       this.shopList = res.data.goodsList;
-      console.log(this.shopList)
     });
   }
 
@@ -184,16 +201,15 @@ export default class ProductDetail extends Vue {
   commentnum = 0;
   praise = "0";
   tabindex = 0;
-  handleStatus(type){
-    if(this.sortName==type && this.sortStatus == false){
-      return 'sortPrice'
-    } else if(this.sortName==type && this.sortStatus){
-      return 'sortTime';
-    }else{
-       return ''
+  handleStatus(type) {
+    if (this.sortName == type && this.sortStatus == false) {
+      return "sortPrice";
+    } else if (this.sortName == type && this.sortStatus) {
+      return "sortTime";
+    } else {
+      return "";
     }
- 
- }
+  }
   selecttablist(index) {
     this.tabgoodslist = [];
     if (index == 0) {
@@ -279,12 +295,16 @@ export default class ProductDetail extends Vue {
       cursor: pointer;
       .shop_img {
         border: 1px solid #ededed;
-        margin-bottom: 30px;position: relative;
+        margin-bottom: 30px;
+        position: relative;
         // 热卖
-        .hot{
-          position: absolute;left: 0;top: 0;
-          img{
-            width:33px;height:38px;
+        .hot {
+          position: absolute;
+          left: 0;
+          top: 0;
+          img {
+            width: 33px;
+            height: 38px;
           }
         }
         img {
