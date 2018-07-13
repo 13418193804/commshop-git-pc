@@ -26,7 +26,7 @@
 
     </div>
     <div class=" flex-1" :class="menuName !='我的订单' &&  $route.path !=='/orderdetail' ?'borderSet':''">
-        <router-view :selectMenu="selectMenu"></router-view>
+        <router-view @selectMenu="selectMenu"></router-view>
     </div>
 </div>
 </div>
@@ -109,6 +109,8 @@ export default class shopIndex extends Vue {
   ]
   menuName = '个人中心'
 selectMenu(items){
+
+  console.log('--------')
     if(items.url == '/'){
       return 
     }

@@ -533,6 +533,7 @@ doDeleteOrder(orderId){
     this.getOrderList(this.orderTitleList[index].status,true);
   }
   mounted() {
+    
       this.$emit('selectMenu',{
           name: '我的订单',
           url:'/orderlist',
