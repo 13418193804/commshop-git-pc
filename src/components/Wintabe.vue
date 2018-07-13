@@ -1062,6 +1062,8 @@ changeTab(active, shit) {
   :hover{
     color: #f4c542;background: #f8f8f8;
   }
+  }
+
 .hotwordItem{
   font-size:14px;
 }
