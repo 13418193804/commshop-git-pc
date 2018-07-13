@@ -535,6 +535,11 @@ doDeleteOrder(orderId){
     this.getOrderList(this.orderTitleList[index].status,true);
   }
   mounted() {
+      this.$emit('selectMenu',{
+          name: '我的订单',
+          url:'/orderlist',
+        })
+    
     this.orderTitleList.forEach((item, index) => {
       if (this.$route.query.orderStatus == item.status) {
         this.active = index;

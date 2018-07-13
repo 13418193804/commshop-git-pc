@@ -9,7 +9,7 @@
                    <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
                  <span v-else>{{userInfo.loginName}}</span>   
                  
-              <span @click="loginOut()">退出</span>
+             
               <div class="top_select" v-if="select_block">
                 <div @click="myCollect()">我的收藏</div>
                 <div @click="mySite()">地址管理</div>

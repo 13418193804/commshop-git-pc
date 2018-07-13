@@ -26,7 +26,7 @@
 
     </div>
     <div class=" flex-1" :class="menuName !='我的订单' &&  $route.path !=='/orderdetail' ?'borderSet':''">
-        <router-view ></router-view>
+        <router-view :selectMenu="selectMenu"></router-view>
     </div>
 </div>
 </div>
@@ -112,7 +112,10 @@ selectMenu(items){
     if(items.url == '/'){
       return 
     }
+    if(this.$route.path !== 'items.url'){
+    console.log('跳抓')
     this.$router.push(items.url);
+    }
       this.menuName = items.name
 
 }
