@@ -134,6 +134,10 @@ export default class collection extends Vue {
   mounted() {
     this.getProductList();
     console.log("收藏页面");
+    this.$emit('selectMenu',{
+      name: '我的收藏',
+      url:'/collection',
+    })
   }
 }
 </script>

@@ -7,14 +7,12 @@
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
                    <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
-                 <span v-else>{{userInfo.loginName}}</span>   
-                 
-             
+                   <span v-else>{{userInfo.loginName}}</span>   
               <div class="top_select" v-if="select_block">
                 <div @click="myCollect()">我的收藏</div>
                 <div @click="mySite()">地址管理</div>
-                <div @click="myAward()">我的奖励</div>
-                <div @click="loginOut()">退出登录</div>
+                <div @click="myAward()">我的积分</div>
+                <div @click="ruleshow()">退出登录</div>
               </div>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
@@ -30,7 +28,7 @@
               <span>消息</span>
             </div>
             <div class="contentBox borderleft ">
-              <span>在线客服</span>
+              <span onclick="showMeiQia()">在线客服</span>
             </div>
 
             <div class="contentBox borderleft borderright">
@@ -159,7 +157,7 @@
   <div><i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" ></i></div>
 </div>
 
-    <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
+ <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
         <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word)">
       </div>
 </div>
@@ -251,7 +249,7 @@
                     <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
                           <el-carousel :interval="5000" arrow="always">
                           <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
-                                            <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
+                                <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/>
                           </el-carousel-item>
                         </el-carousel>
                     </div>
@@ -266,7 +264,7 @@
                             </div>
                             <div class="goodsBody" v-if="items.columnNum ===1" >
                                 <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
-                                  <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
+                                  <div class="flex" style=" padding:10px;">
                                     <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
                                       <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
                                       <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
@@ -312,6 +310,25 @@
       <p>返回顶部</p>
     </div>
  </div>
+
+ <!-- 确认退出 -->
+<div style=" position: relative;">
+    <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="isruleshow" >
+      <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
+        <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:200px;padding:20px; border-radius: 10px;    position: relative;">
+          <div style="position: absolute;top:10px;right:10px;">
+            <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="ruleshow()"/>
+          </div>
+          <div style="padding:10px;font-size:14px">是否退出登录</div>
+          <div class="flex">
+            <div @click="loginOut()" 
+            style="width:90px;height:24px;background-color:#FCCB52;color:#fff;text-align: center;line-height:24px;margin-right:5px;">确认</div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
 </div>
   <!-- end container -->
 </template>
@@ -388,6 +405,11 @@ doSelect(keyword){
     
   backTopShow = false
   cartModel = false
+  // 弹窗
+  isruleshow=false;
+  ruleshow(){
+    this.isruleshow=!this.isruleshow
+  }
   mouseover() {
     this.cartModel = true
   }
@@ -455,6 +477,7 @@ mobile =this.forget_Name
       }
     );
   }
+  
   goCart(){
     this.$router.push('/cart')
   }
@@ -592,7 +615,7 @@ mySite() {
 }
 myAward() {
   this.$router.push({
-    path: "/discountLobby",
+    path: "/my_reward",
   });
 }
 myOrder(){
@@ -609,7 +632,9 @@ myOrder(){
     });
   }
   modelType = "login";
+  // 退出登录
   loginOut() {
+    this.isruleshow=!this.isruleshow;
     this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, {
       userId: "",
       token: ""

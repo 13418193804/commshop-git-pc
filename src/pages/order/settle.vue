@@ -3,7 +3,7 @@
     
 <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;">
+       <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
   收货信息
 </div>
@@ -53,7 +53,7 @@
 
 
 <div class=" flex   flex-pack-center ">
-       <div  style="width:60%;">
+       <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex flex-pack-justify flex-align-center">
     <div style="width:70px;margin-left:40px;">商品信息</div>
     <div style="width:230px;"></div>
@@ -157,10 +157,10 @@
 <div style=" position: relative;">
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
 <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
-            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative; width: 560px;">
               <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
-     <div  class="add_titile">切换地址</div>
-              <div class="flex region" style="height:560px;    overflow: auto;">
+                <div  class="add_titile">切换地址</div>
+              <div class="flex region" style="min-height:300px;    overflow: auto;">
                   <div>
                 <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres" :style=" address.addressId == item.addressId?'border-color:#f4c542':''">
                       <div class="flex">
@@ -743,7 +743,7 @@ this.getAddressList()
 <style lang="scss" scoped>
 .contentBox2 {
   border: 1px #e5e5e5 solid;
-  width: 60%;
+  width: 1200px;
   font-size: 14.2px;
   margin-bottom: 20px;
 }

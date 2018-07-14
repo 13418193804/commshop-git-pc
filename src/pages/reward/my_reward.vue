@@ -432,6 +432,11 @@ export default class my_reward extends Vue {
     this.get_user_rewardlist();
     this.getdefaultbankcard();
     console.log("我的奖励");
+    
+    this.$emit('selectMenu',{
+      name: '我的积分',
+      url:'/my_reward',
+    })
   }
 }
 </script>

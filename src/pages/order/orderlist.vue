@@ -45,9 +45,9 @@
         <div style='  overflow: hidden;text-overflow: ellipsis;color:#999'>
          <div style="color:#666;" class="textLabel">
         <span v-if="items.skuKeyValue.length>2 ">
-<span v-for="items1 in JSON.parse(items.skuKeyValue)" style="margin-right:10px;">
-  <span>{{items1.key}}:{{items1.value}} X {{items.goodsNum}}</span>
-</span>
+  <span v-for="items1 in JSON.parse(items.skuKeyValue)" style="margin-right:10px;">
+    <span>{{items1.key}}:{{items1.value}} X {{items.goodsNum}}</span>
+  </span>
         </span>
         <span v-else>
           X {{items.goodsNum}}
@@ -100,21 +100,16 @@
 
   </div>
 
-
-
-
-
      <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' ||item.orderStatus === 'ORDER_FINISH'">
         <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
-      <span style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)">再次购买</span>
-      <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</span>
-      <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW'" :style="formatButtonColor()" @click.stop="gocomment(item)">评价商品</span>
-    </div>
+          <span style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)">再次购买</span>
+          <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</span>
+          <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW'" :style="formatButtonColor()" @click.stop="gocomment(item)">评价商品</span>
+        </div>
 
         <div v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'">
-      <span v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;" :style="formatButtonColor()" @click.stop="goDetail(item)">取消退款</span>
-          </div>
-          
+            <span v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;" :style="formatButtonColor()" @click.stop="goDetail(item)">取消退款</span>
+        </div> 
     </div>
 
      <div class="settingBody" v-if="item.orderStatus === 'ORDER_END_GOODS'">
@@ -150,8 +145,7 @@
 </div>
 
 
-   
-
+  
   </div>
 
       </div>
@@ -162,11 +156,8 @@
     <div v-else>-</div>
   
 </div>
-
-
-
-
-  </div>
+</div>
+  
 </template>
 
 <script lang="ts">
@@ -533,12 +524,11 @@ doDeleteOrder(orderId){
     this.getOrderList(this.orderTitleList[index].status,true);
   }
   mounted() {
-    
-      this.$emit('selectMenu',{
-          name: '我的订单',
-          url:'/orderlist',
-        })
-    
+    this.$emit('selectMenu',{
+      name: '我的订单',
+      url:'/orderlist',
+    })
+
     this.orderTitleList.forEach((item, index) => {
       if (this.$route.query.orderStatus == item.status) {
         this.active = index;
