@@ -109,7 +109,6 @@ export default class shopIndex extends Vue {
   ]
   menuName = '个人中心'
 selectMenu(items){
-
   console.log('--------')
     if(items.url == '/'){
       return 

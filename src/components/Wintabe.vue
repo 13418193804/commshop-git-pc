@@ -372,11 +372,14 @@ doSelect(keyword){
     this.$emit('filterproduct');
     return
   }
-
+sessionStorage.keyword =  keyword
   
   this.$router.push(
     {
       name:'productclassify',
+      query:{
+        type:'filter'
+      }
     },
   )
   

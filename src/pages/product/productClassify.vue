@@ -7,7 +7,7 @@
               <!-- 商品列表页-->
                 <div class="classify_shop">
                     <div class="classify_top">
-                        <div class="flex">
+                        <div class="flex" v-if="$route.query.type !=='filter'">
                           <div> 分类</div>
                           <div> <span 
                           v-for="(catItem,index) in catList" :key="index" class="colorGray" 
@@ -76,14 +76,14 @@ export default class ProductDetail extends Vue {
   keyword = "";
   mounted() {
     let a: any = this.$refs.wintabe;
-
-  console.log()
-  
+    this.keyword =  sessionStorage.keyword
+    sessionStorage.keyword =''
+if(this.$route.query.type !=='filter'){
       this.catId = sessionStorage.catId;
       this.parentId = sessionStorage.parentId;
-
-
     this.getSecCatList();
+}
+
   }
   // H:\项目分类\康扬医德快\back-yidekuai
   parentId = "";
@@ -102,11 +102,9 @@ export default class ProductDetail extends Vue {
     let data = {};
     let a: any = this.$refs.wintabe;
 
-    if ((this.keyword || "") == "") {
       (<any>Object).assign(data, {
         parentId: this.parentId
       });
-    }
 
     //二级菜单
     Vue.prototype.$reqFormPost1("/user/cat/list", data, res => {
@@ -117,12 +115,10 @@ export default class ProductDetail extends Vue {
         return;
       }
       this.catList = res.data;
-      if ((this.keyword || "") == "") {
         let a = this.catList.filter((item, index) => {
           return item.catId == this.catId;
         });
         this.checkSecCat(a[0]);
-      }
     });
   }
 
@@ -143,9 +139,17 @@ export default class ProductDetail extends Vue {
   }
 
   getproductList() {
+
+
     let data = {
-      catId: this.catId
+      
     };
+
+
+if(this.$route.query.type !=='filter'){
+      (<any>Object).assign(data, {catId: this.catId });
+  
+}
 
 
   if ((this.sortName || "") !== "") {
@@ -154,11 +158,9 @@ export default class ProductDetail extends Vue {
     if (this.sortStatus != "" || this.sortStatus != undefined) {
       (<any>Object).assign(data, { sortStatus: this.sortStatus });
     }
-
-    // let a: any = this.$refs.wintabe;
-    // if ((this.keyword || "") !== "") {
-    //   (<any>Object).assign(data, { keyWord: this.keyword});
-    // }
+    if ((this.keyword || "") !== "" && this.$route.query.type =='filter') {
+      (<any>Object).assign(data, { keyWord: this.keyword});
+    }
 
     Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
       if (res.returnCode !== 200) {
