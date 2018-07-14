@@ -232,62 +232,68 @@
 
 <!-- <div style="height:50px;background-color:red">123</div> -->
 <!-- 头部导航菜单 -->
-<van-tabs :active="active" @click="changeTab" class="index_tabs flex-1" style="width:100%;" >
+<van-tabs :active="active" @click="changeTab" v-on:mouseover="changeTab" class="index_tabs flex-1" style="width:100%;" >
+<!-- <van-tabs :active="active" k@clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
-    <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index">
+    <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
+      
+    >
+    <!-- v-on:mouseover="two_menu(active)" -->
           <div v-if="active == index">
-                <!-- {{item.catId}}  -->
-                <!-- 二级菜单 -->
-                  <div class="flex flex-pack-center two_classify" v-if="item.catId &&catList&& catList.length>0">
-                      <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
-                        <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
-                        <p class="flex-pack-center">{{catItem.catName}}</p>
-                      </div>
-                  </div>
-                  <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
-                    <!-- 轮播图 -->
-                    <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
-                          <el-carousel :interval="5000" arrow="always">
-                          <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
-                                <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/>
-                          </el-carousel-item>
-                        </el-carousel>
+              <!-- {{item.catId}}  -->
+              <!-- 二级菜单 -->
+                <div class="flex flex-pack-center two_classify" 
+                  v-if="item.catId &&catList&& catList.length>0"
+                >
+                    <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
+                      <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
+                      <p class="flex-pack-center">{{catItem.catName}}</p>
                     </div>
-                      
-                    <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
-                      <div style="background-color:#f7f7f7;"></div>
-                      <div style="margin:20px 0">
-                            <div class="index_headline">
-                                <i class="user_img" >{{items.letter}}</i>
-                                <i>{{items.name}}</i>
-                                <p>{{items.nameEn}}</p>
-                            </div>
-                            <div class="goodsBody" v-if="items.columnNum ===1" >
-                                <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
-                                  <div class="flex" style=" padding:10px;">
-                                    <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
-                                      <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
-                                      <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
-                                    </div>
-                                    
-                                    <div style="padding:10px">
-                                      <div >
-                                          <img src="../assets/image/新品特价.png" v-if="goods.isBargain"  style="vertical-align: middle;height:20px;font-size: 12px;"/>
-                                          <span class="textLabel" style="color:#000000;font-size:18px">{{goods.goodsName}}</span>
-                                      </div>
-                                      <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
-                                      <div>
-                                        <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
-                                        <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice}}</span>
-                                      </div>
-                                      <van-button class="btn_yellow" @click.stop="goProductDetail(goods.goodsId)">立即抢购</van-button>
-                                    </div>
-                                    </div>
+                </div>
+                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
+                  <!-- 轮播图 -->
+                  <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
+                        <el-carousel :interval="5000" arrow="always">
+                        <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
+                              <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/>
+                        </el-carousel-item>
+                      </el-carousel>
+                  </div>
+                    
+                  <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
+                    <div style="background-color:#f7f7f7;"></div>
+                    <div style="margin:20px 0">
+                          <div class="index_headline">
+                              <i class="user_img" >{{items.letter}}</i>
+                              <i>{{items.name}}</i>
+                              <p>{{items.nameEn}}</p>
+                          </div>
+                          <div class="goodsBody" v-if="items.columnNum ===1" >
+                              <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
+                                <div class="flex" style=" padding:10px;">
+                                  <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
+                                    <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
+                                    <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
                                   </div>
-                            </div>
-                      </div>
+                                  
+                                  <div style="padding:10px">
+                                    <div >
+                                        <img src="../assets/image/新品特价.png" v-if="goods.isBargain"  style="vertical-align: middle;height:20px;font-size: 12px;"/>
+                                        <span class="textLabel" style="color:#000000;font-size:18px">{{goods.goodsName}}</span>
+                                    </div>
+                                    <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
+                                    <div>
+                                      <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
+                                      <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice}}</span>
+                                    </div>
+                                    <van-button class="btn_yellow" @click.stop="goProductDetail(goods.goodsId)">立即抢购</van-button>
+                                  </div>
+                                  </div>
+                                </div>
+                          </div>
                     </div>
                   </div>
+                </div>
           </div>
     </van-tab>
   </van-tabs>
@@ -311,7 +317,7 @@
     </div>
  </div>
 
- <!-- 确认退出 -->
+ <!-- 确认退出弹窗 -->
 <div style=" position: relative;">
     <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="isruleshow" >
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
@@ -419,6 +425,8 @@ sessionStorage.keyword =  keyword
   mouseout() {
     
   }
+
+  menu_block = false;
   type = "H5";
   leftScale = "1.5";
   textindex = 1;
@@ -741,12 +749,11 @@ changeTab(active, shit) {
 
     this.active = active;
     if(active != "-1"){
-        this.getSecCatList(active);
+        // this.getSecCatList(active);
+        this.two_menu(active);
     }
     
-    if (active != "-1" && !this.indexList[active].children) {
-
-      
+    if (active != "-1" && !this.indexList[active].children) {    
       Vue.prototype.$reqFormPost1(
         "/page/info",
         {
@@ -789,9 +796,10 @@ changeTab(active, shit) {
     } else {
     }
   }
-  //二级菜单
-  getSecCatList(active){
-    Vue.prototype.$reqFormPost1(
+
+two_menu(active){
+  console.log('进来',this.menu_block)
+   Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
         parentId: this.indexList[active].catId
@@ -805,6 +813,23 @@ changeTab(active, shit) {
         this.catList = res.data;
       }
     );
+  }
+  //二级菜单
+  getSecCatList(active){
+    // Vue.prototype.$reqFormPost1(
+    //   "/user/cat/list",
+    //   {
+    //     parentId: this.indexList[active].catId
+    //   },
+    //   res => {
+    //     if (res.returnCode !== 200) {
+    //       this["$Message"].warning(res.message);
+    //       console.log(res.message);
+    //       return;
+    //     }
+    //     this.catList = res.data;
+    //   }
+    // );
   }
   initIndex() {
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
