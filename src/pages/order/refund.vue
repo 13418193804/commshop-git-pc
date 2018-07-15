@@ -243,9 +243,6 @@
         </van-uploader>
   
       </div>
-  
-  
-  
       <div class="el-upload--picture-card" style="position: relative;" v-for="(item,index) in refundObj.refundImgs" :key="index">
   
         <img :src="item" style="width:100%;" />
@@ -261,18 +258,9 @@
       height: 17px;
   
       line-height: 17px;" @click="removeByValue(refundObj.refundImgs,item)"></i>
-  
-  
-  
-  
-  
       </div>
-  
-  
-  
     </div>
-  
-  
+
   
     <div style="margin: 10px;">
   

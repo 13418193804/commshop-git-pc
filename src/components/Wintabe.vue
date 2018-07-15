@@ -321,14 +321,18 @@
 <div style=" position: relative;">
     <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="isruleshow" >
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
-        <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:200px;padding:20px; border-radius: 10px;    position: relative;">
+        <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:300px;height:170px;padding:20px; border-radius: 10px;    position: relative;">
           <div style="position: absolute;top:10px;right:10px;">
             <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="ruleshow()"/>
           </div>
           <div style="padding:10px;font-size:14px">是否退出登录</div>
           <div class="flex">
+            <div @click="ruleshow()" 
+            style="width:90px;height:35px;border:1px solid #FCCB52;color:#FCCB52;text-align: center;line-height:35px;margin-right:8px;font-size:14px;">取消</div>
+
             <div @click="loginOut()" 
-            style="width:90px;height:24px;background-color:#FCCB52;color:#fff;text-align: center;line-height:24px;margin-right:5px;">确认</div>
+            style="width:90px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;font-size:14px;">确认</div>
+
           </div>
         </div>
       </div>

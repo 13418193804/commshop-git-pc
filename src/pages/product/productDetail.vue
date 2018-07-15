@@ -52,9 +52,15 @@
   <div>此商品不可与优惠券叠加使用</div>
 </div>
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
-  <div style="width:50px">领券</div>
+  <div style="width:50px" v-if="detatil.couponList.length>0">领券</div>
+  <div class="full_bg" v-if="detatil.couponList.length>0">
+    {{detatil.couponList[0].couponName}} 
+  </div>
   <div>
-    <span style="color:red">立即领取></span>
+    <span style="color:red" @click="goDiscount()" v-if="detatil.couponList.length>0">立即领取></span>
+  </div>
+  <div>
+    
   </div>
 </div>
 <div class="flex flex-align-center" style="  padding: 10px 0; margin: 0 20px;">
@@ -265,6 +271,7 @@ export default class ProductDetail extends Vue {
   new_active = '0';
   btn_active = '1';
   new_detatil = [];
+  goCoupon = [];
   selecttablist(index) {
     this.tabgoodslist = [];
     if (index == 0) {
@@ -277,6 +284,7 @@ export default class ProductDetail extends Vue {
     }
 
   }
+  
   // 新品推荐切换
   new_actdiv(new_active){
     this.new_active = new_active;
@@ -355,6 +363,11 @@ export default class ProductDetail extends Vue {
       }
     );
     // console.log(this.skuItem.skuId);
+  }
+  goDiscount(){
+    this.$router.push({
+      path: "/discount"
+    });
   }
   updataCollect(){
     if(this.detatil.favStatus == 0){
@@ -531,7 +544,9 @@ export default class ProductDetail extends Vue {
         }
         this.detatil = res.data;
         this.new_detatil = res.data.newList;
-        console.log('数据',this.new_detatil);
+        this.goCoupon = res.data.couponList;
+        console.log('满减',this.goCoupon);
+        console.log('数据',this.detatil);
 
         if (res.data.singleStatus) {
           this.skuItem = res.data.sku[0];
@@ -680,4 +695,8 @@ export default class ProductDetail extends Vue {
     }
   }
 }
+ .full_bg{
+   background: url(../../assets/image/满减背景.png) no-repeat;padding: 0 18px;background-size: 100% 100%;height: 24px;
+   line-height: 24px;color: #ffc630;margin-right:5px;font-size: 10px;
+ }
 </style>
