@@ -5,9 +5,10 @@
       <div class=" flex flex-pack-center">
           <div  style="width:1200px;">
               <!-- 商品列表页-->
+              {{keyword}}
                 <div class="classify_shop">
                     <div class="classify_top">
-                        <div class="flex">
+                        <div class="flex" v-if="$route.query.type !=='filter'">
                           <div> 分类</div>
                           <div> <span 
                           v-for="(catItem,index) in catList" :key="index" class="colorGray" 
@@ -29,7 +30,7 @@
                     </div>
                     <!-- 商品列表 -->
                     <div class="shop_list">
-                       <ul class="flex">
+                       <ul class="flex flex-warp-justify">
                            <li  v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
                               <div class="shop_img">
                                 <div class="hot" v-if="shopItem.hotStatus"><img src="../../assets/hot.png"></div>
@@ -76,14 +77,19 @@ export default class ProductDetail extends Vue {
   keyword = "";
   mounted() {
     let a: any = this.$refs.wintabe;
+    this.keyword =  sessionStorage.keyword
+    sessionStorage.keyword =''
 
-  console.log()
-  
+if(this.keyword){
+  a.keyword = this.keyword
+}
+this.getproductList()
+if(this.$route.query.type !=='filter'){
       this.catId = sessionStorage.catId;
       this.parentId = sessionStorage.parentId;
-
-
     this.getSecCatList();
+}
+
   }
   // H:\项目分类\康扬医德快\back-yidekuai
   parentId = "";
@@ -102,11 +108,9 @@ export default class ProductDetail extends Vue {
     let data = {};
     let a: any = this.$refs.wintabe;
 
-    if ((this.keyword || "") == "") {
       (<any>Object).assign(data, {
         parentId: this.parentId
       });
-    }
 
     //二级菜单
     Vue.prototype.$reqFormPost1("/user/cat/list", data, res => {
@@ -117,12 +121,10 @@ export default class ProductDetail extends Vue {
         return;
       }
       this.catList = res.data;
-      if ((this.keyword || "") == "") {
         let a = this.catList.filter((item, index) => {
           return item.catId == this.catId;
         });
         this.checkSecCat(a[0]);
-      }
     });
   }
 
@@ -143,23 +145,21 @@ export default class ProductDetail extends Vue {
   }
 
   getproductList() {
+    let a: any = this.$refs.wintabe;
     let data = {
-      catId: this.catId
     };
-
-
+if(this.$route.query.type !=='filter'){
+      (<any>Object).assign(data, {catId: this.catId });
+}
   if ((this.sortName || "") !== "") {
       (<any>Object).assign(data, { sortName: this.sortName });
     }
     if (this.sortStatus != "" || this.sortStatus != undefined) {
       (<any>Object).assign(data, { sortStatus: this.sortStatus });
     }
-
-    // let a: any = this.$refs.wintabe;
-    // if ((this.keyword || "") !== "") {
-    //   (<any>Object).assign(data, { keyWord: this.keyword});
-    // }
-
+    if ((a.keyword || "") !== "" && this.$route.query.type =='filter') {
+      (<any>Object).assign(data, { keyWord: a.keyword});
+    }
     Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
       if (res.returnCode !== 200) {
         this["$Message"].warning(res.message);
@@ -284,6 +284,7 @@ export default class ProductDetail extends Vue {
   white-space: nowrap; //文本不会换行（单行文本溢出）
 }
 .shop_list {
+      margin-top: 10px;
   ul {
     overflow: hidden;
     margin-bottom: 20px;

@@ -169,7 +169,7 @@
      </div>
     
     
-    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect()" class="flex flex-align-center flex-pack-center">
+    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword)" class="flex flex-align-center flex-pack-center">
   <img src="../assets/image/放大镜.png" />
     </div>
 
@@ -375,18 +375,24 @@ this.filterModel = false
 },500)
 
 }
+
 keyword =''
+
 doSelect(keyword){
 
   if(this.$route.path == '/productclassify'){
     this.$emit('filterproduct');
     return
   }
-
   
+sessionStorage.keyword =  keyword
+
   this.$router.push(
     {
       name:'productclassify',
+      query:{
+        type:'filter'
+      }
     },
   )
   
