@@ -82,7 +82,9 @@
       @click.stop="goDetail(item)">取消退款</span>
 
       <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
-      @click.stop="doRefund(item)">申请退款</span>
+      @click.stop="goRefund(item) ">申请退款</span>
+      <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
+      @click.stop="doRefund(item) ">申请退款1</span>
   </div>
   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_RECVGOODS'">
     <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
@@ -156,6 +158,10 @@
     <div v-else>-</div>
   
 </div>
+
+
+<reimburse ref="reimburse" :orderItem="orderItem"></reimburse>
+
 </div>
   
 </template>
@@ -171,17 +177,20 @@ import axios from "axios";
 
 import Wintabe from "../../components/Wintabe.vue";
 import Winbeet from "../../components/Winbeet.vue";
+import reimburse from "../index/reimburse.vue";
+
 @Component({
   components: {
     Wintabe,
-    Winbeet
+    Winbeet,
+    reimburse
 },
   mixins: [mixin]
 })
 export default class orderList extends Vue {
   loading = false;
   finished = false;
-
+  orderItem = {};
   orderList = {
     orderList: { orderList: [], pageSize: 10, loading: true },
     orderList_pay: { orderList: [], pageSize: 10, loading: true },
@@ -190,6 +199,28 @@ export default class orderList extends Vue {
     orderList_finish: { orderList: [], pageSize: 10, loading: true },
     orderList_refund: { orderList: [], pageSize: 10, loading: true }
   };
+  
+  goRefund(item){
+    this.orderItem =  item
+    console.log('金额',this.orderItem)
+    let a : any = this.$refs.reimburse
+    a.model = true
+    //    this.$router.push({
+    //   name: "refund",
+    //   query: {
+    //     orderId: item.orderId
+    //   }
+    // });
+  }
+  doRefund(item) {
+    console.log(item.orderId);
+    this.$router.push({
+      name: "refund",
+      query: {
+        orderId: item.orderId
+      }
+    });
+  }
   onLoad() {
     setTimeout(() => {}, 500);
   }
@@ -318,15 +349,7 @@ doDeleteOrder(orderId){
     );
   }
 
-  doRefund(item) {
-    console.log(item.orderId);
-    this.$router.push({
-      name: "refund",
-      query: {
-        orderId: item.orderId
-      }
-    });
-  }
+
   formatStatusColor(status) {
     switch (status) {
       case "ORDER_WAIT_SENDGOODS":
