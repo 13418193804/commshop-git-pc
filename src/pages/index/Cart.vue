@@ -4,7 +4,7 @@
 <wintabe ref="wintabe" :table="true" @getCartList="changeStatus" :router="true"></wintabe>
 
 <div class=" flex   flex-pack-center ">
-       <div  style="width:60%;">
+       <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex flex-pack-justify flex-align-center">
     <div style="padding: 0 20px;">全选</div>
     <div style="width:70px">商品信息</div>
@@ -435,11 +435,11 @@ export default class Cart extends Vue {
 }
 .contentBox1 {
   border: 1px #e5e5e5 solid;
-  width: 60%;
+  width: 1200px;
 }
 .btmContent {
   background-color: #f9f9f9;
-  width: 60%;
+  width: 1200px;
   border: 1px #e5e5e5 solid;
   margin-top: 10px;
 }

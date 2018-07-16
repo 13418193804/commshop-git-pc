@@ -1,6 +1,5 @@
 <template>
   <div class="alter-container">
-  
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
@@ -25,7 +24,7 @@
               <span @click="myOrder()">我的订单</span>
             </div>
             <div class="contentBox borderleft ">
-              <span>消息</span>
+              <span @click="myMessagelist()" style="position:relative">消息<i class="msgNum">2</i></span>
             </div>
             <div class="contentBox borderleft ">
               <span onclick="showMeiQia()">在线客服</span>
@@ -270,6 +269,72 @@
                               <i>{{items.name}}</i>
                               <p>{{items.nameEn}}</p>
                           </div>
+                        <!-- //1 -->
+                         <!-- <div class="goodsBody">
+                           <div class="recommend_list">
+                              <div class="shop_img">
+                                <div class="hot"><img src="../assets/hot.png" /></div>
+                                <img src="../assets/LOGO.png" style="height:365px;">
+                                <h4 class="ellipsis">居家必备</h4>
+                              </div>
+                              <div class="shop_details">
+                                <div class="discounts">
+                                  <span>满减</span>
+                                  <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                </div>
+                                <h3 class="ellipsis"> 可水洗</h3>
+                                <p class="shop_prce" style="color:red">￥120.00</p>
+                              </div>
+                           </div>
+                           <div class="recommend_list">
+                              <div class="shop_img">
+                                <div class="hot"><img src="../assets/hot.png" /></div>
+                                <img src="../assets/LOGO.png" style="height:365px;">
+                                <h4 class="ellipsis">居家必备</h4>
+                              </div>
+                              <div class="shop_details">
+                                <div class="discounts">
+                                  <span>满减</span>
+                                  <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                </div>
+                                <h3 class="ellipsis"> 可水洗</h3>
+                                <p class="shop_prce" style="color:red">￥120.00</p>
+                              </div>
+                           </div>
+                           <div class="recommend_list">
+                              <div>
+                                <div class="shop_img">
+                                  <div class="hot"><img src="../assets/hot.png" /></div>
+                                  <img src="../assets/LOGO.png" style="height:160px;">
+                                  <h4 class="ellipsis">居家必备</h4>
+                                </div>
+                                <div class="shop_details">
+                                  <div class="discounts">
+                                    <span>满减</span>
+                                    <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                  </div>
+                                  <h3 class="ellipsis"> 可水洗</h3>
+                                  <p class="shop_prce" style="color:red">￥120.00</p>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="shop_img">
+                                  <div class="hot"><img src="../assets/hot.png" /></div>
+                                  <img src="../assets/LOGO.png" style="height:160px;">
+                                  <h4 class="ellipsis">居家必备</h4>
+                                </div>
+                                <div class="shop_details">
+                                  <div class="discounts">
+                                    <span>满减</span>
+                                    <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                  </div>
+                                  <h3 class="ellipsis"> 可水洗</h3>
+                                  <p class="shop_prce" style="color:red">￥120.00</p>
+                                </div>
+                              </div>
+                           </div>
+                         </div> -->
+                      <!-- 2 -->
                           <div class="goodsBody" v-if="items.columnNum ===1" >
                               <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
                                 <div class="flex" style=" padding:10px;">
@@ -293,6 +358,70 @@
                                   </div>
                                 </div>
                           </div>
+                          <!-- 3 -->
+                          <!-- <div class="goodsBody">
+                              <div style="width:260px;margin-right: 20px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                              <div style="width:260px; margin-right: 20px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                              <div style="width:260px;margin-right: 20px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                              <div style="width:260px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                          </div> -->
+                    
                     </div>
                   </div>
                 </div>
@@ -309,7 +438,7 @@
     >
       <p>下载app</p>
     </div>
-    <div class="icon_code" v-if="cartModel_code"></div>
+    <div class="icon_code" v-if="cartModel_code"><img src="../assets/code.png" style="width:68px;height:68px;"/></div>
 
     <div class="icon_service">
       <p>联系客服</p>
@@ -641,6 +770,11 @@ myAward() {
 myOrder(){
   this.$router.push({
     path:"/orderlist",
+  })
+}
+myMessagelist(){
+  this.$router.push({
+    path:"/messagelist",
   })
 }
   goProductDetail(goodsId) {
@@ -982,7 +1116,8 @@ two_menu(active){
   }
   // 二维码
   .icon_code{
-      width:80px;height:80px;background:#ccc;position: absolute;right:88px;bottom:160px;z-index:9999;
+      padding: 20px 15px;box-shadow: 2px 5px 19px #888888;background:#fff;position: absolute;right:88px;bottom:160px;
+      z-index:9999;width:110px;height:115px;
   }
   .icon_service{
     background:url(../assets/service1.png) no-repeat center bottom 2px;
@@ -1045,6 +1180,11 @@ two_menu(active){
   padding: 0 20px;
   text-align: center;
 }
+//消息样式
+.msgNum{
+  position: absolute;width: 20px;height:20px;background: #fe2015;clear: #fff;
+  border-radius: 50px;text-align: center;line-height: 19px;left: 22px;top:-8px;
+}
 .borderleft {
   border-left: 1px #fff solid;
 }
@@ -1072,6 +1212,7 @@ two_menu(active){
   width: -webkit-fill-available;
   display: flex;
   flex-wrap: wrap;
+  padding: 10px 5px;
 }
 .goodsItem {
   width: 50%;
@@ -1129,5 +1270,96 @@ two_menu(active){
 .hotwordItem{
   font-size:14px;
 }
+//定制推荐
+.recommend_list{
+  width:370px;margin-right:15px;border: 1px solid #ededed;
+  .shop_img{
+    border:none;margin-bottom: 12px;
+    h4{
+      height:60px;line-height:60px;font-size:20px;position: absolute;bottom: 0;background: rgba(207, 207, 207, 0.3);color:#a3a3a3;
+    }
+  }
 
+  .shop_details{
+    padding:0 10px 10px 20px;
+    h3{
+      font-size:14px;margin-bottom:0;
+    }
+  }
+}
+.recommend_list:nth-of-type(3){
+  border:none;
+}
+.recommend_list:nth-of-type(3)>div{
+  border: 1px solid #ededed;
+  height:230px;margin-bottom:10px;
+  .shop_img{
+    >img{
+      height:165px;
+    }
+    h4{
+      height:30px;line-height:30px;font-size:12px;
+    }
+  }
+  .shop_details{
+    position:relative;
+    .discounts{
+      margin-bottom: 7px;
+    }
+    p{
+      position: absolute;right:10px;top:8px;
+    }
+  }
+}
+
+ .shop_img {
+    border: 1px solid #ededed;border-radius: 4px;
+    margin-bottom: 10px;
+    position: relative;
+    // 热卖
+    .hot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      img {
+        width: 33px;
+        height: 38px;
+      }
+    }
+    img {
+      width: 100%;
+      height: 230px;
+    }
+    h4 {
+      height: 54px;
+      line-height: 54px;
+      background: #eff1f1;
+      text-align: center;
+      font-size: 22px;
+      color: #a3a3a3;
+      width: 100%;
+    }
+  }
+  .shop_details {
+    div {
+      margin-bottom: 12px;
+      span {
+        display: inline-block;
+        width: 40px;
+        height: 19px;
+        text-align: center;
+        color: red;
+        border: 1px solid red;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+    }
+    h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 16px;
+    }
+  }
 </style>

@@ -616,7 +616,10 @@ doDeleteOrder(orderId){
   padding: 10px;
   background-color: #fff;
 }
-
+/* 删除弹框提示 */
+.van-dialog{
+  width: 25%;
+}
 </style>
 
 

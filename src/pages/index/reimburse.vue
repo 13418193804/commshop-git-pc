@@ -6,16 +6,12 @@
           <div style="position: absolute;top:10px;right:10px;" @click="model = false">
             <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;"/>
           </div>
-          <div class="flex flex-pack-justify flex-align-center" style="padding: 10px;">
+          <div class="flex btn_refund">
             <div>售后类型</div>
-            <div class="selectBox" :class="refundObj.refundType == 'REFUND' ?'selectType':''" @click="changerefundType('REFUND')">
-              未收到货，只退款
-            </div>
-            <div class="selectBox" :class="refundObj.refundType == 'GOODS_RETURN' ?'selectType':''" @click="changerefundType('GOODS_RETURN')">
-              退货/退款
-            </div>
+            <button class="selectBox" :class="refundObj.refundType == 'REFUND' ?'selectType':''" @click="changerefundType('REFUND')">未收到货,只退款</button>
+            <button class="selectBox" :class="refundObj.refundType == 'GOODS_RETURN' ?'selectType':''" @click="changerefundType('GOODS_RETURN')">退货退款</button>
           </div>
-          <div style="border:1px #e5e5e5 solid;    margin: 10px;border-radius: 8px;">
+          <div style="width:100%; border:1px #e5e5e5 solid;    margin: 10px;border-radius: 8px;">
             <div style="width:100%;border-bottom:1px #e5e5e5 solid;height:43px ;line-height:43px;padding: 0 10px;">
               提示：快递到达后请拒收快递，否则退款将被拒绝
             </div>
@@ -50,7 +46,8 @@
             </div>
           </div>
           <div style="margin: 10px;">
-            <van-button size="large" @click="doRefund()">提交</van-button>
+            <van-button size="large" @click="doRefund()" style="width:150px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;"
+            >提交</van-button>
           </div>
         </div>
       </div>
@@ -112,38 +109,31 @@ import { Prop } from "vue-property-decorator";
   }
   
     doRefund() {
-      console.log('数据',this.orderItem)
-      
-
+      console.log('数据',this.refundObj.refundType);
+      console.log('oder',this.orderItem.orderId);
+      console.log('金额',this.orderItem.orderTotalPrice);
       Vue.prototype.$reqFormPost(
          "/order/refund/apply",
           {
-          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .token,
-          orderId: this.orderItem,
-          money: this.orderItem.orderTotalPrice,
-        }, res => {
-  
+            userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+            refundType: this.refundObj.refundType,
+            orderId: this.orderItem.orderId,
+            money: this.orderItem.orderTotalPrice,
+            refundImgs: this.orderItem.refundImgs.join(","),
+        },
+         res => {
         if (res == null) {
-  
           console.log("网络请求错误！");
-  
           return;
-  
         }
-  
         if (res.data.status != 200) {
-  
           console.log(
-  
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-  
           );
-  
           Toast(res.data.message);
-  
           return;
   
         }
@@ -461,7 +451,6 @@ import { Prop } from "vue-property-decorator";
   .selectType {
   
     border-color: #ffc630 !important;
-  
     color: #ffc630;
   
   }
@@ -489,10 +478,9 @@ import { Prop } from "vue-property-decorator";
   .selectBox {
   
     border: 1px #e5e5e5 solid;
-  
     padding: 5px 18px;
-  
     border-radius: 6px;
+
   
   }
   
@@ -534,6 +522,17 @@ import { Prop } from "vue-property-decorator";
   
     outline: none;
   
+  }
+  .btn_refund{
+    div{
+      height:40px;line-height: 40px;width:100px;font-size:14px;margin-bottom: 20px;
+    }
+    button{
+        border:1px solid #e6e6e6;height:40px;width:155px;margin-right:28px;font-size:14px;
+    }
+    .border_yellow{
+      border:1px solid #FCCB52;color: #FCCB52
+    }
   }
 </style>
 

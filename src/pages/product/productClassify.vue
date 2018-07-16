@@ -295,8 +295,8 @@ if(this.$route.query.type !=='filter'){
       margin-right: 30px;
       cursor: pointer;
       .shop_img {
-        border: 1px solid #ededed;
-        margin-bottom: 30px;
+        border: 1px solid #ededed;border-radius: 4px;
+        margin-bottom: 10px;
         position: relative;
         // 热卖
         .hot {

@@ -1,14 +1,11 @@
 <template>
   <div class="">
-
-        
-        <div style="padding:30px;">
-          <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" style="padding:15px 0;border-bottom:1px dashed #E5E5E5;">
-            <div :style="item.status==false?'color:#000':'color:#E5E5E5'"><span v-if="item.status==false" style="display: inline-block;vertical-align: middle;background-color:#FF0506;border-radius: 50px;width:10px;height:10px;"></span>{{item.content}}<span style="color:#FDD273;">查看详情》</span></div>
-            <div style="color:#B4B4B4;">{{item.updateTime}}</div>
-          </div>
+      <div style="padding:30px;">
+        <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" style="padding:15px 0;border-bottom:1px dashed #E5E5E5;">
+          <div :style="item.status==false?'color:#000':'color:#E5E5E5'"><span v-if="item.status==false" style="display: inline-block;vertical-align: middle;background-color:#FF0506;border-radius: 50px;width:10px;height:10px;"></span>{{item.content}}<span style="color:#FDD273;">查看详情》</span></div>
+          <div style="color:#B4B4B4;">{{item.updateTime}}</div>
         </div>
-
+      </div>
   </div>
 </template>
 
@@ -56,6 +53,11 @@ export default class messagelist extends Vue {
 
   mounted() {
     this.getList();
+
+    this.$emit('selectMenu',{
+      name: '消息通知',
+      url:'/messagelist',
+    })
   }
 }
 </script>
