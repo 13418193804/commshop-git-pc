@@ -14,8 +14,9 @@
 
 <div class=" flex   flex-pack-center ">
 <div class="contentBox2 ">
-<div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;"  v-if="address">
 
+  
+<div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;"  v-if="address">
 <div class="flex ">
     <i class="iconfont icon-location"></i>
     <span>已选地址</span>
@@ -162,7 +163,10 @@
                 <div  class="add_titile">切换地址</div>
               <div class="flex region" style="min-height:300px;    overflow: auto;">
                   <div>
-                <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres" :style=" address.addressId == item.addressId?'border-color:#f4c542':''">
+                <div v-for="(item,index) in addressList"
+                 @click="setDefaultAddress(item.addressId)"
+                  class="bc_addres"
+                   :style=" address && address.addressId == item.addressId?'border-color:#f4c542':''">
                       <div class="flex">
 <div style="width:100px;text-align:right;">收货人：</div>
       {{item.contactname}}
@@ -522,6 +526,7 @@ changeprovince(){
         console.log("地址列表", res.data.data.addressList);
         this.addressList = res.data.data.addressList;
         this.addressList.forEach((item, index) => {
+     
           item["id"] = item.addressId;
           item["name"] = item.contactname;
           item["tel"] = item.contactmobile;
@@ -529,6 +534,8 @@ changeprovince(){
           item["address"] =
             item.province + item.city + item.country + item.address;
         });
+
+
       }
     );
   }

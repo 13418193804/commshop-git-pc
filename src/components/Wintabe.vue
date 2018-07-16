@@ -186,8 +186,7 @@
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">X</div>
         </div>
         <div style="   height: 310px;overflow:auto;">
-
-          
+<div  v-if="cartList.length>0">      
 <div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
@@ -211,9 +210,12 @@
        <div style="padding:10px;">
             <span class="marketPrice" style="font-size:20">￥{{item.price}}</span>
        </div>
-</div>
+       </div>
+       </div>
 
-<div class=" flex  flex-align-center   flex-pack-center">
+
+
+<div class=" flex  flex-align-center   flex-pack-center" v-else>
   <img src="../assets/空购物车拷贝.png" style="width:180px;height:180px;"/>
 </div>
 

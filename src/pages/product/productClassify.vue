@@ -5,7 +5,6 @@
       <div class=" flex flex-pack-center">
           <div  style="width:1200px;">
               <!-- 商品列表页-->
-              {{keyword}}
                 <div class="classify_shop">
                     <div class="classify_top">
                         <div class="flex" v-if="$route.query.type !=='filter'">
@@ -82,8 +81,9 @@ export default class ProductDetail extends Vue {
 
 if(this.keyword){
   a.keyword = this.keyword
-}
 this.getproductList()
+  
+}
 if(this.$route.query.type !=='filter'){
       this.catId = sessionStorage.catId;
       this.parentId = sessionStorage.parentId;
