@@ -160,7 +160,7 @@
 </div>
 
 
-<reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
+<reimburse ref="reimburse" :orderItem="orderItem"></reimburse>
 
 </div>
   
@@ -202,13 +202,15 @@ export default class orderList extends Vue {
   
   goRefund(item){
     this.orderItem =  item
+    console.log('金额',this.orderItem)
     let a : any = this.$refs.reimburse
-
     a.model = true
-
-  }
-  getList(){
-        this.getOrderList(this.orderTitleList[this.active].status,true);
+    //    this.$router.push({
+    //   name: "refund",
+    //   query: {
+    //     orderId: item.orderId
+    //   }
+    // });
   }
   doRefund(item) {
     console.log(item.orderId);
