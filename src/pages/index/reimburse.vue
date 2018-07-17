@@ -109,128 +109,90 @@ import { Prop } from "vue-property-decorator";
   }
   
     doRefund() {
-      console.log('数据',this.refundObj.refundType);
-      console.log('oder',this.orderItem.orderId);
-      console.log('金额',this.orderItem.orderTotalPrice);
-      Vue.prototype.$reqFormPost(
-         "/order/refund/apply",
-          {
-            token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .token,
-            userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+console.log( this.refundObj.refundImgs.join(","))
+
+
+      let url = "/order/refund/apply";
+  
+      let data = ( < any > Object).assign({
+  
+          refundImgs: this.refundObj.refundImgs.join(","),
+  
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+  
             .userId,
-            refundType: this.refundObj.refundType,
-            orderId: this.orderItem.orderId,
-            money: this.orderItem.orderTotalPrice,
-            refundImgs: this.orderItem.refundImgs.join(","),
+  
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+  
+            .token,
+  
+          orderId:this.orderItem["orderId"],
+  
+          money: this.orderItem["payTotal"]
+  
         },
-         res => {
+  
+        this.refundObj
+  
+      );
+  
+      if (this.orderItem["detailList"][0].refundStatus == "FAIL_REFUND") {
+  
+        url = "/order/refund/reapply";
+  
+        data = ( < any > Object).assign({
+  
+            refundImgs: this.refundObj.refundImgs.join(","),
+  
+            userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+  
+              .userId,
+  
+            token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+  
+              .token,
+  
+            refundId: this.orderItem["detailList"][0].refundOrderList[0].refundId,
+  
+            money: this.orderItem["payTotal"]
+  
+          },
+  
+          this.refundObj
+  
+        );
+  
+      }
+  
+  
+  
+      Vue.prototype.$reqFormPost(url, data, res => {
+  
         if (res == null) {
+  
           console.log("网络请求错误！");
+  
           return;
+  
         }
+  
         if (res.data.status != 200) {
+  
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
+  
           Toast(res.data.message);
+  
           return;
   
         }
   
-        Toast("申请成功");
-  
-        console.log("申请退款后", res.data);
-  
-        this.$router.go(-1);
+     this.model = false
+     this["$Message"].success('申请成功');
+this.$emit('getList');
   
       });
-
-      // let url = "/order/refund/apply";
-  
-      // let data = ( < any > Object).assign({
-  
-      //     refundImgs: this.refundObj.refundImgs.join(","),
-  
-      //     userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
-      //       .userId,
-  
-      //     token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
-      //       .token,
-  
-      //     orderId: this.orderId,
-  
-      //     money: this.detail["payTotal"]
-  
-      //   },
-  
-      //   this.refundObj
-  
-      // );
-  
-      // if (this.detail["detailList"][0].refundStatus == "FAIL_REFUND") {
-  
-      //   url = "/order/refund/reapply";
-  
-      //   data = ( < any > Object).assign({
-  
-      //       refundImgs: this.refundObj.refundImgs.join(","),
-  
-      //       userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
-      //         .userId,
-  
-      //       token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
-      //         .token,
-  
-      //       refundId: this.detail["detailList"][0].refundOrderList[0].refundId,
-  
-      //       money: this.detail["payTotal"]
-  
-      //     },
-  
-      //     this.refundObj
-  
-      //   );
-  
-      // }
-  
-  
-  
-      // Vue.prototype.$reqFormPost(url, data, res => {
-  
-      //   if (res == null) {
-  
-      //     console.log("网络请求错误！");
-  
-      //     return;
-  
-      //   }
-  
-      //   if (res.data.status != 200) {
-  
-      //     console.log(
-  
-      //       "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-  
-      //     );
-  
-      //     Toast(res.data.message);
-  
-      //     return;
-  
-      //   }
-  
-      //   Toast("申请成功");
-  
-      //   console.log("申请退款后", res.data);
-  
-      //   this.$router.go(-1);
-  
-      // });
   
     }
   
@@ -432,14 +394,7 @@ import { Prop } from "vue-property-decorator";
     }
   
     mounted() {
-  
-      console.log("退款页面");
-  
-      this.orderId = this.$route.query.orderId;
-      this.money = this.$route.query.money;
-  
-      this.queryDetail();
-  
+ 
     }
   
   }
