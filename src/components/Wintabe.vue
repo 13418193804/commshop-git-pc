@@ -24,7 +24,9 @@
               <span @click="myOrder()">我的订单</span>
             </div>
             <div class="contentBox borderleft ">
-              <span @click="myMessagelist()" style="position:relative">消息<i class="msgNum">2</i></span>
+              <span @click="myMessagelist()" style="position:relative">消息
+                    <div class="messageFexid" style="right:10px">{{messageCount}}</div>
+                </span>
             </div>
             <div class="contentBox borderleft ">
               <span onclick="showMeiQia()">在线客服</span>
@@ -1076,6 +1078,27 @@ two_menu(active){
       this.hotwordList = res.data.data;
     });
   }
+  messageCount:any = 0
+  getMessageCount(){
+        Vue.prototype.$reqFormPost1(
+      "/message/unread/count",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token
+      },
+      res => {
+        if (res.returnCode != 200) {
+        
+     this["$Message"].warning(res.message);
+        return;
+        }
+this.messageCount = res.data.count
+console.log('消息条数',res.data.count)
+      }
+    );
+  }
   mounted() {
     // 添加一个滚动滚动监听事件：
     window.addEventListener('scroll', this.handleScroll);
@@ -1104,7 +1127,9 @@ two_menu(active){
       this.queryuserinfo()
     }
     this.gethotword()
+    this.getMessageCount();
   }
+  
 }
 
 </script>
