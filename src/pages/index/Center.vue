@@ -19,11 +19,11 @@
        <div  style="width:1200px;margin-bottom:10px;">
 <div class="flex">
     <div class="borderSet" style="margin-right:20px;padding:20px;min-width: 152px;">
-<div style="padding:10px 20px;" v-for="(item,index) in menu" :key="index">
-            <div class="title">{{item.title}}</div>
-            <div class="content" :class="menuName == items.name ?'selectContent':''" v-for="(items,indexs) in item.menu" @click="selectMenu(items)" :key="indexs">{{items.name}}</div>
-</div>
-
+      <div style="padding:10px 20px;" v-for="(item,index) in menu" :key="index">
+          <div class="title">{{item.title}}</div>
+          <div class="content" :class="menuName == items.name ?'selectContent':''" 
+              v-for="(items,indexs) in item.menu" @click="selectMenu(items)" :key="indexs">{{items.name}}</div>
+      </div>
     </div>
     <div class=" flex-1" :class="menuName !='我的订单' &&  $route.path !=='/orderdetail' ?'borderSet':''">
         <router-view @selectMenu="selectMenu"></router-view>
@@ -109,13 +109,11 @@ export default class shopIndex extends Vue {
   ]
   menuName = '个人中心'
 selectMenu(items){
-
   console.log('--------')
     if(items.url == '/'){
       return 
     }
     if(this.$route.path !== 'items.url'){
-    console.log('跳抓')
     this.$router.push(items.url);
     }
       this.menuName = items.name

@@ -3,7 +3,7 @@
     
 <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
 <div class=" flex   flex-pack-center">
-       <div  style="width:60%;">
+       <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
   收货信息
 </div>
@@ -14,8 +14,9 @@
 
 <div class=" flex   flex-pack-center ">
 <div class="contentBox2 ">
-<div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;"  v-if="address">
 
+  
+<div style="line-height: 32px;margin:20px;border-bottom:1px solid #e5e5e5;"  v-if="address">
 <div class="flex ">
     <i class="iconfont icon-location"></i>
     <span>已选地址</span>
@@ -53,7 +54,7 @@
 
 
 <div class=" flex   flex-pack-center ">
-       <div  style="width:60%;">
+       <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex flex-pack-justify flex-align-center">
     <div style="width:70px;margin-left:40px;">商品信息</div>
     <div style="width:230px;"></div>
@@ -207,6 +208,7 @@
 </div>
 
 <div style=" position: relative;">
+<<<<<<< HEAD
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
 <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
@@ -236,7 +238,41 @@
         </div>
 
         </div>
+=======
+  <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
+    <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
+        <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative; width: 590px;">
+          <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
+          <div  class="add_titile">切换地址</div>
+          <div class="flex region" style="min-height:300px;    overflow: auto;">
+            <div>
+                <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres bc_addresCur" :style=" address.addressId == item.addressId?'bc_addresCur':''">
+                    <div class="flex">
+                        <div style="width:100px;text-align:right;">收货人：</div>
+                        {{item.contactname}}
+                    </div>
+                    <div class="flex">
+                        <div style="width:100px;text-align:right;">联系方式：</div>
+                        {{item.contactmobile.substring(0,3)}}****{{ item.contactmobile.substring(7,13)}}
+                    </div>
+                    <div class="flex">
+                        <div style="width:100px;text-align:right;">收货地址：</div>
+                        {{item.address}}
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div style="text-align: center; margin-top: 30px;">
+            <button 
+            style="border: none; width: 150px; height: 45px; background-color: rgb(252, 203, 82); color: rgb(255, 255, 255); text-align: center; line-height: 45px; margin-right: 5px; font-size: 16px;">确定</button>
+            <button 
+            style="border: none; width: 150px; height: 45px;border:1px solid #ffc630; color:  rgb(252, 203, 82); text-align: center; line-height: 45px; margin-right: 5px; font-size: 16px;">取消</button>
+          </div>
+>>>>>>> 7834615abab7560e28ebf4c33a55af97e7710191
         </div>
+    </div>
+  </div>
+  </div>
 
       
       <div style=" position: relative;">
@@ -745,6 +781,7 @@ changeprovince(){
         console.log("地址列表", res.data.data.addressList);
         this.addressList = res.data.data.addressList;
         this.addressList.forEach((item, index) => {
+     
           item["id"] = item.addressId;
           item["name"] = item.contactname;
           item["tel"] = item.contactmobile;
@@ -752,6 +789,8 @@ changeprovince(){
           item["address"] =
             item.province + item.city + item.country + item.address;
         });
+
+
       }
     );
   }
@@ -1037,7 +1076,7 @@ this.getAddressList()
 <style lang="scss" scoped>
 .contentBox2 {
   border: 1px #e5e5e5 solid;
-  width: 60%;
+  width: 1200px;
   font-size: 14.2px;
   margin-bottom: 20px;
 }
@@ -1048,7 +1087,7 @@ this.getAddressList()
   position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
 }
 .add_titile{
-  line-height: 40px;font-size: 14px;
+  line-height: 40px;font-size: 18px;
 }
 .region{
   line-height: 30px;margin-bottom: 20px;
@@ -1078,8 +1117,17 @@ this.getAddressList()
 }
 .bc_addres{
   border:#e5e5e5 1px solid;
-  min-width:600px;
-    margin-bottom: 20px;
+  width:500px;
+  margin: 20px;
+  div{
+    font-size:14px;
+    div{
+      font-size:14px;
+    }
+  }
+}
+.bc_addresCur{
+  border:#ffc630 1px solid;background: url(../../assets/image/打钩.png) no-repeat right top;
 }
 </style>
 

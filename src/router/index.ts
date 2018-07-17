@@ -80,6 +80,26 @@ export default new Router({
                     component: r => require.ensure([], () => r(require('../pages/index/discountLobby')))
                 },
                 {
+                    path: '/logistics',
+                    name: 'logistics',
+                    component: r => require.ensure([], () => r(require('../pages/index/logistics')))
+                },
+                {
+                    path: '/reimburse',
+                    name: 'reimburse',
+                    component: r => require.ensure([], () => r(require('../pages/index/reimburse')))
+                },
+                {
+                    path: '/evaluate',
+                    name: 'evaluate',
+                    component: r => require.ensure([], () => r(require('../pages/index/evaluate')))
+                },
+                {
+                    path: '/agreement',
+                    name: 'agreement',
+                    component: r => require.ensure([], () => r(require('../pages/index/agreement')))
+                },
+                {
                     path: '/refund',
                     name: 'refund',
                     component: r => require.ensure([], () => r(require('../pages/order/refund')))

@@ -45,9 +45,9 @@
         <div style='  overflow: hidden;text-overflow: ellipsis;color:#999'>
          <div style="color:#666;" class="textLabel">
         <span v-if="items.skuKeyValue.length>2 ">
-<span v-for="items1 in JSON.parse(items.skuKeyValue)" style="margin-right:10px;">
-  <span>{{items1.key}}:{{items1.value}} X {{items.goodsNum}}</span>
-</span>
+  <span v-for="items1 in JSON.parse(items.skuKeyValue)" style="margin-right:10px;">
+    <span>{{items1.key}}:{{items1.value}} X {{items.goodsNum}}</span>
+  </span>
         </span>
         <span v-else>
           X {{items.goodsNum}}
@@ -82,7 +82,9 @@
       @click.stop="goDetail(item)">取消退款</span>
 
       <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
-      @click.stop="doRefund(item)">申请退款</span>
+      @click.stop="goRefund(item) ">申请退款</span>
+      <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
+      @click.stop="doRefund(item) ">申请退款1</span>
   </div>
   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_RECVGOODS'">
     <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
@@ -100,21 +102,16 @@
 
   </div>
 
-
-
-
-
      <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' ||item.orderStatus === 'ORDER_FINISH'">
         <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
-      <span style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)">再次购买</span>
-      <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</span>
-      <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW'" :style="formatButtonColor()" @click.stop="gocomment(item)">评价商品</span>
-    </div>
+          <span style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)">再次购买</span>
+          <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</span>
+          <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW'" :style="formatButtonColor()" @click.stop="gocomment(item)">评价商品</span>
+        </div>
 
         <div v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'">
-      <span v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;" :style="formatButtonColor()" @click.stop="goDetail(item)">取消退款</span>
-          </div>
-          
+            <span v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;" :style="formatButtonColor()" @click.stop="goDetail(item)">取消退款</span>
+        </div> 
     </div>
 
      <div class="settingBody" v-if="item.orderStatus === 'ORDER_END_GOODS'">
@@ -150,8 +147,7 @@
 </div>
 
 
-   
-
+  
   </div>
 
       </div>
@@ -164,9 +160,10 @@
 </div>
 
 
+<reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
 
-
-  </div>
+</div>
+  
 </template>
 
 <script lang="ts">
@@ -180,17 +177,20 @@ import axios from "axios";
 
 import Wintabe from "../../components/Wintabe.vue";
 import Winbeet from "../../components/Winbeet.vue";
+import reimburse from "../index/reimburse.vue";
+
 @Component({
   components: {
     Wintabe,
-    Winbeet
+    Winbeet,
+    reimburse
 },
   mixins: [mixin]
 })
 export default class orderList extends Vue {
   loading = false;
   finished = false;
-
+  orderItem = {};
   orderList = {
     orderList: { orderList: [], pageSize: 10, loading: true },
     orderList_pay: { orderList: [], pageSize: 10, loading: true },
@@ -199,6 +199,26 @@ export default class orderList extends Vue {
     orderList_finish: { orderList: [], pageSize: 10, loading: true },
     orderList_refund: { orderList: [], pageSize: 10, loading: true }
   };
+  
+  goRefund(item){
+    this.orderItem =  item
+    let a : any = this.$refs.reimburse
+
+    a.model = true
+
+  }
+  getList(){
+        this.getOrderList(this.orderTitleList[this.active].status,true);
+  }
+  doRefund(item) {
+    console.log(item.orderId);
+    this.$router.push({
+      name: "refund",
+      query: {
+        orderId: item.orderId
+      }
+    });
+  }
   onLoad() {
     setTimeout(() => {}, 500);
   }
@@ -327,15 +347,7 @@ doDeleteOrder(orderId){
     );
   }
 
-  doRefund(item) {
-    console.log(item.orderId);
-    this.$router.push({
-      name: "refund",
-      query: {
-        orderId: item.orderId
-      }
-    });
-  }
+
   formatStatusColor(status) {
     switch (status) {
       case "ORDER_WAIT_SENDGOODS":
@@ -533,12 +545,11 @@ doDeleteOrder(orderId){
     this.getOrderList(this.orderTitleList[index].status,true);
   }
   mounted() {
-    
-      this.$emit('selectMenu',{
-          name: '我的订单',
-          url:'/orderlist',
-        })
-    
+    this.$emit('selectMenu',{
+      name: '我的订单',
+      url:'/orderlist',
+    })
+
     this.orderTitleList.forEach((item, index) => {
       if (this.$route.query.orderStatus == item.status) {
         this.active = index;
@@ -603,7 +614,10 @@ doDeleteOrder(orderId){
   padding: 10px;
   background-color: #fff;
 }
-
+/* 删除弹框提示 */
+.van-dialog{
+  width: 25%;
+}
 </style>
 
 

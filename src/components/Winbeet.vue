@@ -6,22 +6,20 @@
           <img src="../assets/image/7天.png" style="width:40px;"/>
           <div style="color:#fff;margin:0 10px">7天无忧退换货</div>
         </div>
-
-  <div class="flex flex-align-center">
+        <div class="flex flex-align-center">
           <img src="../assets/image/48小时拷贝.png" style="width:40px;"/>
           <div style="color:#fff;margin:0 10px">48小时快速退款</div>
         </div>
-
-
-          <div class="flex flex-align-center">
+        <div class="flex flex-align-center">
           <img src="../assets/image/7天.png" style="width:40px;"/>
           <div style="color:#fff;margin:0 10px">中宜严选品质</div>
         </div>
-  <div style="text-align:center;">
-<img src="../assets/image/二维码.png" style="width:45px;"/>
+        <div style="text-align:center;">
+          <img src="../assets/image/二维码.png" style="width:45px;"/>
           <div style="color:#fff">扫码下载中宜严选app</div>
-  </div>
+        </div>
     </div>
+    <div style="height:40px;line-height:40px;text-align: center;">中宜版权所有@ 备案号 粤ICP备15054313号</div>
   </div>
   <!-- end container -->
 </template>
@@ -48,7 +46,7 @@ export default class Comhead extends Vue {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .btm {
- position: absolute;
+//  position: absolute;
  bottom: 0;
   height: 100px;
   width:100%;

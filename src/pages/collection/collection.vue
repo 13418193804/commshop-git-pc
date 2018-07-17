@@ -3,7 +3,8 @@
 <div>
   <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
   <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index">
-    <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"> 
+    <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"  
+    > 
       <div style="position: relative;">
         <div v-if="index==classindex" style="position: absolute;top:-10px;right:-10px;">
           <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="favdelete(item)"/>
@@ -134,6 +135,10 @@ export default class collection extends Vue {
   mounted() {
     this.getProductList();
     console.log("收藏页面");
+    this.$emit('selectMenu',{
+      name: '我的收藏',
+      url:'/collection',
+    })
   }
 }
 </script>

@@ -1,20 +1,17 @@
 <template>
   <div class="alter-container">
-  
    <div class="toplabel flex   flex-pack-center">
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
                    <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
-                 <span v-else>{{userInfo.loginName}}</span>   
-                 
-             
+                   <span v-else>{{userInfo.loginName}}</span>   
               <div class="top_select" v-if="select_block">
                 <div @click="myCollect()">我的收藏</div>
                 <div @click="mySite()">地址管理</div>
-                <div @click="myAward()">我的奖励</div>
-                <div @click="loginOut()">退出登录</div>
+                <div @click="myAward()">我的积分</div>
+                <div @click="ruleshow()">退出登录</div>
               </div>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
@@ -27,10 +24,12 @@
               <span @click="myOrder()">我的订单</span>
             </div>
             <div class="contentBox borderleft ">
-              <span>消息</span>
+              <span @click="myMessagelist()" style="position:relative">消息
+                    <div class="messageFexid" style="right:10px">{{messageCount}}</div>
+                </span>
             </div>
             <div class="contentBox borderleft ">
-              <span>在线客服</span>
+              <span onclick="showMeiQia()">在线客服</span>
             </div>
 
             <div class="contentBox borderleft borderright">
@@ -100,7 +99,7 @@
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
               <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doSign">立即注册</van-button>
         </div>
-        <div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;">《用户协议》</a></p></div>  
+        <div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;" @click="goAgreement()">《用户协议》</a></p></div>  
       </div>
       <!-- 忘记密码 -->
       <div v-if="modelType=='forget'">
@@ -159,7 +158,7 @@
   <div><i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" ></i></div>
 </div>
 
-    <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
+ <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
         <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word)">
       </div>
 </div>
@@ -171,7 +170,7 @@
      </div>
     
     
-    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect()" class="flex flex-align-center flex-pack-center">
+    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword)" class="flex flex-align-center flex-pack-center">
   <img src="../assets/image/放大镜.png" />
     </div>
 
@@ -188,8 +187,7 @@
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">X</div>
         </div>
         <div style="   height: 310px;overflow:auto;">
-
-          
+<div  v-if="cartList.length>0">      
 <div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
@@ -213,9 +211,12 @@
        <div style="padding:10px;">
             <span class="marketPrice" style="font-size:20">￥{{item.price}}</span>
        </div>
-</div>
+       </div>
+       </div>
 
-<div class=" flex  flex-align-center   flex-pack-center">
+
+
+<div class=" flex  flex-align-center   flex-pack-center" v-else>
   <img src="../assets/空购物车拷贝.png" style="width:180px;height:180px;"/>
 </div>
 
@@ -234,62 +235,198 @@
 
 <!-- <div style="height:50px;background-color:red">123</div> -->
 <!-- 头部导航菜单 -->
-<van-tabs :active="active" @click="changeTab" class="index_tabs flex-1" style="width:100%;" >
+<van-tabs :active="active" @click="changeTab" v-on:mouseover="changeTab" class="index_tabs flex-1" style="width:100%;" >
+<!-- <van-tabs :active="active" k@clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
-    <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index">
+    <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
+      
+    >
+    <!-- v-on:mouseover="two_menu(active)" -->
           <div v-if="active == index">
-                <!-- {{item.catId}}  -->
-                <!-- 二级菜单 -->
-                  <div class="flex flex-pack-center two_classify" v-if="item.catId &&catList&& catList.length>0">
-                      <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
-                        <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
-                        <p class="flex-pack-center">{{catItem.catName}}</p>
-                      </div>
-                  </div>
-                  <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
-                    <!-- 轮播图 -->
-                    <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
-                          <el-carousel :interval="5000" arrow="always">
-                          <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
-                                            <img v-lazy="image.itemImgUrl" style="width:100%;" @click="goActionType(image.actionType,image.actionValue)"/>
-                          </el-carousel-item>
-                        </el-carousel>
+              <!-- {{item.catId}}  -->
+              <!-- 二级菜单 -->
+                <div class="flex flex-pack-center two_classify" 
+                  v-if="item.catId &&catList&& catList.length>0"
+                >
+                    <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
+                      <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
+                      <p class="flex-pack-center">{{catItem.catName}}</p>
                     </div>
-                      
-                    <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
-                      <div style="background-color:#f7f7f7;"></div>
-                      <div style="margin:20px 0">
-                            <div class="index_headline">
-                                <i class="user_img" >{{items.letter}}</i>
-                                <i>{{items.name}}</i>
-                                <p>{{items.nameEn}}</p>
-                            </div>
-                            <div class="goodsBody" v-if="items.columnNum ===1" >
-                                <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
-                                  <div class="flex" style="width:-webkit-fill-available;   padding:10px;">
-                                    <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
-                                      <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
-                                      <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
-                                    </div>
-                                    
-                                    <div style="padding:10px">
-                                      <div >
-                                          <img src="../assets/image/新品特价.png" v-if="goods.isBargain"  style="vertical-align: middle;height:20px;font-size: 12px;"/>
-                                          <span class="textLabel" style="color:#000000;font-size:18px">{{goods.goodsName}}</span>
-                                      </div>
-                                      <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
-                                      <div>
-                                        <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
-                                        <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice}}</span>
-                                      </div>
-                                      <van-button class="btn_yellow" @click.stop="goProductDetail(goods.goodsId)">立即抢购</van-button>
-                                    </div>
-                                    </div>
+                </div>
+                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
+                  <!-- 轮播图 -->
+                  <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
+                        <el-carousel :interval="5000" arrow="always">
+                        <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
+                              <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/>
+                        </el-carousel-item>
+                      </el-carousel>
+                  </div>
+                    
+                  <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
+                    <div style="background-color:#f7f7f7;"></div>
+                    <div style="margin:20px 0">
+                          <div class="index_headline">
+                              <i class="user_img" >{{items.letter}}</i>
+                              <i>{{items.name}}</i>
+                              <p>{{items.nameEn}}</p>
+                          </div>
+                        <!-- //1 -->
+                         <!-- <div class="goodsBody">
+                           <div class="recommend_list">
+                              <div class="shop_img">
+                                <div class="hot"><img src="../assets/hot.png" /></div>
+                                <img src="../assets/LOGO.png" style="height:365px;">
+                                <h4 class="ellipsis">居家必备</h4>
+                              </div>
+                              <div class="shop_details">
+                                <div class="discounts">
+                                  <span>满减</span>
+                                  <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                </div>
+                                <h3 class="ellipsis"> 可水洗</h3>
+                                <p class="shop_prce" style="color:red">￥120.00</p>
+                              </div>
+                           </div>
+                           <div class="recommend_list">
+                              <div class="shop_img">
+                                <div class="hot"><img src="../assets/hot.png" /></div>
+                                <img src="../assets/LOGO.png" style="height:365px;">
+                                <h4 class="ellipsis">居家必备</h4>
+                              </div>
+                              <div class="shop_details">
+                                <div class="discounts">
+                                  <span>满减</span>
+                                  <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                </div>
+                                <h3 class="ellipsis"> 可水洗</h3>
+                                <p class="shop_prce" style="color:red">￥120.00</p>
+                              </div>
+                           </div>
+                           <div class="recommend_list">
+                              <div>
+                                <div class="shop_img">
+                                  <div class="hot"><img src="../assets/hot.png" /></div>
+                                  <img src="../assets/LOGO.png" style="height:160px;">
+                                  <h4 class="ellipsis">居家必备</h4>
+                                </div>
+                                <div class="shop_details">
+                                  <div class="discounts">
+                                    <span>满减</span>
+                                    <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                   </div>
-                            </div>
-                      </div>
+                                  <h3 class="ellipsis"> 可水洗</h3>
+                                  <p class="shop_prce" style="color:red">￥120.00</p>
+                                </div>
+                              </div>
+                              <div>
+                                <div class="shop_img">
+                                  <div class="hot"><img src="../assets/hot.png" /></div>
+                                  <img src="../assets/LOGO.png" style="height:160px;">
+                                  <h4 class="ellipsis">居家必备</h4>
+                                </div>
+                                <div class="shop_details">
+                                  <div class="discounts">
+                                    <span>满减</span>
+                                    <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                  </div>
+                                  <h3 class="ellipsis"> 可水洗</h3>
+                                  <p class="shop_prce" style="color:red">￥120.00</p>
+                                </div>
+                              </div>
+                           </div>
+                         </div> -->
+                      <!-- 2 -->
+                          <div class="goodsBody" v-if="items.columnNum ===1" >
+                              <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
+                                <div class="flex" style=" padding:10px;">
+                                  <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
+                                    <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
+                                    <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+                                  </div>
+                                  
+                                  <div style="padding:10px">
+                                    <div >
+                                        <img src="../assets/image/新品特价.png" v-if="goods.isBargain"  style="vertical-align: middle;height:20px;font-size: 12px;"/>
+                                        <span class="textLabel" style="color:#000000;font-size:18px">{{goods.goodsName}}</span>
+                                    </div>
+                                    <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
+                                    <div>
+                                      <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
+                                      <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice}}</span>
+                                    </div>
+                                    <van-button class="btn_yellow" @click.stop="goProductDetail(goods.goodsId)">立即抢购</van-button>
+                                  </div>
+                                  </div>
+                                </div>
+                          </div>
+                          <!-- 3 -->
+                          <!-- <div class="goodsBody">
+                              <div style="width:260px;margin-right: 20px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                              <div style="width:260px; margin-right: 20px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                              <div style="width:260px;margin-right: 20px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                              <div style="width:260px;">
+                                  <div class="shop_img">
+                                    <div class="hot"><img src="../assets/hot.png" /></div>
+                                    <img src="../assets/LOGO.png" style="height:270px;">
+                                    <h4 class="ellipsis">居家必备</h4>
+                                  </div>
+                                  <div class="shop_details">
+                                    <div class="discounts">
+                                      <span>满减</span>
+                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                    </div>
+                                    <h3 class="ellipsis"> 可水洗</h3>
+                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                  </div>
+                              </div>
+                          </div> -->
+                    
                     </div>
                   </div>
+                </div>
           </div>
     </van-tab>
   </van-tabs>
@@ -303,7 +440,7 @@
     >
       <p>下载app</p>
     </div>
-    <div class="icon_code" v-if="cartModel_code"></div>
+    <div class="icon_code" v-if="cartModel_code"><img src="../assets/code.png" style="width:68px;height:68px;"/></div>
 
     <div class="icon_service">
       <p>联系客服</p>
@@ -312,6 +449,29 @@
       <p>返回顶部</p>
     </div>
  </div>
+
+ <!-- 确认退出弹窗 -->
+<div style=" position: relative;">
+    <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="isruleshow" >
+      <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
+        <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:300px;height:170px;padding:20px; border-radius: 10px;    position: relative;">
+          <div style="position: absolute;top:10px;right:10px;">
+            <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="ruleshow()"/>
+          </div>
+          <div style="padding:10px;font-size:14px">是否退出登录</div>
+          <div class="flex">
+            <div @click="ruleshow()" 
+            style="width:90px;height:35px;border:1px solid #FCCB52;color:#FCCB52;text-align: center;line-height:35px;margin-right:8px;font-size:14px;">取消</div>
+
+            <div @click="loginOut()" 
+            style="width:90px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;font-size:14px;">确认</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  <agreement ref="agreement"></agreement>
 </div>
   <!-- end container -->
 </template>
@@ -320,30 +480,43 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
+// import agreement from "../pages/index/agreement.vue";
+import agreement from "../pages/index/agreement.vue";
 
-@Component
+@Component({
+  components: {
+   agreement
+},
+  
+})
 export default class Comhead extends Vue {
+  
   @Prop({ required: false })
   table: boolean;
   @Prop({ required: false })
   router: boolean;
-
-
   @Watch("table", { deep: true })
   watchCount(newVal, oldVal) {
     console.log(this.active);
     // this.changeTab()
   }
   filterModel=false
-  onFocus(){
-//搜索
-console.log('=======')
-this.filterModel = true
-  }
+  //用户协议
+goAgreement(){
+  console.log('进来协议')
+  let b : any = this.$refs.agreement
+  console.log(b)
+   b.model = true
+}
+onFocus(){
+  //搜索
+  console.log('=======')
+  this.filterModel = true
+}
 onblur(){
-// 离开
-setTimeout(()=>{
-this.filterModel = false
+  // 离开
+  setTimeout(()=>{
+  this.filterModel = false
 
 },500)
 
@@ -355,11 +528,15 @@ doSelect(keyword){
     this.$emit('filterproduct');
     return
   }
-
   
+sessionStorage.keyword =  keyword
+
   this.$router.push(
     {
       name:'productclassify',
+      query:{
+        type:'filter'
+      }
     },
   )
   
@@ -388,12 +565,19 @@ doSelect(keyword){
     
   backTopShow = false
   cartModel = false
+  // 弹窗
+  isruleshow=false;
+  ruleshow(){
+    this.isruleshow=!this.isruleshow
+  }
   mouseover() {
     this.cartModel = true
   }
   mouseout() {
     
   }
+
+  menu_block = false;
   type = "H5";
   leftScale = "1.5";
   textindex = 1;
@@ -455,6 +639,7 @@ mobile =this.forget_Name
       }
     );
   }
+  
   goCart(){
     this.$router.push('/cart')
   }
@@ -592,7 +777,7 @@ mySite() {
 }
 myAward() {
   this.$router.push({
-    path: "/discountLobby",
+    path: "/my_reward",
   });
 }
 myOrder(){
@@ -600,16 +785,23 @@ myOrder(){
     path:"/orderlist",
   })
 }
-  goProductDetail(goodsId) {
-    this.$router.push({
-      path: "/productDetail",
-      query: {
-        goodsId: goodsId
-      }
-    });
-  }
+myMessagelist(){
+  this.$router.push({
+    path:"/messagelist",
+  })
+}
+goProductDetail(goodsId) {
+  this.$router.push({
+    path: "/productDetail",
+    query: {
+      goodsId: goodsId
+    }
+  });
+}
   modelType = "login";
+  // 退出登录
   loginOut() {
+    this.isruleshow=!this.isruleshow;
     this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, {
       userId: "",
       token: ""
@@ -713,12 +905,11 @@ changeTab(active, shit) {
 
     this.active = active;
     if(active != "-1"){
-        this.getSecCatList(active);
+        // this.getSecCatList(active);
+        this.two_menu(active);
     }
     
-    if (active != "-1" && !this.indexList[active].children) {
-
-      
+    if (active != "-1" && !this.indexList[active].children) {    
       Vue.prototype.$reqFormPost1(
         "/page/info",
         {
@@ -761,9 +952,10 @@ changeTab(active, shit) {
     } else {
     }
   }
-  //二级菜单
-  getSecCatList(active){
-    Vue.prototype.$reqFormPost1(
+
+two_menu(active){
+  console.log('进来',this.menu_block)
+   Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
         parentId: this.indexList[active].catId
@@ -777,6 +969,23 @@ changeTab(active, shit) {
         this.catList = res.data;
       }
     );
+  }
+  //二级菜单
+  getSecCatList(active){
+    // Vue.prototype.$reqFormPost1(
+    //   "/user/cat/list",
+    //   {
+    //     parentId: this.indexList[active].catId
+    //   },
+    //   res => {
+    //     if (res.returnCode !== 200) {
+    //       this["$Message"].warning(res.message);
+    //       console.log(res.message);
+    //       return;
+    //     }
+    //     this.catList = res.data;
+    //   }
+    // );
   }
   initIndex() {
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
@@ -869,6 +1078,27 @@ changeTab(active, shit) {
       this.hotwordList = res.data.data;
     });
   }
+  messageCount:any = 0
+  getMessageCount(){
+        Vue.prototype.$reqFormPost1(
+      "/message/unread/count",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token
+      },
+      res => {
+        if (res.returnCode != 200) {
+        
+     this["$Message"].warning(res.message);
+        return;
+        }
+this.messageCount = res.data.count
+console.log('消息条数',res.data.count)
+      }
+    );
+  }
   mounted() {
     // 添加一个滚动滚动监听事件：
     window.addEventListener('scroll', this.handleScroll);
@@ -897,7 +1127,9 @@ changeTab(active, shit) {
       this.queryuserinfo()
     }
     this.gethotword()
+    this.getMessageCount();
   }
+  
 }
 
 </script>
@@ -920,7 +1152,8 @@ changeTab(active, shit) {
   }
   // 二维码
   .icon_code{
-      width:80px;height:80px;background:#ccc;position: absolute;right:88px;bottom:160px;z-index:9999;
+      padding: 20px 15px;box-shadow: 2px 5px 19px #888888;background:#fff;position: absolute;right:88px;bottom:160px;
+      z-index:9999;width:110px;height:115px;
   }
   .icon_service{
     background:url(../assets/service1.png) no-repeat center bottom 2px;
@@ -983,6 +1216,11 @@ changeTab(active, shit) {
   padding: 0 20px;
   text-align: center;
 }
+//消息样式
+.msgNum{
+  position: absolute;width: 20px;height:20px;background: #fe2015;clear: #fff;
+  border-radius: 50px;text-align: center;line-height: 19px;left: 22px;top:-8px;
+}
 .borderleft {
   border-left: 1px #fff solid;
 }
@@ -1010,6 +1248,7 @@ changeTab(active, shit) {
   width: -webkit-fill-available;
   display: flex;
   flex-wrap: wrap;
+  padding: 10px 5px;
 }
 .goodsItem {
   width: 50%;
@@ -1067,5 +1306,96 @@ changeTab(active, shit) {
 .hotwordItem{
   font-size:14px;
 }
+//定制推荐
+.recommend_list{
+  width:370px;margin-right:15px;border: 1px solid #ededed;
+  .shop_img{
+    border:none;margin-bottom: 12px;
+    h4{
+      height:60px;line-height:60px;font-size:20px;position: absolute;bottom: 0;background: rgba(207, 207, 207, 0.3);color:#a3a3a3;
+    }
+  }
 
+  .shop_details{
+    padding:0 10px 10px 20px;
+    h3{
+      font-size:14px;margin-bottom:0;
+    }
+  }
+}
+.recommend_list:nth-of-type(3){
+  border:none;
+}
+.recommend_list:nth-of-type(3)>div{
+  border: 1px solid #ededed;
+  height:230px;margin-bottom:10px;
+  .shop_img{
+    >img{
+      height:165px;
+    }
+    h4{
+      height:30px;line-height:30px;font-size:12px;
+    }
+  }
+  .shop_details{
+    position:relative;
+    .discounts{
+      margin-bottom: 7px;
+    }
+    p{
+      position: absolute;right:10px;top:8px;
+    }
+  }
+}
+
+ .shop_img {
+    border: 1px solid #ededed;border-radius: 4px;
+    margin-bottom: 10px;
+    position: relative;
+    // 热卖
+    .hot {
+      position: absolute;
+      left: 0;
+      top: 0;
+      img {
+        width: 33px;
+        height: 38px;
+      }
+    }
+    img {
+      width: 100%;
+      height: 230px;
+    }
+    h4 {
+      height: 54px;
+      line-height: 54px;
+      background: #eff1f1;
+      text-align: center;
+      font-size: 22px;
+      color: #a3a3a3;
+      width: 100%;
+    }
+  }
+  .shop_details {
+    div {
+      margin-bottom: 12px;
+      span {
+        display: inline-block;
+        width: 40px;
+        height: 19px;
+        text-align: center;
+        color: red;
+        border: 1px solid red;
+        margin-right: 10px;
+        border-radius: 5px;
+      }
+    }
+    h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 16px;
+    }
+  }
 </style>

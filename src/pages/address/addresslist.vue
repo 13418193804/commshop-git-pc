@@ -53,25 +53,24 @@
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
               <div @click="close()" class="add_colose"><i class="iconfont icon-close"></i></div>
               <div v-if="!updateaddressid" class="add_titile">新增地址</div>
-             
               <div v-if="updateaddressid">修改地址</div>
               <div class="flex region">
-                <div style="padding-right:15px;">所在地区</div>
-                <select v-model="provinceid" @change='changeprovince'>
-                  <option v-for="(item,index) in province" v-bind:value="item.id" :key="index">
-                    {{item.name}}
-                  </option>
-                </select>
-                <select v-model="cityid" @change='changecity'>
-                  <option v-for="(item,index) in city" v-bind:value="item.id" :key="index">
-                    {{item.name}}
-                  </option>
-                </select>
-                <select v-model="countryid">
-                  <option v-for="(item,index) in country" v-bind:value="item.id" :key="index">
-                    {{item.name}}
-                  </option>
-                </select>
+                  <div style="padding-right:15px;">所在地区</div>
+                  <select v-model="provinceid" @change='changeprovince'>
+                    <option v-for="(item,index) in province" v-bind:value="item.id" :key="index">
+                      {{item.name}}
+                    </option>
+                  </select>
+                  <select v-model="cityid" @change='changecity'>
+                    <option v-for="(item,index) in city" v-bind:value="item.id" :key="index">
+                      {{item.name}}
+                    </option>
+                  </select>
+                  <select v-model="countryid">
+                    <option v-for="(item,index) in country" v-bind:value="item.id" :key="index">
+                      {{item.name}}
+                    </option>
+                  </select>
               </div>
               <div class="flex region">
                 <div style="padding-right:15px;">详细地址</div>
@@ -467,6 +466,11 @@ export default class addresslist extends Vue {
   mounted() {
     this.getAddressList();
     this.getprovince();
+    
+    this.$emit('selectMenu',{
+      name: '地址管理',
+      url:'/addresslist',
+    })
   }
 }
 </script>
