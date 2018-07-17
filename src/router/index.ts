@@ -95,6 +95,11 @@ export default new Router({
                     component: r => require.ensure([], () => r(require('../pages/index/evaluate')))
                 },
                 {
+                    path: '/agreement',
+                    name: 'agreement',
+                    component: r => require.ensure([], () => r(require('../pages/index/agreement')))
+                },
+                {
                     path: '/refund',
                     name: 'refund',
                     component: r => require.ensure([], () => r(require('../pages/order/refund')))

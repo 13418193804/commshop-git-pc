@@ -97,7 +97,7 @@
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
               <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doSign">立即注册</van-button>
         </div>
-        <div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;">《用户协议》</a></p></div>  
+        <div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;" @click="goAgreement()">《用户协议》</a></p></div>  
       </div>
       <!-- 忘记密码 -->
       <div v-if="modelType=='forget'">
@@ -469,7 +469,7 @@
       </div>
     </div>
 </div>
-
+  <agreement ref="agreement"></agreement>
 </div>
   <!-- end container -->
 </template>
@@ -478,37 +478,48 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
+// import agreement from "../pages/index/agreement.vue";
+import agreement from "../pages/index/agreement.vue";
 
-@Component
+@Component({
+  components: {
+   agreement
+},
+  
+})
 export default class Comhead extends Vue {
+  
   @Prop({ required: false })
   table: boolean;
   @Prop({ required: false })
   router: boolean;
-
-
   @Watch("table", { deep: true })
   watchCount(newVal, oldVal) {
     console.log(this.active);
     // this.changeTab()
   }
   filterModel=false
-  onFocus(){
-//搜索
-console.log('=======')
-this.filterModel = true
-  }
+  //用户协议
+goAgreement(){
+  console.log('进来协议')
+  let b : any = this.$refs.agreement
+  console.log(b)
+   b.model = true
+}
+onFocus(){
+  //搜索
+  console.log('=======')
+  this.filterModel = true
+}
 onblur(){
-// 离开
-setTimeout(()=>{
-this.filterModel = false
+  // 离开
+  setTimeout(()=>{
+  this.filterModel = false
 
 },500)
 
 }
-
 keyword =''
-
 doSelect(keyword){
 
   if(this.$route.path == '/productclassify'){
@@ -777,14 +788,14 @@ myMessagelist(){
     path:"/messagelist",
   })
 }
-  goProductDetail(goodsId) {
-    this.$router.push({
-      path: "/productDetail",
-      query: {
-        goodsId: goodsId
-      }
-    });
-  }
+goProductDetail(goodsId) {
+  this.$router.push({
+    path: "/productDetail",
+    query: {
+      goodsId: goodsId
+    }
+  });
+}
   modelType = "login";
   // 退出登录
   loginOut() {

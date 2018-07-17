@@ -47,6 +47,14 @@
                          </li>
                        </ul>
                     </div>
+
+                    <el-pagination
+                      @size-change="handleSizeChange"
+                      background = true
+                      layout="prev, pager, next"
+                      :total="1000">
+                      
+                    </el-pagination>
                 </div>
           </div>
       </div>
@@ -79,16 +87,18 @@ export default class ProductDetail extends Vue {
     this.keyword =  sessionStorage.keyword
     sessionStorage.keyword =''
 
-if(this.keyword){
-  a.keyword = this.keyword
-this.getproductList()
-  
-}
-if(this.$route.query.type !=='filter'){
-      this.catId = sessionStorage.catId;
-      this.parentId = sessionStorage.parentId;
-    this.getSecCatList();
-}
+      if(this.keyword){
+        a.keyword = this.keyword
+      this.getproductList()
+        
+      }
+      if(this.$route.query.type !=='filter'){
+            this.catId = sessionStorage.catId;
+            this.parentId = sessionStorage.parentId;
+          this.getSecCatList();
+      }
+      //分页
+       
 
   }
   // H:\项目分类\康扬医德快\back-yidekuai
@@ -230,6 +240,10 @@ if(this.$route.query.type !=='filter'){
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
+// 分页
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+  background: #f4c542;
+}
 .classify_shop {
   .classify_top {
     div {
@@ -347,9 +361,11 @@ if(this.$route.query.type !=='filter'){
     }
     :nth-of-type(4),
     :nth-of-type(8),
-    :nth-of-type(12) {
+    :nth-of-type(12)
+    :nth-of-type(16) {
       margin-right: 0;
     }
   }
 }
+
 </style>
