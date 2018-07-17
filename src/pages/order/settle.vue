@@ -70,7 +70,7 @@
 <div class="contentBox2 ">
 
   
-  <div class="cartItem flex  flex-align-center flex-pack-justify" v-for="(item,index) in shopCartList">
+  <div class="cartItem flex  flex-align-center flex-pack-justify" v-for="(item,index) in shopCartList" :key="index">
   <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px 0 20px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
        </div>
@@ -101,56 +101,108 @@
 </div>
 
   <div style="background-color:#FCFCFC; padding: 0 30px;font-size:14.8px">
-<div class="flex flex-pack-justify" style="line-height:30px;border-bottom:1px #e5e5e5 solid;">
-    <div>
-      <div style="color:#666">配送方式</div>
-      <div>快递</div>
-    </div>
-   <div>
-      <div class="flex">
-        <div>商品合计：</div><div>￥{{totalPrice}}</div>
+      <!-- <div class="flex flex-pack-justify" style="line-height:30px;border-bottom:1px #e5e5e5 solid;">
+          <div>
+            <div style="color:#666">配送方式</div>
+            <div>快递</div>
+          </div>
+        <div>
+            <div class="flex">
+              <div>商品合计：</div><div>￥{{totalPrice}}</div>
+            </div>
+            <div class="flex">
+              <div>运费：</div><div>{{freight}}</div>
+            </div>
+          </div>
+      </div> -->
+
+      <!-- <div>
+
+      <div style="height:40px;line-height:40px;">给卖家的话（选填） <span style="margin:0 20px;color:#999">选填内容已和卖家协商确认</span></div>
+
+      <div style="border:1px solid #e5e5e5;">
+
+        <textarea type="text" name="content"  rows="7" style="width: 100%;border:none"   
+                          ></textarea>  
+
       </div>
-       <div class="flex">
-        <div>运费：</div><div>{{freight}}</div>
+      <div style="padding:20px 0;" class="flex flex-pack-justify flex-align-center">
+
+      <div>应付金额</div>
+
+      <div class="flex flex-align-center">
+      <div style="padding:0 20px;">
+          <span style="color:red;font-size:18px;">￥{{totalPrice}}</span>
+        </div>
+        <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
+        @click="onSubmit">
+      <span>去付款</span>
+        </div>
+        </div>
       </div>
-    </div>
-</div>
+      </div> -->
 
-
-
-
-<div>
-
-<div style="height:40px;line-height:40px;">给卖家的话（选填） <span style="margin:0 20px;color:#999">选填内容已和卖家协商确认</span></div>
-
-<div style="border:1px solid #e5e5e5;">
-
-  <textarea type="text" name="content"  rows="7" style="width: 100%;border:none"   
-                    ></textarea>  
-
-</div>
-
-
-<div style="padding:20px 0;" class="flex flex-pack-justify flex-align-center">
-
-<div>应付金额</div>
-
-<div class="flex flex-align-center">
- <div style="padding:0 20px;">
-    <span style="color:red;font-size:18px;">￥{{totalPrice}}</span>
-  </div>
-  <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
-  @click="onSubmit">
-<span>去付款</span>
-  </div>
   </div>
 
+      <div style="background-color:#f8f8f8;padding:0 20px;">
+        <div style="height:30px;line-height:30px;">发票信息</div>
 
-</div>
+        <div style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;" class="flex flex-pack-justify">
+            <div>
+              <div v-if="haveinvoice===false" style="color:#F4C542;" @click="isinvoiceshow()">开发票</div>
+              <div v-if="haveinvoice===true" style="color:#F4C542;" @click="isupdateinvoiceshow()">修改</div>
+            </div>
+            <div v-show="haveinvoice">
+              <div>发票类型:{{invoicecontent.titleType=='PERSON'?'个人':'单位'}}</div>
+              <div>发票金额:￥{{totalPrice}}</div>
+            </div>
+            <div v-show="haveinvoice && invoicecontent.titleType=='COMPANY'">发票抬头:{{invoicecontent.invoiceTitle}}</div>
+            <div v-show="haveinvoice && invoicecontent.titleType=='COMPANY'">纳税人识别号:{{invoicecontent.invoiceNo}}</div>
+            <div v-show="haveinvoice">发票内容:明细</div>
+        </div>
+        
+        <div class="flex flex-pack-justify flex-align-center" style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;">
+          <div class="flex">
+            <div @click="couponshow()">使用优惠卷</div>
+            <div style="color:#F4C542;padding:0 15px;">({{couponnum}}张)></div>
+            <div>{{surecouponName}}</div>
+          </div>
+          <div>
+            <div>商品合计:￥{{totalPrice}}</div>
+            <div v-if="surecouponDenomination">优惠卷:-￥{{surecouponDenomination}}</div>
+          </div>
+        </div>
+
+        <div style="height:30px;line-height:30px;">配送方式</div>
+        <div class="flex flex-pack-justify flex-align-center" style="padding:10px 0;">
+          <div>快速</div>
+          <div>运费:{{freight}}</div>
+        </div>
+
+        <div style="height:40px;line-height:40px;">给卖家的话（选填） <span style="margin:0 20px;color:#999">选填内容已和卖家协商确认</span></div>
+
+        <div style="border:1px solid #e5e5e5;">
+
+          <textarea type="text" name="content"  rows="7" style="width: 100%;border:none" v-model="remark"></textarea>  
+
+        </div>
 
 
-</div>
-  </div>
+        <div style="padding:20px 0;" class="flex flex-pack-justify flex-align-center">
+      <div>应付金额</div>
+          <div class="flex flex-align-center">
+        <div style="padding:0 20px;">
+            <span style="color:red;font-size:18px;">￥{{totalPrice}}</span>
+          </div>
+          <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
+          @click="onSubmit">
+          <span>去付款</span>
+          </div>
+        </div>
+        </div>
+
+      </div>
+
 </div>
 </div>
 
@@ -162,7 +214,7 @@
      <div  class="add_titile">切换地址</div>
               <div class="flex region" style="height:560px;    overflow: auto;">
                   <div>
-                <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres" :style=" address.addressId == item.addressId?'border-color:#f4c542':''">
+                <div v-for="(item,index) in addressList" :key="index" @click="setDefaultAddress(item.addressId)" class="bc_addres" :style=" address.addressId == item.addressId?'border-color:#f4c542':''">
                       <div class="flex">
 <div style="width:100px;text-align:right;">收货人：</div>
       {{item.contactname}}
@@ -186,8 +238,9 @@
         </div>
         </div>
 
-      <!-- 新增 -->
+      
       <div style=" position: relative;">
+        <!-- 新增地址 -->
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
@@ -236,6 +289,83 @@
             </div>
           </div>
         </div>
+        <!-- 发票 -->
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="invoiceshow" >
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+              <div @click="isinvoiceshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
+              <div class="add_titile">发票信息</div>
+    
+              <div class="flex region">
+                <div style="width:120px;">发票类型:</div>
+                <div @click="changetitleType('PERSON')" :style="invoicecontent.titleType=='PERSON'?'border-color:#F4C542;':'border-color:#eeeeee;'" style="width:100px;height:30px;line-height:30px;text-align:center;border:1px solid;">个人</div>
+                <div @click="changetitleType('COMPANY')" :style="invoicecontent.titleType=='COMPANY'?'border-color:#F4C542;':'border-color:#eeeeee;'" style="width:100px;height:30px;line-height:30px;text-align:center;border:1px solid;">单位</div>
+              </div>
+              <div v-if="invoicecontent.titleType=='COMPANY'" class="flex region">
+                  <div style="width:120px;">发票抬头:</div>
+                  <input  v-model="invoicecontent.invoiceTitle"/>
+              </div>
+              <div v-if="invoicecontent.titleType=='COMPANY'" class="flex region">
+                  <div style="width:120px;">纳税人识别号:</div>
+                  <input v-model="invoicecontent.invoiceNo"/>
+              </div>
+              <div class="flex region_btn">
+                <div @click="addinvoice()">确定</div>
+                <div @click="isinvoiceshow(true)">取消</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 修改发票 -->
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="updateinvoiceshow" >
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+              <div @click="isupdateinvoiceshow()" class="add_colose"><i class="iconfont icon-close"></i></div>
+              <div class="add_titile">发票信息</div>
+    
+              <div class="flex region">
+                <div style="width:120px;">发票类型:</div>
+                <div @click="changeupdatetitleType('PERSON')" :style="updateinvoicecontent.titleType=='PERSON'?'border-color:#F4C542;':'border-color:#eeeeee;'" style="width:100px;height:30px;line-height:30px;text-align:center;border:1px solid;">个人</div>
+                <div @click="changeupdatetitleType('COMPANY')" :style="updateinvoicecontent.titleType=='COMPANY'?'border-color:#F4C542;':'border-color:#eeeeee;'" style="width:100px;height:30px;line-height:30px;text-align:center;border:1px solid;">单位</div>
+              </div>
+              <div v-if="updateinvoicecontent.titleType=='COMPANY'" class="flex region">
+                  <div style="width:120px;">发票抬头:</div>
+                  <input  v-model="updateinvoicecontent.invoiceTitle"/>
+              </div>
+              <div v-if="updateinvoicecontent.titleType=='COMPANY'" class="flex region">
+                  <div style="width:120px;">纳税人识别号:</div>
+                  <input v-model="updateinvoicecontent.invoiceNo"/>
+              </div>
+              <div class="flex region_btn">
+                <div @click="updateinvoice()">确定</div>
+                <div @click="isupdateinvoiceshow()">取消</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 优惠卷框 -->
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="iscouponshow" >
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+              <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
+              <div class="add_titile">选择优惠卷</div>
+                <div v-for="(item,index) in couponList" :key="index" @click="selectcoupon(item)">
+                  <div style="padding:15px;">
+                    <div >{{item.coupon.couponName}}</div>
+                    <div v-if="item.coupon.id==selectcouponId">已选择</div>
+                  </div> 
+                </div>
+              
+              <div class="flex region_btn">
+                <div @click="surecoupon()">确定</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
 
@@ -269,6 +399,99 @@ import Winbeet from "../../components/Winbeet.vue";
   mixins: [mixin]
 })
 export default class shopIndex extends Vue {
+  // 显示发票框
+  invoiceshow=false;
+  // 显示修改发票框
+  updateinvoiceshow=false;
+  // 判断有没有选发票
+  haveinvoice=false;
+  // 发票内容
+  invoicecontent={
+    titleType:'',
+    invoiceTitle:'',
+    invoiceNo:'',
+  };
+  // 修改的发票内容
+  updateinvoicecontent={
+    titleType:'',
+    invoiceTitle:'',
+    invoiceNo:'',
+  };
+  isinvoiceshow(clean){
+    this.invoiceshow=!this.invoiceshow
+    // 如果有传值 清除invoicecontent里全部东西
+    if(clean){
+      this.haveinvoice=false;
+      this.invoicecontent={
+        titleType:'',
+        invoiceTitle:'',
+        invoiceNo:'',
+      };
+    }
+  }
+  isupdateinvoiceshow(){
+    this.updateinvoiceshow=!this.updateinvoiceshow
+    // 如果updateinvoiceshow是true
+    if(this.updateinvoiceshow===true){
+      this.updateinvoicecontent.titleType=this.invoicecontent.titleType
+      this.updateinvoicecontent.invoiceTitle=this.invoicecontent.invoiceTitle
+      this.updateinvoicecontent.invoiceNo=this.invoicecontent.invoiceNo
+    }
+  }
+  addinvoice(){
+    if(this.invoicecontent.titleType==""){
+      this["$Message"].warning("请选择发票类型");
+      return
+    }
+    if(this.invoicecontent.titleType=='COMPANY'&&this.invoicecontent.invoiceTitle==""){
+      this["$Message"].warning("请填写发票抬头");
+      return
+    }
+    if(this.invoicecontent.titleType=='COMPANY'&&this.invoicecontent.invoiceNo==""){
+      this["$Message"].warning("请填写纳税人识别号");
+      return
+    }
+    this.invoiceshow=!this.invoiceshow
+    this.haveinvoice=true;
+  }
+  updateinvoice(){
+    if(this.updateinvoicecontent.titleType==""){
+      this["$Message"].warning("请选择发票类型");
+      return
+    }
+    if(this.updateinvoicecontent.titleType=='COMPANY'&&this.updateinvoicecontent.invoiceTitle==""){
+      this["$Message"].warning("请填写发票抬头");
+      return
+    }
+    if(this.updateinvoicecontent.titleType=='COMPANY'&&this.updateinvoicecontent.invoiceNo==""){
+      this["$Message"].warning("请填写纳税人识别号");
+      return
+    }
+    this.updateinvoiceshow=!this.updateinvoiceshow
+    this.invoicecontent.titleType=this.updateinvoicecontent.titleType
+    this.invoicecontent.invoiceTitle=this.updateinvoicecontent.invoiceTitle
+    this.invoicecontent.invoiceNo=this.updateinvoicecontent.invoiceNo
+  }
+  changetitleType(Type){
+    if(Type=='PERSON'){
+      this.invoicecontent.titleType='PERSON';
+    }
+    if(Type=='COMPANY'){
+      this.invoicecontent.titleType='COMPANY';
+    }
+    console.log('this.invoicecontent.titleType',this.invoicecontent.titleType)
+    console.log('this.updateinvoicecontent.titleType',this.updateinvoicecontent.titleType)
+  }
+  changeupdatetitleType(Type){
+    if(Type=='PERSON'){
+      this.updateinvoicecontent.titleType='PERSON';
+    }
+    if(Type=='COMPANY'){
+      this.updateinvoicecontent.titleType='COMPANY';
+    }
+    console.log('this.invoicecontent.titleType',this.invoicecontent.titleType)
+    console.log('this.updateinvoicecontent.titleType',this.updateinvoicecontent.titleType)
+  }
    isdef(){
     if(this.isDefault==0){
       this.isDefault=1
@@ -663,10 +886,10 @@ this.getAddressList()
           .userId,
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
-        couponId: this.couponId,
-        titleType: this.titleType,
-        invoiceTitle: this.invoiceTitle,
-        invoiceNo: this.invoiceNo,
+        couponId: this.surecouponId,
+        titleType: this.invoicecontent.titleType,
+        invoiceTitle: this.invoicecontent.invoiceTitle,
+        invoiceNo: this.invoicecontent.invoiceNo,
         prepareId: this.prepareId,
         remark: this.remark
       },
@@ -723,9 +946,80 @@ this.getAddressList()
       }
     );
   }
+  couponList=[];
+  couponnum='';
+  getcouponlist(){
+    Vue.prototype.$reqFormPost(
+      "/coupon/user/linklist",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+          status:'UNUSED',
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        console.log(res.data.data.couponList)
+        this.couponList=res.data.data.couponList;
+        this.couponnum=res.data.data.couponList.length;
+      }
+    );
+  }
+  // 优惠卷框
+  iscouponshow=false;
+  couponshow(clean){
+    this.iscouponshow=!this.iscouponshow
+    // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
+    if(this.surecouponId!==""){
+      this.selectcouponId=this.surecouponId;
+      this.selectcouponName=this.surecouponName;
+      this.selectcouponDenomination=this.surecouponDenomination;
+    }
+    // 有传值就清空选择时的优惠卷
+    if(clean){
+      this.selectcouponId="";
+      this.selectcouponName="";
+      this.selectcouponDenomination="";
+    }
+  }
+  // 选择时的优惠卷
+  selectcouponId="";
+  selectcouponName="";
+  selectcouponDenomination="";
+  selectcoupon(coupon){
+    this.selectcouponId=coupon.coupon.id;
+    this.selectcouponName=coupon.coupon.couponName;
+    this.selectcouponDenomination=coupon.coupon.couponDenomination;
+  }
+  // 确定的优惠卷
+  surecouponId="";
+  surecouponName="";
+  surecouponDenomination="";
+  surecoupon(){
+    if(this.selectcouponId==""){
+      this["$Message"].warning("请选择优惠卷");
+      return;
+    }
+    this.iscouponshow=false;
+    this.surecouponId=this.selectcouponId;
+    this.surecouponName=this.selectcouponName;
+    this.surecouponDenomination=this.selectcouponDenomination;
+  }
   mounted() {
 
-
+    
+    this.getcouponlist();
     this.prepareId = this.$store.getters[
       Vue.prototype.MutationTreeType.PREPAREID
     ];
