@@ -178,6 +178,10 @@ import reimburse from "../index/reimburse.vue";
 import reimburseTwo from "../index/reimburseTwo.vue";
 import ship from "../index/ship.vue";
 
+
+
+// import reimburse from "../index/reimburse.vue";
+
 @Component({
   components: {
     Wintabe,
@@ -544,7 +548,7 @@ doDeleteOrder(orderId){
   }
   gocomment(item) {
     this.$router.push({
-      name: "addcomment",
+      name: "evaluate",
       query: {
         orderId: item.orderId
       }
