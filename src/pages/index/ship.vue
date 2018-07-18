@@ -9,39 +9,20 @@
 
             <div style="font-size:16px;">查看物流</div>
             <div class="detailBody">
-              <div v-for="items in  $route.query.detailList">
-                <div class="product1">
-                  <div class="flex flex-align-center">
-                    <img v-lazy='items.goodsImg' style='height:80px;width:80px'/>
-                  </div>
-                  <div class="flex-1" style='font-size:12px;overflow:hidden;padding:0 10px;'>
-                    <div class='lineTwoType'>{{items.goodsName}}</div>
-                    <div style='  overflow: hidden;text-overflow: ellipsis;white-space: nowrap;color:#999'>
-                      <div> {{items.jingle}}</div>
-                      <!-- <span v-for=" item.skuKeyValue" wx:for-item="i" style='margin-right:5px'>{{i.key}}:{{i.value}}</span> -->
-                    </div>
-                  </div>
-                  <div style='text-align:center;font-size:14px'>
-                    <div >￥{{items.goodsPrice}}</div>
-                    <div class="labelPrice" v-if="items.labelPrice">原价:{{items.labelPrice}}</div>
-                    <div>X {{items.goodsNum}}</div>
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div class="contentBox" style="border-bottom:1px #e5e5e5 solid;">
-              <div>物流公司：{{ $route.query.transportName}} </div>
-              <div>物流电话：{{ $route.query.transportMobile}} </div>
-              <div>物流单号：{{ $route.query.transportNo}} </div>
-          </div>
+              <div v-for="items in  shipInfoList">
+             
+                  <div>{{items.time}}</div>
+          <div>{{items.context}}</div>
+             
+           
 
+        </div>
+        </div>
         </div>
       </div>
       <div>
-        <div v-for="(item,index) in shipInfoList" class="contentBox" :style="index != 0 ?'color:#999':''" :key="index">
-          <div>{{item.time}}</div>
-          <div>{{item.context}}</div>
-        </div>
+
+    
       </div>
     </div>
   </div>
@@ -83,7 +64,7 @@ export default class shopIndex extends Vue {
           return;
         }
         console.log(res.data.data);
-        console.log('res',transportCode);
+        console.log(transportNo);
         this.shipInfoList = res.data.data;
       }
       
