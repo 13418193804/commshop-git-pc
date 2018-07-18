@@ -179,6 +179,10 @@ import Wintabe from "../../components/Wintabe.vue";
 import Winbeet from "../../components/Winbeet.vue";
 import reimburse from "../index/reimburse.vue";
 
+
+
+// import reimburse from "../index/reimburse.vue";
+
 @Component({
   components: {
     Wintabe,
@@ -367,6 +371,8 @@ doDeleteOrder(orderId){
 
     }
   }
+  
+
   getShip(item) {
     this.$router.push({ name: "ship", query: item });
   }
@@ -532,7 +538,7 @@ doDeleteOrder(orderId){
   }
   gocomment(item) {
     this.$router.push({
-      name: "addcomment",
+      name: "evaluate",
       query: {
         orderId: item.orderId
       }

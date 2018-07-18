@@ -52,12 +52,12 @@
   <div>此商品不可与优惠券叠加使用</div>
 </div>
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
-  <div style="width:50px" v-if="detatil.couponList.length>0">领券</div>
-  <div class="full_bg" v-if="detatil.couponList.length>0">
+  <div style="width:50px" v-if="detatil.couponList && detatil.couponList.length>0">领券</div>
+  <div class="full_bg" v-if="detatil.couponList&& detatil.couponList.length>0">
     {{detatil.couponList[0].couponName}} 
   </div>
   <div>
-    <span style="color:red" @click="goDiscount()" v-if="detatil.couponList.length>0">立即领取></span>
+    <span style="color:red" @click="goDiscount()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
   </div>
   <div>
     
@@ -168,32 +168,38 @@
       </div>
 
 <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
-    <div class="taber" :class="shop_active == '0'?' selecttaber' :'taber'" @click="evaluateList('0')">商品详情</div>
-    <div  class="taber" :class="shop_active == '1'?' selecttaber' :'taber'" @click="evaluateList('1')">评价</div>
+    <div class="taber" :class="shop_active == '0'?' selecttaber' :'taber'" @click="shop_active ='0'">商品详情</div>
+    <div  class="taber" :class="shop_active == '1'?' selecttaber' :'taber'" @click="shop_active ='1' ">评价</div>
 </div>
 
-<div>
+<div v-if="shop_active == '0' ">
   <div style="background-color:#ffffff;margin-top:10px;">
       <div v-for="(item,index) in detatil.detail.imageList" :key="index">
         <img v-lazy="item" style="width:100%;"/>
       </div>
   </div>
 </div>
+
 <!-- 评价 -->
   <div class="evaluate_nav" v-if="shop_active == '1'">
       <div class="nav_top">
           <div class="evaluate_left">
-              <div><span>95%</span>好评</div>
-              <div class="star"><img src="../../assets/image/星星.png"></div>
+              <div><span>{{scale}}%</span>好评</div>
+              <div class="star">
+                        <img v-for="(star,index) in stars" :key="index" :src="star.src" style="margin-right:5px;"/>
+                <!-- <img src="../../assets/image/星星.png">-->
+                </div> 
           </div>
           <div class="evaluate_right">
             <h6>大家都写到</h6>
             <div class="btn_evaluate">
-                <span :class="btn_active == '1'?' btn_border' :''" @click="btnList('1')">全部（999+）</span>
-                <span :class="btn_active == '2'?' btn_border' :''" @click="btnList('2')">有图（666）</span>
+                <span :class="btn_active == '0'?' btn_border' :''" @click="btnList('0')">全部（999+）</span>
+                <span :class="btn_active == '1'?' btn_border' :''" @click="btnList('1')">有图（666）</span>
             </div>   
           </div>
       </div>
+
+      
       <!-- 评论列表 -->
       <div class="evaluate_list" v-for="(item,index) in appraiseList" :key="index">  
           <div class="flex user">
@@ -239,7 +245,7 @@ export default class ProductDetail extends Vue {
   mounted() {
     this.goodsId = this.$route.query.goodsId;
     this.getProductDetail();
-    this.evaluateList(this.shop_active,status);
+    this.evaluateList();
   }
   goodsId = "";
   detatil:any= {
@@ -269,7 +275,7 @@ export default class ProductDetail extends Vue {
   tabindex = 0;
   shop_active = '0';
   new_active = '0';
-  btn_active = '1';
+  btn_active = '0';
   new_detatil = [];
   goCoupon = [];
   selecttablist(index) {
@@ -290,25 +296,15 @@ export default class ProductDetail extends Vue {
     this.new_active = new_active;
     console.log('新品',this.new_active)
   }
+
+
 //获取评价列表
-  evaluateList(shop_active,status){
-      if(this.status == status){
-        return;
-      }
-      if(!status){
-          status = this.status 
-      }
-      this.shop_active = shop_active;
-      
-      console.log('商品id',this.goodsId)
-      console.log('商品',this.status)
-      
-      if(this.shop_active == '1'){
+  evaluateList(){
         Vue.prototype.$reqFormPost1(
         "/comment/list",
         {
           goodsId: this.goodsId,
-          status: this.status,
+          status:this.btn_active
         },
         res => {
           console.log(res)
@@ -319,11 +315,17 @@ export default class ProductDetail extends Vue {
           this.appraiseList = res.data.commentList;
         }
       );
-    }
+    
   }
+
+
+
+
+
   //评论筛选
   btnList(btn_active){
-      this.btn_active = btn_active;
+this.btn_active = btn_active;
+this.evaluateList()
   }
    addCar() {
     if (!this.skuItem["skuId"]) {
@@ -527,6 +529,31 @@ export default class ProductDetail extends Vue {
     this.chosenList.push();
     this.chosensku.push();
   }
+
+  
+  stars = [
+    {
+      src: require("../../assets/image/灰色星星.png"),
+      active: false
+    },
+    {
+      src: require("../../assets/image/灰色星星.png"),
+      active: false
+    },
+    {
+      src: require("../../assets/image/灰色星星.png"),
+      active: false
+    },
+    {
+      src: require("../../assets/image/灰色星星.png"),
+      active: false
+    },
+    {
+      src: require("../../assets/image/灰色星星.png"),
+      active: false
+    }
+  ];
+  scale= 0
   getProductDetail() {
     Vue.prototype.$reqFormPost1(
       "/goods/front/detail",
@@ -568,7 +595,8 @@ export default class ProductDetail extends Vue {
         this.tabgoodslist = res.data.likeList;
         this.likeList = res.data.likeList;
         this.newList = res.data.newList;
-
+        this.scale = res.data.scale;
+          this.getstars(res.data.commentStar);
         // this.couponList = res.data.couponList;
 
         this.detatil.skuKey.forEach((keyItem, keyIndex) => {
@@ -583,8 +611,16 @@ export default class ProductDetail extends Vue {
             (<any>Object).assign(valueItem, opt);
           });
         });
+
+        
       }
     );
+  }
+    getstars(num) {
+    for (var i = 0; i < num; i++) {
+      this.stars[i].src = require("../../assets/image/星星.png");
+      this.stars[i].active = true;
+    }
   }
   tabgoodslist = [];
   likeList = [];

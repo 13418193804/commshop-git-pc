@@ -6,18 +6,20 @@
     </div>
     <div class="flex evaList">
         <div class="shopInfo">
-          <div><img src="../../assets/image/LOGO.png" style="width:135px;height:135px;border:1px solid #ddd;"/></div>
-          <h4>泰国制作灯泡</h4>
+          <div><img v-lazy="detailList.goodsImg" style="width:135px;height:135px;border:1px solid #ddd;"/></div>
+          <h4>{{detailList.goodsName}}</h4>
           <p>规格：灯饰</p>
         </div>
         <div class="shopText">
             <div class="flex shopStar">
               <div>评分</div>
               <div>
-                <img src="../../assets/image/评价黄.png"/><img src="../../assets/image/评价黄.png"/><img src="../../assets/image/评价灰.png"/>
-                <img src="../../assets/image/评价灰.png"/><img src="../../assets/image/评价灰.png"/>
+
+                   <div class="star-box" style="margin:0 10px;">
+        <img v-for="(star,index) in stars" :key="index" :src="star.src"  @click="getstars(index+1)"/>
+      </div>
               </div>
-              <div>非常满意</div>
+              <!-- <div>非常满意</div> -->
             </div>
 
             <div>
@@ -31,10 +33,12 @@
                     <li><img src="../../assets/image/LOGO.png" alt="" srcset=""></li>
                 </ul>
                 <div 
-                style="margin-top: 10px;width:155px;height:45px;border:1px solid #ffc630;color:#ffc630;text-align:center;font-size: 18px;line-height: 45px;">提交</div>
+                style="margin-top: 10px;width:155px;height:45px;border:1px solid #ffc630;color:#ffc630;text-align:center;font-size: 18px;line-height: 45px;" @click="subcomment()">提交</div>
             </div>
         </div>
     </div>
+
+
   </div> 
 </template>
 
@@ -54,6 +58,173 @@ import { Toast } from "vant";
 })
 export default class User extends Vue {
   
+ orderId="";
+  orderdetail=[];
+  detailList={goodsId:"",orderId:"",skuId:"",skuKeyValue:"",id:""};
+  commentContent="";
+  starsnum=0;
+  filename=[];
+  stars=[{
+                            src: require('../../assets/image/评价灰.png'),
+                            active: false
+                        }, {
+                            src: require('../../assets/image/评价灰.png'),
+                            active: false
+                        }, {
+                            src: require('../../assets/image/评价灰.png'),
+                            active: false
+                        },
+                        {
+                            src: require('../../assets/image/评价灰.png'),
+                            active: false
+                        }, {
+                            src: require('../../assets/image/评价灰.png'),
+                            active: false
+                        }
+                    ];
+  getorderdetail(){
+    Vue.prototype.$reqFormPost(
+      "/order/queryorderdetail",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        orderId: this.orderId,
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+
+          Toast(res.data.message);
+          return;
+        }
+        this.orderdetail = res.data.data;
+        this.detailList = res.data.data.detailList[0]
+        console.log(res.data.data)
+        }
+      ); 
+  }
+  getstars(num){
+    this.starsnum=num;
+    for(var j = 0; j < 5; j++) {
+      this.stars[j].src = require('../../assets/image/评价灰.png');
+      this.stars[j].active = false;
+    }
+    for(var i = 0; i < num; i++) {
+      this.stars[i].src = require('../../assets/image/评价黄.png');
+      this.stars[i].active = true;
+    }
+  }
+
+  onRead(file) {
+    let form = new FormData();
+    form.append("file", file.file);
+    Vue.prototype.$reqFormUpload("/fileupload", form, res => {
+      if (res == null) {
+        console.log("网络请求错误！");
+        return;
+      }
+      if (res.data.status != 200) {
+        console.log(
+          "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+        );
+        Toast(res.data.message);
+        return;
+      }
+      console.log("文件上传", res.data.data.filename);
+      this.filename.push(res.data.data.filename);
+    });
+  }
+  delimg(index){
+    this.filename.splice(index,1);
+  }
+  subcomment(){
+  
+      if(this.commentContent==""){
+          Toast("请填写评价");
+      }
+      let commentImg = this.filename.toString()
+
+
+        console.log( {
+            "customCommentList": [
+                {
+                "commentContent": this.commentContent,
+                "commentImg": commentImg,
+                "goodsId": this.detailList.goodsId,
+                "orderDetailId": this.detailList.id,
+                "skuId": this.detailList.skuId,
+                "skuKeyValue": this.detailList.skuKeyValue,
+                "star": this.starsnum
+                }
+            ],
+            "orderId": this.orderId,
+            "token": this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
+            "userId": this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId
+      })
+
+
+    //   Vue.prototype.$reqFormPost(
+    //   "/comment/add",
+    //   {
+    //         "customCommentList": [
+    //             {
+    //             "commentContent": this.commentContent,
+    //             "commentImg": commentImg,
+    //             "goodsId": this.detailList.goodsId,
+    //             "orderDetailId": this.detailList.id,
+    //             "skuId": this.detailList.skuId,
+    //             "skuKeyValue": this.detailList.skuKeyValue,
+    //             "star": this.starsnum
+    //             }
+    //         ],
+    //         "orderId": this.orderId,
+    //         "token": this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
+    //         "userId": this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId
+    //   },
+    //   res => {
+    //     if (res == null) {
+    //       console.log("网络请求错误！");
+    //       return;
+    //     }
+    //     if (res.data.status != 200) {
+    //       console.log(
+    //         "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+    //       );
+
+    //       Toast(res.data.message);
+    //       return;
+    //     }
+    //       this.$router.go(-1);        
+
+
+    //     console.log(res.data)
+    //     },
+    //     {
+    //     "Content-Type": "application/json"
+    // }     
+
+      // ); 
+  }
+  handlePX(CssName, PxNumber) {
+    return CssName +":" +this.$store.getters[Vue.prototype.MutationTreeType.SYSTEM].availWidth /750 * PxNumber +"px;";
+  }
+
+
+  mounted() {
+    this.orderId = this.$route.query.orderId;
+    this.getorderdetail();
+    console.log("评价");
+  }
+
+
 }
 </script>
 

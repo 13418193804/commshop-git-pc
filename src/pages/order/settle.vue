@@ -208,37 +208,6 @@
 </div>
 
 <div style=" position: relative;">
-<<<<<<< HEAD
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
-<div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
-            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
-              <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
-     <div  class="add_titile">切换地址</div>
-              <div class="flex region" style="height:560px;    overflow: auto;">
-                  <div>
-                <div v-for="(item,index) in addressList" :key="index" @click="setDefaultAddress(item.addressId)" class="bc_addres" :style=" address.addressId == item.addressId?'border-color:#f4c542':''">
-                      <div class="flex">
-<div style="width:100px;text-align:right;">收货人：</div>
-      {{item.contactname}}
-                      </div>
-     <div class="flex">
-<div style="width:100px;text-align:right;">联系方式：</div>
-        {{item.contactmobile.substring(0,3)}}****{{ item.contactmobile.substring(7,13)}}
-                      </div>
-     <div class="flex">
-<div style="width:100px;text-align:right;">收货地址：</div>
-      {{item.address}}
-                      </div>
-                  </div>
-                  </div>
-
-
-        </div>
-        </div>
-        </div>
-
-        </div>
-=======
   <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
     <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
         <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative; width: 590px;">
@@ -246,8 +215,10 @@
           <div  class="add_titile">切换地址</div>
           <div class="flex region" style="min-height:300px;    overflow: auto;">
             <div>
-                <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres bc_addresCur" :style=" address.addressId == item.addressId?'bc_addresCur':''">
+ 
+                <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres " :class="address&& address.addressId == item.addressId ?'bc_addresCur':''">
                     <div class="flex">
+                
                         <div style="width:100px;text-align:right;">收货人：</div>
                         {{item.contactname}}
                     </div>
@@ -263,12 +234,11 @@
             </div>
           </div>
           <div style="text-align: center; margin-top: 30px;">
-            <button 
+            <!-- <button 
             style="border: none; width: 150px; height: 45px; background-color: rgb(252, 203, 82); color: rgb(255, 255, 255); text-align: center; line-height: 45px; margin-right: 5px; font-size: 16px;">确定</button>
             <button 
-            style="border: none; width: 150px; height: 45px;border:1px solid #ffc630; color:  rgb(252, 203, 82); text-align: center; line-height: 45px; margin-right: 5px; font-size: 16px;">取消</button>
+            style="border: none; width: 150px; height: 45px;border:1px solid #ffc630; color:  rgb(252, 203, 82); text-align: center; line-height: 45px; margin-right: 5px; font-size: 16px;" @click="addcancel()" >取消</button> -->
           </div>
->>>>>>> 7834615abab7560e28ebf4c33a55af97e7710191
         </div>
     </div>
   </div>
