@@ -153,7 +153,7 @@ export default class User extends Vue {
       let commentImg = this.filename.toString()
 
 
-        console.log( {
+        console.log( {  
             "customCommentList": [
                 {
                 "commentContent": this.commentContent,
