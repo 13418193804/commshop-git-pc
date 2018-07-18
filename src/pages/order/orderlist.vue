@@ -116,8 +116,8 @@
 
      <div class="settingBody" v-if="item.orderStatus === 'ORDER_END_GOODS'">
         <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
-      <van-button size="small" style="margin-right:10px;" @click.stop="doRefund(item)">退换/售后</van-button>
-      <van-button size="small" style="margin-right:10px;" @click.stop="getShip(item)" :style="formatButtonColor()">查看物流</van-button>
+      <span size="small" style="margin-right:10px;" @click.stop="doRefund(item)">退换/售后</span>
+      <span size="small" style="margin-right:10px;" @click.stop="getShip(item)" :style="formatButtonColor()">查看物流</span>
     </div>
 
     <div v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'">
@@ -372,15 +372,10 @@ doDeleteOrder(orderId){
     d.getShipInfoList(
       item.transportNo,item.transportCode
     );
-
-
-
   }
 
   //退货退款
   doRefund(item) {
-
-
     this.orderItem =  item
     let c : any = this.$refs.reimburseTwo
     c.reim_model = true

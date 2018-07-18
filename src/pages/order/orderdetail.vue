@@ -258,32 +258,56 @@
 </div>
     </div>
 </div>
-        </div>
+      <logistics ref="logistics" :orderItem="orderItem" @queryDetail="queryDetail()"></logistics>
+</div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import logistics from "../index/logistics.vue";
 import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast, Dialog } from "vant";
 
 @Component({
-  components: {  },
+  components: { 
+    logistics
+   },
   mixins: [mixin]
 })
 export default class orderdetail extends Vue {
   orderId = "";
   detail = {};
+ orderItem = {};
+
+ //填写物流
+ shipGet(){
+
+
+
+
+
+       //  refundId: this.detail["detailList"][0].refundOrderList[0].refundId
+
+
+  }
 
   inputTransNo() {
+    
     console.log("填写单号");
-    this.$router.push({
-      name: "refundbackgoods",
-      query: {
-        refundId: this.detail["detailList"][0].refundOrderList[0].refundId
-      }
-    });
+    // this.$router.push({
+    //   name: "refundbackgoods",
+    //   query: {
+    //     refundId: this.detail["detailList"][0].refundOrderList[0].refundId
+    //   }
+    // });
+
+  
+    let a : any = this.$refs.logistics
+        a.wl_model = true
+        a.form.refundId = this.detail["detailList"][0].refundOrderList[0].refundId
+
   }
   formatButtonColor() {
     return "border-color:#ffc630;color:#ffc630";

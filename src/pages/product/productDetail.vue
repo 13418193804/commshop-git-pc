@@ -205,10 +205,12 @@
           <div class="flex user">
               <div><img v-lazy="item.user.userIcon"/></div>
               <div>{{item.user.mobile}}</div>
-              <div v-for="(item,index) in item.star" :key="index"><img src="../../assets/image/星星.png" style="width:20px;height:20px;"></div>
+              <div v-for="(items,index) in item.star" :key="index"><img src="../../assets/image/星星.png" style="width:20px;height:20px;"></div>
           </div>
           
-          <div class="style" style="color:#a1a1a1">款式：高等</div>
+          <div class="style" style="color:#a1a1a1">
+            {{handleSkuValue(item.skuKeyValue) }}
+          </div>
           <p>{{item.commentContent}}</p>
           <div class="flex evaluate_pic">
               <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div>
@@ -296,7 +298,9 @@ export default class ProductDetail extends Vue {
     this.new_active = new_active;
     console.log('新品',this.new_active)
   }
-
+handleSkuValue(skuValue){
+ return JSON.parse(skuValue);
+}
 
 //获取评价列表
   evaluateList(){
@@ -714,6 +718,7 @@ this.evaluateList()
 }
 
 .evaluate_list{
+  border-bottom: 1px solid #ddd;padding-bottom: 10px;
   .user{
     div{
       margin-right:10px;height: 58px;line-height:58px;margin-bottom:10px;

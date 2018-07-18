@@ -182,9 +182,10 @@
     <div class="messageFexid" style="right:10px" v-if="cartLen!=0">{{cartLen}}</div>
       <img src="../assets/image/购物车.png"/>
       <div class="cartFexid" v-if="cartModel">
-        <div style="    display: flex;
-    justify-content: flex-end;"> 
-          <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">X</div>
+        <div style="display: flex;justify-content: flex-end;"> 
+          <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">
+            <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;vertical-align: middle;" />
+          </div>
         </div>
         <div style="   height: 310px;overflow:auto;">
 <div  v-if="cartList.length>0">      
@@ -272,7 +273,7 @@
                               <p>{{items.nameEn}}</p>
                           </div>
                         <!-- //1 -->
-                         <!-- <div class="goodsBody">
+                         <div class="goodsBody">
                            <div class="recommend_list">
                               <div class="shop_img">
                                 <div class="hot"><img src="../assets/hot.png" /></div>
@@ -335,7 +336,7 @@
                                 </div>
                               </div>
                            </div>
-                         </div> -->
+                         </div>
                       <!-- 2 -->
                           <div class="goodsBody" v-if="items.columnNum ===1" >
                               <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
@@ -361,7 +362,7 @@
                                 </div>
                           </div>
                           <!-- 3 -->
-                          <!-- <div class="goodsBody">
+                          <div class="goodsBody">
                               <div style="width:260px;margin-right: 20px;">
                                   <div class="shop_img">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
@@ -422,7 +423,7 @@
                                     <p class="shop_prce" style="color:red">￥120.00</p>
                                   </div>
                               </div>
-                          </div> -->
+                          </div>
                     
                     </div>
                   </div>
@@ -1211,13 +1212,13 @@ two_menu(active){
      background: #F4C542;color:#fff;
   }
   .icon_app:hover{
-    background:url(../assets/phone2.png) no-repeat center bottom 2px;color:#f4c542;
+    background:#fff url(../assets/phone2.png) no-repeat center bottom 2px;color:#f4c542;
   }
   .icon_service:hover{
-    background:url(../assets/service2.png) no-repeat center bottom 2px;color:#f4c542;
+    background:#fff url(../assets/service2.png) no-repeat center bottom 2px;color:#f4c542;
   }
   .icon_top:hover{
-    background:url(../assets/jt_hover.png) no-repeat center bottom 2px;color:#f4c542;
+    background:#fff url(../assets/jt_hover.png) no-repeat center bottom 2px;color:#f4c542;
   }
 } 
 .vhead {

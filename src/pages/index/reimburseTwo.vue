@@ -106,12 +106,11 @@ import { Prop } from "vue-property-decorator";
   };
   changerefundType(data) {
     this.refundObj.refundType = data;
+    console.log('退款类型',this.refundObj.refundType)
   }
   
     doRefund() {
-console.log( this.refundObj.refundImgs.join(","))
-
-
+      console.log( this.refundObj.refundImgs.join(","))
       let url = "/order/refund/apply";
   
       let data = ( < any > Object).assign({
@@ -164,8 +163,6 @@ console.log( this.refundObj.refundImgs.join(","))
   
       }
   
-  
-  
       Vue.prototype.$reqFormPost(url, data, res => {
   
         if (res == null) {
@@ -190,7 +187,7 @@ console.log( this.refundObj.refundImgs.join(","))
   
      this.reim_model = false
         this["$Message"].success('申请成功');
-    this.$emit('getList');
+        this.$emit('getList');
   
       });
   

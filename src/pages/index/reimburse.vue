@@ -106,6 +106,7 @@ import { Prop } from "vue-property-decorator";
   };
   changerefundType(data) {
     this.refundObj.refundType = data;
+    console.log('退款类型',this.refundObj.refundType)
   }
   
     doRefund() {
