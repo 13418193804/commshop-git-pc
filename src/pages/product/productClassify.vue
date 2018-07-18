@@ -49,8 +49,7 @@
                     </div>
 
                     <el-pagination
-                      @size-change="handleSizeChange"
-                      background = true
+                      background
                       layout="prev, pager, next"
                       :total="1000">
                       

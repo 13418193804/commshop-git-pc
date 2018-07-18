@@ -22,7 +22,13 @@
       <div style="padding:10px 20px;" v-for="(item,index) in menu" :key="index">
           <div class="title">{{item.title}}</div>
           <div class="content" :class="menuName == items.name ?'selectContent':''" 
-              v-for="(items,indexs) in item.menu" @click="selectMenu(items)" :key="indexs">{{items.name}}</div>
+              v-for="(items,indexs) in item.menu" @click="selectMenu(items)" :key="indexs">{{items.name}}
+
+               <div class="messageFexid" style="right:-5px;top:17px;" 
+                    v-if="items.name == '消息通知' && messageCount!= 0 ">
+                    {{messageCount}}
+               </div>
+          </div>
       </div>
     </div>
     <div class=" flex-1" :class="menuName !='我的订单' &&  $route.path !=='/orderdetail' ?'borderSet':''">
@@ -52,6 +58,7 @@ import Winbeet from "../../components/Winbeet.vue";
   },
   mixins: [mixin]
 })
+
 export default class shopIndex extends Vue {
   menu = [
     {
@@ -119,11 +126,30 @@ selectMenu(items){
       this.menuName = items.name
 
 }
-
+messageCount:any = 0
+  getMessageCount(){
+        Vue.prototype.$reqFormPost1(
+      "/message/unread/count",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token
+      },
+      res => {
+        if (res.returnCode != 200) {
+        
+     this["$Message"].warning(res.message);
+        return;
+        }
+        this.messageCount = res.data.count
+      }
+    );
+  }
 
 
   mounted() {
-
+    this.getMessageCount();
     this.doNone();
   }
   //隐藏首页tab
@@ -348,7 +374,7 @@ selectMenu(items){
   font-size: 16px;
 }
 .content {
-  font-size: 14px;
+  font-size: 14px;position: relative;
     padding:5px 0 !important;
 text-align:center;
   border-bottom:2px #fff solid;

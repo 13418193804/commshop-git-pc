@@ -83,8 +83,8 @@
 
       <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
       @click.stop="goRefund(item) ">申请退款</span>
-      <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
-      @click.stop="doRefund(item) ">申请退款1</span>
+      <!-- <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
+      @click.stop="doRefund(item) ">申请退款1</span> -->
   </div>
   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_RECVGOODS'">
     <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
@@ -143,13 +143,8 @@
       </div>
     </div>
 </div>
-
 </div>
-
-
-  
   </div>
-
       </div>
 
 
@@ -161,6 +156,8 @@
 
 
 <reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
+<reimburseTwo ref="reimburseTwo" :orderItem="orderItem" ></reimburseTwo>
+<ship ref="ship" ></ship>
 
 </div>
   
@@ -178,12 +175,16 @@ import axios from "axios";
 import Wintabe from "../../components/Wintabe.vue";
 import Winbeet from "../../components/Winbeet.vue";
 import reimburse from "../index/reimburse.vue";
+import reimburseTwo from "../index/reimburseTwo.vue";
+import ship from "../index/ship.vue";
 
 @Component({
   components: {
     Wintabe,
     Winbeet,
-    reimburse
+    reimburse,
+    reimburseTwo,
+    ship
 },
   mixins: [mixin]
 })
@@ -203,22 +204,13 @@ export default class orderList extends Vue {
   goRefund(item){
     this.orderItem =  item
     let a : any = this.$refs.reimburse
-
     a.model = true
-
   }
+
   getList(){
         this.getOrderList(this.orderTitleList[this.active].status,true);
   }
-  doRefund(item) {
-    console.log(item.orderId);
-    this.$router.push({
-      name: "refund",
-      query: {
-        orderId: item.orderId
-      }
-    });
-  }
+
   onLoad() {
     setTimeout(() => {}, 500);
   }
@@ -367,8 +359,28 @@ doDeleteOrder(orderId){
 
     }
   }
+ 
+ //查看物流信息
   getShip(item) {
-    this.$router.push({ name: "ship", query: item });
+    // this.$router.push({ name: "ship", query: item });
+    let d : any = this.$refs.ship
+    d.ship_model = true
+    d.getShipInfoList(
+      item.transportNo,item.transportCode
+    );
+
+
+
+  }
+
+  //退货退款
+  doRefund(item) {
+
+
+    this.orderItem =  item
+    let c : any = this.$refs.reimburseTwo
+    c.reim_model = true
+
   }
   buyAgain(orderId) {
     Vue.prototype.$reqFormPost(
