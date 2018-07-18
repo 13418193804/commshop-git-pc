@@ -25,7 +25,7 @@
             </div>
             <div class="contentBox borderleft ">
               <span @click="myMessagelist()" style="position:relative">消息
-                    <div class="messageFexid" style="right:10px">{{messageCount}}</div>
+                    <div class="messageFexid" style="right:10px" v-if="messageCount!= 0">{{messageCount}}</div>
                 </span>
             </div>
             <div class="contentBox borderleft ">
@@ -179,7 +179,7 @@
   </div>
   <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px"/>
   <div style="    position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
-    <div class="messageFexid" style="right:10px">{{cartLen}}</div>
+    <div class="messageFexid" style="right:10px" v-if="cartLen!=0">{{cartLen}}</div>
       <img src="../assets/image/购物车.png"/>
       <div class="cartFexid" v-if="cartModel">
         <div style="    display: flex;
@@ -506,7 +506,7 @@ goAgreement(){
   console.log('进来协议')
   let b : any = this.$refs.agreement
   console.log(b)
-   b.model = true
+   b.userModel = true
 }
 onFocus(){
   //搜索
@@ -787,7 +787,7 @@ myOrder(){
 }
 myMessagelist(){
   this.$router.push({
-    path:"/messagelist",
+    path:"/Messagelist",
   })
 }
 goProductDetail(goodsId) {
@@ -886,7 +886,52 @@ mouseover_select(){
 mouseout_select(){
   this.select_block = false
 }
-
+  goActionType(actionType, actionValue) {
+    if (actionType == "ACTION_TYPE_GOODSID") {
+      var goodsId = actionValue;
+      this.$router.push({
+        path: "/productdetail",
+        query: {
+          goodsId: goodsId
+        }
+      });
+    }
+    if (actionType == "ACTION_TYPE_TAGID") {
+      Vue.prototype.$reqFormPost("/user/cat/querytree", {}, res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          return;
+        }
+        for (var i = 0; i < res.data.data.children.length; i++) {
+          for (var j = 0; j < res.data.data.children[i].children.length; j++) {
+            if (res.data.data.children[i].children[j].catId == actionValue) {
+              var selectIndex = j.toString();
+              this.$router.push({
+                path: "/productClassify",
+                query: {
+                  catId: res.data.data.children[i].children[j].catId,
+                  parentCatId: res.data.data.children[i].children[j].parentId,
+                  selectIndex: selectIndex,
+                  title: res.data.data.children[i].label
+                }
+              });
+              return;
+            }
+          }
+        }
+      });
+    }
+    if (actionType == "ACTION_TYPE_URL") {
+      return;
+    }
+    return;
+  }
 changeTab(active, shit) {
     // shit 立刻检测  通常进来时不检测
     if (
@@ -1094,8 +1139,8 @@ two_menu(active){
      this["$Message"].warning(res.message);
         return;
         }
-this.messageCount = res.data.count
-console.log('消息条数',res.data.count)
+        this.messageCount = res.data.count
+        // console.log('消息条数',res.data.count)
       }
     );
   }
@@ -1148,7 +1193,7 @@ console.log('消息条数',res.data.count)
     }
   }
   .icon_app{
-    background:url(../assets/phone1.png) no-repeat center bottom 2px;position: relative;
+    background:#fff url(../assets/phone1.png) no-repeat center bottom 2px;position: relative;
   }
   // 二维码
   .icon_code{
@@ -1156,10 +1201,10 @@ console.log('消息条数',res.data.count)
       z-index:9999;width:110px;height:115px;
   }
   .icon_service{
-    background:url(../assets/service1.png) no-repeat center bottom 2px;
+    background:#fff url(../assets/service1.png) no-repeat center bottom 2px;
   }
   .icon_top{
-    background:url(../assets/jt_up.png) no-repeat center bottom 2px;
+    background:#fff url(../assets/jt_up.png) no-repeat center bottom 2px;
   }
   //hover-icon
   div:hover p{
