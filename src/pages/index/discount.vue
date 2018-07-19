@@ -88,10 +88,10 @@ export default class User extends Vue {
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
 .discountBox{
-  overflow: hidden;padding:30px 40px;padding-right:10px;
+  overflow: hidden;padding:30px 25px;padding-right:10px;
   .dis_list{
     float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
-    margin-bottom:10px;position: relative;margin-right: 10px;background :url(../../assets/image/领卷中心背景.png) no-repeat;
+    margin-bottom:10px;position: relative;background :url(../../assets/image/领卷中心背景.png) no-repeat;
       background-size: 100%;
     .newtext{
       position: absolute;bottom: 4px;color: #fff;
@@ -101,7 +101,7 @@ export default class User extends Vue {
     margin-right: 0;
   }
   .dis_list:nth-child(even){
-    margin-right: 5px;
+    
   }
   .distype{
     height:30px;line-height:30px;color:#ffc630;position: absolute;right:15px;top:20px;background: #fff;cursor: pointer;

@@ -352,20 +352,28 @@
         </div>
 
         <!-- 优惠卷框 -->
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="iscouponshow" >
-          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
-            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
+        <div style="background-color:rgba(0, 0, 0, 0.5); z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="iscouponshow">
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">  
+               <div style="background-color:#fff;padding:20px;position:relative;width: 750px;
+                          min-height;max-height:620px;
+                          overflow-y: auto;">
               <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
-              <div class="add_titile">选择优惠卷</div>
-                <div v-for="(item,index) in couponList" :key="index" @click="selectcoupon(item)">
-                  <div style="padding:15px;">
-                    <div >{{item.coupon.couponName}}</div>
-                    <div v-if="item.coupon.id==selectcouponId">已选择</div>
-                  </div> 
+              <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠卷</div>
+                <div class="discountBox">
+                    <div class="dis_list" v-for="(item,index) in couponList" :key="index" @click="selectcoupon(item)">
+                        <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
+                          {{item.coupon.fullDenomination}}</span>元</p>
+                          <div class="distype" v-if="item.coupon.id==selectcouponId">已选择</div>
+                        <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                            <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
+                            <!-- <i style="margin-right:15px;color: #fff;">{{item.updateTime}}</i> -->
+                        </div>
+                        <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+                    </div>
                 </div>
-              
-              <div class="flex region_btn">
-                <div @click="surecoupon()">确定</div>
+              <div style="text-align: center;margin-top: 30px;">
+                <button @click="surecoupon()"
+                 style="border: none;width: 290px;height: 45px;background-color: rgb(252, 203, 82);color: rgb(255, 255, 255);text-align: center;line-height: 45px;margin-right: 5px;font-size: 16px;">确定</button>
               </div>
             </div>
           </div>
@@ -1098,6 +1106,28 @@ this.getAddressList()
 }
 .bc_addresCur{
   border:#ffc630 1px solid;background: url(../../assets/image/打钩.png) no-repeat right top;
+}
+//优惠券弹窗
+.discountBox{
+  overflow: hidden;padding:30px 25px;padding-right:10px;
+  .dis_list{
+    float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
+    margin-bottom:10px;position: relative;background :url(../../assets/image/未使用优惠卷.png) no-repeat;
+      background-size: 100%;
+    .newtext{
+      position: absolute;bottom: 4px;color: #fff;
+    }
+  }
+  .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
+    margin-right: 0;
+  }
+  .distype{
+    height:30px;line-height:30px;color:#ffc630;position: absolute;right:15px;top:20px;background: #fff;cursor: pointer;
+    text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
+  }
+  .distypeed{
+    background: #fccb52;color:#fff;
+  }
 }
 </style>
 

@@ -8,6 +8,7 @@
                    <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
                    <span v-else>{{userInfo.loginName}}</span>   
               <div class="top_select" v-if="select_block">
+                <div @click="myDiscount()">优惠券</div>
                 <div @click="myCollect()">我的收藏</div>
                 <div @click="mySite()">地址管理</div>
                 <div @click="myAward()">我的积分</div>
@@ -432,9 +433,9 @@
     >
       <p>下载app</p>
     </div>
-    <div class="icon_code" v-if="cartModel_code"><img src="../assets/code.png" style="width:68px;height:68px;"/></div>
+    <div class="icon_code" v-if="cartModel_code"><img src="../assets/二维码.png" style="width:68px;height:68px;"/></div>
 
-    <div class="icon_service">
+    <div class="icon_service" onclick="showMeiQia()">
       <p>联系客服</p>
     </div>
     <div class="icon_top"  @click="backTop()">
@@ -772,6 +773,11 @@ mobile =this.forget_Name
     );
   }
 // 导航跳转
+myDiscount(){
+  this.$router.push({
+    path:"discountLobby"
+  })
+}
 myCollect() {
   this.$router.push({
     path: "/collection",
