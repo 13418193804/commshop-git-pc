@@ -139,44 +139,35 @@
             <img  src="../assets/image/logo拷贝.png"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
   
+<!-- 搜索记录 -->
+<div class="flex flex-align-center" style="border:1px #EAEAEA solid;">
+   <div style="position: relative;min-width:250px;"> 
+        <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品" @focus="onFocus()" />
+        <!-- @blur="onblur()" -->
+        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
 
-  <div class="flex flex-align-center" style="border:1px #EAEAEA solid;">
-   <div style="    position: relative;min-width:250px;"> 
-     <input  style="border:none;margin:0 10px" v-model="keyword" placeholder="搜索商品" @focus="onFocus()" @blur="onblur()"/>
-   
-   
-   
-   
-    <div style="position: absolute;    width: 100%;font-size:14px;  
-    border: 1px #e5e5e5 solid; background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
-    
-<div style="color:#999;">
-搜索记录
-</div>
-<div class="flex flex-pack-justify  flex-align-center" style="padding-left:5px;" >
-  <div>记录1</div>
-  <div><i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" ></i></div>
-</div>
-
- <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
-        <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word)">
-      </div>
-</div>
-
-    </div> 
-
-
-
-     </div>
-    
-    
-    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword)" class="flex flex-align-center flex-pack-center">
-  <img src="../assets/image/放大镜.png" />
+            <div style="color:#999;">搜索记录
+                <!-- 删除历史记录 -->
+              <div style="position: absolute;right: 5px;top: 5px;">
+                <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" 
+                  @click="clearSearch()"
+                ></i></div>
+            </div>
+            <div class="flex-pack-justify  flex-align-center" style="padding-left:5px;position:relative" >
+              <div v-for="(item,index) in stockpile" :key="index">{{item}}</div>
+              
+            </div>
+          <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
+              <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word)">
+              </div>
+          </div>
+        </div> 
     </div>
-
-
-
+    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword)" class="flex flex-align-center flex-pack-center">
+        <img src="../assets/image/放大镜.png" />
+    </div>
   </div>
+  
   <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px"/>
   <div style="    position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
     <div class="messageFexid" style="right:10px" v-if="cartLen!=0">{{cartLen}}</div>
@@ -502,6 +493,7 @@ export default class Comhead extends Vue {
     // this.changeTab()
   }
   filterModel=false
+  
   //用户协议
 goAgreement(){
   console.log('进来协议')
@@ -511,7 +503,6 @@ goAgreement(){
 }
 onFocus(){
   //搜索
-  console.log('=======')
   this.filterModel = true
 }
 onblur(){
@@ -523,24 +514,39 @@ onblur(){
 
 }
 keyword =''
+stockpile = []
+maxCont = 10;
+//清除搜索记录
+clearSearch(){
+  console.log('清除');
+  this.stockpile = [];
+}
 doSelect(keyword){
+  console.log('搜索内容',typeof this.keyword);
+  this.stockpile.unshift(this.keyword);
+  console.log(JSON.stringify(this.stockpile))
+  // this.stockpile = JSON.stringify(this.keyword);
+  console.log('储存内容',this.stockpile)
+  
+  if(this.stockpile.length>this.maxCont){
+    console.log('条数',this.stockpile.length)
+		this.stockpile.pop() //方法将删除 arrayObject 的最后一个元素，把数组长度减 1，并且返回它删除的元素的值
+	}
 
   if(this.$route.path == '/productclassify'){
     this.$emit('filterproduct');
     return
-  }
-  
-sessionStorage.keyword =  keyword
-
-  this.$router.push(
-    {
-      name:'productclassify',
-      query:{
-        type:'filter'
-      }
-    },
-  )
-  
+}
+  sessionStorage.keyword =  keyword;
+  console.log(sessionStorage.keyword)
+    this.$router.push(
+      {
+        name:'productclassify',
+        query:{
+          type:'filter'
+        }
+      },
+    )
 }
 
 //返回顶部
@@ -1122,6 +1128,7 @@ two_menu(active){
       }
 
       this.hotwordList = res.data.data;
+      console.log(res.data.data);
     });
   }
   messageCount:any = 0
@@ -1146,6 +1153,7 @@ two_menu(active){
     );
   }
   mounted() {
+
     // 添加一个滚动滚动监听事件：
     window.addEventListener('scroll', this.handleScroll);
     this.table ? (this.active = "-1") : "";

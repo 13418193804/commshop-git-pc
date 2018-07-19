@@ -208,8 +208,8 @@
               <div v-for="(items,index) in item.star" :key="index"><img src="../../assets/image/星星.png" style="width:20px;height:20px;"></div>
           </div>
           
-          <div class="style" style="color:#a1a1a1">
-            {{handleSkuValue(item.skuKeyValue) }}
+          <div class="style" style="color:#a1a1a1;display: inline-block;" v-for="item in JSON.parse(item.skuKeyValue)" >
+            <span>{{item.key}}:{{item.value}}</span>
           </div>
           <p>{{item.commentContent}}</p>
           <div class="flex evaluate_pic">
@@ -298,9 +298,9 @@ export default class ProductDetail extends Vue {
     this.new_active = new_active;
     console.log('新品',this.new_active)
   }
-handleSkuValue(skuValue){
- return JSON.parse(skuValue);
-}
+// handleSkuValue(skuValue){
+//  return JSON.parse(skuValue);
+// }
 
 //获取评价列表
   evaluateList(){
