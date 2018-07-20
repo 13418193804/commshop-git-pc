@@ -499,9 +499,6 @@ export default class Comhead extends Vue {
   filterModel=false
 
 
-
-
-  
   //用户协议
 goAgreement(){
   console.log('进来协议')
@@ -967,7 +964,6 @@ changeTab(active, shit) {
       });
       return;
     }
-
     this.active = active;
     if(active != "-1"){
         // this.getSecCatList(active);
@@ -985,9 +981,29 @@ changeTab(active, shit) {
             this["$Message"].warning(res.message);
             return;
           }
+
+let a = res.data.filter((item,index)=>{
+return item.componentType === 'COMPONENT_TYPE_GOODS_TAG'
+})
+
+res.data.forEach((items,index)=>{
+for(let i =0 ;i<a.length;i++){
+  if(items.id == a[i].id){
+      items.arrtibleIndex = i+1
+       a[i].arrtibleIndex = i+1
+  } 
+}
+})
+res.data.forEach((items,index)=>{
+  console.log(items.arrtibleIndex %3)
+})
+
+
+
           (<any>Object).assign(this.indexList[active], {
             children: res.data
           });
+
           this.indexList.push();
           
           if (this.indexList[active].catId) {
@@ -1001,14 +1017,16 @@ changeTab(active, shit) {
                   this["$Message"].warning(res.message);
                   return;
                 }
+
                 this.indexList[active].children.push({
                   componentType: "COMPONENT_TYPE_GOODS_TAG",
                   columnNum: 1,
                   items: res.data.goodsList
                 });
+           
+
                 console.log('首页',res.data.goodsList)
                 this.indexList.push();
-
 
               }
             );
@@ -1056,22 +1074,7 @@ two_menu(active){
   }
 
 
-  
-handleGoodSend(items,list){
-let a = list.filter((item,index)=>{
-return items.componentType === 'COMPONENT_TYPE_GOODS_TAG'
-})
-a.forEach((item,index)=>{
-if(items == item){
-  return false
-}
-})
-for(let i =0 ;i<a.length;i++){
-  if(items == a[i]){
-      a[i].arrtibleIndex = i
-  } 
-}
-}
+
 
   initIndex() {
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
@@ -1083,13 +1086,15 @@ for(let i =0 ;i<a.length;i++){
       }
 
       this.indexList = res.data;
-        this.indexList.forEach((item,index)=>{
-          this.handleGoodSend(item,this.indexList)
-        })
-console.log( this.indexList)
-        
+        // this.indexList.forEach((item,index)=>{
+        //   this.handleGoodSend(item,this.indexList)
+        // })
+
+
       if (this.indexList.length > 0) {
+
         this.changeTab(this.active, true);
+
       }
     });
   }
