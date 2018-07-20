@@ -24,6 +24,7 @@
       </div>
       <div class="nodiscount" v-else>
           <img src="../../assets/WechatIMG683.png" />
+          <p style="font-size:14px;color:#a3a3a3;">空空如也～</p>
       </div>
      </div>
   </div>
@@ -88,8 +89,12 @@ export default class User extends Vue {
     })
   }
   mounted() {
-    console.log('---')
     this.discountList(false);
+    //定位当前页面左侧样式
+    this.$emit('selectMenu',{
+      name: '优惠券',
+      url:'/discountLobby',
+    })
   }
 }
 </script>

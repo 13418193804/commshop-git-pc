@@ -27,10 +27,16 @@ export default class App extends Vue {
 @import './style/_var';
 @import './style/reset';
 
-
+html,body,#app{
+  height:100%;
+}
 .tab-contents{
   min-height: 100vh;
   position: relative;
+  width: 100%;
+  min-height: 100%;
+  padding-bottom: 100px;
+  box-sizing: border-box;
 }
 .pointer{
   cursor: pointer;
