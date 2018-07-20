@@ -28,6 +28,7 @@
                     v-if="items.name == '消息通知' && messageCount!= 0 ">
                     {{messageCount}}
                </div>
+               <div class="service" v-if="items.name == '在线客服'" onclick="showMeiQia()"></div>
           </div>
       </div>
     </div>
@@ -303,13 +304,14 @@ messageCount:any = 0
     bottom: 0;
   }
 }
-
+.service{
+  position: absolute;width: 70px;height: 33px;left: 0;top: 0;
+}
 .modiaBoxDown2 {
   position: absolute;
   bottom: -100%;
   animation: myfirst0001 0.5s;
 }
-
 .collection_color {
   color: red;
 }
@@ -318,7 +320,6 @@ messageCount:any = 0
   display: flex;
   flex-wrap: wrap;
 }
-
 .sku_box {
   margin: 10px 0px 0px 20px;
   padding: 3px 10px;
@@ -330,7 +331,6 @@ messageCount:any = 0
   white-space: nowrap;
   max-width: 100px;
 }
-
 .vangoods {
   position: inherit;
 }

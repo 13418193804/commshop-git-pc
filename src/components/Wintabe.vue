@@ -255,7 +255,7 @@
                         </el-carousel-item>
                       </el-carousel>
                   </div>
-                    
+                     <!-- 新品推荐 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
 
                     <div style="background-color:#f7f7f7;"></div>
@@ -266,75 +266,49 @@
                               <i>{{items.name}}</i>
                               <p>{{items.nameEn}}</p>
                           </div>
-                        <!-- //1 -->
-                         <div class="goodsBody">
-                           <div class="recommend_list">
+                        <!-- //1 定制推荐-->
+                         <div class="goodsBody" v-if="items.columnNum === 2 && items.nameEn =='CUSTOM RECOMMENDATION'">
+                           <div class="recommend_list" 
+                            v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex<2"
+                              @click="goProductDetail(goods.goodsId)" >
                               <div class="shop_img">
-                                <div class="hot"><img src="../assets/hot.png" /></div>
-                                <img src="../assets/LOGO.png" style="height:365px;">
-                                <h4 class="ellipsis">居家必备</h4>
+                                <div class="hot"  v-if="goods.hotStatus"><img src="../assets/hot.png" /></div>
+                                <img v-lazy="goods.goodsImg.split(',')[0]" style="height:365px;">
+                                <h4 class="ellipsis">{{goods.jingle}}</h4>
                               </div>
                               <div class="shop_details">
                                 <div class="discounts">
-                                  <span>满减</span>
-                                  <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                  <span v-if="goods.bargainStatus">满减</span>
+                                  <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                 </div>
-                                <h3 class="ellipsis"> 可水洗</h3>
-                                <p class="shop_prce" style="color:red">￥120.00</p>
+                                <h3 class="ellipsis"> {{goods.goodsName}}</h3>
+                                <p class="shop_prce" style="color:red">{{goods.costPrice}}</p>
                               </div>
                            </div>
-                           <div class="recommend_list">
-                              <div class="shop_img">
-                                <div class="hot"><img src="../assets/hot.png" /></div>
-                                <img src="../assets/LOGO.png" style="height:365px;">
-                                <h4 class="ellipsis">居家必备</h4>
-                              </div>
-                              <div class="shop_details">
-                                <div class="discounts">
-                                  <span>满减</span>
-                                  <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
-                                </div>
-                                <h3 class="ellipsis"> 可水洗</h3>
-                                <p class="shop_prce" style="color:red">￥120.00</p>
-                              </div>
-                           </div>
-                           <div class="recommend_list">
-                              <div>
+                           
+                           <div class="recommend_list"
+                           >
+                              <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1">
                                 <div class="shop_img">
-                                  <div class="hot"><img src="../assets/hot.png" /></div>
-                                  <img src="../assets/LOGO.png" style="height:160px;">
-                                  <h4 class="ellipsis">居家必备</h4>
+                                  <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png" /></div>
+                                  <img v-lazy="goods.goodsImg.split(',')[0]" style="height:160px;">
+                                  <h4 class="ellipsis">{{goods.jingle}}</h4>
                                 </div>
                                 <div class="shop_details">
                                   <div class="discounts">
-                                    <span>满减</span>
-                                    <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                     <span v-if="goods.bargainStatus">满减</span>
+                                  <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                   </div>
-                                  <h3 class="ellipsis"> 可水洗</h3>
-                                  <p class="shop_prce" style="color:red">￥120.00</p>
-                                </div>
-                              </div>
-                              <div>
-                                <div class="shop_img">
-                                  <div class="hot"><img src="../assets/hot.png" /></div>
-                                  <img src="../assets/LOGO.png" style="height:160px;">
-                                  <h4 class="ellipsis">居家必备</h4>
-                                </div>
-                                <div class="shop_details">
-                                  <div class="discounts">
-                                    <span>满减</span>
-                                    <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
-                                  </div>
-                                  <h3 class="ellipsis"> 可水洗</h3>
-                                  <p class="shop_prce" style="color:red">￥120.00</p>
+                                  <h3 class="ellipsis"> {{goods.goodsName}}</h3>
+                                  <p class="shop_prce" style="color:red">￥{{goods.costPrice}}</p>
                                 </div>
                               </div>
                            </div>
                          </div>
-
-                      <!-- 2 -->
-                          <div class="goodsBody"   v-if="childrenIndex==1 || (childrenIndex-1)%3 ==0" >
-                              <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" v-if="goodsIndex <4" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
+                        </div>
+                      <!-- 2 新品推荐-->
+                          <div class="goodsBody" v-if="items.columnNum === 1" >
+                              <div v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
                                 <div class="flex" style=" padding:10px;">
                                   <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
                                     <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
@@ -355,25 +329,24 @@
                                   </div>
                                 </div>
                           </div>
-
-                          <!-- 3 -->
-                          <div class="goodsBody" v-if="childrenIndex==2 || (childrenIndex-2)%3 ==0">
-                              <div style="width:260px;margin-right: 20px;">
+                          <!-- 3 热卖-->
+                          <div class="goodsBody" v-if="items.columnNum === 2 && items.nameEn =='HOT SELL'">
+                              <div style="width:260px;margin-right: 20px;" v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)">
                                   <div class="shop_img">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
-                                    <img src="../assets/LOGO.png" style="height:270px;">
-                                    <h4 class="ellipsis">居家必备</h4>
+                                    <img  v-lazy="goods.goodsImg.split(',')[0]" style="height:270px;">
+                                    <h4 class="ellipsis">{{goods.jingle}}</h4>
                                   </div>
                                   <div class="shop_details">
                                     <div class="discounts">
-                                      <span>满减</span>
-                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                                      <span v-if="goods.bargainStatus">满减</span>
+                                      <span  v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                     </div>
-                                    <h3 class="ellipsis"> 可水洗</h3>
-                                    <p class="shop_prce" style="color:red">￥120.00</p>
+                                    <h3 class="ellipsis"> {{goods.goodsName}}</h3>
+                                    <p class="shop_prce" style="color:red">${{goods.marketPrice}}</p>
                                   </div>
                               </div>
-                              <div style="width:260px; margin-right: 20px;">
+                              <!-- <div style="width:260px; margin-right: 20px;">
                                   <div class="shop_img">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
                                     <img src="../assets/LOGO.png" style="height:270px;">
@@ -417,12 +390,12 @@
                                     <h3 class="ellipsis"> 可水洗</h3>
                                     <p class="shop_prce" style="color:red">￥120.00</p>
                                   </div>
-                              </div>
+                              </div> -->
                           </div>
                     
                     </div>
                   </div>
-                </div>
+
           </div>
     </van-tab>
   </van-tabs>
@@ -973,8 +946,9 @@ changeTab(active, shit) {
         // this.getSecCatList(active);
         this.two_menu(active);
     }
-    
+   
     if (active != "-1" && !this.indexList[active].children) {    
+      console.log('哈哈',this.indexList[active].pageId);
       Vue.prototype.$reqFormPost1(
         "/page/info",
         {
@@ -988,6 +962,7 @@ changeTab(active, shit) {
           (<any>Object).assign(this.indexList[active], {
             children: res.data
           });
+           console.log('jj',res.data)
           this.indexList.push();
           
           if (this.indexList[active].catId) {
@@ -1490,5 +1465,10 @@ console.log( this.indexList)
     p {
       font-size: 16px;
     }
+  }
+  .ellipsis{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 </style>

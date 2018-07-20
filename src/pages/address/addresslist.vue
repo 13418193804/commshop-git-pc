@@ -9,15 +9,17 @@
       </div>
 
       <div v-if="addressList.length>0" style="padding:15px;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
-      <div  v-for="(item,index) in addressList" :key="index" class="flex flex-around-justify" style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;">
+      <div  v-for="(item,index) in addressList" :key="index" class="flex flex-around-justify" style="    line-height: 35px;
+    padding-bottom: 20px;background-color:#fff;border-bottom:1px dashed #E5E5E5;">
         <div>{{item.name}}</div>
         <div>{{item.address}}</div>
-        <div>{{item.tel}}</div>
+         <div>{{item.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</div>
         <div class="flex">
           <div style="padding-right:4px;color:#FFC630;border-right:1px solid #ABABAB;" @click="update(item)">编辑</div>
           <div style="padding-left:5px;color:#000;" @click="del(item)">删除</div>
         </div>
-        <div v-if="item.isdefault==1" style="background-color:#C6C6C6;width:60px;height:20px;color:#fff;text-align: center;line-height:20px;">默认地址</div>
+        <div v-if="item.isdefault==1" style="background-color:#C6C6C6;width:120px; height: 35px;
+    line-height: 35px;color:#fff;text-align: center;">默认地址</div>
         <div v-else @click="selectDefault(item)" style="height:20px;line-height:20px;"><span style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;"></span>设为地址</div>
       </div>
       </div>
@@ -27,19 +29,22 @@
           <div @click="newaddress()" style="width:90px;height:30px;color:#FFC630;border:1px solid #FFC630;text-align: center;line-height:30px;">新建地址</div>
       </div>
       <!-- 删除 -->
-      <div style=" position: relative;">
+       <div style=" position: relative;">
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="delshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
-            <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:350px;height:200px;">
-              <div>是否删除此地址？</div>
-              <div class="flex flex-around-justify flex-v" style="width:300px;height:65px;padding-left:15px;border:1px solid #E5E5E5;">
+            <div class="flex-around-justify flex-align-center" style="background-color:#fff;width:650px;position: relative;padding: 40px;">
+              <div @click="delcancel()" style="position: absolute;top:10px;right:10px;">
+                <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" />
+              </div>
+              <div style="font-size: 18px;margin-bottom: 10px;">是否删除此地址？</div>
+              <div  style="width:100%;padding:15px;border:1px solid #E5E5E5;margin-bottom: 50px;">
                 <div>收货人:{{deladdress.name}}</div>
                 <div>联系方式:{{deladdress.tel}}</div>
                 <div>收货地址:{{deladdress.address}}</div>
               </div>
-              <div class="flex">
-                <div @click="deleteaddress()" style="width:90px;height:24px;background-color:#FCCB52;color:#fff;text-align: center;line-height:24px;margin-right:5px;">确定</div>
-                <div @click="delcancel()" style="width:90px;height:24px;color:#FCCB52;text-align: center;line-height:24px;border:1px solid #FCCB52;">取消</div>
+              <div style="text-align:center;">
+                <button @click="deleteaddress()" style="border:none;width:120px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;margin-right:10px;">确定</button>
+                <button @click="delcancel()" style="border:none;width:120px;height:35px;color:#FCCB52;text-align: center;line-height:35px;border:1px solid #FCCB52;">取消</button>
               </div>
             </div>
           </div>
@@ -52,8 +57,9 @@
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
               <div @click="close()" class="add_colose"><i class="iconfont icon-close"></i></div>
+
               <div v-if="!updateaddressid" class="add_titile">新增地址</div>
-              <div v-if="updateaddressid">修改地址</div>
+              <div v-if="updateaddressid" style="font-size:16px;    margin-bottom: 10px;">修改地址</div>
               <div class="flex region">
                   <div style="padding-right:15px;">所在地区</div>
                   <select v-model="provinceid" @change='changeprovince'>
@@ -86,7 +92,8 @@
                   <input v-model="contactMobile"/>
                 </div>
               </div>
-              <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
+              <div @click="isdef()"
+               style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
               <div class="flex region_btn">
                 <div @click="addaddress()">确定</div>
                 <div @click="addcancel()">取消</div>
@@ -139,6 +146,9 @@ export default class addresslist extends Vue {
     }
   }
 
+gbdelshow(){
+  this.delshow=!this.delshow
+}
   close(){
     this.addshow=false;
   }
@@ -369,6 +379,10 @@ export default class addresslist extends Vue {
       Toast("请填写详细地址");
       return;
     }
+    if(this.address.length<5){
+      Toast("请至少输入五个字符");
+      return;
+    }
     if(this.contactName==""){
       Toast("请填写收货人");
       return;
@@ -377,6 +391,7 @@ export default class addresslist extends Vue {
       Toast("请手机号码");
       return;
     }
+    console.log('长度',this.address.length);
     if(this.updateaddressid){
       Vue.prototype.$reqFormPost(
       "/address/update",
@@ -478,7 +493,7 @@ export default class addresslist extends Vue {
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
 .add_colose{
-  position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
+  position: absolute;right: 10px;top:0px;padding:10px;cursor: pointer;
 }
 .add_titile{
   line-height: 40px;font-size: 14px;

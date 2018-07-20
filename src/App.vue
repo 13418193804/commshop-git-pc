@@ -30,6 +30,9 @@ export default class App extends Vue {
 html,body,#app{
   height:100%;
 }
+*{
+  font-size:14px;
+}
 .tab-contents{
   min-height: 100vh;
   position: relative;
@@ -37,6 +40,10 @@ html,body,#app{
   min-height: 100%;
   padding-bottom: 100px;
   box-sizing: border-box;
+}
+//按钮 黑色边框
+.btn_black{
+  width: 125px;line-height: 34px;border:1px solid #797979;border-radius: 4px;font-size:15px;
 }
 .pointer{
   cursor: pointer;

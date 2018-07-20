@@ -10,14 +10,14 @@
             </li>
             <li>
                 <div>
-                  <img src="../../assets/discount.png" alt="" srcset="">
+                  <img src="../../assets/integral.png" alt="" srcset="">
                   <span>我的积分</span>
                   <span style="color:#ffdc99;">{{userInfo.score}}</span>
                 </div>
             </li>
             <li>
               <div>
-                <span><img src="../../assets/integral.png" alt="" srcset=""></span>
+                <span><img src="../../assets/discount.png" alt="" srcset=""></span>
                 <span>优惠券</span>
                 <span style="color:#ffdc99;">{{userInfo.couponCount}}张</span>
               </div>

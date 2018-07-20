@@ -3,28 +3,28 @@
     <div class="flex flex-align-center" style="background-color:#F8F8F8;">
         <div class="flex flex-pack-center flex-align-center flex-around-justify flex-1" style="padding:25px 20px;">
             <div>
-              <div style="padding:0 25px;">
-                  <img src="../../assets/image/金币.png" style="vertical-align: middle;width:20px;height:20px;"/>
-                  <span>积分余额</span>
+              <div style="padding:0 25px;overflow: hidden;">
+                  <img src="../../assets/image/金币.png" style="float: left;vertical-align: middle;width:35px;height:35px;"/>
+                  <span style="font-size:18px;line-height: 39px;float: left;margin-left: 10px;">积分余额</span>
               </div>
-              <div style="color:#ffc600;text-align: center;">{{award.awardBalance}}</div>
+              <div style="color:#ffc600;text-align: center;font-size:24px;">{{award.awardBalance}}</div>
             </div>
-            <van-button @click="extractshow()" style="width:70px;height:20px;line-height: 20px;padding:0;font-size: 12px;">提现</van-button>
+            <button @click="extractshow()" class="btn_black">提现</button>
         </div>
         <div class="flex flex-pack-center flex-align-center flex-1">
             <div>
-              <div style="padding:0 25px;">
-                  <img src="../../assets/image/金币.png" style="vertical-align: middle;width:20px;height:20px;"/>
-                  <span>商城累积积分</span>
+              <div style="padding:0 25px;overflow: hidden;">
+                  <img src="../../assets/image/金币.png" style="float: left;vertical-align: middle;width:35px;height:35px;"/>
+                  <span style="font-size:18px;line-height: 39px;float: left;margin-left: 10px;">商城累积积分</span>
               </div>
-              <div style="color:#ffc600;text-align: center;">{{award.awardAmount}}</div>
+              <div style="color:#ffc600;text-align: center;font-size:24px;">{{award.awardAmount}}</div>
             </div>            
-            <van-button @click="ruleshow()" style="width:70px;height:20px;line-height: 20px;padding:0;font-size: 12px;">奖励规则</van-button>
+            <button @click="ruleshow()" class="btn_black">奖励规则</button>
         </div>
     </div>
 
     <div>
-        <div style="color:#959595;">明细</div>
+        <div style="color:#959595;margin:27px 0 15px 20px;">明细</div>
         <div class="flex flex-around-justify" style="padding:10px 0;background-color:#F8F8F8;">
           <div>时间</div>
           <div>详情</div>
@@ -67,46 +67,46 @@
 
       <!-- 提现 -->
       <div style=" position: relative;">
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="isextractshow" >
-          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
-            <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:375px;height:350px;position: relative;">
+        <div style="background-color:rgba(0, 0, 0, 0.5); z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="isextractshow" >
+          <div class="flex flex-around-justify  flex-align-center flex-v " style="height:100vh;">
+            <div class="text-align:center;" style="background-color:#fff;padding-top: 20px;width:590px;height:540px;position: relative;">
               <div style="position: absolute;top:10px;right:10px;">
                 <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="extractshow()"/>
               </div>
               
-              <div class="flex flex-v flex-align-center">
-                <img src="../../assets/image/金币.png" style="vertical-align: middle;width:40px;height:40px;"/>
-                <div>可提取积分</div>
-                <div style="color:#BBBBBB;">（1积分与￥1.00等值）</div>
-                <div style="color:#FCCB52;">{{award.awardBalance}}</div>
+              <div class="flex flex-v flex-align-center" style=" border-bottom: 10px solid #f5f5f5;">
+                <img src="../../assets/image/金币.png" style="vertical-align: middle;width:70px;height:70px;"/>
+                <div style="font-size:18px;">可提取积分</div>
+                <div style="color:#a8a8a8;">（1积分与￥1.00等值）</div>
+                <div style="color:#FCCB52;font-size:30px">{{award.awardBalance}}</div>
               </div>
-              <div class="flex">
-                <div>提取金额：</div>
-                <input v-model="amount"/>
+              <div class="flex" style="padding:12px 34px 16px;">
+                <div style="line-height: 45px;">提取金额：</div>
+                <input v-model="amount" style="height:40px;width:86%;border:1px solid #ddd"/>
               </div>
-              <div v-if="isselectshow==false">
-                <div  @click="selectshow()" class="flex flex-align-center" style="width:310px;height:45px;border:1px solid #FFC630;padding-left:15px;">
-                      <img src="../../assets/image/招商银行.png"  style="border-radius:50%;width:25px;height:25px;"/>
+              <div v-if="isselectshow==false" style="padding:12px 34px 16px;">
+                <div  @click="selectshow()" class="flex flex-align-center" style="width:100%;height:80px;border:1px solid #FFC630;padding-left:15px;">
+                      <img src="../../assets/image/招商银行.png"  style="border-radius:50%;width:45px;height:45px;"/>
                       <div style="margin-left:10px;" class="flex-1">
-                          <div>{{bankcard.bankName}}<span style="font-size:12px;">(信用卡)</span></div>
+                          <div>{{bankcard.bankName}}<span style="font-size:14px;">(信用卡)</span></div>
                           <div>{{bankcard.cardId}}</div>
                       </div>
                       <div>↓</div>
                 </div>
               </div>
               <div v-if="isselectshow==true">
-                <div v-for="(item,index) in cardlist" :key="index" @click="selectcard(item)" class="flex flex-align-center" style="width:310px;height:45px;padding-left:15px;">
-                      <img src="../../assets/image/招商银行.png"  style="border-radius:50%;width:25px;height:25px;"/>
+                <div v-for="(item,index) in cardlist" :key="index" @click="selectcard(item)" class="flex flex-align-center" style="width:100%;height:80px;padding-left:15px;">
+                      <img src="../../assets/image/招商银行.png"  style="border-radius:50%;width:45px;height:45px;"/>
                       <div style="margin-left:10px;" class="flex-1">
-                          <div>{{item.bankName}}<span style="font-size:12px;">(信用卡)</span></div>
+                          <div>{{item.bankName}}<span style="font-size:14px;">(信用卡)</span></div>
                           <div>{{item.cardId}}</div>
                       </div>
                 </div>
-                <div @click="addbangcard()" style="width:90px;height:30px;color:#FFC630;border:1px solid #FFC630;text-align: center;line-height:30px;">新建银行卡</div>
+                <div @click="addbangcard()" style="width:88%;margin: 0 auto;height:60px;color:#FFC630;border:1px solid #FFC630;text-align: center;line-height:60px;">新建银行卡</div>
               </div>
               <div class="flex flex-v flex-align-center">
-                <div @click="addrecord()" style="width:90px;height:24px;background-color:#FCCB52;color:#fff;text-align: center;line-height:24px;margin-right:5px;">提现</div>
-                <div style="color:#BBBBBB;">注：预计3~5个工作日到账，节假日顺延</div>
+                <div @click="addrecord()" style="margin-top:60px;font-size:18px;width:290px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:5px;">提现</div>
+                <div style="color:#BBBBBB;margin-top:10px;">注：预计3~5个工作日到账，节假日顺延</div>
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@
               
               <div style="position: absolute;top:10px;right:10px;">
                 <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="addcancel()"/>
-              
+            
               </div>
               <div style="text-align: center;">选择银行卡</div>
               <div class="flex flex-pack-justify" style="width:250px;">
