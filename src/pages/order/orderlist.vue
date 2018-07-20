@@ -24,13 +24,17 @@
               </div>
             
               <div  class="flex flex-align-center" >
-                
-                
-                     <div style="padding:0 15px;position: relative;"  @click.stop="doDeleteOrder(item.orderId)"  v-if=" active == '0' && item.orderStatus === 'ORDER_FINISH'&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND') ">
-                       <div class="deleteBorder"> </div>
-                <i class="iconfont icon-iconfontshanchu3" style="" ></i>
-              </div>
-              <div v-else style="width:10px"></div>
+                <div style="padding:0 15px;position: relative;" 
+                 @click.stop="doDleterShow(item.orderId)"  v-if=" active == '0' && item.orderStatus === 'ORDER_FINISH'&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND' ||item.orderStatus == 'ORDER_CANCEL_PAY') ">
+                    <div class="deleteBorder"> </div>
+                    <i class="iconfont icon-iconfontshanchu3" style="" ></i>
+                </div>
+                <!-- <div style="padding:0 15px;position: relative;" 
+                 @click.stop="doDeleteOrder(item.orderId)"  v-if=" active == '0' && item.orderStatus === 'ORDER_FINISH'&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND' ||item.orderStatus == 'ORDER_CANCEL_PAY') ">
+                    <div class="deleteBorder"> </div>
+                    <i class="iconfont icon-iconfontshanchu3" style="" ></i>
+                </div> -->
+                <div v-else style="width:10px"></div>
               </div>
           </div>
     <div class="detailBody">
@@ -150,10 +154,27 @@
 
  <div class="flex flex-align-center flex-pack-center"  style="font-size:14px;padding:15px;">
     <div v-if="orderList[returnKey()].loading">加载中...</div>
-    <div v-else>-</div>
+    <div v-else style="margin-top:50px;">暂时还没有相关的订单哦!</div>
   
 </div>
-
+<!-- 删除订单信息 -->
+  <div style=" position: relative;">
+    <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="deleteshow" >
+      <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
+        <div class="flex-around-justify flex-align-center" style="background-color:#fff;width:580px;position: relative;padding: 40px;">
+          <div @click="doDleterShow()" style="position: absolute;top:10px;right:10px;">
+            <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" />
+          </div>
+          <div style="font-size: 16px;margin-bottom: 10px;text-align:center;">删除的订单无法申请售后和评论</div>
+           <div style="font-size: 16px;margin-bottom: 10px;text-align:center;">是否要继续?</div>
+          <div style="text-align:center;">
+            <button @click.stop="doDeleteOrder()" style="border:none;width:120px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;margin-right:10px;">确定</button>
+            <button @click="doDleterShow()"  style="border:none;width:120px;height:35px;color:#FCCB52;text-align: center;line-height:35px;border:1px solid #FCCB52;">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
 <reimburseTwo ref="reimburseTwo" :orderItem="orderItem" ></reimburseTwo>
@@ -193,9 +214,12 @@ import ship from "../index/ship.vue";
   mixins: [mixin]
 })
 export default class orderList extends Vue {
+  deleteshow = false;
   loading = false;
   finished = false;
   orderItem = {};
+  //删除订单信息
+  orderId ='';
   orderList = {
     orderList: { orderList: [], pageSize: 10, loading: true },
     orderList_pay: { orderList: [], pageSize: 10, loading: true },
@@ -219,6 +243,7 @@ export default class orderList extends Vue {
     setTimeout(() => {}, 500);
   }
   active = 0;
+  currendDeleteOrderId = "";
   orderTitleList = [
     {
       name: "全部",
@@ -245,13 +270,15 @@ export default class orderList extends Vue {
       status: "REFUND"
     }
   ];
-doDeleteOrder(orderId){
-
- Dialog.confirm({
-      title: "提示",
-      message: "删除订单?"
-    })
-      .then(() => {
+  //是否删除
+  doDleterShow(orderId){
+    this.currendDeleteOrderId = orderId;
+    this.deleteshow=!this.deleteshow;
+  }
+  //删除订单
+  doDeleteOrder(orderId){
+      this.deleteshow=!this.deleteshow
+      console.log(this.orderId)
         Vue.prototype.$reqFormPost(
           "/order/delete",
           {
@@ -261,7 +288,7 @@ doDeleteOrder(orderId){
             token: this.$store.getters[
               Vue.prototype.MutationTreeType.TOKEN_INFO
             ].token,
-            orderId: orderId
+            orderId: this.currendDeleteOrderId
           },
           res => {
             if (res == null) {
@@ -279,14 +306,11 @@ doDeleteOrder(orderId){
               return;
             }
 
+            console.log('订单信息',res.data);
             this.getOrderList(this.orderTitleList[this.active].status,true);
           }
         );
         // on confirm
-      })
-      .catch(() => {
-        // on cancel
-      });
 
 }
   payOrder(item) {
@@ -560,7 +584,7 @@ doDeleteOrder(orderId){
       name: '我的订单',
       url:'/orderlist',
     })
-
+  
     this.orderTitleList.forEach((item, index) => {
       if (this.$route.query.orderStatus == item.status) {
         this.active = index;

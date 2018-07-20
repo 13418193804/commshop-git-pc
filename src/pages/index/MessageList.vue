@@ -1,8 +1,9 @@
 <template>
   <div class="">
       <div style="padding:30px;">
-        <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" style="padding:15px 0;border-bottom:1px dashed #E5E5E5;">
-          <div :style="item.status==false?'font-size: 14px;color:#000':'font-size: 14px;color:#E5E5E5'"><span v-if="item.status==false"
+       
+        <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" style="padding:15px 0;border-bottom:1px dashed #E5E5E5;" @click="goDetail(item)">
+          <div :style="item.status==false?'font-size: 14px;color:#000':'font-size: 14px;color:#E5E5E5'"><span v-if="item.status==false" 
            style="margin-top:-2px;margin-right:8px;display: inline-block;vertical-align: middle;background-color:#FF0506;border-radius: 50px;width:10px;height:10px;"></span>{{item.content}}<span style="color:#FDD273;">查看详情》</span></div>
           <div style="color:#B4B4B4;font-size:13px;">{{item.updateTime}}</div>
         </div>
@@ -23,7 +24,9 @@ import { Toast } from "vant";
 })
 export default class messagelist extends Vue {
   messagelist=[];
+  orderId="";
   page=0;
+  lookMesge="";
   getList() {
     Vue.prototype.$reqFormPost("/message/list", {
       
@@ -78,7 +81,15 @@ export default class messagelist extends Vue {
         this.messagelist = res.data.data.messageList;
         });
 }
-
+ goDetail(item) {
+   console.log('查看详情')
+    this.$router.push({
+      name: "orderdetail",
+      query: {
+        orderId: item.actionValue
+      }
+    });
+  }
   mounted() {
     this.getList();
     this.unGetList();

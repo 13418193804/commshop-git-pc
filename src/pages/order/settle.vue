@@ -164,9 +164,9 @@
         
         <div class="flex flex-pack-justify flex-align-center" style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;">
           <div class="flex">
-            <div @click="couponshow()">使用优惠卷</div>
-            <div style="color:#F4C542;padding:0 15px;">({{couponnum}}张)></div>
-            <div>{{surecouponName}}</div>
+            <div @click="couponshow()" style="line-height: 30px;">使用优惠卷</div>
+            <div style="color:#F4C542;padding:0 15px;line-height: 30px;">({{couponnum}}张) ></div>
+            <div v-show="yetShow == true" style="border:1px solid #ff5359;color:#ff5359;padding: 0 8px;line-height: 30px;">{{surecouponName}}</div>
           </div>
           <div>
             <div>商品合计:￥{{totalPrice}}</div>
@@ -363,7 +363,7 @@
                     <div class="dis_list" v-for="(item,index) in couponList" :key="index" @click="selectcoupon(item)">
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
                           {{item.coupon.fullDenomination}}</span>元</p>
-                          <div class="distype" v-if="item.coupon.id==selectcouponId">已选择</div>
+                          <div class="distypeCur" v-if="item.coupon.id==selectcouponId">已选择</div>
                         <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
                             <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
                             <!-- <i style="margin-right:15px;color: #fff;">{{item.updateTime}}</i> -->
@@ -963,6 +963,7 @@ this.getAddressList()
       }
     );
   }
+  yetShow =false;
   couponList=[];
   couponnum='';
   getcouponlist(){
@@ -1015,6 +1016,7 @@ this.getAddressList()
   selectcouponName="";
   selectcouponDenomination="";
   selectcoupon(coupon){
+   
     this.selectcouponId=coupon.coupon.id;
     this.selectcouponName=coupon.coupon.couponName;
     this.selectcouponDenomination=coupon.coupon.couponDenomination;
@@ -1023,7 +1025,8 @@ this.getAddressList()
   surecouponId="";
   surecouponName="";
   surecouponDenomination="";
-  surecoupon(){
+  surecoupon(yetShow){
+     this.yetShow = true;
     if(this.selectcouponId==""){
       this["$Message"].warning("请选择优惠卷");
       return;
@@ -1115,15 +1118,18 @@ this.getAddressList()
     margin-bottom:10px;position: relative;background :url(../../assets/image/未使用优惠卷.png) no-repeat;
       background-size: 100%;
     .newtext{
-      position: absolute;bottom: 4px;color: #fff;
+      position: absolute;bottom: 4px;color: #fff;width:91%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
   .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
     margin-right: 0;
   }
-  .distype{
-    height:30px;line-height:30px;color:#ffc630;position: absolute;right:15px;top:20px;background: #fff;cursor: pointer;
-    text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
+  .distypeCur{
+    height:30px;line-height:30px;color:#fff;position: absolute;right:15px;top:20px;cursor: pointer;
+    text-align: center;padding: 0 10px;border:1px solid #fff;width:80px;
   }
   .distypeed{
     background: #fccb52;color:#fff;
