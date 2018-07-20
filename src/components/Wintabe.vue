@@ -265,7 +265,9 @@
                   </div>
                     
                   <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
+
                     <div style="background-color:#f7f7f7;"></div>
+                    
                     <div style="margin:20px 0">
                           <div class="index_headline">
                               <i class="user_img" >{{items.letter}}</i>
@@ -337,15 +339,15 @@
                               </div>
                            </div>
                          </div>
+
                       <!-- 2 -->
-                          <div class="goodsBody" v-if="items.columnNum ===1" >
-                              <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
+                          <div class="goodsBody"   v-if="childrenIndex==1 || (childrenIndex-1)%3 ==0" >
+                              <div v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)" v-if="goodsIndex <4" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
                                 <div class="flex" style=" padding:10px;">
                                   <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
                                     <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
                                     <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
                                   </div>
-                                  
                                   <div style="padding:10px">
                                     <div >
                                         <img src="../assets/image/新品特价.png" v-if="goods.isBargain"  style="vertical-align: middle;height:20px;font-size: 12px;"/>
@@ -361,8 +363,9 @@
                                   </div>
                                 </div>
                           </div>
+
                           <!-- 3 -->
-                          <div class="goodsBody">
+                          <div class="goodsBody" v-if="childrenIndex==2 || (childrenIndex-2)%3 ==0">
                               <div style="width:260px;margin-right: 20px;">
                                   <div class="shop_img">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
@@ -502,6 +505,11 @@ export default class Comhead extends Vue {
     // this.changeTab()
   }
   filterModel=false
+
+
+
+
+  
   //用户协议
 goAgreement(){
   console.log('进来协议')
@@ -989,6 +997,8 @@ changeTab(active, shit) {
                 });
                 console.log('首页',res.data.goodsList)
                 this.indexList.push();
+
+
               }
             );
           }
@@ -1000,7 +1010,7 @@ changeTab(active, shit) {
   }
 
 two_menu(active){
-  console.log('进来',this.menu_block)
+ 
    Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
@@ -1033,16 +1043,40 @@ two_menu(active){
     //   }
     // );
   }
+
+
+  
+handleGoodSend(items,list){
+let a = list.filter((item,index)=>{
+return items.componentType === 'COMPONENT_TYPE_GOODS_TAG'
+})
+a.forEach((item,index)=>{
+if(items == item){
+  return false
+}
+})
+for(let i =0 ;i<a.length;i++){
+  if(items == a[i]){
+      a[i].arrtibleIndex = i
+  } 
+}
+}
+
   initIndex() {
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
       if (res.returnCode !== 200) {
-        console.log(res);
+
         this["$Message"].warning(res.message);
         console.log("网络请求错误！");
         return;
       }
+
       this.indexList = res.data;
-      
+        this.indexList.forEach((item,index)=>{
+          this.handleGoodSend(item,this.indexList)
+        })
+console.log( this.indexList)
+        
       if (this.indexList.length > 0) {
         this.changeTab(this.active, true);
       }
