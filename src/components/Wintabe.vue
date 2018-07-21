@@ -143,8 +143,8 @@
 <!-- 搜索记录 -->
 <div class="flex flex-align-center" style="border:1px #EAEAEA solid;">
    <div style="position: relative;min-width:250px;"> 
-        <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品" @focus="onFocus()" />
-        <!-- @blur="onblur()" -->
+        <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品"  @focus="onFocus()"  @blur="onblur()"/>
+        
        
 
       
