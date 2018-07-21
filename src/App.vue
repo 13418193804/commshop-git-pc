@@ -33,13 +33,16 @@ html,body,#app{
 *{
   font-size:14px;
 }
-.tab-contents{
+#app>div{
   min-height: 100vh;
   position: relative;
   width: 100%;
   min-height: 100%;
-  padding-bottom: 100px;
+  padding-bottom: 140px;
   box-sizing: border-box;
+}
+.tab-contents{
+  
 }
 //按钮 黑色边框
 .btn_black{

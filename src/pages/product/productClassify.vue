@@ -175,6 +175,14 @@ export default class ProductDetail extends Vue {
     if ((a.keyword || "") !== "" && this.$route.query.type == "filter") {
       (<any>Object).assign(data, { keyWord: a.keyword });
     }
+    if(this.$route.query.type !=='filter'){
+      (<any>Object).assign(data, { page: this.page});
+      (<any>Object).assign(data, { pageSize: this.pageSize});
+    }
+    
+
+   
+
     Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
       if (res.returnCode !== 200) {
         this["$Message"].warning(res.message);
@@ -191,6 +199,7 @@ export default class ProductDetail extends Vue {
   catId = "";
   catList = [];
   sortName = "";
+  countSize="";
 
   shopList = [];
   goodsId = "";

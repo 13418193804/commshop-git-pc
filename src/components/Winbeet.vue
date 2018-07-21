@@ -47,7 +47,7 @@ export default class Comhead extends Vue {
 <style rel="stylesheet/scss" lang="scss" scoped>
 .alter-container{
     width: 100%;
-    height: 100px;
+    height: 140px;
     position: absolute;
     bottom: 0px;
     left: 0px;
