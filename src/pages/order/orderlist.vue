@@ -20,8 +20,9 @@
           </div>
         
           <div  class="flex flex-align-center" >
+            
             <div style="padding:0 15px;position: relative;" 
-              @click.stop="doDleterShow(item.orderId)"  v-if=" active == '0' && item.orderStatus === 'ORDER_FINISH'&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND' ||item.orderStatus == 'ORDER_CANCEL_PAY') ">
+              @click.stop="doDleterShow(item.orderId)"  v-if=" active == '0' &&( item.orderStatus === 'ORDER_FINISH' || item.orderStatus =='ORDER_CANCEL_PAY')&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND') ">
                 <div class="deleteBorder"> </div>
                 <i class="iconfont icon-iconfontshanchu3" style="" ></i>
             </div>

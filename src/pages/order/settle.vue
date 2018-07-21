@@ -539,29 +539,36 @@ export default class shopIndex extends Vue {
     this.querycountry();
   }
     addaddress() {
-
-    if(this.provinceid==""){
-      this["$Message"].warning("请选择省份");
+ if(this.provinceid==""){
+       this["$Message"].warning("请选择省份");
       return;
     }
     if(this.cityid==""){
-      this["$Message"].warning("请选择城市");
+       this["$Message"].warning("请选择城市");
       return;      
     }
     if(this.countryid==""){
-      this["$Message"].warning("请选择市区");
+       this["$Message"].warning("请选择市区");
       return;
     }
     if(this.address1==""){
-      this["$Message"].warning("请填写详细地址");
+       this["$Message"].warning("请填写详细地址");
+      return;
+    }
+    if(this.address1.length<5){
+       this["$Message"].warning("请至少输入五个字符");
       return;
     }
     if(this.contactName==""){
-      this["$Message"].warning("请填写收货人");
+       this["$Message"].warning("请填写收货人");
       return;
     }
     if(this.contactMobile==""){
-      this["$Message"].warning("请手机号码");
+       this["$Message"].warning("请填写手机号码");
+      return;
+    }
+       if(this.contactMobile.length!= 11 ){
+       this["$Message"].warning("请填写正确的手机号码");
       return;
     }
     if((this.updateaddressid||'')!=''){

@@ -170,7 +170,7 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+           this["$Message"].warning(res.data.message);
           return;
         }
         console.log("地址列表", res.data.data.addressList);
@@ -205,10 +205,10 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+           this["$Message"].warning(res.data.message);
           return;
         }
-        Toast("设置默认地址成功");
+         this["$Message"].success("设置默认地址成功");
         this.getAddressList();
       }
     );
@@ -256,10 +256,10 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+           this["$Message"].warning(res.data.message);
           return;
         }
-        Toast("删除地址成功");
+         this["$Message"].success("删除地址成功");
         console.log("删除地址", res.data.data);
         this.deladdress="";
         this.deladdressid="";
@@ -295,7 +295,7 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+           this["$Message"].warning(res.data.message);
           return;
         }
         console.log(res.data.data.region)
@@ -330,7 +330,7 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+           this["$Message"].warning(res.data.message);
           return;
         }
         console.log(res.data.data.region)
@@ -353,7 +353,7 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+           this["$Message"].warning(res.data.message);
           return;
         }
         console.log(res.data.data.region)
@@ -364,31 +364,35 @@ gbdelshow(){
   
   addaddress() {
     if(this.provinceid==""){
-      Toast("请选择省份");
+       this["$Message"].warning("请选择省份");
       return;
     }
     if(this.cityid==""){
-      Toast("请选择城市");
+       this["$Message"].warning("请选择城市");
       return;      
     }
     if(this.countryid==""){
-      Toast("请选择市区");
+       this["$Message"].warning("请选择市区");
       return;
     }
     if(this.address==""){
-      Toast("请填写详细地址");
+       this["$Message"].warning("请填写详细地址");
       return;
     }
     if(this.address.length<5){
-      Toast("请至少输入五个字符");
+       this["$Message"].warning("请至少输入五个字符");
       return;
     }
     if(this.contactName==""){
-      Toast("请填写收货人");
+       this["$Message"].warning("请填写收货人");
       return;
     }
     if(this.contactMobile==""){
-      Toast("请手机号码");
+       this["$Message"].warning("请填写手机号码");
+      return;
+    }
+       if(this.contactMobile.length!= 11 ){
+       this["$Message"].warning("请填写正确的手机号码");
       return;
     }
     console.log('长度',this.address.length);
@@ -418,10 +422,11 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+ 
+             this["$Message"].warning(res.data.message);
           return;
         }
-        Toast("新建地址成功");
+         this["$Message"].success("保存成功");
         this.getAddressList();
         this.provinceid="";
         this.cityid="";
@@ -459,10 +464,10 @@ gbdelshow(){
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast(res.data.message);
+             this["$Message"].warning(res.data.message);
           return;
         }
-        Toast("新建地址成功");
+        this["$Message"].success("保存成功");
         this.getAddressList();
         this.provinceid="";
         this.cityid="";

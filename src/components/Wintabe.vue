@@ -167,7 +167,7 @@
 
 
           <div style="padding-top:10px;padding-left:5px;">
-              <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word,false)">
+              <div class="hotwordItem1 flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word,false)">
               </div>
           </div>
         </div> 
@@ -484,7 +484,12 @@ export default class Comhead extends Vue {
   mouseover() {
     this.cartModel = true;
   }
-  mouseout() {}
+  mouseout() {
+
+
+
+
+  }
 
   menu_block = false;
   type = "H5";
@@ -567,7 +572,7 @@ export default class Comhead extends Vue {
     }
     //验证
     if (this.sign_password.length < 6) {
-      this["$Message"].warning("请输入最少6位的密码");
+      this["$Message"].warning("请输入6位以上密码");
       return;
     }
     if (this.sign_password != this.sign_repassword) {
@@ -1413,7 +1418,7 @@ export default class Comhead extends Vue {
   }
 }
 
-.hotwordItem {
+.hotwordItem1 {
   font-size: 14px;
 }
 //定制推荐
