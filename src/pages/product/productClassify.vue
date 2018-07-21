@@ -48,10 +48,10 @@
                        </ul>
                     </div>
 
-                    <el-pagination
+                    <el-pagination v-if="total>0"
                       background
                       layout="prev, pager, next"
-                      :total="1000">
+                    :page-size="pageSize" :total="total" @current-change="onPageChange">
                       
                     </el-pagination>
                 </div>
@@ -81,24 +81,28 @@ import Winbeet from "../../components/Winbeet.vue";
 })
 export default class ProductDetail extends Vue {
   keyword = "";
+  pageSize = 12;
+  page = 0;
+  total = 0;
+    onPageChange(page) {
+    this.page = page - 1;
+    this.getproductList();
+  }
   mounted() {
     let a: any = this.$refs.wintabe;
-    this.keyword =  sessionStorage.keyword
-    sessionStorage.keyword =''
+    this.keyword = sessionStorage.keyword;
+    sessionStorage.keyword = "";
 
-      if(this.keyword){
-        a.keyword = this.keyword
-      this.getproductList()
-        
-      }
-      if(this.$route.query.type !=='filter'){
-            this.catId = sessionStorage.catId;
-            this.parentId = sessionStorage.parentId;
-          this.getSecCatList();
-      }
-      //分页
-       
-
+    if (this.keyword) {
+      a.keyword = this.keyword;
+      this.getproductList();
+    }
+    if (this.$route.query.type !== "filter") {
+      this.catId = sessionStorage.catId;
+      this.parentId = sessionStorage.parentId;
+      this.getSecCatList();
+    }
+    //分页
   }
   // H:\项目分类\康扬医德快\back-yidekuai
   parentId = "";
@@ -117,9 +121,9 @@ export default class ProductDetail extends Vue {
     let data = {};
     let a: any = this.$refs.wintabe;
 
-      (<any>Object).assign(data, {
-        parentId: this.parentId
-      });
+    (<any>Object).assign(data, {
+      parentId: this.parentId
+    });
 
     //二级菜单
     Vue.prototype.$reqFormPost1("/user/cat/list", data, res => {
@@ -130,10 +134,10 @@ export default class ProductDetail extends Vue {
         return;
       }
       this.catList = res.data;
-        let a = this.catList.filter((item, index) => {
-          return item.catId == this.catId;
-        });
-        this.checkSecCat(a[0]);
+      let a = this.catList.filter((item, index) => {
+        return item.catId == this.catId;
+      });
+      this.checkSecCat(a[0]);
     });
   }
 
@@ -156,18 +160,20 @@ export default class ProductDetail extends Vue {
   getproductList() {
     let a: any = this.$refs.wintabe;
     let data = {
+      page: this.page,
+      pageSize: this.pageSize
     };
-if(this.$route.query.type !=='filter'){
-      (<any>Object).assign(data, {catId: this.catId });
-}
-  if ((this.sortName || "") !== "") {
+    if (this.$route.query.type !== "filter") {
+      (<any>Object).assign(data, { catId: this.catId });
+    }
+    if ((this.sortName || "") !== "") {
       (<any>Object).assign(data, { sortName: this.sortName });
     }
     if (this.sortStatus != "" || this.sortStatus != undefined) {
       (<any>Object).assign(data, { sortStatus: this.sortStatus });
     }
-    if ((a.keyword || "") !== "" && this.$route.query.type =='filter') {
-      (<any>Object).assign(data, { keyWord: a.keyword});
+    if ((a.keyword || "") !== "" && this.$route.query.type == "filter") {
+      (<any>Object).assign(data, { keyWord: a.keyword });
     }
     Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
       if (res.returnCode !== 200) {
@@ -176,6 +182,7 @@ if(this.$route.query.type !=='filter'){
         return;
       }
       this.shopList = res.data.goodsList;
+      this.total = res.data.page.total
     });
   }
 
@@ -240,7 +247,7 @@ if(this.$route.query.type !=='filter'){
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
 // 分页
-.el-pagination.is-background .el-pager li:not(.disabled).active{
+.el-pagination.is-background .el-pager li:not(.disabled).active {
   background: #f4c542;
 }
 .classify_shop {
@@ -297,7 +304,7 @@ if(this.$route.query.type !=='filter'){
   white-space: nowrap; //文本不会换行（单行文本溢出）
 }
 .shop_list {
-      margin-top: 10px;
+  margin-top: 10px;
   ul {
     overflow: hidden;
     margin-bottom: 20px;
@@ -308,7 +315,8 @@ if(this.$route.query.type !=='filter'){
       margin-right: 30px;
       cursor: pointer;
       .shop_img {
-        border: 1px solid #ededed;border-radius: 4px;
+        border: 1px solid #ededed;
+        border-radius: 4px;
         margin-bottom: 10px;
         position: relative;
         // 热卖
@@ -360,11 +368,9 @@ if(this.$route.query.type !=='filter'){
     }
     :nth-of-type(4),
     :nth-of-type(8),
-    :nth-of-type(12)
-    :nth-of-type(16) {
+    :nth-of-type(12) :nth-of-type(16) {
       margin-right: 0;
     }
   }
 }
-
 </style>

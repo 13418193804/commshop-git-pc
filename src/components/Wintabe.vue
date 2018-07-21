@@ -149,14 +149,17 @@
 
             <div style="color:#999;">搜索记录
                 <!-- 删除历史记录 -->
-              <div style="position: absolute;right: 5px;top: 5px;">
+            </div>
+            <div class="flex-pack-justify  flex-align-center" style="padding-left:5px;position:relative" >
+              <div v-for="(item,index) in stockpile" :key="index" class="flex  flex-align-center flex-pack-justify">
+
+                 <div style=" overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{item}}</div>
+                 <div >
                 <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" 
                   @click="clearSearch()"
                 ></i></div>
-            </div>
-            <div class="flex-pack-justify  flex-align-center" style="padding-left:5px;position:relative" >
-              <div v-for="(item,index) in stockpile" :key="index">{{item}}</div>
-              
+              </div>
+             
             </div>
           <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
               <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word)">
@@ -306,7 +309,7 @@
                            </div>
                          </div>
                         </div>
-                        {{items.arrtibleIndex}}
+                     
                       <!-- 2 新品推荐-->
                           <div class="goodsBody"  v-if="items.arrtibleIndex %3 == 2">
                               <div v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
@@ -853,7 +856,6 @@ goProductDetail(goodsId) {
   active = "0";
 
 twoList(active,catList){
-  
     sessionStorage.catId = this.catList[active].catId;
     sessionStorage.parentId = this.indexList[this.active].catId
     sessionStorage.keyword = ''
@@ -878,6 +880,9 @@ mouseout_select(){
   this.select_block = false
 }
   goActionType(actionType, actionValue) {
+
+
+
     if (actionType == "ACTION_TYPE_GOODSID") {
       var goodsId = actionValue;
       this.$router.push({
@@ -887,7 +892,10 @@ mouseout_select(){
         }
       });
     }
+
     if (actionType == "ACTION_TYPE_TAGID") {
+      console.log(actionValue);
+
       Vue.prototype.$reqFormPost("/user/cat/querytree", {}, res => {
         if (res == null) {
           console.log("网络请求错误！");
@@ -899,26 +907,38 @@ mouseout_select(){
           );
           return;
         }
+
+
         for (var i = 0; i < res.data.data.children.length; i++) {
           for (var j = 0; j < res.data.data.children[i].children.length; j++) {
             if (res.data.data.children[i].children[j].catId == actionValue) {
               var selectIndex = j.toString();
-              this.$router.push({
-                path: "/productClassify",
-                query: {
-                  catId: res.data.data.children[i].children[j].catId,
-                  parentCatId: res.data.data.children[i].children[j].parentId,
-                  selectIndex: selectIndex,
-                  title: res.data.data.children[i].label
-                }
-              });
+    
+        sessionStorage.catId = actionValue;
+    sessionStorage.parentId = res.data.data.children[i].children[j].parentId
+    sessionStorage.keyword = ''
+    this.$router.push({
+      path: "/productClassify"
+    }); 
+              // this.$router.push({
+              //   path: "/productClassify",
+              //   query: {
+              //     catId: res.data.data.children[i].children[j].catId,
+              //     parentCatId: res.data.data.children[i].children[j].parentId,
+    
+              //     title: res.data.data.children[i].label
+              //   }
+              // });
+
               return;
             }
           }
         }
       });
     }
+
     if (actionType == "ACTION_TYPE_URL") {
+           window.location.href=  actionValue;
       return;
     }
     return;
