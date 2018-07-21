@@ -61,6 +61,7 @@ html,body,#app{
 .textLabel{
   overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
 }
+
 .marketPrice{
   color:red;    
   // font-weight: 600;
@@ -139,7 +140,9 @@ html,body,#app{
 .van-tabs__wrap{
   z-index: 79;
 }
-
+.btn_refund button{
+  background: #fff;
+}
 .van-submit-bar__price-interger{
 color:#f44!important;
 }

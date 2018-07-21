@@ -7,55 +7,54 @@
          <li :class="status == 'USED' ?'navcur':''" @click="discountList('USED')">已使用</li>
          <li :class="status == 'OVERDUE' ?'navcur':''" @click="discountList('OVERDUE')">已失效</li>
        </ul>
-      <div class="discountBox"  :class="status == 'UNUSED'">
-          <div class="dis_list notused" v-for="(item,index) in discList"  :key="index">
-              <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                {{item.coupon.couponDenomination}}</span>元</p>
-                <div class="distype" 
-                  @click="goshop()"
-                  >
-                  去使用</div>
-              <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                  <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
-                  <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+       <div v-if="discList.length>0">
+          <div class="discountBox"  v-if="status == 'UNUSED'">
+              <div class="dis_list notused" v-for="(item,index) in discList"  :key="index">
+                  <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
+                    {{item.coupon.couponDenomination}}</span>元</p>
+                    <div class="distype" 
+                      @click="goshop()"
+                      >
+                      去使用</div>
+                  <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                      <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
+                      <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+                  </div>
+                  <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
-              <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+          </div>
+          <div class="discountBox"  v-if="status == 'USED'">
+              <div class="dis_list used" v-for="(item,index) in discList"  :key="index">
+                  <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
+                    {{item.coupon.couponDenomination}}</span>元</p>
+                    <div class="distype" 
+                      @click="goshop()"
+                      >
+                      去使用</div>
+                  <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                      <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
+                      <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+                  </div>
+                  <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+              </div>
+          </div>
+          <div class="discountBox"   v-if="status == 'OVERDUE'">
+              <div class="dis_list overdue" v-for="(item,index) in discList"  :key="index">
+                  <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
+                    {{item.coupon.couponDenomination}}</span>元</p>
+                  <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                      <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
+                      <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+                  </div>
+                  <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+              </div>
           </div>
       </div>
-      <div class="discountBox"  :class="status == 'USED'">
-          <div class="dis_list used" v-for="(item,index) in discList"  :key="index">
-              <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                {{item.coupon.couponDenomination}}</span>元</p>
-                <div class="distype" 
-                  @click="goshop()"
-                  >
-                  去使用</div>
-              <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                  <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
-                  <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
-              </div>
-              <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
-          </div>
-      </div>
-       <div class="discountBox"  :class="status == 'OVERDUE'">
-          <div class="dis_list overdue" v-for="(item,index) in discList"  :key="index">
-              <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                {{item.coupon.couponDenomination}}</span>元</p>
-                <div class="distype" 
-                  @click="goshop()"
-                  >
-                  去使用</div>
-              <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                  <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
-                  <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
-              </div>
-              <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
-          </div>
-      </div>
-      <!-- <div class="nodiscount" v-else>
+      <!-- 没有优惠券 -->
+      <div class="nodiscount" v-else>
           <img src="../../assets/WechatIMG683.png" />
           <p style="font-size:14px;color:#a3a3a3;">空空如也～</p>
-      </div> -->
+      </div>
      </div>
   </div>
 </template>
@@ -164,7 +163,16 @@ export default class User extends Vue {
       }
     }  
     .notused{
-      background :url(../../assets/image/未使用优惠卷.png) no-repeat;
+      background :url(../../assets/image/未使用优惠卷.png) no-repeat;background-size: 100%;
+      .distype{
+        color:#ff5359;
+      }
+    }
+    .used{
+      background :url(../../assets/image/已使用优惠卷.png) no-repeat;background-size: 100%;
+    }
+    .overdue{
+      background :url(../../assets/image/已过期优惠卷.png) no-repeat;background-size: 100%;
     }
     .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
       margin-right: 0;

@@ -164,13 +164,12 @@ this.$router.push({name:'login'})
         Toast(res.data.message);
         return;
       }
-        Toast("领卷成功");
+        Toast("领券成功");
       this.getList();
     });
   }
   mounted() {
     this.getList();
-    console.log("领卷中心");
   }
 }
 </script>

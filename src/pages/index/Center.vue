@@ -9,7 +9,7 @@
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
     <el-breadcrumb separator-class="el-icon-arrow-right">
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-  <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+  <el-breadcrumb-item>{{menuName}}</el-breadcrumb-item>
 </el-breadcrumb>
 </div>
 </div>
@@ -122,10 +122,12 @@ selectMenu(items){
     if(items.url == '/'){
       return 
     }
+    this.menuName = items.name
+
     if(this.$route.path !== 'items.url'){
     this.$router.push(items.url);
     }
-      this.menuName = items.name
+      
 
 }
 messageCount:any = 0

@@ -38,9 +38,18 @@
               </div>
               <div style="font-size: 18px;margin-bottom: 30px;     text-align: center;">是否删除此地址？</div>
               <div  style="width:100%;padding:15px;border:1px solid #E5E5E5;margin-bottom: 50px;">
-                <div>收货人:{{deladdress.name}}</div>
+                <!-- <div>收货人:{{deladdress.name}}</div>
                 <div>联系方式:{{deladdress.tel}}</div>
-                <div>收货地址:{{deladdress.address}}</div>
+                <div>收货地址:{{deladdress.address}}</div> -->
+                <div class="flex" style="margin-bottom: 10px;">
+                  <span style="width:80px;">收货人:</span><span>{{deladdress.name}}</span>
+                </div>
+                <div class="flex" style="margin-bottom: 10px;">
+                  <span style="width:80px;">联系方式:</span><span>{{deladdress.tel}}</span>
+                </div>
+                <div class="flex" style="margin-bottom: 10px;">
+                   <span style="width:80px;">收货地址:</span><span style="width: 460px;">{{deladdress.address}}</span>
+                </div>
               </div>
               <div style="text-align:center;">
                 <button @click="deleteaddress()" style="border:none;width:120px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;">确定</button>
