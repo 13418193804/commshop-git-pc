@@ -285,7 +285,7 @@
                                   <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                 </div>
                                 <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                <p class="shop_prce" style="color:red">{{goods.costPrice}}</p>
+                                <p class="shop_prce" style="color:red">￥{{goods.costPrice.toFixed(2)}}</p>
                               </div>
                            </div>
                            
@@ -303,7 +303,7 @@
                                   <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                   </div>
                                   <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                  <p class="shop_prce" style="color:red">￥{{goods.costPrice}}</p>
+                                  <p class="shop_prce" style="color:red">￥{{goods.costPrice.toFixed(2)}}</p>
                                 </div>
                               </div>
                            </div>
@@ -311,7 +311,7 @@
                         </div>
                      
                       <!-- 2 新品推荐-->
-                          <div class="goodsBody"  v-if="items.arrtibleIndex %3 == 2">
+                          <div class="goodsBody" style="flex-wrap: wrap;" v-if="items.arrtibleIndex %3 == 2">
                               <div v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;">
                                 <div class="flex" style=" padding:10px;">
                                   <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
@@ -325,8 +325,8 @@
                                     </div>
                                     <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
                                     <div>
-                                      <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice}}</span>
-                                      <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice}}</span>
+                                      <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice.toFixed(2)}}</span>
+                                      <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice.toFixed(2)}}</span>
                                     </div>
                                     <van-button class="btn_yellow" @click.stop="goProductDetail(goods.goodsId)">立即抢购</van-button>
                                   </div>
@@ -335,7 +335,8 @@
                           </div>
                           <!-- 3 热卖-->
                           <div class="goodsBody" v-if="items.arrtibleIndex %3 == 0">
-                              <div style="width:260px;margin-right: 20px;" v-for="(goods,goodsIndex) in items.items" @click="goProductDetail(goods.goodsId)">
+                              <div style="width:260px;margin-right: 20px;" 
+                              v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" v-if="goodsIndex<4" @click="goProductDetail(goods.goodsId)" >
                                   <div class="shop_img">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
                                     <img  v-lazy="goods.goodsImg.split(',')[0]" style="height:270px;">
@@ -347,54 +348,9 @@
                                       <span  v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                     </div>
                                     <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                    <p class="shop_prce" style="color:red">${{goods.marketPrice}}</p>
+                                    <p class="shop_prce" style="color:red">￥{{goods.marketPrice.toFixed(2)}}</p>
                                   </div>
                               </div>
-                              <!-- <div style="width:260px; margin-right: 20px;">
-                                  <div class="shop_img">
-                                    <div class="hot"><img src="../assets/hot.png" /></div>
-                                    <img src="../assets/LOGO.png" style="height:270px;">
-                                    <h4 class="ellipsis">居家必备</h4>
-                                  </div>
-                                  <div class="shop_details">
-                                    <div class="discounts">
-                                      <span>满减</span>
-                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
-                                    </div>
-                                    <h3 class="ellipsis"> 可水洗</h3>
-                                    <p class="shop_prce" style="color:red">￥120.00</p>
-                                  </div>
-                              </div>
-                              <div style="width:260px;margin-right: 20px;">
-                                  <div class="shop_img">
-                                    <div class="hot"><img src="../assets/hot.png" /></div>
-                                    <img src="../assets/LOGO.png" style="height:270px;">
-                                    <h4 class="ellipsis">居家必备</h4>
-                                  </div>
-                                  <div class="shop_details">
-                                    <div class="discounts">
-                                      <span>满减</span>
-                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
-                                    </div>
-                                    <h3 class="ellipsis"> 可水洗</h3>
-                                    <p class="shop_prce" style="color:red">￥120.00</p>
-                                  </div>
-                              </div>
-                              <div style="width:260px;">
-                                  <div class="shop_img">
-                                    <div class="hot"><img src="../assets/hot.png" /></div>
-                                    <img src="../assets/LOGO.png" style="height:270px;">
-                                    <h4 class="ellipsis">居家必备</h4>
-                                  </div>
-                                  <div class="shop_details">
-                                    <div class="discounts">
-                                      <span>满减</span>
-                                      <span style="color:#f4c542;border:1px solid #f4c542;">特价</span>
-                                    </div>
-                                    <h3 class="ellipsis"> 可水洗</h3>
-                                    <p class="shop_prce" style="color:red">￥120.00</p>
-                                  </div>
-                              </div> -->
                           </div>
                     
                     </div>
@@ -1338,7 +1294,7 @@ two_menu(active){
 .goodsBody {
   width: -webkit-fill-available;
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
   padding: 10px 5px;
 }
 .goodsItem {

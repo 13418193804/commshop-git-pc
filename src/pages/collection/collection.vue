@@ -1,28 +1,28 @@
 <template>
   <div class="" style="height:-webkit-fill-available;background-color:#FFFFFF;">
-<div>
-  <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
-  <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index">
-    <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"  
-    > 
-      <div style="position: relative;">
-        <div v-if="index==classindex" style="position: absolute;top:-10px;right:-10px;">
-          <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="favdelete(item)"/>
+    <div>
+      <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
+      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index" 
+        
+      >
+        <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"  
+        > 
+          <div style="position: relative;" @click="goProductDetail(item.goodsId)">
+            <div v-if="index==classindex" style="position: absolute;top:-10px;right:-10px;">
+              <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="favdelete(item)"/>
+            </div>
+            <div :class="index==classindex?'overclass':'outclass'" class="flex flex-v flex-pack-center">
+              <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;vertical-align: middle;"/>
+              <div style="width:200px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height:25px;line-height:25px;background-color:#EFF1F1;">{{item.jingle}}</div>
+            </div>
+            <div><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
+            <div> <span class="textLabel marketPrice" >￥{{item.marketPrice}}</span></div>
+          </div>
+          
         </div>
-        <div :class="index==classindex?'overclass':'outclass'" class="flex flex-v flex-pack-center">
-          <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;vertical-align: middle;"/>
-          <div style="width:200px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height:25px;line-height:25px;background-color:#EFF1F1;">{{item.jingle}}</div>
-        </div>
-        <div><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
-        <div> <span class="textLabel marketPrice" >￥{{item.marketPrice}}</span></div>
-      </div>
-      
+      </el-col>
+    </el-row>
     </div>
-  </el-col>
-</el-row>
-
-
-</div>
   </div>
 </template>
 
@@ -43,6 +43,7 @@ export default class collection extends Vue {
   checkedGoods = [];
   isShow = false;
   classindex=999;
+  goGoodsId = "";
   toggle() {
     this.isShow = !this.isShow;
   }
@@ -51,6 +52,10 @@ export default class collection extends Vue {
   }
   out(index){
     this.classindex=NaN;    
+  }
+  goDetails(){
+    console.log('开始跳转')
+    
   }
   favdelete(item) {
     Vue.prototype.$reqFormPost(
