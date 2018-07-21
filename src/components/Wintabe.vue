@@ -137,7 +137,7 @@
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;padding:5px 0;">
          <div style="" class="flex flex-pack-justify flex-align-center">
-            <img  src="../assets/image/logo拷贝.png"/>
+            <img  src="../assets/image/logo拷贝.png" @click="goIndex()"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
   
 <!-- 搜索记录 -->
@@ -181,7 +181,7 @@
   <div style="    position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
     <div class="messageFexid" style="right:10px" v-if="cartLen!=0">{{cartLen}}</div>
       <img src="../assets/image/购物车.png"/>
-      <div class="cartFexid" v-if="cartModel">
+      <div class="cartFexid" v-if="cartModel" >
         <div style="display: flex;justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">
             <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;vertical-align: middle;" />
@@ -484,7 +484,9 @@ export default class Comhead extends Vue {
   mouseover() {
     this.cartModel = true;
   }
-  mouseout() {}
+  mouseout() {
+     this.cartModel = false;
+  }
 
   menu_block = false;
   type = "H5";
@@ -671,6 +673,11 @@ export default class Comhead extends Vue {
       }
     );
   }
+  goIndex(){
+    this.$router.push({
+      path: "/"
+    });
+  }
   // 导航跳转
   myDiscount() {
     this.$router.push({
@@ -719,6 +726,7 @@ export default class Comhead extends Vue {
       token: ""
     });
     localStorage.removeItem(Vue.prototype.MutationTreeType.TOKEN_INFO);
+    sessionStorage.userInfo = ''
   }
   goCenter() {
     this.$router.push("/center");
@@ -1332,6 +1340,7 @@ export default class Comhead extends Vue {
   display: flex;
   // flex-wrap: wrap;
   padding: 10px 5px;
+  border-bottom:10px solid #f5f5f5;
 }
 .goodsItem {
   width: 50%;
@@ -1528,5 +1537,8 @@ export default class Comhead extends Vue {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+.textLabel:hover{
+  color:#f4c542;
 }
 </style>

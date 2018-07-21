@@ -15,8 +15,8 @@
               <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;vertical-align: middle;"/>
               <div style="width:200px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height:25px;line-height:25px;background-color:#EFF1F1;">{{item.jingle}}</div>
             </div>
-            <div><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
-            <div> <span class="textLabel marketPrice" >￥{{item.marketPrice}}</span></div>
+            <div style="margin:10px 0;"><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
+            <div> <span class="textLabel marketPrice" >￥{{item.marketPrice.toFixed(2)}}</span></div>
           </div>
           
         </div>

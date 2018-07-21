@@ -54,7 +54,6 @@ export default class User extends Vue {
             this["$Message"].warning(res.message);
             return;
           }
-          this["$Message"].success('成功');
           this.discList = res.data.couponList;
         }
       );
@@ -81,6 +80,11 @@ export default class User extends Vue {
       }
       mounted() {
         this.discountList();
+         //定位当前页面左侧样式
+        this.$emit('selectMenu',{
+          name: '优惠券',
+          url:'/discount',
+        })
       }
     }
 </script>

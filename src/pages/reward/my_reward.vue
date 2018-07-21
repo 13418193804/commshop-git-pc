@@ -9,7 +9,7 @@
               </div>
               <div style="color:#ffc600;text-align: center;font-size:24px;">{{award.awardBalance}}</div>
             </div>
-            <button @click="extractshow()" class="btn_black">提现</button>
+            <!-- <button @click="extractshow()" class="btn_black">提现</button> -->
         </div>
         <div class="flex flex-pack-center flex-align-center flex-1">
             <div>
@@ -52,10 +52,13 @@
               </div>
               <div style="font-size:18px;text-align: center;padding-bottom: 10px;border-bottom: 1px solid #ddd;">积分奖励规则</div>
               <div style="font-size:16px;line-height:24px;padding: 20px 0;border-bottom: 1px solid #ddd;max-height: 400px;overflow: auto;">
-              <p style="margin-bottom:15px;">积分奖励前提：用户通过点击中宜严选 App 个人 中心右上角分享用户专用的推荐二维码给未注册 的游客，游客通过扫描二维码打开并完成账号注册， 即成为用户的成员。 
-用户的成员在商城内的所有购物消费，消费的金额 将×10%转化为用户的积分奖励。积分奖励在商城 内有以下用途：
-1、用于提现；用户可绑定个人的银行卡号，并申请 积分提现，积分将以 1：1 的比例兑换人民币提现。 商城平台后台审核通过用户的提现审核后会将提 现奖励直接打到用户绑定的个人银行卡账户上。
- 2、积分消费；用户的积分可以 1：1 的比例用于商 城的所有自营商品购买。但需注意积分余额必须大 于所购商品金额，且积分不可与钱混合使用支付。</p>    
+              <p style="margin-bottom:15px;">
+                <p style="margin-bottom:10px;">积分奖励前提：用户通过点击中宜严选 App 个人 中心右上角分享用户专用的推荐二维码给未注册 的游客，游客通过扫描二维码打开并完成账号注册， 即成为用户的成员。</p> 
+                <p style="margin-bottom:10px;">用户的成员在商城内的所有购物消费，消费的金额 将×10%转化为用户的积分奖励。积分奖励在商城 内有以下用途：</p>
+                <p style="margin-bottom:10px;">1、用于提现；用户可绑定个人的银行卡号，并申请 积分提现，积分将以 1：1 的比例兑换人民币提现。 商城平台后台审核通过
+用户的提现审核后会将提 现奖励直接打到用户绑定的个人银行卡账户上。</p>
+                <p style="margin-bottom:10px;">2、积分消费；用户的积分可以 1：1 的比例用于商 城的所有自营商品购买。但需注意积分余额必须大 于所购商品金额，且积分不可与钱混合使用支付。</p> 
+              </p>  
               </div>
               <div style="text-align:center;margin-top:30px;">
                 <button @click="ruleshow()" style="border:none;width:290px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:5px;font-size:16px;">朕知道了</button>
