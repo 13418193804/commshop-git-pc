@@ -86,10 +86,11 @@ export default class shopIndex extends Vue {
         },{
           name: '我的积分',
           url:'/my_reward',
-        },{
-          name: '我的银行卡',
-          url:'/my_bankcard',
         },
+        // {
+        //   name: '我的银行卡',
+        //   url:'/my_bankcard',
+        // },
       ]
     },  {
       title : "账号管理",

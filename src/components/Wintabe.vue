@@ -731,8 +731,8 @@ export default class Comhead extends Vue {
     this.modelType = type;
     this.loginModel = !this.loginModel;
   }
-  loginName = "13418193804";
-  password = "5164659";
+  loginName = "";
+  password = "";
   doLogin() {
     if (this.loginName == "") {
       this["$Message"].warning("请输入账号");
