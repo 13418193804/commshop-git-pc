@@ -31,7 +31,7 @@ html,body,#app{
   height:100%;
 }
 *{
-  font-size:14px;
+  font-size:14px;margin:0;padding:0;
 }
 #app>div{
   min-height: 100vh;

@@ -36,15 +36,15 @@
               <div @click="delcancel()" style="position: absolute;top:10px;right:10px;">
                 <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" />
               </div>
-              <div style="font-size: 18px;margin-bottom: 10px;">是否删除此地址？</div>
+              <div style="font-size: 18px;margin-bottom: 30px;     text-align: center;">是否删除此地址？</div>
               <div  style="width:100%;padding:15px;border:1px solid #E5E5E5;margin-bottom: 50px;">
                 <div>收货人:{{deladdress.name}}</div>
                 <div>联系方式:{{deladdress.tel}}</div>
                 <div>收货地址:{{deladdress.address}}</div>
               </div>
               <div style="text-align:center;">
-                <button @click="deleteaddress()" style="border:none;width:120px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;margin-right:10px;">确定</button>
-                <button @click="delcancel()" style="border:none;width:120px;height:35px;color:#FCCB52;text-align: center;line-height:35px;border:1px solid #FCCB52;">取消</button>
+                <button @click="deleteaddress()" style="border:none;width:120px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;">确定</button>
+                <button @click="delcancel()" style="border:none;width:120px;height:45px;color:#FCCB52;text-align: center;line-height:45px;border:1px solid #FCCB52;">取消</button>
               </div>
             </div>
           </div>
