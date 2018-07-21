@@ -145,29 +145,34 @@
    <div style="position: relative;min-width:250px;"> 
         <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品" @focus="onFocus()" />
         <!-- @blur="onblur()" -->
-        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
+       
 
-            <div style="color:#999;">搜索记录
+      
+ <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
+          <div style="border-bottom: 1px #e5e5e5 solid;" v-if="stockpile.length>0">
+
+              <div style="color:#999;">搜索记录
                 <!-- 删除历史记录 -->
             </div>
             <div class="flex-pack-justify  flex-align-center" style="padding-left:5px;position:relative" >
               <div v-for="(item,index) in stockpile" :key="index" class="flex  flex-align-center flex-pack-justify">
-
-                 <div style=" overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{item}}</div>
+                 <div style=" overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" @click="doSelect(item.value,true)">{{item.value}}</div>
                  <div >
                 <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" 
-                  @click="clearSearch()"
+                  @click="clearSearch(item)"
                 ></i></div>
               </div>
-             
             </div>
-          <div style="border-top: 1px #e5e5e5 solid;padding-top:10px;padding-left:5px;">
-              <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word)">
+            </div>
+
+
+          <div style="padding-top:10px;padding-left:5px;">
+              <div class="hotwordItem flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word,false)">
               </div>
           </div>
         </div> 
     </div>
-    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword)" class="flex flex-align-center flex-pack-center">
+    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword,true)" class="flex flex-align-center flex-pack-center">
         <img src="../assets/image/放大镜.png" />
     </div>
   </div>
@@ -414,12 +419,10 @@ import agreement from "../pages/index/agreement.vue";
 
 @Component({
   components: {
-   agreement
-},
-  
+    agreement
+  }
 })
 export default class Comhead extends Vue {
-  
   @Prop({ required: false })
   table: boolean;
   @Prop({ required: false })
@@ -429,98 +432,59 @@ export default class Comhead extends Vue {
     console.log(this.active);
     // this.changeTab()
   }
-  filterModel=false
-
+  filterModel = false;
 
   //用户协议
-goAgreement(){
-  console.log('进来协议')
-  let b : any = this.$refs.agreement
-  console.log(b)
-   b.userModel = true
-}
-onFocus(){
-  //搜索
-  this.filterModel = true
-}
-onblur(){
-  // 离开
-  setTimeout(()=>{
-  this.filterModel = false
+  goAgreement() {
+    console.log("进来协议");
+    let b: any = this.$refs.agreement;
+    console.log(b);
+    b.userModel = true;
+  }
+  onFocus() {
+    //搜索
+    this.filterModel = true;
+  }
+  onblur() {
+    // 离开
+    setTimeout(() => {
+      this.filterModel = false;
+    }, 500);
+  }
+  keyword = "";
+  stockpile = [];
 
-},500)
-
-}
-keyword =''
-stockpile = []
-maxCont = 10;
-//清除搜索记录
-clearSearch(){
-  console.log('清除');
-  this.stockpile = [];
-}
-doSelect(keyword){
-  console.log('搜索内容',typeof this.keyword);
-  this.stockpile.unshift(this.keyword);
-  console.log(JSON.stringify(this.stockpile))
-  // this.stockpile = JSON.stringify(this.keyword);
-  console.log('储存内容',this.stockpile)
-  
-  if(this.stockpile.length>this.maxCont){
-    console.log('条数',this.stockpile.length)
-		this.stockpile.pop() //方法将删除 arrayObject 的最后一个元素，把数组长度减 1，并且返回它删除的元素的值
-	}
-
-  if(this.$route.path == '/productclassify'){
-    this.$emit('filterproduct');
-    return
-}
-  sessionStorage.keyword =  keyword;
-  console.log(sessionStorage.keyword)
-    this.$router.push(
-      {
-        name:'productclassify',
-        query:{
-          type:'filter'
-        }
-      },
-    )
-}
-
-//返回顶部
+  //返回顶部
   backTop() {
     let back = setInterval(() => {
-      if(document.body.scrollTop||document.documentElement.scrollTop){
-        document.body.scrollTop-=100;
-        document.documentElement.scrollTop-=100;
-      }else {
-        clearInterval(back)
+      if (document.body.scrollTop || document.documentElement.scrollTop) {
+        document.body.scrollTop -= 100;
+        document.documentElement.scrollTop -= 100;
+      } else {
+        clearInterval(back);
       }
     });
   }
-//返回顶部显示隐藏
-  handleScroll(){
+  //返回顶部显示隐藏
+  handleScroll() {
     if (document.documentElement.scrollTop + document.body.scrollTop > 100) {
-      this.backTopShow=true;
-    }
-    else {
-      this.backTopShow=false;
+      this.backTopShow = true;
+    } else {
+      this.backTopShow = false;
     }
   }
-    
-  backTopShow = false
-  cartModel = false
+
+  backTopShow = false;
+  cartModel = false;
   // 弹窗
-  isruleshow=false;
-  ruleshow(){
-    this.isruleshow=!this.isruleshow
+  isruleshow = false;
+  ruleshow() {
+    this.isruleshow = !this.isruleshow;
   }
   mouseover() {
-    this.cartModel = true
+    this.cartModel = true;
   }
-  mouseout() {
-    
-  }
+  mouseout() {}
 
   menu_block = false;
   type = "H5";
@@ -538,42 +502,41 @@ doSelect(keyword){
   sign_password = "";
   sign_repassword = "";
 
-  forget_Name ="";
+  forget_Name = "";
   forget_code = "";
   forget_password = "";
   forget_repassword = "";
 
   getVistyCode(type) {
-    let mobile = ''
-    if(type=='REGISTER'){
-  if ((this.sign_loginName || "") == "") {
-      this["$Message"].warning("请输入手机号码");
-      return;
-    }
-    if (this.sign_loginName.length != 11) {
-      this["$Message"].warning("手机号码格式不对");
-      return;
-    }
-mobile =this.sign_loginName
-    }else{
+    let mobile = "";
+    if (type == "REGISTER") {
+      if ((this.sign_loginName || "") == "") {
+        this["$Message"].warning("请输入手机号码");
+        return;
+      }
+      if (this.sign_loginName.length != 11) {
+        this["$Message"].warning("手机号码格式不对");
+        return;
+      }
+      mobile = this.sign_loginName;
+    } else {
+      if (this.forget_Name == "") {
+        this["$Message"].warning("请输入手机号码");
+        return;
+      }
 
-  if(this.forget_Name ==''){
-      this["$Message"].warning('请输入手机号码');
-     return
-   }
-
-mobile =this.forget_Name
+      mobile = this.forget_Name;
     }
 
     //验证手机号码
- 
+
     if (!this.isGetverify) {
       return;
     }
     //getCode
     Vue.prototype.$reqFormPost1(
       "/auth/getsmscode",
-      { mobile:mobile , type: type },
+      { mobile: mobile, type: type },
       res => {
         if (res.returnCode != 200) {
           this["$Message"].warning(res.message);
@@ -584,32 +547,32 @@ mobile =this.forget_Name
       }
     );
   }
-  
-  goCart(){
-    this.$router.push('/cart')
+
+  goCart() {
+    this.$router.push("/cart");
   }
 
   doSign() {
-  if ((this.loginName || "") == "") {
-       this["$Message"].warning("请输入手机号码");
+    if ((this.loginName || "") == "") {
+      this["$Message"].warning("请输入手机号码");
       return;
     }
-       if ((this.sign_code || "") == "") {
-       this["$Message"].warning("请输入验证码");
+    if ((this.sign_code || "") == "") {
+      this["$Message"].warning("请输入验证码");
       return;
     }
-       if ((this.sign_code || "") == "") {
-       this["$Message"].warning("请输入密码");
+    if ((this.sign_code || "") == "") {
+      this["$Message"].warning("请输入密码");
       return;
     }
     //验证
     if (this.sign_password.length < 6) {
-       this["$Message"].warning("请输入最少6位的密码");
+      this["$Message"].warning("请输入最少6位的密码");
       return;
     }
-    if(this.sign_password != this.sign_repassword){
-       this["$Message"].warning('两次输入密码不一致 ')
-      return
+    if (this.sign_password != this.sign_repassword) {
+      this["$Message"].warning("两次输入密码不一致 ");
+      return;
     }
     //验证
     Vue.prototype.$reqFormPost1(
@@ -618,7 +581,7 @@ mobile =this.forget_Name
         loginName: this.sign_loginName,
         password: require("crypto")
           .createHash("md5")
-          .update( this.sign_password)
+          .update(this.sign_password)
           .digest("hex"),
         code: this.sign_code,
         recommontId: "" //推荐者ID
@@ -643,7 +606,7 @@ mobile =this.forget_Name
         self.timerNum--;
       } else {
         self.timerNum = 60;
-        clearInterval(self.timer);  
+        clearInterval(self.timer);
       }
       self.$store.commit(Vue.prototype.MutationTreeType.VERCODE, self.timerNum);
     }, 1000);
@@ -656,39 +619,38 @@ mobile =this.forget_Name
     } else {
       this.isGetverify = true;
       return "获取验证码";
-      
     }
   }
 
-  goforget(){
- //验证
-   if(this.loginName ==''){
-     this["$Message"].warning('请输入手机号码');
-     return
-   }
-   if(this.forget_code ==''){
-     this["$Message"].warning('请输入验证码')
-     return
-   }
-
-   if(this.forget_password==''){
-     this["$Message"].warning('请输入确认密码')
-     return
-   }
-
-   if(this.forget_repassword==''){
-     this["$Message"].warning('请输入新密码');
-     return 
-   }
-    if (this.forget_password.length<6|| this.forget_repassword.length<6) {
-        this["$Message"].warning('最低字符为6位')
+  goforget() {
+    //验证
+    if (this.loginName == "") {
+      this["$Message"].warning("请输入手机号码");
       return;
     }
-     if(this.forget_password != this.forget_repassword){
-        this["$Message"].warning('两次输入密码不一致');
-      return
+    if (this.forget_code == "") {
+      this["$Message"].warning("请输入验证码");
+      return;
     }
-    
+
+    if (this.forget_password == "") {
+      this["$Message"].warning("请输入确认密码");
+      return;
+    }
+
+    if (this.forget_repassword == "") {
+      this["$Message"].warning("请输入新密码");
+      return;
+    }
+    if (this.forget_password.length < 6 || this.forget_repassword.length < 6) {
+      this["$Message"].warning("最低字符为6位");
+      return;
+    }
+    if (this.forget_password != this.forget_repassword) {
+      this["$Message"].warning("两次输入密码不一致");
+      return;
+    }
+
     Vue.prototype.$reqFormPost1(
       "/user/password/find",
       {
@@ -696,8 +658,8 @@ mobile =this.forget_Name
         smsCode: this.forget_code,
         password: require("crypto")
           .createHash("md5")
-          .update( this.forget_password)
-          .digest("hex"),
+          .update(this.forget_password)
+          .digest("hex")
       },
       res => {
         if (res.returnCode != 200) {
@@ -709,49 +671,49 @@ mobile =this.forget_Name
       }
     );
   }
-// 导航跳转
-myDiscount(){
-  this.$router.push({
-    path:"discountLobby"
-  })
-}
-myCollect() {
-  this.$router.push({
-    path: "/collection",
-  });
-}
-mySite() {
-  this.$router.push({
-    path: "/addresslist",
-  });
-}
-myAward() {
-  this.$router.push({
-    path: "/my_reward",
-  });
-}
-myOrder(){
-  this.$router.push({
-    path:"/orderlist",
-  })
-}
-myMessagelist(){
-  this.$router.push({
-    path:"/Messagelist",
-  })
-}
-goProductDetail(goodsId) {
-  this.$router.push({
-    path: "/productDetail",
-    query: {
-      goodsId: goodsId
-    }
-  });
-}
+  // 导航跳转
+  myDiscount() {
+    this.$router.push({
+      path: "discountLobby"
+    });
+  }
+  myCollect() {
+    this.$router.push({
+      path: "/collection"
+    });
+  }
+  mySite() {
+    this.$router.push({
+      path: "/addresslist"
+    });
+  }
+  myAward() {
+    this.$router.push({
+      path: "/my_reward"
+    });
+  }
+  myOrder() {
+    this.$router.push({
+      path: "/orderlist"
+    });
+  }
+  myMessagelist() {
+    this.$router.push({
+      path: "/Messagelist"
+    });
+  }
+  goProductDetail(goodsId) {
+    this.$router.push({
+      path: "/productDetail",
+      query: {
+        goodsId: goodsId
+      }
+    });
+  }
   modelType = "login";
   // 退出登录
   loginOut() {
-    this.isruleshow=!this.isruleshow;
+    this.isruleshow = !this.isruleshow;
     this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, {
       userId: "",
       token: ""
@@ -773,11 +735,11 @@ goProductDetail(goodsId) {
   password = "5164659";
   doLogin() {
     if (this.loginName == "") {
-         this["$Message"].warning('请输入账号')
+      this["$Message"].warning("请输入账号");
       return;
     }
     if (this.password == "") {
-         this["$Message"].warning('请输入密码')
+      this["$Message"].warning("请输入密码");
       return;
     }
     Vue.prototype.$reqFormPost1(
@@ -786,7 +748,7 @@ goProductDetail(goodsId) {
         loginName: this.loginName,
         password: require("crypto")
           .createHash("md5")
-          .update( this.password)
+          .update(this.password)
           .digest("hex")
       },
       res => {
@@ -800,10 +762,9 @@ goProductDetail(goodsId) {
           Vue.prototype.MutationTreeType.TOKEN_INFO,
           JSON.stringify(res.data)
         );
-      this.queryuserinfo()
-        
-        this.loginModel = false
-        
+        this.queryuserinfo();
+
+        this.loginModel = false;
       }
     );
   }
@@ -811,34 +772,31 @@ goProductDetail(goodsId) {
   catList = [];
   active = "0";
 
-twoList(active,catList){
+  twoList(active, catList) {
     sessionStorage.catId = this.catList[active].catId;
-    sessionStorage.parentId = this.indexList[this.active].catId
-    sessionStorage.keyword = ''
+    sessionStorage.parentId = this.indexList[this.active].catId;
+    sessionStorage.keyword = "";
     this.$router.push({
       path: "/productClassify"
-    }); 
-}
+    });
+  }
 
-cartModel_code = false
-mouseover_code(){
-  this.cartModel_code = true
-}
-mouseout_code(){
-  this.cartModel_code = false
-}
+  cartModel_code = false;
+  mouseover_code() {
+    this.cartModel_code = true;
+  }
+  mouseout_code() {
+    this.cartModel_code = false;
+  }
 
-select_block = false
-mouseover_select(){
-  this.select_block = true
-}
-mouseout_select(){
-  this.select_block = false
-}
+  select_block = false;
+  mouseover_select() {
+    this.select_block = true;
+  }
+  mouseout_select() {
+    this.select_block = false;
+  }
   goActionType(actionType, actionValue) {
-
-
-
     if (actionType == "ACTION_TYPE_GOODSID") {
       var goodsId = actionValue;
       this.$router.push({
@@ -864,24 +822,24 @@ mouseout_select(){
           return;
         }
 
-
         for (var i = 0; i < res.data.data.children.length; i++) {
           for (var j = 0; j < res.data.data.children[i].children.length; j++) {
             if (res.data.data.children[i].children[j].catId == actionValue) {
               var selectIndex = j.toString();
-    
-        sessionStorage.catId = actionValue;
-    sessionStorage.parentId = res.data.data.children[i].children[j].parentId
-    sessionStorage.keyword = ''
-    this.$router.push({
-      path: "/productClassify"
-    }); 
+
+              sessionStorage.catId = actionValue;
+              sessionStorage.parentId =
+                res.data.data.children[i].children[j].parentId;
+              sessionStorage.keyword = "";
+              this.$router.push({
+                path: "/productClassify"
+              });
               // this.$router.push({
               //   path: "/productClassify",
               //   query: {
               //     catId: res.data.data.children[i].children[j].catId,
               //     parentCatId: res.data.data.children[i].children[j].parentId,
-    
+
               //     title: res.data.data.children[i].label
               //   }
               // });
@@ -894,12 +852,12 @@ mouseout_select(){
     }
 
     if (actionType == "ACTION_TYPE_URL") {
-           window.location.href=  actionValue;
+      window.location.href = actionValue;
       return;
     }
     return;
   }
-changeTab(active, shit) {
+  changeTab(active, shit) {
     // shit 立刻检测  通常进来时不检测
     if (
       this.active == "-1" &&
@@ -915,13 +873,13 @@ changeTab(active, shit) {
       return;
     }
     this.active = active;
-    if(active != "-1"){
-        // this.getSecCatList(active);
-        this.two_menu(active);
+    if (active != "-1") {
+      // this.getSecCatList(active);
+      this.two_menu(active);
     }
-   
-    if (active != "-1" && !this.indexList[active].children) {    
-      console.log('哈哈',this.indexList[active].pageId);
+
+    if (active != "-1" && !this.indexList[active].children) {
+      console.log("哈哈", this.indexList[active].pageId);
       Vue.prototype.$reqFormPost1(
         "/page/info",
         {
@@ -933,28 +891,25 @@ changeTab(active, shit) {
             return;
           }
 
-let a = res.data.filter((item,index)=>{
-return item.componentType === 'COMPONENT_TYPE_GOODS_TAG'
-})
-console.log(res.data)
-res.data.forEach((items,index)=>{
-for(let i =0 ;i<a.length;i++){
-  if(items.id == a[i].id){
-      items.arrtibleIndex = i+1
-       a[i].arrtibleIndex = i+1
-  } 
-}
-});
-
-
-
+          let a = res.data.filter((item, index) => {
+            return item.componentType === "COMPONENT_TYPE_GOODS_TAG";
+          });
+          console.log(res.data);
+          res.data.forEach((items, index) => {
+            for (let i = 0; i < a.length; i++) {
+              if (items.id == a[i].id) {
+                items.arrtibleIndex = i + 1;
+                a[i].arrtibleIndex = i + 1;
+              }
+            }
+          });
 
           (<any>Object).assign(this.indexList[active], {
             children: res.data
           });
-           console.log('jj',res.data)
+          console.log("jj", res.data);
           this.indexList.push();
-          
+
           if (this.indexList[active].catId) {
             Vue.prototype.$reqFormPost1(
               "/user/goods/list",
@@ -972,24 +927,20 @@ for(let i =0 ;i<a.length;i++){
                   columnNum: 1,
                   items: res.data.goodsList
                 });
-           
 
-                console.log('首页',res.data.goodsList)
+                console.log("首页", res.data.goodsList);
                 this.indexList.push();
-
               }
             );
           }
         }
       );
-      
     } else {
     }
   }
 
-two_menu(active){
- 
-   Vue.prototype.$reqFormPost1(
+  two_menu(active) {
+    Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
         parentId: this.indexList[active].catId
@@ -1005,7 +956,7 @@ two_menu(active){
     );
   }
   //二级菜单
-  getSecCatList(active){
+  getSecCatList(active) {
     // Vue.prototype.$reqFormPost1(
     //   "/user/cat/list",
     //   {
@@ -1022,28 +973,21 @@ two_menu(active){
     // );
   }
 
-
-
-
   initIndex() {
     Vue.prototype.$reqUrlGet1("/page/list", {}, res => {
       if (res.returnCode !== 200) {
-
         this["$Message"].warning(res.message);
         console.log("网络请求错误！");
         return;
       }
 
       this.indexList = res.data;
-        // this.indexList.forEach((item,index)=>{
-        //   this.handleGoodSend(item,this.indexList)
-        // })
-
+      // this.indexList.forEach((item,index)=>{
+      //   this.handleGoodSend(item,this.indexList)
+      // })
 
       if (this.indexList.length > 0) {
-
         this.changeTab(this.active, true);
-
       }
     });
   }
@@ -1069,8 +1013,8 @@ two_menu(active){
       res => {
         if (res.returnCode !== 200) {
           this["$Message"].warning(res.message);
-          console.log(res)
-          if(res.returnCode ==400 && res.message =='账号已在其他设备登录'){
+          console.log(res);
+          if (res.returnCode == 400 && res.message == "账号已在其他设备登录") {
             this.loginOut();
             this.loginModel = true;
           }
@@ -1083,7 +1027,7 @@ two_menu(active){
       }
     );
   }
-  queryuserinfo(  ) {
+  queryuserinfo() {
     Vue.prototype.$reqFormPost1(
       "/user/query",
       {
@@ -1094,18 +1038,17 @@ two_menu(active){
       },
       res => {
         if (res.returnCode != 200) {
-        
-     this["$Message"].warning(res.message);
-        return;
+          this["$Message"].warning(res.message);
+          return;
         }
 
-       sessionStorage.userInfo = JSON.stringify(res.data)
-       this.userInfo = res.data
+        sessionStorage.userInfo = JSON.stringify(res.data);
+        this.userInfo = res.data;
       }
     );
   }
-  userInfo = {}
-  hotwordList = []
+  userInfo = {};
+  hotwordList = [];
   gethotword() {
     Vue.prototype.$reqUrlGet("/hotword/query", {}, res => {
       if (res == null) {
@@ -1116,7 +1059,7 @@ two_menu(active){
         console.log(
           "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
         );
-          this["$Message"].warning(res.data.message);
+        this["$Message"].warning(res.data.message);
         return;
       }
 
@@ -1124,9 +1067,9 @@ two_menu(active){
       console.log(res.data.data);
     });
   }
-  messageCount:any = 0
-  getMessageCount(){
-        Vue.prototype.$reqFormPost1(
+  messageCount: any = 0;
+  getMessageCount() {
+    Vue.prototype.$reqFormPost1(
       "/message/unread/count",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
@@ -1136,19 +1079,73 @@ two_menu(active){
       },
       res => {
         if (res.returnCode != 200) {
-        
-     this["$Message"].warning(res.message);
-        return;
+          this["$Message"].warning(res.message);
+          return;
         }
-        this.messageCount = res.data.count
+        this.messageCount = res.data.count;
         // console.log('消息条数',res.data.count)
       }
     );
   }
+  clearSearch(item) {
+    this.removeByValue( this.stockpile ,item);
+    localStorage.filterValue = JSON.stringify(this.stockpile);
+  }
+  removeByValue(arr, val) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] == val) {
+        arr.splice(i, 1);
+        break;
+      }
+    }
+  }
+  doSelect(keyword,cookie) {
+
+    if (keyword == "") {
+      return;
+    }
+
+    if(cookie){this.stockpile || [];
+    if (this.stockpile.length > 10) {
+      this.removeByValue(
+        this.stockpile,
+        this.stockpile[this.stockpile.length - 1]
+      );
+    }
+
+ this.stockpile.forEach((item,index)=>{
+    if(item.value ==  keyword){
+        this.removeByValue(
+        this.stockpile,
+        item
+      );
+    }
+})
+    this.stockpile.unshift({ value: keyword });
+    localStorage.filterValue = JSON.stringify(this.stockpile);
+}
+
+    if (this.$route.path == "/productclassify") {
+        this.keyword = keyword
+      this.$emit("filterproduct");
+      return;
+    }
+
+    sessionStorage.keyword = keyword;
+    this.$router.push({
+      name: "productclassify",
+      query: {
+        type: "filter"
+      }
+    });
+  }
   mounted() {
+    if (localStorage.filterValue) {
+      this.stockpile = JSON.parse(localStorage.filterValue);
+    }
 
     // 添加一个滚动滚动监听事件：
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
     this.table ? (this.active = "-1") : "";
     (this.$route.params.active || "") != ""
       ? (this.active = this.$route.params.active)
@@ -1170,58 +1167,81 @@ two_menu(active){
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
-      this.getCartList();  
-      this.queryuserinfo()
+      this.getCartList();
+      this.queryuserinfo();
     }
-    this.gethotword()
+    this.gethotword();
     this.getMessageCount();
   }
-  
 }
-
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-
-.user_img img{
-  width:30px;height:30px;border-radius: 50px;vertical-align: middle;
+.user_img img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  vertical-align: middle;
 }
-.float_icon{
-  position:fixed;bottom: 90px;right:25px;z-index:9999;
-  div{
-    width:70px;height:70px;border:1px solid #f4f4f4;cursor: pointer;margin-bottom:12px;
-    p{
-      text-align:center;height:30px;line-height: 30px;color:#7c7c7c;background:#ccc;  
+.float_icon {
+  position: fixed;
+  bottom: 90px;
+  right: 25px;
+  z-index: 9999;
+  div {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #f4f4f4;
+    cursor: pointer;
+    margin-bottom: 12px;
+    p {
+      text-align: center;
+      height: 30px;
+      line-height: 30px;
+      color: #7c7c7c;
+      background: #ccc;
     }
   }
-  .icon_app{
-    background:#fff url(../assets/phone1.png) no-repeat center bottom 2px;position: relative;
+  .icon_app {
+    background: #fff url(../assets/phone1.png) no-repeat center bottom 2px;
+    position: relative;
   }
   // 二维码
-  .icon_code{
-      padding: 20px 15px;box-shadow: 2px 5px 19px #888888;background:#fff;position: absolute;right:88px;bottom:160px;
-      z-index:9999;width:110px;height:115px;
+  .icon_code {
+    padding: 20px 15px;
+    box-shadow: 2px 5px 19px #888888;
+    background: #fff;
+    position: absolute;
+    right: 88px;
+    bottom: 160px;
+    z-index: 9999;
+    width: 110px;
+    height: 115px;
   }
-  .icon_service{
-    background:#fff url(../assets/service1.png) no-repeat center bottom 2px;
+  .icon_service {
+    background: #fff url(../assets/service1.png) no-repeat center bottom 2px;
   }
-  .icon_top{
-    background:#fff url(../assets/jt_up.png) no-repeat center bottom 2px;
+  .icon_top {
+    background: #fff url(../assets/jt_up.png) no-repeat center bottom 2px;
   }
   //hover-icon
-  div:hover p{
-     background: #F4C542;color:#fff;
+  div:hover p {
+    background: #f4c542;
+    color: #fff;
   }
-  .icon_app:hover{
-    background:#fff url(../assets/phone2.png) no-repeat center bottom 2px;color:#f4c542;
+  .icon_app:hover {
+    background: #fff url(../assets/phone2.png) no-repeat center bottom 2px;
+    color: #f4c542;
   }
-  .icon_service:hover{
-    background:#fff url(../assets/service2.png) no-repeat center bottom 2px;color:#f4c542;
+  .icon_service:hover {
+    background: #fff url(../assets/service2.png) no-repeat center bottom 2px;
+    color: #f4c542;
   }
-  .icon_top:hover{
-    background:#fff url(../assets/jt_hover.png) no-repeat center bottom 2px;color:#f4c542;
+  .icon_top:hover {
+    background: #fff url(../assets/jt_hover.png) no-repeat center bottom 2px;
+    color: #f4c542;
   }
-} 
+}
 .vhead {
   border-bottom: solid 1px #e5e5e5;
   justify-content: flex-end;
@@ -1264,9 +1284,17 @@ two_menu(active){
   text-align: center;
 }
 //消息样式
-.msgNum{
-  position: absolute;width: 20px;height:20px;background: #fe2015;clear: #fff;
-  border-radius: 50px;text-align: center;line-height: 19px;left: 22px;top:-8px;
+.msgNum {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #fe2015;
+  clear: #fff;
+  border-radius: 50px;
+  text-align: center;
+  line-height: 19px;
+  left: 22px;
+  top: -8px;
 }
 .borderleft {
   border-left: 1px #fff solid;
@@ -1282,13 +1310,18 @@ two_menu(active){
   background-color: #0000007f;
   height: 100vh;
 }
-.index_headline{
-  text-align: center;border-bottom: 1px solid #e5e5e5;font-size: 28px;padding-bottom: 30px;
-  i{
-    font-size: 30px;color:#3d3d3d;
+.index_headline {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 28px;
+  padding-bottom: 30px;
+  i {
+    font-size: 30px;
+    color: #3d3d3d;
   }
-  p{
-    font-size:18px;color:#313131;
+  p {
+    font-size: 18px;
+    color: #313131;
   }
 }
 .goodsBody {
@@ -1310,144 +1343,187 @@ two_menu(active){
   z-index: 990;
   overflow: hidden;
   box-shadow: 1px 1px 10px #eee;
-  border:1px solid #FAFAFA;
+  border: 1px solid #fafafa;
 }
-.cartItem{
-  padding:5px 0;
+.cartItem {
+  padding: 5px 0;
 }
-.btn_yellow{
-  height: 36px;line-height: 36px; border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;
-  width:130px;padding:0;cursor: pointer;
+.btn_yellow {
+  height: 36px;
+  line-height: 36px;
+  border-radius: 4%;
+  background-color: #f4c542;
+  color: #ffffff;
+  border: #f4c542;
+  width: 130px;
+  padding: 0;
+  cursor: pointer;
 }
 
-.two_classify{
-  width: 100%;background:#fefefe;height:100px;padding:20px;
-  div{
-    flex: 1;cursor: pointer;
-    p{
-      width:100%;text-align: center;
-      img{
-        width:35px;height:35px;border-radius: 50px;background: #ccc;
+.two_classify {
+  width: 100%;
+  background: #fefefe;
+  height: 100px;
+  padding: 20px;
+  div {
+    flex: 1;
+    cursor: pointer;
+    p {
+      width: 100%;
+      text-align: center;
+      img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50px;
+        background: #ccc;
       }
     }
   }
 }
 // 热卖
-.hot{
-  position: absolute;left: 0;top: 0;
+.hot {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 //头部下拉菜单
-.contentBox{
+.contentBox {
   position: relative;
 }
-.top_select{
-  position: absolute;background: #fff;width: 100%;border:1px solid #efefef;border-top:0;right:0;
-  div{
-    text-align: center;line-height: 50px;border-bottom: 1px solid #efefef;color:#000;cursor: pointer;
+.top_select {
+  position: absolute;
+  background: #fff;
+  width: 100%;
+  border: 1px solid #efefef;
+  border-top: 0;
+  right: 0;
+  div {
+    text-align: center;
+    line-height: 50px;
+    border-bottom: 1px solid #efefef;
+    color: #000;
+    cursor: pointer;
   }
-  :hover{
-    color: #f4c542;background: #f8f8f8;
+  :hover {
+    color: #f4c542;
+    background: #f8f8f8;
   }
-  }
+}
 
-.hotwordItem{
-  font-size:14px;
+.hotwordItem {
+  font-size: 14px;
 }
 //定制推荐
-.recommend_list{
-  width:370px;margin-right:15px;border: 1px solid #ededed;
-  .shop_img{
-    border:none;margin-bottom: 12px;
-    h4{
-      height:60px;line-height:60px;font-size:20px;position: absolute;bottom: 0;background: rgba(207, 207, 207, 0.3);color:#a3a3a3;
-    }
-  }
-
-  .shop_details{
-    padding:0 10px 10px 20px;
-    h3{
-      font-size:14px;margin-bottom:0;
-    }
-  }
-}
-.recommend_list:nth-of-type(3){
-  border:none;
-}
-.recommend_list:nth-of-type(3)>div{
+.recommend_list {
+  width: 370px;
+  margin-right: 15px;
   border: 1px solid #ededed;
-  height:230px;margin-bottom:10px;
-  .shop_img{
-    >img{
-      height:165px;
-    }
-    h4{
-      height:30px;line-height:30px;font-size:12px;
+  .shop_img {
+    border: none;
+    margin-bottom: 12px;
+    h4 {
+      height: 60px;
+      line-height: 60px;
+      font-size: 20px;
+      position: absolute;
+      bottom: 0;
+      background: rgba(207, 207, 207, 0.3);
+      color: #a3a3a3;
     }
   }
-  .shop_details{
-    position:relative;
-    .discounts{
-      margin-bottom: 7px;
-    }
-    p{
-      position: absolute;right:10px;top:8px;
+
+  .shop_details {
+    padding: 0 10px 10px 20px;
+    h3 {
+      font-size: 14px;
+      margin-bottom: 0;
     }
   }
 }
-
- .shop_img {
-    border: 1px solid #ededed;border-radius: 4px;
-    margin-bottom: 10px;
-    position: relative;
-    // 热卖
-    .hot {
-      position: absolute;
-      left: 0;
-      top: 0;
-      img {
-        width: 33px;
-        height: 38px;
-      }
-    }
-    img {
-      width: 100%;
-      height: 230px;
+.recommend_list:nth-of-type(3) {
+  border: none;
+}
+.recommend_list:nth-of-type(3) > div {
+  border: 1px solid #ededed;
+  height: 230px;
+  margin-bottom: 10px;
+  .shop_img {
+    > img {
+      height: 165px;
     }
     h4 {
-      height: 54px;
-      line-height: 54px;
-      background: #eff1f1;
-      text-align: center;
-      font-size: 22px;
-      color: #a3a3a3;
-      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      font-size: 12px;
     }
   }
   .shop_details {
-    div {
-      margin-bottom: 12px;
-      span {
-        display: inline-block;
-        width: 40px;
-        height: 19px;
-        text-align: center;
-        color: red;
-        border: 1px solid red;
-        margin-right: 10px;
-        border-radius: 5px;
-      }
-    }
-    h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
+    position: relative;
+    .discounts {
+      margin-bottom: 7px;
     }
     p {
-      font-size: 16px;
+      position: absolute;
+      right: 10px;
+      top: 8px;
     }
   }
-  .ellipsis{
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+}
+
+.shop_img {
+  border: 1px solid #ededed;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  position: relative;
+  // 热卖
+  .hot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    img {
+      width: 33px;
+      height: 38px;
+    }
   }
+  img {
+    width: 100%;
+    height: 230px;
+  }
+  h4 {
+    height: 54px;
+    line-height: 54px;
+    background: #eff1f1;
+    text-align: center;
+    font-size: 22px;
+    color: #a3a3a3;
+    width: 100%;
+  }
+}
+.shop_details {
+  div {
+    margin-bottom: 12px;
+    span {
+      display: inline-block;
+      width: 40px;
+      height: 19px;
+      text-align: center;
+      color: red;
+      border: 1px solid red;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+  }
+  h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  p {
+    font-size: 16px;
+  }
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 </style>
