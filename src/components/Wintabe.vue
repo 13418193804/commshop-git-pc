@@ -89,7 +89,7 @@
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
-                <input type="password" placeholder="请输入6-12位密码" v-model="sign_password" style="border:0;width:100%;"/>
+                <input type="password" placeholder="请输入6位以上密码" v-model="sign_password" style="border:0;width:100%;"/>
           </div>       
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
@@ -1177,6 +1177,9 @@ export default class Comhead extends Vue {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+.user_img {
+  color:#f4c542!important;
+}
 .user_img img {
   width: 30px;
   height: 30px;

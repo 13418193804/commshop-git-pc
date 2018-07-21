@@ -94,7 +94,7 @@ export default class User extends Vue {
     margin-bottom:10px;position: relative;background :url(../../assets/image/领卷中心背景.png) no-repeat;
       background-size: 100%;
     .newtext{
-      position: absolute;bottom: 4px;color: #fff;
+      position: absolute;bottom: 4px;color: #fff;font-size: 10px;
     }
   }
   .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){

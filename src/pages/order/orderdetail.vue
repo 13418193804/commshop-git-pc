@@ -259,6 +259,7 @@
     </div>
 </div>
       <logistics ref="logistics" :orderItem="orderItem" @queryDetail="queryDetail()"></logistics>
+      <reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
 </div>
 </template>
 
@@ -266,13 +267,15 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import logistics from "../index/logistics.vue";
+import reimburse from "../index/reimburse.vue";
 import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast, Dialog } from "vant";
 
 @Component({
   components: { 
-    logistics
+    logistics,
+    reimburse
    },
   mixins: [mixin]
 })
@@ -550,15 +553,21 @@ export default class orderdetail extends Vue {
     );
   }
 
-  doRefund() {
+  doRefund(item){
     console.log("申请退款");
-    this.$router.push({
-      name: "refund",
-      query: {
-        orderId: this.detail["orderId"]
-      }
-    });
+    this.orderItem =  item
+    let a : any = this.$refs.reimburse
+    a.model = true
   }
+  //doRefund() {
+    
+    // this.$router.push({
+    //   name: "refund",
+    //   query: {
+    //     orderId: this.detail["orderId"]
+    //   }
+    // });
+  //}
 
   payOrder() {
     this.$router.push({
