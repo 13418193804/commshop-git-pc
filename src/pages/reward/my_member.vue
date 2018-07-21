@@ -64,8 +64,7 @@ export default class my_member extends Vue {
           Toast(res.data.message)
           return;
         }
-        this.memberList = res.data.data.messageList;
-        
+        this.memberList = res.data.data.memberList;
         // console.log("请求完成", res.data.data.memberList);
         // let memberList = this.memberList ? this.memberList : [];
         // for (let i = 0; i < res.data.data.memberList.length; i++) {
