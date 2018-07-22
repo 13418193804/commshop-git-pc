@@ -49,41 +49,7 @@ export const reqFormUpload = (url, form, callBack) => {
         });
 };
 
-export const reqFormPost = (url, data, callBack, headers) => {
-    if (!headers) {
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-        data = querystring.encode(data);
-    }
-    axios.post(bizUrl + url, data,
-        {
-            headers: headers
-        })
-        .then(res => {
-            if (res.data.status == 400 && res.data.message == "账号已在其他设备登录") {
-                Toast(res.data.message);
-                window['myvue'].$store.commit(MutationTreeType.TOKEN_INFO, {
-                    userId: "",
-                    token: ""
-                })
-                localStorage.removeItem(MutationTreeType.TOKEN_INFO);
-                // window['myvue'].$router.push({ name: 'login' });
-                return;
-            }
-            callBack(res);
 
-            if (res == null || res.data == null) {
-                console.error('网络请求失败');
-                callBack(null);
-                return;
-            }
-        }
-        )
-        .catch(error => {
-            Toast(error.toString())
-        });
-};
 
 export const reqUrlGet = (url, data, callBack) => {
     axios.get(bizUrl + url + '?' + querystring.encode(data))
@@ -155,7 +121,41 @@ export const reqUrlGet1 = (url, data, callBack) => {
         })
 };
 
+export const reqFormPost = (url, data, callBack, headers) => {
+    if (!headers) {
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+        data = querystring.encode(data);
+    }
+    axios.post(bizUrl + url, data,
+        {
+            headers: headers
+        })
+        .then(res => {
 
+            if (res.data.status == 400 && res.data.message == "用户信息未找到") {
+                Vue.prototype.loginDialog = true
+                window['myvue'].$store.commit(MutationTreeType.TOKEN_INFO, {
+                    userId: "",
+                    token: ""
+                })
+                localStorage.removeItem(MutationTreeType.TOKEN_INFO);
+                return;
+            }
+            callBack(res);
+
+            if (res == null || res.data == null) {
+                console.error('网络请求失败');
+                callBack(null);
+                return;
+            }
+        }
+        )
+        .catch(error => {
+            Toast(error.toString())
+        });
+};
 export const reqFormPost1 = (url, data, callBack, headers) => {
     if (!headers) {
         headers = {
@@ -171,6 +171,9 @@ export const reqFormPost1 = (url, data, callBack, headers) => {
         .then(res => {
             let resp: ResponseObject = new ResponseObject();
             if (res.status !== 200) {
+
+            console.log('-----------退出登陆reqFormPost1')
+            
                 resp.returnCode = res.status;
                 resp.message = `http返回状态码错误，错误码是${res.status}`;
                 resp.data = res;

@@ -28,10 +28,7 @@ Vue.use(MintUI);
 Vue.use(Vuex);
 Vue.use(Api);
 Vue.use(Vant);
-// router.beforeEach((to, from, next) => {
-//     console.log(to, from, next);
-//     next();
-// });
+Vue.prototype.loginDialog = false
 Vue.config.productionTip = false;
 const init = new Vue({
     router,

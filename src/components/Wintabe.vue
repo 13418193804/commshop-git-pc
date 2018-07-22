@@ -1,6 +1,7 @@
 <template>
   <div class="alter-container">
    <div class="toplabel flex   flex-pack-center">
+        {{loginDialog}}
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
@@ -40,7 +41,7 @@
    </div>
 
    <div style="height:52px;"></div>
-   <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
+   <div class="dialog  flex  flex-align-center flex-pack-center" v-if="sLoginModel">
       <div style="height:400px;width:380px;background-color:#fff;position: relative;">
             <img src="../assets/image/关闭按钮1.png" style="width:35px;position: absolute;right: -50px;top: -50px;border-radius: 50%;" @click="close()"/>
       <!-- 登录 -->
@@ -397,7 +398,7 @@
             <div @click="ruleshow()" 
             style="width:90px;height:35px;border:1px solid #FCCB52;color:#FCCB52;text-align: center;line-height:35px;margin-right:8px;font-size:14px;">取消</div>
 
-            <div @click="loginOut()" 
+            <div @click="sendLoginOut()" 
             style="width:90px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;font-size:14px;">确认</div>
 
           </div>
@@ -555,7 +556,7 @@ export default class Comhead extends Vue {
   }
 
   doSign() {
-    if ((this.loginName || "") == "") {
+    if ((this.sign_loginName || "") == "") {
       this["$Message"].warning("请输入手机号码");
       return;
     }
@@ -626,7 +627,7 @@ export default class Comhead extends Vue {
 
   goforget() {
     //验证
-    if (this.loginName == "") {
+    if (this.forget_Name == "") {
       this["$Message"].warning("请输入手机号码");
       return;
     }
@@ -718,9 +719,16 @@ export default class Comhead extends Vue {
     });
   }
   modelType = "login";
+
+sendLoginOut(){
+   this.isruleshow = !this.isruleshow;
+   this.loginOut()
+   
+}
+
   // 退出登录
   loginOut() {
-    this.isruleshow = !this.isruleshow;
+   
     this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, {
       userId: "",
       token: ""
@@ -735,10 +743,17 @@ export default class Comhead extends Vue {
   close() {
     this.changeLoginModel("");
   }
-  changeLoginModel(type) {
-    this.modelType = type;
-    this.loginModel = !this.loginModel;
+  get sLoginModel(){
+    return this.loginModel
   }
+  changeLoginModel(type) {
+
+    this.modelType = type;
+
+  }
+  changeModel (){
+           this.loginModel = true
+  }  
   loginName = "";
   password = "";
   doLogin() {
@@ -764,14 +779,12 @@ export default class Comhead extends Vue {
           this["$Message"].warning(res.message);
           return;
         }
-
         this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, res.data);
         localStorage.setItem(
           Vue.prototype.MutationTreeType.TOKEN_INFO,
           JSON.stringify(res.data)
         );
         this.queryuserinfo();
-
         this.loginModel = false;
       }
     );
@@ -1021,11 +1034,6 @@ export default class Comhead extends Vue {
       res => {
         if (res.returnCode !== 200) {
           this["$Message"].warning(res.message);
-          console.log(res);
-          if (res.returnCode == 400 && res.message == "账号已在其他设备登录") {
-            this.loginOut();
-            this.loginModel = true;
-          }
           return;
         }
         this.cartList = res.data.carts;
@@ -1148,6 +1156,8 @@ export default class Comhead extends Vue {
     });
   }
   mounted() {
+
+    
     if (localStorage.filterValue) {
       this.stockpile = JSON.parse(localStorage.filterValue);
     }
