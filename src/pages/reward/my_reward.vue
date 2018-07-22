@@ -9,7 +9,7 @@
               </div>
               <div style="color:#ffc600;text-align: center;font-size:24px;">{{award.awardBalance}}</div>
             </div>
-            <button @click="extractshow()" class="btn_black">提现</button>
+            <!-- <button @click="extractshow()" class="btn_black">提现</button> -->
         </div>
         <div class="flex flex-pack-center flex-align-center flex-1">
             <div>

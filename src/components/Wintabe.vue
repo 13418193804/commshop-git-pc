@@ -328,7 +328,7 @@
                                         <img src="../assets/image/新品特价.png" v-if="goods.isBargain"  style="vertical-align: middle;height:20px;font-size: 12px;"/>
                                         <span class="textLabel" style="color:#000000;font-size:18px">{{goods.goodsName}}</span>
                                     </div>
-                                    <div class="textLabel"  style="color:#A3A3A3;font-size:16px;" >{{goods.jingle}}</div>
+                                    <div class="textLabel"  style="color:#A3A3A3;font-size:16px;width:350px;" >{{goods.jingle}}</div>
                                     <div>
                                       <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice.toFixed(2)}}</span>
                                       <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice.toFixed(2)}}</span>
@@ -1447,8 +1447,8 @@ export default class Comhead extends Vue {
   .shop_details {
     padding: 0 10px 10px 20px;
     h3 {
-      font-size: 14px;
-      margin-bottom: 0;
+      font-size: 16px;
+      margin-bottom: 10px;
     }
   }
 }

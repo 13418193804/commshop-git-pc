@@ -20,7 +20,7 @@
                       <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
                       <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
                   </div>
-                  <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+                  <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
           </div>
           <div class="discountBox"  v-if="status == 'USED'">
@@ -35,7 +35,7 @@
                       <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
                       <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
                   </div>
-                  <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+                  <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
           </div>
           <div class="discountBox"   v-if="status == 'OVERDUE'">
@@ -46,7 +46,7 @@
                       <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
                       <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
                   </div>
-                  <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+                  <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
           </div>
       </div>
@@ -93,7 +93,6 @@ export default class User extends Vue {
         status = this.status 
     }
      this.status = status
-     console.log('状态',this.status),
      Vue.prototype.$reqFormPost1(
         "/coupon/user/linklist",
         {
