@@ -134,6 +134,7 @@ export default class User extends Vue {
         }
     );
   }
+
   changeLogo(){
    let a:any = this.$refs.logo
     let form = new FormData();
@@ -161,10 +162,11 @@ export default class User extends Vue {
      this["$Message"].warning(res.message);
         return;
         }
-        console.log("=-------------", res.data);
+ 
         this.userInfo = res.data;
-        
         this.radio = this.userInfo['sex']
+        let a:any = window
+        a.queryuserinfo()
       }
     );
   }
@@ -189,11 +191,11 @@ export default class User extends Vue {
           this["$Message"].success('保存成功');
           this.userInfo = res.data;
           this.queryuserinfo();
-          
         }
       );
   }
   mounted() {
+
     this.queryuserinfo();
   }
 }

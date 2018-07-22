@@ -135,14 +135,16 @@
       </div>
   </div>
 </div>
+
 <!-- 暂无订单 -->
       <div class=""  style="font-size:14px;padding:15px;" v-else>
-          <div v-if="orderList[returnKey()].loading">加载中...</div>
           <div style="margin-top:50px;text-align:center;">
             <img src="../../assets/none.png" />
             <p>暂时还没有相关的订单哦!</p>
           </div>
       </div>
+          <div v-if="orderList[returnKey()].orderList.loading">加载中...</div>
+      
 <!-- 删除订单信息 -->
   <div style=" position: relative;">
     <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="deleteshow" >

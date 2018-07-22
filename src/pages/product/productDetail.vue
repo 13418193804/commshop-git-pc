@@ -412,7 +412,6 @@ this.evaluateList()
           }else{
             
             this["$Message"].success("已取消收藏");
-            // getProductDetail
             this.getProductDetail();
           }
         }

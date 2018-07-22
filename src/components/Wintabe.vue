@@ -1,11 +1,14 @@
 <template>
   <div class="alter-container">
    <div class="toplabel flex   flex-pack-center">
-        {{loginDialog}}
+   
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
-               <i class="user_img"><img v-lazy="userInfo.userIcon"/></i>
+               <i class="user_img">
+                 <img :src="userInfo.userIcon" v-if="userInfo.userIcon"/>
+                 <img src="../assets/pic_adim.png" v-else>
+                 </i>
                    <span v-if="userInfo.nickName&& userInfo.nickName.length>0">{{userInfo.nickName}}</span>   
                    <span v-else>{{userInfo.loginName}}</span>   
               <div class="top_select" v-if="select_block">
@@ -41,7 +44,7 @@
    </div>
 
    <div style="height:52px;"></div>
-   <div class="dialog  flex  flex-align-center flex-pack-center" v-if="sLoginModel">
+   <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
       <div style="height:400px;width:380px;background-color:#fff;position: relative;">
             <img src="../assets/image/关闭按钮1.png" style="width:35px;position: absolute;right: -50px;top: -50px;border-radius: 50%;" @click="close()"/>
       <!-- 登录 -->
@@ -551,9 +554,7 @@ export default class Comhead extends Vue {
     );
   }
 
-  goCart() {
-    this.$router.push("/cart");
-  }
+
 
   doSign() {
     if ((this.sign_loginName || "") == "") {
@@ -728,32 +729,55 @@ sendLoginOut(){
 
   // 退出登录
   loginOut() {
-   
+
     this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, {
       userId: "",
       token: ""
     });
     localStorage.removeItem(Vue.prototype.MutationTreeType.TOKEN_INFO);
+    
     sessionStorage.userInfo = ''
+       
+   if(this.$route.path =='/center'){
+     let a :any = window
+a.getUserInfo();
+}
+
+
+  }
+    goCart() {
+         if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+    this.$router.push("/cart");
+    }else{
+        this.changeLoginModel('login')
+    }
   }
   goCenter() {
+  
+    if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
     this.$router.push("/center");
+    }else{
+        this.changeLoginModel('login')
+    }
   }
   loginModel = false;
   close() {
-    this.changeLoginModel("");
+this.loginModel = false;
   }
-  get sLoginModel(){
-    return this.loginModel
-  }
+
   changeLoginModel(type) {
-
     this.modelType = type;
-
+     this.loginModel = true
   }
-  changeModel (){
-           this.loginModel = true
-  }  
+ 
   loginName = "";
   password = "";
   doLogin() {
@@ -785,7 +809,10 @@ sendLoginOut(){
           JSON.stringify(res.data)
         );
         this.queryuserinfo();
+
+
         this.loginModel = false;
+  
       }
     );
   }
@@ -1043,6 +1070,8 @@ sendLoginOut(){
       }
     );
   }
+
+
   queryuserinfo() {
     Vue.prototype.$reqFormPost1(
       "/user/query",
@@ -1057,9 +1086,13 @@ sendLoginOut(){
           this["$Message"].warning(res.message);
           return;
         }
-
         sessionStorage.userInfo = JSON.stringify(res.data);
         this.userInfo = res.data;
+        if(this.$route.path =='/center'){
+     let a :any = window
+a.getUserInfo();
+}
+
       }
     );
   }
@@ -1157,7 +1190,18 @@ sendLoginOut(){
   }
   mounted() {
 
-    
+
+window['changeLoginModel'] = ()=>{
+  this.changeLoginModel('login')
+}
+window['loginOut'] = ()=>{
+  this.loginOut()
+}
+window['queryuserinfo'] = ()=>{
+  this.queryuserinfo()
+}
+
+
     if (localStorage.filterValue) {
       this.stockpile = JSON.parse(localStorage.filterValue);
     }

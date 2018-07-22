@@ -2,7 +2,7 @@ import axios from 'axios';
 import Vue from 'vue';
 import { Toast } from "vant";
 import { MutationTreeType } from '../store/mutation-types';
-
+import Wintabe from "../components/Wintabe.vue";
 // const bizUrl = "http://sr.cncloud.com/qichang"
 const bizUrl = "https://m.yourhr.com.cn/zhongyi";
 
@@ -116,8 +116,6 @@ export const reqUrlGet1 = (url, data, callBack) => {
             resp.message = message
             resp.data = {}
             callBack(resp);
-
-
         })
 };
 
@@ -133,14 +131,16 @@ export const reqFormPost = (url, data, callBack, headers) => {
             headers: headers
         })
         .then(res => {
-
-            if (res.data.status == 400 && res.data.message == "用户信息未找到") {
-                Vue.prototype.loginDialog = true
-                window['myvue'].$store.commit(MutationTreeType.TOKEN_INFO, {
-                    userId: "",
-                    token: ""
-                })
-                localStorage.removeItem(MutationTreeType.TOKEN_INFO);
+            if (res.data.status == 401 && res.data.message == "用户信息未找到") {
+                let a:any = window;
+                a.loginOut();
+                a.changeLoginModel();
+                return;
+            }
+            if (res.data.status == 400 && res.data.message == "账号已在其他设备登录") {
+                let a:any = window;
+                a.loginOut();
+                a.changeLoginModel();
                 return;
             }
             callBack(res);
@@ -171,14 +171,28 @@ export const reqFormPost1 = (url, data, callBack, headers) => {
         .then(res => {
             let resp: ResponseObject = new ResponseObject();
             if (res.status !== 200) {
-
-            console.log('-----------退出登陆reqFormPost1')
-            
                 resp.returnCode = res.status;
                 resp.message = `http返回状态码错误，错误码是${res.status}`;
                 resp.data = res;
                 callBack(resp);
             } else {
+
+
+                if (res.data.status == 401 && res.data.message == "用户信息未找到") {
+                    let a:any = window;
+                    a.loginOut();
+                    a.changeLoginModel();
+                    return;
+                }
+                
+                if (res.data.status == 400 && res.data.message == "账号已在其他设备登录") {
+                    let a:any = window;
+                    a.loginOut();
+                    a.changeLoginModel();
+                    return;
+                }
+
+                
                 resp.returnCode = res.data.status;
                 resp.message = res.data.message;
                 resp.data = res.data.data;

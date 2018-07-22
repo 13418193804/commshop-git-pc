@@ -47,7 +47,7 @@
     function showMeiQia() {
       //对登录做限制
       if ((window['myvue'].$store.getters['set_token_info'].userId || '') == '' || (window['myvue'].$store.getters['set_token_info'].token || '') == '') {
-        window['myvue'].$router.push({ name: 'login' });
+        window.changeLoginModel();
         return
       }
       _MEIQIA('showPanel')

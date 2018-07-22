@@ -42,16 +42,19 @@ import { Prop, Watch } from "vue-property-decorator";
 export default class collection extends Vue {
 
 userInfo = {}
-  mounted() {
- if(!sessionStorage.userInfo){
-   setTimeout(()=>{
-    this.userInfo =   JSON.parse(sessionStorage.userInfo)
-   },1000)
+getUserInfo(){
+  if(!sessionStorage.userInfo || sessionStorage.userInfo ==''){
+    this.userInfo =  {}
  }else{
     this.userInfo =   JSON.parse(sessionStorage.userInfo)
  }
 
-
+}
+  mounted() {
+    window['getUserInfo'] = ()=>{
+ this.getUserInfo()
+    }
+ this.getUserInfo()
   }
 }
 </script>
