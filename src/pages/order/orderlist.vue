@@ -11,7 +11,7 @@
   :infinite-scroll-disabled="loading"
   infinite-scroll-distance="20" -->
     
- <div  v-if="active == Pageindex|| item.detailList.length>0">
+ <div  v-if="active == Pageindex && orderList[returnKey()].orderList.length>0">
   <div v-for="(item,index) in orderList[returnKey()].orderList" @click="goDetail(item)" :key="index" style="border:1px #e5e5e5 solid;margin-top: 20px;">
       <div class="orderTitle textLabel  flex   flex-pack-justify">  
           <div style="padding-left:10px;">
@@ -136,9 +136,12 @@
   </div>
 </div>
 <!-- 暂无订单 -->
-      <div class="flex flex-align-center flex-pack-center"  style="font-size:14px;padding:15px;" v-else>
-          <!-- <div v-if="orderList[returnKey()].loading">加载中...</div> -->
-          <div style="margin-top:50px;">暂时还没有相关的订单哦!</div>
+      <div class=""  style="font-size:14px;padding:15px;" v-else>
+          <div v-if="orderList[returnKey()].loading">加载中...</div>
+          <div style="margin-top:50px;text-align:center;">
+            <img src="../../assets/none.png" />
+            <p>暂时还没有相关的订单哦!</p>
+          </div>
       </div>
 <!-- 删除订单信息 -->
   <div style=" position: relative;">
