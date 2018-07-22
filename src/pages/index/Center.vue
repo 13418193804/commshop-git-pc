@@ -124,7 +124,7 @@ selectMenu(items){
     }
     this.menuName = items.name
 
-    if(this.$route.path !== 'items.url'){
+    if(this.$route.path !== items.url){
     this.$router.push(items.url);
     }
       
