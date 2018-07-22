@@ -735,7 +735,7 @@ sendLoginOut(){
       token: ""
     });
     localStorage.removeItem(Vue.prototype.MutationTreeType.TOKEN_INFO);
-    
+
     sessionStorage.userInfo = ''
        
    if(this.$route.path =='/center'){
