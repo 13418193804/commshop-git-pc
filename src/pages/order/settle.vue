@@ -364,9 +364,9 @@
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
                           {{item.coupon.fullDenomination}}</span>元</p>
                           <div class="distypeCur" v-if="item.coupon.id==selectcouponId">已选择</div>
-                        <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                            <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
-                            <!-- <i style="margin-right:15px;color: #fff;">{{item.updateTime}}</i> -->
+                        <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                            <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
+                            <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
                         </div>
                         <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
                     </div>
@@ -1125,7 +1125,7 @@ this.getAddressList()
     margin-bottom:10px;position: relative;background :url(../../assets/image/未使用优惠卷.png) no-repeat;
       background-size: 100%;
     .newtext{
-      position: absolute;bottom: 4px;color: #fff;width:91%;
+      position: absolute;bottom: 4px;color: #fff;width:91%;font-size: 12px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;

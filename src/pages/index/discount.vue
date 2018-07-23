@@ -10,11 +10,11 @@
                 @click="getDiccount(item)"
                 >
                 {{item.getStatus ? "已领取" : "领取"}}</div>
-            <div><span style="margin-right:15px;color: #fff;">{{item.couponName}}</span>
-                <i style="margin-right:15px;color: #fff;">{{item.createTime}}</i>
-                <!-- <i style="margin-right:15px;color: #fff;">{{item.updateTime}}</i> -->
-            </div>
-            <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+              <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                    <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
+                  <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
+              </div>
+            <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
         </div>
     </div>
   </div>
@@ -41,8 +41,6 @@ export default class User extends Vue {
   discList = [];
   get = '';
   discountList(){
-    console.log('进入页面token',this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token),
-    console.log('领券中心id',this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId), 
     Vue.prototype.$reqFormPost1(
         "/coupon/center/list",   
         {
@@ -55,6 +53,7 @@ export default class User extends Vue {
             return;
           }
           this.discList = res.data.couponList;
+          console.log(res.data.couponList)
         }
       );
   }
@@ -73,7 +72,6 @@ export default class User extends Vue {
               this["$Message"].warning(res.message);
               return;
             }
-            this["$Message"].success('领取成功');
             this.discountList()
           }
         );
@@ -98,7 +96,10 @@ export default class User extends Vue {
     margin-bottom:10px;position: relative;background :url(../../assets/image/领卷中心背景.png) no-repeat;
       background-size: 100%;
     .newtext{
-      position: absolute;bottom: 4px;color: #fff;font-size: 10px;
+      position: absolute;bottom: 4px;color: #fff;font-size: 10px;width:90%;
+       text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     }
   }
   .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){

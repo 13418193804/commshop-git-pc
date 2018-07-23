@@ -1,6 +1,6 @@
 <template>
   <div class="discount">
-     <div class="collar" @click="skip()"><img src="../../assets/discounticon.png"/> 领卷中心</div>
+     <div class="collar" @click="skip()"><img src="../../assets/image/优惠券白色.png"/> 领券中心</div>
      <div class="collarnav">
        <ul>
          <li :class="status == 'UNUSED' ?'navcur':''" @click="discountList('UNUSED')">未使用</li>
@@ -16,9 +16,9 @@
                       @click="goshop()"
                       >
                       去使用</div>
-                  <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                      <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
-                      <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+                  <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                      <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
+                      <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
                   </div>
                   <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
@@ -31,9 +31,9 @@
                       @click="goshop()"
                       >
                       去使用</div>
-                  <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                      <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
-                      <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+                  <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                      <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
+                      <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
                   </div>
                   <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
@@ -42,9 +42,9 @@
               <div class="dis_list overdue" v-for="(item,index) in discList"  :key="index">
                   <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
                     {{item.coupon.couponDenomination}}</span>元</p>
-                  <div><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                      <i style="margin-right:15px;color: #fff;">{{item.coupon.createTime}}</i>
-                      <!-- <i style="margin-right:15px;color: #fff;">{{item.coupon.updateTime}}</i> -->
+                  <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
+                        <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
+                      <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
                   </div>
                   <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
@@ -79,6 +79,7 @@ export default class User extends Vue {
   page = 0
   pageSize =  10
   discList = [];
+  coupTime = "";
   //领券中心
   skip(){
     this.$router.push({
@@ -132,9 +133,10 @@ export default class User extends Vue {
 .discount{
   padding: 7px;
   .collar{
-    width:88px;line-height: 24px;height:24px;background: #fccb52;padding-left: 5px;border-radius:3px;color:#fff;cursor: pointer;
+    width:150px;line-height: 40px;height:40px;background: #fccb52;padding-left: 5px;border-radius:3px;
+    color:#fff;cursor: pointer;text-align: center;
     img{
-      vertical-align: middle;width:13px;height:13px;
+      vertical-align: middle;width:20px;height:20px;
     }
   }
   .collarnav{
@@ -158,7 +160,10 @@ export default class User extends Vue {
       padding:15px 15px 0 15px;border-radius: 6px;
       position: relative;margin-bottom:10px;margin-right:10px;
       .newtext{
-        position: absolute;bottom: 4px;color: #fff;font-size:10px;
+        position: absolute;bottom: 4px;color: #fff;font-size:10px;width:90%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
     }  
     .notused{

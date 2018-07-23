@@ -1,32 +1,34 @@
 <template>
   <div class="">
-      <div class="flex flex-around-justify" style="padding:10px 0;background-color:#F8F8F8;">
-        <div>收件人</div>
-        <div>地址</div>
-        <div>联系方式</div>
-        <div>操作</div>
-        <div></div>
+      <div class="" style="padding:10px 0;background-color:#F8F8F8;overflow: hidden;">
+        <div style="width:117px;text-align: center;float: left;">收件人</div>
+        <div style="width:330px;text-align: center;float: left;">地址</div>
+        <div style="width:160px;text-align: center;float: left;">联系方式</div>
+        <div style="width:170px;text-align: center;float: left;">操作</div>
+       
       </div>
 
-      <div v-if="addressList.length>0" style="padding:15px;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
-      <div  v-for="(item,index) in addressList" :key="index" class="flex flex-around-justify" style="    line-height: 35px;
-    padding-bottom: 20px;background-color:#fff;border-bottom:1px dashed #E5E5E5;">
-        <div>{{item.name}}</div>
-        <div>{{item.address}}</div>
-         <div>{{item.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</div>
-        <div class="flex">
-          <div style="padding-right:4px;color:#FFC630;border-right:1px solid #ABABAB;" @click="update(item)">编辑</div>
-          <div style="padding-left:5px;color:#000;" @click="del(item)">删除</div>
+      <div v-if="addressList.length>0" style="padding:15px 0;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
+      <div  v-for="(item,index) in addressList" :key="index" class="" style="padding:10px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5; padding-top: 10px;overflow: hidden;">
+        <div style="width:117px;text-align: center;float: left;">{{item.name}}</div>
+        <div style="width:330px;text-align: center;float: left;">{{item.address}}</div>
+         <div style="width:160px;text-align: center;float: left;">{{item.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</div>
+        <div style="width:170px;text-align: center;float: left;">
+          <div style="">
+             <span style="padding-right:4px;color:#FFC630;border-right:1px solid #ABABAB;"  @click="update(item)">编辑</span> 
+             <span style="padding-left:5px;padding-right:4px;color:#000;border-right:1px solid #ABABAB;"   @click="del(item)">编辑</span> 
+          </div>
+          <!-- <div style="padding-left:5px;color:#000;" @click="del(item)">删除</div> -->
         </div>
-        <div v-if="item.isdefault==1" style="background-color:#C6C6C6;width:120px; height: 35px;
-    line-height: 35px;color:#fff;text-align: center;">默认地址</div>
-        <div v-else @click="selectDefault(item)" style="height:20px;line-height:20px;"><span style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;"></span>设为地址</div>
+        <div v-if="item.isdefault==1" style="background-color:#C6C6C6;width:150px; float: left;padding:10px;
+   color:#fff;text-align: center;">默认地址</div>
+        <div v-else @click="selectDefault(item)" style="height:20px;line-height:20px;"><span style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px; margin-right: 5px;width:15px;height:15px;"></span>设为地址</div>
       </div>
       </div>
 
       <div class="flex flex-align-center flex-v">
           <div v-if="addressList.length==0" style="color:#BFBFBF;padding:120px 0 30px;">您还未创建收货地址~~~</div>
-          <div @click="newaddress()" style="width:90px;height:30px;color:#FFC630;border:1px solid #FFC630;text-align: center;line-height:30px;">新建地址</div>
+          <div @click="newaddress()" style="width:155px;height:45px;color:#ffc630;font-size:16px;border:1px solid #FFC630;text-align: center;line-height:45px;">新建地址</div>
       </div>
       <!-- 删除 -->
        <div style=" position: relative;">
@@ -64,15 +66,15 @@
       <div style=" position: relative;">
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
-            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
-              <div @click="close()" class="add_colose"><i class="iconfont icon-close"></i></div>
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:25px 60px 25px 30px;position:relative;">
+              <div @click="close()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div>
 
               <div v-if="!updateaddressid" class="add_titile">新增地址</div>
-              <div v-if="updateaddressid" style="font-size:16px;    margin-bottom: 10px;">修改地址</div>
+              <div v-if="updateaddressid" style="font-size:16px; margin-bottom: 10px;">修改地址</div>
               <div class="flex region">
                   <div style="padding-right:15px;">所在地区</div>
                   <select v-model="provinceid" @change='changeprovince'>
-                    <option v-for="(item,index) in province" v-bind:value="item.id" :key="index">
+                    <option v-for="(item,index) in province" v-bind:value="item.id" :key="index" >
                       {{item.name}}
                     </option>
                   </select>
@@ -89,7 +91,7 @@
               </div>
               <div class="flex region">
                 <div style="padding-right:15px;">详细地址</div>
-                <textarea v-model="address"/>
+                <textarea v-model="address" placeholder="详细街道，门牌号等"/>
               </div>
               <div class="flex region">
                 <div class="flex">
@@ -510,7 +512,7 @@ gbdelshow(){
   position: absolute;right: 10px;top:0px;padding:10px;cursor: pointer;
 }
 .add_titile{
-  line-height: 40px;font-size: 14px;
+  line-height: 40px;font-size: 16px;
 }
 .region{
   line-height: 30px;margin-bottom: 20px;

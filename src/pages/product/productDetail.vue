@@ -24,9 +24,10 @@
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;" class="flex">
 <div style="width:500px;">
-<img v-lazy="detatil.goodsImg.split(',')[0]" style="width:100%;"/>
+<img v-bind:src="detatil.goodsImg.split(',')[click]" style="width:100%;"/>
+
 <div class="flex" style="    overflow: auto;">
-  <div v-for="(item,index) in detatil.goodsImg.split(',')">
+  <div v-for="(item,index) in detatil.goodsImg.split(',') " :key="index" @click="lookPic(index)">
     <img v-lazy="item" style="width:100px;margin-right:10px;"/>
   </div>
 </div>
@@ -556,7 +557,8 @@ this.evaluateList()
       active: false
     }
   ];
-  scale= 0
+  scale= 0;
+  click = "0"
   getProductDetail() {
     Vue.prototype.$reqFormPost1(
       "/goods/front/detail",
@@ -576,7 +578,7 @@ this.evaluateList()
         this.new_detatil = res.data.newList;
         this.goCoupon = res.data.couponList;
         console.log('满减',this.goCoupon);
-        console.log('数据',this.detatil);
+        console.log('详情',res.data);
 
         if (res.data.singleStatus) {
           this.skuItem = res.data.sku[0];
@@ -618,6 +620,11 @@ this.evaluateList()
         
       }
     );
+  }
+  //切换大图
+  lookPic(index){
+    this.click=index;
+    console.log('下标',this.click);
   }
     getstars(num) {
     for (var i = 0; i < num; i++) {
