@@ -8,14 +8,14 @@
                 <p  v-else ><img src="../../assets/pic_adim.png" alt="" srcset=""></p>
                 <p>{{userInfo.nickName}}</p>
             </li>
-            <li>
+            <li  @click="goReward()">
                 <div>
                   <img src="../../assets/integral.png" alt="" srcset="">
                   <span>我的积分</span>
                   <span style="color:#ffdc99;">{{userInfo.score}}</span>
                 </div>
             </li>
-            <li>
+            <li  @click="goDiscountLobby()">
               <div>
                 <span><img src="../../assets/discount.png" alt="" srcset=""></span>
                 <span>优惠券</span>
@@ -49,6 +49,16 @@ getUserInfo(){
     this.userInfo =   JSON.parse(sessionStorage.userInfo)
  }
 
+}
+goReward(){
+  this.$router.push({
+    path:"my_reward"
+  })
+};
+goDiscountLobby(){
+  this.$router.push({
+    path:"discountLobby"
+  });
 }
   mounted() {
     window['getUserInfo'] = ()=>{

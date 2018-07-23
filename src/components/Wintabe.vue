@@ -37,9 +37,20 @@
               <span onclick="showMeiQia()">在线客服</span>
             </div>
 
-            <div class="contentBox borderleft borderright">
+            <div class="contentBox borderleft borderright" v-on:mouseover="appMouseover()" v-on:mouseout="appMouseout()">
               <span> <img src="../assets/phone1.png" style="vertical-align: middle;"/>APP</span>
             </div>
+             <div class="icon_code" v-if="app_code" style="    top: 52px;
+    z-index: 9999999;
+    padding: 20px 15px;
+    box-shadow: 2px 5px 19px #888888;
+    background: #fff;
+    position: absolute;
+    bottom: 160px;
+    z-index: 9999;
+    width: 110px;
+    height: 135px;">
+               <img src="../assets/二维码.png" style="width:100px;height:100px;"/></div>
         </div>
    </div>
 
@@ -437,7 +448,14 @@ export default class Comhead extends Vue {
     // this.changeTab()
   }
   filterModel = false;
-
+  app_code = false;
+  //hover二维码
+   appMouseover() {
+    this.app_code = true;
+  }
+  appMouseout() {
+     this.app_code = false;
+  }
   //用户协议
   goAgreement() {
     console.log("进来协议");

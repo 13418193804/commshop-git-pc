@@ -8,7 +8,8 @@
               <span>{{item.nickName}}</span>
             </div>
             <div>
-              <span>{{item.mobile}}</span>
+              <span>{{item.mobile.substring(0,3)}}****{{ item.mobile.substring(7,13)}}</span>
+              
               </div>
             </div>
         </div>
