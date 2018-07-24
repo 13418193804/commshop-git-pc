@@ -17,8 +17,8 @@
                       >
                       去使用</div>
                   <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                      <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
-                      <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
+                      <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
+                      <i style="color: #fff;" v-if="item.validityTime">{{item.validityTime.split(' ')[0]}}</i>
                   </div>
                   <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
@@ -27,10 +27,10 @@
               <div class="dis_list used" v-for="(item,index) in discList"  :key="index">
                   <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
                     {{item.coupon.couponDenomination}}</span>元</p>
-                    <div class="distype" 
+                    <div class="distype" style="border:none;color:#fff;background:#bbbbbb;"
                       @click="goshop()"
                       >
-                      去使用</div>
+                      已使用</div>
                   <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
                       <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
                       <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
