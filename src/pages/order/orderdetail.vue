@@ -61,9 +61,9 @@
 
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_RECVGOODS'">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'  || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
-      <van-button size="small" style="margin-right:10px;" @click.stop="getShip()">查看物流</van-button>
-      <van-button size="small" style="margin-right:10px;" @click.stop="doRefund(iem)">退货/退款</van-button>
-      <van-button size="small" style="margin-right:10px;"  :style="formatButtonColor()" @click.stop="recvgoods()">确认收货</van-button>
+      <van-button size="small" style="margin-right:10px;" @click.stop="getShip(item)">查看物流</van-button>
+      <van-button size="small" style="margin-right:10px;" @click.stop="doRefund(item)">退货/退款</van-button>
+      <van-button size="small" style="margin-right:10px;"  :style="formatButtonColor()" @click.stop="recvgoods(item.orderId)">确认收货</van-button>
         </div>
         <div v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND'&& detail.detailList[0].refundStatus !== 'FAIL_REFUND'">
       <van-button v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND' && detail.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;" :style="formatButtonColor()" @click="cancelRefund()">取消退款</van-button>
@@ -83,7 +83,7 @@
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_REVIEW' ||detail.orderStatus === 'ORDER_FINISH'">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'  || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
       <van-button size="small" style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(detail.orderId)">再次购买</van-button>
-      <van-button size="small" style="margin-right:10px;" v-if="detail.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund()">退换/售后</van-button>
+      <van-button size="small" style="margin-right:10px;" v-if="detail.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</van-button>
       <van-button size="small" style="margin-right:10px;" v-if="detail.orderStatus === 'ORDER_WAIT_REVIEW'" :style="formatButtonColor()" @click.stop="gocomment()">评价商品</van-button>
     </div>
 
@@ -96,7 +96,7 @@
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_END_GOODS' ">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND' || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
       <van-button size="small" style="margin-right:10px;" @click.stop="doRefund()">退换/售后</van-button>
-        <van-button size="small" style="margin-right:10px;" @click.stop="getShip()" :style="formatButtonColor()">查看物流</van-button>
+        <van-button size="small" style="margin-right:10px;" @click.stop="getShip(item)" :style="formatButtonColor()">查看物流</van-button>
     </div>
 
         <div v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND' && detail.detailList[0].refundStatus !== 'FAIL_REFUND'">
@@ -260,6 +260,7 @@
 </div>
       <logistics ref="logistics" :orderItem="orderItem" @queryDetail="queryDetail()"></logistics>
       <reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
+      <ship ref="ship" ></ship>
 </div>
 </template>
 
@@ -271,11 +272,13 @@ import reimburse from "../index/reimburse.vue";
 import mixin from "../../config/mixin";
 import { Action } from "vuex-class";
 import { Toast, Dialog } from "vant";
+import ship from "../index/ship.vue";
 
 @Component({
   components: { 
     logistics,
-    reimburse
+    reimburse,
+    ship
    },
   mixins: [mixin]
 })
@@ -312,12 +315,22 @@ export default class orderdetail extends Vue {
         a.form.refundId = this.detail["detailList"][0].refundOrderList[0].refundId
 
   }
+ 
+   //查看物流信息
+  getShip(item) {
+    let e : any = this.$refs.ship
+    e.ship_model = true
+    e.getShipInfoList(
+      item.transportNo,item.transportCode
+    );
+     console.log('触发')
+  }
   formatButtonColor() {
     return "border-color:#ffc630;color:#ffc630";
   }
   gocomment() {
     this.$router.push({
-      name: "addcomment",
+      name: "evaluate",
       query: {
         orderId: this.detail["orderId"]
       }
@@ -381,7 +394,7 @@ export default class orderdetail extends Vue {
               Toast(res.data.message);
               return;
             }
-
+            
             this.queryDetail();
           }
         );
@@ -391,9 +404,7 @@ export default class orderdetail extends Vue {
         // on cancel
       });
   }
-  getShip() {
-    this.$router.push({ name: "ship", query: this.detail });
-  }
+
   formatStatus(status) {
     // ORDER_WAIT_PAY
     // ORDER_CANCEL_PAY

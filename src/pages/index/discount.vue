@@ -10,10 +10,16 @@
                 @click="getDiccount(item)"
                 >
                 {{item.getStatus ? "已领取" : "领取"}}</div>
-              <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.couponName}}</span>
+              <!-- <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.couponName}}</span>
                     <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
                     <i style="color: #fff;" v-if="item.endDate">{{item.endDate.split(' ')[0]}}</i>
-              </div>
+              </div> -->
+              <div style="justify-content: space-between;" class="flex">
+                      <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
+                        {{item.couponName}}</span>
+                      <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
+                      <i style="color: #fff;" v-if="item.validityTime">- {{item.validityTime.split(' ')[0]}}</i></div>
+                  </div>
             <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
         </div>
     </div>

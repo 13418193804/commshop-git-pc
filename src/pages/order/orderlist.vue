@@ -419,7 +419,7 @@ export default class orderList extends Vue {
       }
     );
   }
-  recvgoods(orderId) {
+  recvgoods(orderId,) {
     Dialog.confirm({
       title: "提示",
       message: "确认收货?"
@@ -456,10 +456,18 @@ export default class orderList extends Vue {
           }
         );
         // on confirm
+        this.$router.push({
+          name: "evaluate",
+          query: {
+            orderId: this.orderId
+          }
+        });
       })
+      
       .catch(() => {
         // on cancel
       });
+      
   }
   formatButtonColor() {
     return "border-color:#ffc630;color:#000";
