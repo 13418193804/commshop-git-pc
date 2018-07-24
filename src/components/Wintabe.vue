@@ -312,9 +312,9 @@
                            <div class="recommend_list"
                            >
                               <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1">
-                                <div class="shop_img">
+                                <div class="shop_img"  style="height:160px;background:url(goods.goodsImg.split(',')[0])">
                                   <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png" /></div>
-                                  <img v-lazy="goods.goodsImg.split(',')[0]" style="height:160px;">
+                                  <!-- <img v-lazy="goods.goodsImg.split(',')[0]" style="height:160px;"> -->
                                   <h4 class="ellipsis">{{goods.jingle}}</h4>
                                 </div>
                                 <div class="shop_details">
