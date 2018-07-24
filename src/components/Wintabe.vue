@@ -1133,7 +1133,7 @@ a.getUserInfo();
       }
 
       this.hotwordList = res.data.data;
-      console.log(res.data.data);
+      // console.log(res.data.data);
     });
   }
   messageCount: any = 0;

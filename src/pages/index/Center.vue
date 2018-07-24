@@ -70,7 +70,7 @@ export default class shopIndex extends Vue {
           url:'/center',
         },  {
           name: '消息通知',
-          url:'/messagelist',
+          url:'/Messagelist',
         },  {
           name: '账号信息',
           url:'/user',
