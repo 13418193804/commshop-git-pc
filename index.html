@@ -9,12 +9,15 @@
   <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/iview/dist/styles/iview.css">
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!-- 微博取IP -->
+  <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
  <!--网页标题左侧显示-->
  <link rel="icon" href="https://m.yourhr.com.cn/zhongyi/upload/20180723/file5b54c4ebd29938253db3d26c.png" type="image/x-icon">
  <!--收藏夹显示图标-->
  <link rel="shortcut icon" href="https://m.yourhr.com.cn/zhongyi/upload/20180723/file5b54c4ebd29938253db3d26c.png" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+
   <title>中宜商城</title>
 </head>
 
@@ -54,6 +57,9 @@
         return
       }
       _MEIQIA('showPanel')
+    }
+    window.getAddressIP = function(){
+      return returnCitySN;
     }
   </script>
 </body>

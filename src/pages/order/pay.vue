@@ -20,9 +20,9 @@
         <img src="../../assets/image/支付宝1.png" />
 
     </div>
-    <!-- <div style="margin:10px;height:90px;" class="flex" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">
+    <div style="margin:10px;height:90px;" class="flex" :style="payActive == 'wechat'?'border:1px  solid #F4C542':''" @click="payActive = 'wechat'">
         <img src="../../assets/image/微信支付.png" />
-    </div> -->
+    </div>
 
 </div>
 </div>
@@ -110,11 +110,56 @@ export default class shopIndex extends Vue {
         }
       );
     }else{
+      //   window.location.href ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
+      //  this.obj["payId"] +"#wechat_redirect"
 
-        window.location.href ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
-       this.obj["payId"] +"#wechat_redirect"
-     
+
+     let a:any = window
+
+
+
+
       console.log('微信支付')
+
+
+      Vue.prototype.$reqFormPost(
+        "/wechat/pay/wap",
+        {
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .token,
+            spbillCreateIp:a.getAddressIP().cip,
+          body: this.obj["body"],
+          outTradeNo: this.obj["payId"],
+          totalFee: 0.01
+        },
+        res => {
+          
+          if (res == null) {
+            console.log("网络请求错误！");
+            return;
+          }
+          if (res.data.status != 200) {
+            console.log(
+              "需控制错误码" +
+                res.data.status +
+                ",错误信息：" +
+                res.data.message
+            );
+            Toast(res.data.message);
+            return;
+          }
+
+
+            console.log(res.data.data.mwebUrl)
+
+
+
+        }
+      );
+
+
     }
   }
   handlePX(CssName, PxNumber) {
