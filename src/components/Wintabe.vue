@@ -312,7 +312,9 @@
                            <div class="recommend_list"
                            >
                               <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1">
-                                <div class="shop_img"  style="height:160px;background:url(goods.goodsImg.split(',')[0])">
+                                <div class="shop_img"  
+                                v-bind:style="{backgroundImage:'url(' + goods.goodsImg.split(',')[0] + ')', backgroundRepeat:'no-repeat',height: '160px', backgroundPosition:'center center', backgroundSize: '100%'}"
+                                >
                                   <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png" /></div>
                                   <!-- <img v-lazy="goods.goodsImg.split(',')[0]" style="height:160px;"> -->
                                   <h4 class="ellipsis">{{goods.jingle}}</h4>
