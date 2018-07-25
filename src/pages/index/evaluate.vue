@@ -8,7 +8,9 @@
         <div class="shopInfo">
             <div><img v-lazy="detailList.goodsImg.split(',')[0]" style="width:135px;height:135px;border:1px solid #ddd;"/></div>
             <h4>{{detailList.goodsName}}</h4>
-            <p>规格：{{skuKeyValue}}</p>
+             <span v-for="items in JSON.parse(detailList.skuKeyValue)">
+                <span>{{items.key}}:{{items.value}}</span>
+             </span>
         </div>
         <div class="shopText">
             <div class="flex shopStar">
@@ -134,9 +136,6 @@
           Toast("请填写评价");
       }
       let commentImg = this.filename.toString()
-      
-
-
         console.log( {  
             "customCommentList": [
                 {
@@ -167,9 +166,7 @@
           return;
         }
           this.$router.go(-1);        
-
-
-        console.log(res.data)
+          console.log(res.data)
         },
         {
         "Content-Type": "application/json"

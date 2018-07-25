@@ -391,7 +391,7 @@
     >
       <p>下载app</p>
     </div>
-    <div class="icon_code" v-if="cartModel_code"><img src="../assets/二维码.png" style="width:68px;height:68px;"/></div>
+    <div class="icon_code" v-if="cartModel_code"><img src="../assets/appcode.png" style="width:68px;height:68px;"/></div>
 
     <div class="icon_service" onclick="showMeiQia()">
       <p>联系客服</p>

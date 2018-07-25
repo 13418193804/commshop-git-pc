@@ -77,7 +77,7 @@
         <div :style="handlePX('padding', 30)+handlePX('margin-top', 100)" v-if="indexs == active">
           <div @click="go_collar_center()" :style="handlePX('height', 90)" style="border:1px solid #ffce5b;border-radius: 8px;display: flex;justify-content: center;align-items: center;">
             <img src="../../assets/image/优惠卷.png" :style="handlePX('width', 45)+handlePX('height', 45)"/>
-            <div style="color:#ffce5b;">去领卷中心逛逛</div>
+            <div style="color:#ffce5b;">去领券中心逛逛</div>
           </div>
           
         </div>
