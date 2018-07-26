@@ -121,6 +121,7 @@
 </div>
 
 
+
 <div class=" flex   flex-pack-center">
   <div  style="width:1200px;margin-top:20px">
       <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
@@ -150,47 +151,10 @@
       </div>
       <!-- 新品 -->
       <div v-if=" new_active== '1'">
-        <div class="swiper-container">
-          <div class="swiper-wrapper" >
-          <div class="flex" style="    overflow: auto;">
-             <swipeAuto ref="swipeAuto" ></swipeAuto>
-            <div class="swiper-slide" v-for="(items,index) in new_detatil" :key="index" @click="goProductDetail(items.goodsId)" >
-                <div class="flex flex-pack-center flex-align-center" style="width:200px;margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
-                  
-                    <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
-                    <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
-                  </div>
-                  <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;width:200px;" >
-                    <div>
-                      <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
-                      <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
-                    </div>
-                    <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
-                    <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
-                  </div>
-                  </div>
-              </div>
-              </div>
-          </div>
-         <!-- <div class="swiper-container">
-          <div class="swiper-wrapper" >
-            <div class="swiper-slide" style=""
-                v-for="(items,index) in new_detatil" :key="index"  >
-                <div class="flex flex-pack-center flex-align-center" style="width:200px;margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">   
-                    <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
-                    <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
-                  </div>
-                  <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;width:200px;" >
-                    <div>
-                      <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
-                      <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
-                    </div>
-                    <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
-                    <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
-                  </div>
-            </div>
-          </div>
-        </div>  -->
+         
+        <swipeauto ref="swipeauto" :lists="new_detatil" @goProductDetail="goProductDetail"></swipeauto>
+
+      
       </div>
 
 <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
@@ -258,7 +222,7 @@ import Component from "vue-class-component";
 import mixin from "../../config/mixin";
 import { Toast } from "vant";
 import { Action } from "vuex-class";
-import Swiper from 'swiper';
+import swipeauto from '../../components/SwipeAuto.vue';
 
 
 import { Cell, CellGroup, ImagePreview } from "vant";
@@ -268,24 +232,23 @@ import Winbeet from "../../components/Winbeet.vue";
   components: {
     Wintabe,
     Winbeet,
+    swipeauto
   },
   mixins: [mixin]
 })
 export default class ProductDetail extends Vue {
 
   mounted() {
-    
+
     this.goodsId = this.$route.query.goodsId;
-    this.getProductDetail();
+
+
+ this.initPage()
+
+  }
+  initPage(){
+       this.getProductDetail();
     this.evaluateList();
-    new Swiper('.swiper-container', {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-    });
   }
   goodsId = "";
   detatil:any= {
@@ -340,12 +303,15 @@ export default class ProductDetail extends Vue {
 //  return JSON.parse(skuValue);
 // }
  goProductDetail(goodsId) {
+   sessionStorage.goodsId = goodsId;
     this.$router.push({
       path: "/productDetail",
       query: {
         goodsId: goodsId
       }
     });
+
+    this.initPage()
   }
 //获取评价列表
   evaluateList(){

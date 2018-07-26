@@ -732,6 +732,7 @@ export default class Comhead extends Vue {
     });
   }
   goProductDetail(goodsId) {
+    sessionStorage.goodsId = goodsId;
     this.$router.push({
       path: "/productDetail",
       query: {
