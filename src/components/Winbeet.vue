@@ -15,7 +15,7 @@
           <div style="color:#fff;margin:0 10px">中宜严选品质</div>
         </div>
         <div style="text-align:center;">
-          <img src="../assets/image/二维码.png" style="width:45px;"/>
+          <img src="../assets/appcode.jpeg" style="width:55px;"/>
           <div style="color:#fff">扫码下载中宜严选app</div>
         </div>
     </div>

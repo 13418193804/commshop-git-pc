@@ -10,7 +10,6 @@
      <!-- v-infinite-scroll="loadMore"
   :infinite-scroll-disabled="loading"
   infinite-scroll-distance="20" -->
-    
  <div  v-if="active == Pageindex && orderList[returnKey()].orderList.length>0">
   <div v-for="(item,index) in orderList[returnKey()].orderList" @click="goDetail(item)" :key="index" style="border:1px #e5e5e5 solid;margin-top: 20px;">
       <div class="orderTitle textLabel  flex   flex-pack-justify">  
@@ -419,7 +418,8 @@ export default class orderList extends Vue {
       }
     );
   }
-  recvgoods(orderId,) {
+
+  recvgoods(orderId) {
     Dialog.confirm({
       title: "提示",
       message: "确认收货?"
@@ -449,19 +449,14 @@ export default class orderList extends Vue {
                   res.data.message
               );
               Toast(res.data.message);
+              console.log('订单单号',res.data)
               return;
             }
-
-            this.getOrderList(this.orderTitleList[this.active].status,true);
+            this.changePage(4);
+            // this.getOrderList(this.orderTitleList[this.active].status,true);
           }
         );
         // on confirm
-        this.$router.push({
-          name: "evaluate",
-          query: {
-            orderId: this.orderId
-          }
-        });
       })
       
       .catch(() => {

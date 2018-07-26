@@ -49,8 +49,8 @@
     bottom: 160px;
     z-index: 9999;
     width: 110px;
-    height: 135px;">
-               <img src="../assets/二维码.png" style="width:100px;height:100px;"/></div>
+    height: 120px;">
+               <img src="../assets/appcode.jpeg" style="width:80px;height:80px;"/></div>
         </div>
    </div>
 
@@ -391,7 +391,7 @@
     >
       <p>下载app</p>
     </div>
-    <div class="icon_code" v-if="cartModel_code"><img src="../assets/二维码.png" style="width:68px;height:68px;"/></div>
+    <div class="icon_code" v-if="cartModel_code"><img src="../assets/appcode.jpeg" style="width:68px;height:68px;"/></div>
 
     <div class="icon_service" onclick="showMeiQia()">
       <p>联系客服</p>
@@ -1293,7 +1293,7 @@ window['queryuserinfo'] = ()=>{
   }
   // 二维码
   .icon_code {
-    padding: 20px 15px;
+    padding: 20px 15px;text-align: center;
     box-shadow: 2px 5px 19px #888888;
     background: #fff;
     position: absolute;
