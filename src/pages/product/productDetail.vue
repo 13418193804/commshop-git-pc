@@ -127,6 +127,7 @@
           <div class="taber" :class="new_active == '0'?' selecttaber' :'taber'" @click="new_actdiv('0')">大家还看了</div>
           <div  class="taber" :class="new_active == '1'?' selecttaber' :'taber'" @click="new_actdiv('1')">新品推荐</div>
       </div>
+     
       <!-- 大家还看了 -->
       <div style="height:320px;" v-if=" new_active== '0'">
         <div class="flex" style="    overflow: auto;">
@@ -144,13 +145,16 @@
                   <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
                   <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
                 </div>
-            </div>
+          </div>
         </div>
       </div>
       <!-- 新品 -->
       <div v-if=" new_active== '1'">
+        <div class="swiper-container">
+          <div class="swiper-wrapper" >
           <div class="flex" style="    overflow: auto;">
-            <div v-for="(items,index) in new_detatil" :key="index" @click="goProductDetail(items.goodsId)" >
+             <swipeAuto ref="swipeAuto" ></swipeAuto>
+            <div class="swiper-slide" v-for="(items,index) in new_detatil" :key="index" @click="goProductDetail(items.goodsId)" >
                 <div class="flex flex-pack-center flex-align-center" style="width:200px;margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
                   
                     <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
@@ -164,8 +168,29 @@
                     <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
                     <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
                   </div>
+                  </div>
+              </div>
               </div>
           </div>
+         <!-- <div class="swiper-container">
+          <div class="swiper-wrapper" >
+            <div class="swiper-slide" style=""
+                v-for="(items,index) in new_detatil" :key="index"  >
+                <div class="flex flex-pack-center flex-align-center" style="width:200px;margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">   
+                    <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
+                    <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
+                  </div>
+                  <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;width:200px;" >
+                    <div>
+                      <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
+                      <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
+                    </div>
+                    <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
+                    <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+                  </div>
+            </div>
+          </div>
+        </div>  -->
       </div>
 
 <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
@@ -222,7 +247,7 @@
    
 </div>
 </div>
-  <winbeet></winbeet>
+  <winbeet ></winbeet>
   </div>
   </div>
 </template>
@@ -233,6 +258,8 @@ import Component from "vue-class-component";
 import mixin from "../../config/mixin";
 import { Toast } from "vant";
 import { Action } from "vuex-class";
+import Swiper from 'swiper';
+
 
 import { Cell, CellGroup, ImagePreview } from "vant";
 import Wintabe from "../../components/Wintabe.vue";
@@ -240,15 +267,25 @@ import Winbeet from "../../components/Winbeet.vue";
 @Component({
   components: {
     Wintabe,
-    Winbeet
+    Winbeet,
   },
   mixins: [mixin]
 })
 export default class ProductDetail extends Vue {
+
   mounted() {
+    
     this.goodsId = this.$route.query.goodsId;
     this.getProductDetail();
     this.evaluateList();
+    new Swiper('.swiper-container', {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+    });
   }
   goodsId = "";
   detatil:any= {
@@ -302,7 +339,14 @@ export default class ProductDetail extends Vue {
 // handleSkuValue(skuValue){
 //  return JSON.parse(skuValue);
 // }
-
+ goProductDetail(goodsId) {
+    this.$router.push({
+      path: "/productDetail",
+      query: {
+        goodsId: goodsId
+      }
+    });
+  }
 //获取评价列表
   evaluateList(){
         Vue.prototype.$reqFormPost1(
@@ -639,7 +683,12 @@ this.evaluateList()
 </script>
 
 <style lang="scss" scoped>
+@import '../../../node_modules/swiper/dist/css/swiper.css';
 @import "../../style/utils.scss";
+.swiper-slide img {
+    height: 100%;
+    width: 100%;
+}
 .goodsName {
   font-weight: 600;
   font-size: 18px;

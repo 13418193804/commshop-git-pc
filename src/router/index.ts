@@ -259,6 +259,7 @@ export default new Router({
             name: 'filterproduct',
             component: r => require.ensure([], () => r(require('../pages/index/FilterProduct.vue')))
         },
+        
         {
             path: '/share_code',
             name: 'share_code',
