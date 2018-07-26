@@ -27,8 +27,8 @@
       <div class="flex flex-align-center" style="padding:18px 0;margin:0 20px;border-bottom:1px solid #e5e5e5;">
           <div style="font-size:15px;padding:0 20px;width:140px">性别：</div>
           <div>
-            <el-radio v-model="radio" label="男" style="color:#495060;">男</el-radio>
-            <el-radio v-model="radio" label="女" style="color:#495060">女</el-radio>
+            <el-radio v-model="radio" label="男">男</el-radio>
+            <el-radio v-model="radio" label="女">女</el-radio>
           </div>
       </div>
       <div style="padding:30px;"> 
