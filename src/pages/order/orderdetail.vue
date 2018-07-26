@@ -61,15 +61,9 @@
 
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_RECVGOODS'">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'  || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
-<<<<<<< HEAD
-      <van-button size="small" style="margin-right:10px;" @click.stop="getShip()">查看物流</van-button>
-      <van-button size="small" style="margin-right:10px;" @click.stop="doRefund()">退货/退款</van-button>
-      <van-button size="small" style="margin-right:10px;"  :style="formatButtonColor()" @click.stop="recvgoods()">确认收货</van-button>
-=======
       <van-button size="small" style="margin-right:10px;" @click.stop="getShip(item)">查看物流</van-button>
       <van-button size="small" style="margin-right:10px;" @click.stop="doRefund(item)">退货/退款</van-button>
-      <van-button size="small" style="margin-right:10px;"  :style="formatButtonColor()" @click.stop="recvgoods(item.orderId)">确认收货</van-button>
->>>>>>> 1524ba5776bdef68de9e2deb95496a1ad8c1f420
+      <van-button size="small" style="margin-right:10px;"  :style="formatButtonColor()" @click.stop="recvgoods(detail.orderId,detail)">确认收货</van-button>
         </div>
         <div v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND'&& detail.detailList[0].refundStatus !== 'FAIL_REFUND'">
       <van-button v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND' && detail.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;" :style="formatButtonColor()" @click="cancelRefund()">取消退款</van-button>
@@ -368,7 +362,7 @@ export default class orderdetail extends Vue {
       }
     );
   }
-  recvgoods(orderId) {
+  recvgoods(orderId,ORDER_WAIT_REVIEW) {
     Dialog.confirm({
       title: "提示",
       message: "确认收货?"
@@ -400,7 +394,17 @@ export default class orderdetail extends Vue {
               Toast(res.data.message);
               return;
             }
-            
+            this.$router.push({
+                name: "orderlist",
+            });
+
+            // add(ORDER_WAIT_REVIEW){
+            Vue.prototype.$confirmLogin({
+              name: "orderlist",
+              query: {
+                orderStatus: "ORDER_WAIT_REVIEW"
+              }
+            });
             this.queryDetail();
           }
         );

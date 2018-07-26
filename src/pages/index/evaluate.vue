@@ -136,11 +136,14 @@
           Toast("请填写评价");
       }
       let commentImg = this.filename.toString()
-        console.log( {  
+      Vue.prototype.$reqFormPost(
+      "/comment/add",
+      {
+        // commentModel:{
             "customCommentList": [
                 {
                 "commentContent": this.commentContent,
-                "commentImg": this.refundObj.refundImgs.join(","),
+                "commentImg": commentImg,
                 "goodsId": this.detailList.goodsId,
                 "orderDetailId": this.detailList.id,
                 "skuId": this.detailList.skuId,
@@ -151,7 +154,8 @@
             "orderId": this.orderId,
             "token": this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
             "userId": this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId
-          },
+            // }
+      },
       res => {
         if (res == null) {
           console.log("网络请求错误！");
@@ -165,12 +169,20 @@
           Toast(res.data.message);
           return;
         }
-          this.$router.go(-1);        
-          console.log(res.data)
+          this.$router.go(-1);       
+        Vue.prototype.$confirmLogin({
+              name: "orderlist",
+              query: {
+                orderStatus: "ORDER_WAIT_REVIEW"
+              }
+            });
+
+        console.log(res.data)
         },
         {
         "Content-Type": "application/json"
     }     
+
       ); 
   }
 skuKeyValue

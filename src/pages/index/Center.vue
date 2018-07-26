@@ -147,6 +147,7 @@ messageCount:any = 0
         return;
         }
         this.messageCount = res.data.count
+        console.log('消息条数',res.data)
       }
     );
   }

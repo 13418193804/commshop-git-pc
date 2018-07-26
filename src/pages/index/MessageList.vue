@@ -89,7 +89,7 @@ export default class messagelist extends Vue {
             Toast(res.data.message);
             return;
           }
-          console.log('消息',res.data.data);
+          console.log('消息',res.data.message);
           this.messagelist = res.data.data.messageList;
         });
 }

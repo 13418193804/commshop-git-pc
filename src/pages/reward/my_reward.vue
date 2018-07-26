@@ -5,7 +5,7 @@
             <div>
               <div style="padding:0 25px;overflow: hidden;">
                   <img src="../../assets/image/金币.png" style="float: left;vertical-align: middle;width:35px;height:35px;"/>
-                  <span style="font-size:18px;line-height: 39px;float: left;margin-left: 10px;">积分</span>
+                  <span style="font-size:18px;line-height: 39px;float: left;margin-left: 10px;">积分余额</span>
               </div>
               <div style="color:#ffc600;text-align: center;font-size:24px;">{{award.awardBalance}}</div>
             </div>
@@ -15,7 +15,7 @@
             <div>
               <div style="padding:0 25px;overflow: hidden;">
                   <img src="../../assets/image/金币.png" style="float: left;vertical-align: middle;width:35px;height:35px;"/>
-                  <span style="font-size:18px;line-height: 39px;float: left;margin-left: 10px;">累积积分</span>
+                  <span style="font-size:18px;line-height: 39px;float: left;margin-left: 10px;">累积获取积分</span>
               </div>
               <div style="color:#ffc600;text-align: center;font-size:24px;">{{award.awardAmount}}</div>
             </div>            
