@@ -43,9 +43,9 @@
 <span>立即支付</span>
   </div>
 
+<img :src="mwebUrl"/>
   </div>
 </div>
-
 
 
   <winbeet></winbeet>
@@ -73,6 +73,7 @@ export default class shopIndex extends Vue {
   obj = {body:"",payId:"",payTotal:""};
   address={contactname:"",contactmobile:"",address:""};
   payActive = "ali";
+  mwebUrl =""
   dopay() {
     //    this.obj["payTotal"]
     if (this.payActive == "ali") {
@@ -150,12 +151,8 @@ export default class shopIndex extends Vue {
             Toast(res.data.message);
             return;
           }
-
-
             console.log(res.data.data.mwebUrl)
-
-
-
+this.mwebUrl = res.data.data.mwebUrl
         }
       );
 
