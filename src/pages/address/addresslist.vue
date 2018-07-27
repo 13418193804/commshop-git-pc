@@ -8,27 +8,26 @@
        
       </div>
 
-      <div v-if="addressList.length>0" style="padding:15px 0;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
-      <div  v-for="(item,index) in addressList" :key="index" class="" style="padding:10px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5; padding-top: 10px;overflow: hidden;">
+      <div v-if="addressList.length>0" class="addressList" style="padding:15px 0;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
+      <div  v-for="(item,index) in addressList" :key="index" class="" style="background-color:#fff;border-bottom:1px dashed #E5E5E5;overflow: hidden;">
         <div style="width:117px;text-align: center;float: left;">{{item.name}}</div>
-        <div style="width:330px;text-align: center;float: left;">{{item.address}}</div>
+        <div style="width:330px;text-align: center;float: left;line-height: 22px;">{{item.address}}</div>
          <div style="width:160px;text-align: center;float: left;">{{item.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</div>
         <div style="width:170px;text-align: center;float: left;">
           <div style="">
-             <span style="padding-right:4px;color:#FFC630;border-right:1px solid #ABABAB;"  @click="update(item)">编辑</span> 
-             <span style="padding-left:5px;padding-right:4px;color:#000;border-right:1px solid #ABABAB;"   @click="del(item)">编辑</span> 
+             <span style="padding-right:4px;color:#FFC630;border-right:1px solid #ABABAB;cursor: pointer;"  @click="update(item)">编辑</span> 
+             <span style="padding-left:5px;padding-right:4px;color:#000;border-right:1px solid #ABABAB;cursor: pointer;"   @click="del(item)">删除</span> 
           </div>
           <!-- <div style="padding-left:5px;color:#000;" @click="del(item)">删除</div> -->
         </div>
-        <div v-if="item.isdefault==1" style="background-color:#C6C6C6;width:150px; float: left;padding:10px;
-   color:#fff;text-align: center;">默认地址</div>
-        <div v-else @click="selectDefault(item)" style="height:20px;line-height:20px;"><span style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px; margin-right: 5px;width:15px;height:15px;"></span>设为地址</div>
+        <div v-if="item.isdefault==1" style="background-color:#C6C6C6;width:150px; float: left;width:100px;height:30px;line-height: 30px;color:#fff;text-align: center;">默认地址</div>
+        <div v-else @click="selectDefault(item)"><span style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px; margin-right: 5px;width:15px;height:15px;"></span>设为默认</div>
       </div>
       </div>
 
       <div class="flex flex-align-center flex-v">
           <div v-if="addressList.length==0" style="color:#BFBFBF;padding:120px 0 30px;">您还未创建收货地址~~~</div>
-          <div @click="newaddress()" style="width:155px;height:45px;color:#ffc630;font-size:16px;border:1px solid #FFC630;text-align: center;line-height:45px;">新建地址</div>
+          <div @click="newaddress()" style="width:155px;height:45px;color:#ffc630;font-size:16px;border:1px solid #FFC630;text-align: center;line-height:45px;cursor: pointer;">新建地址</div>
       </div>
       <!-- 删除 -->
        <div style=" position: relative;">
@@ -104,7 +103,7 @@
                 </div>
               </div>
               <div @click="isdef()"
-               style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
+               style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;border:1px solid #FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
               <div class="flex region_btn">
                 <div @click="addaddress()">确定</div>
                 <div @click="addcancel()">取消</div>
@@ -539,5 +538,8 @@ gbdelshow(){
 }
 .region_btn>div:last-child{
   background: #fff;color: rgb(252, 203, 82);margin-left:15px;
+}
+.addressList>div{
+  line-height: 34px;padding:25px 0;
 }
 </style>

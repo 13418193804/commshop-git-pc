@@ -49,7 +49,7 @@
 <span class="" style="font-size:20">￥{{item.price}}</span>
 </div>
 <div>
-    <van-stepper v-model="item.num" @plus="pluscart(item.id,item.num)" @minus="minuscart(item.id,item.num)" style="margin: 10px 0px 0px 20px;"/>
+    <van-stepper v-model="item.num" @plus="pluscart(item.id,item.num)" @minus="minuscart(item.id,item.num)" style="margin: 10px 0px 0px 20px;cursor:pointer;"/>
 </div>
 <div>
   <span class="marketPrice" style="font-size:20">￥{{(item.price * item.num).toFixed(2)}}</span>
@@ -57,16 +57,16 @@
 
 
 <div class="flex  flex-align-center">
-  <div style="color:#F4C542;" @click="collect(index)">移入收藏夹</div>
+  <div style="color:#F4C542;cursor:pointer;" @click="collect(index)">移入收藏夹</div>
   <div class="rightborder"></div>
-  <div @click="deleteCart(index)">删除</div>
+  <div @click="deleteCart(index)" style="cursor:pointer;">删除</div>
 </div>
 
 
 </div>
 
 <div v-if="cartList.length== 0" class="flex flex-pack-center flex-align-center" style="padding:20px;">
-  <span style="color:#F4C542;" @click="$router.push('/')">去逛逛>></span>
+  <span style="color:#F4C542;cursor:pointer;" @click="$router.push('/')">去逛逛>></span>
 </div>
 
 </div>
@@ -429,9 +429,27 @@ export default class Cart extends Vue {
   background-color: #ffc630;
   border: 1px solid #ffc630;
 }
+.van-checkbox__icon {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 20px;
+    font-size: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    color: #fff;
+}
 .van-checkbox--checked {
   border-color: #f44;
   background-color: #f44;
+  color: #fff;
+  border-radius: 50px;
+  width: 20px;
+  height: 20px;
+  text-align: CENTER;
+  font-size: 8px;
 }
 .contentBox1 {
   border: 1px #e5e5e5 solid;

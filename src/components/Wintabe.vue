@@ -20,10 +20,10 @@
               </div>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
-              <span>登录</span>
+              <span style="cursor: pointer;">登录</span>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('sign')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
-              <span>注册</span>
+              <span style="cursor: pointer;">注册</span>
             </div>
             <div class="contentBox borderleft ">
               <span @click="myOrder()">我的订单</span>
@@ -79,12 +79,12 @@
            <div class="flex  flex-align-center flex-pack-center" style="    padding: 10px 0;">
               <div @click="modelType = 'sign'" class="flex  flex-align-center flex-pack-center">
                 <img src="../assets/image/新用户注册.png" style="width:20px">
-                <span  style="margin:0 5px">注册新用户</span>
+                <span  style="margin:0 5px;cursor: pointer;">注册新用户</span>
               </div>
               <div  style="background-color:#A3A3A3;margin:5px 15px;width:1px;height:20px;" ></div>
               <div @click="modelType = 'forget'" class="flex  flex-align-center flex-pack-center">
                 <img src="../assets/image/忘记密码.png" style="width:20px;">
-                <span  style="margin:0 5px">忘记密码?</span>
+                <span  style="margin:0 5px;cursor: pointer;">忘记密码?</span>
               </div>
         </div>
       </div>
@@ -100,7 +100,7 @@
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
                 <input placeholder="请输入验证码" v-model="sign_code" style="border:0;width:100%;"/>
           </div>       
-            <van-button  @click="getVistyCode('REGISTER')"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
+            <van-button  @click="getVistyCode('REGISTER')"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;cursor: pointer;"  >{{vistyText}}</van-button>
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
@@ -113,7 +113,7 @@
             </div>       
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
-              <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doSign">立即注册</van-button>
+              <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;cursor: pointer;"  class="flex-1" @click="doSign">立即注册</van-button>
         </div>
         <div style="text-align:center;margin:10px 0;"><p style="color:#d2d2d2;">注册表示您同意<a href="#" style="color:#f4c542;" @click="goAgreement()">《用户协议》</a></p></div>  
       </div>
@@ -143,7 +143,7 @@
         </div>
 
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
-              <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="goforget()">保存</van-button>
+              <van-button style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="goforget()">保存</van-button>
         </div>
       </div>
   </div>
@@ -171,9 +171,9 @@
             </div>
             <div class="flex-pack-justify  flex-align-center" style="padding-left:5px;position:relative" >
               <div v-for="(item,index) in stockpile" :key="index" class="flex  flex-align-center flex-pack-justify">
-                 <div style=" overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" @click="doSelect(item.value,true)">{{item.value}}</div>
+                 <div style=" overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor: pointer;" @click="doSelect(item.value,true)">{{item.value}}</div>
                  <div >
-                <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;" 
+                <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;cursor: pointer;" 
                   @click="clearSearch(item)"
                 ></i></div>
               </div>
@@ -181,7 +181,7 @@
             </div>
 
 
-          <div style="padding-top:10px;padding-left:5px;">
+          <div style="padding-top:10px;padding-left:5px;    cursor: pointer;">
               <div class="hotwordItem1 flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word,false)">
               </div>
           </div>
@@ -192,14 +192,14 @@
     </div>
   </div>
   
-  <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px"/>
+  <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px;cursor: pointer;"/>
   <div style="    position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
-    <div class="messageFexid" style="right:10px" v-if="cartLen!=0">{{cartLen}}</div>
+    <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0">{{cartLen}}</div>
       <img src="../assets/image/购物车.png"/>
       <div class="cartFexid" v-if="cartModel" >
         <div style="display: flex;justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">
-            <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;vertical-align: middle;" />
+            <img src="../assets/image/关闭按钮1.png" style="cursor: pointer;width:20px;height:20px;vertical-align: middle;" />
           </div>
         </div>
         <div style="   height: 310px;overflow:auto;">
@@ -311,7 +311,8 @@
                            
                            <div class="recommend_list"
                            >
-                              <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1">
+                              <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1"
+                                @click="goProductDetail(goods.goodsId)">
                                 <div class="shop_img"  
                                 v-bind:style="{backgroundImage:'url(' + goods.goodsImg.split(',')[0] + ')', backgroundRepeat:'no-repeat',height: '160px', backgroundPosition:'center center', backgroundSize: '100%'}"
                                 >
@@ -1260,8 +1261,8 @@ window['queryuserinfo'] = ()=>{
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.user_img {
-  color:#f4c542!important;
+.index_headline .user_img {
+  color:#f4c542!important;font-size: 36px;
 }
 .user_img img {
   width: 30px;
@@ -1368,6 +1369,7 @@ window['queryuserinfo'] = ()=>{
   min-width: 65px;
   padding: 0 20px;
   text-align: center;
+  cursor: pointer;
 }
 //消息样式
 .msgNum {
@@ -1417,6 +1419,9 @@ window['queryuserinfo'] = ()=>{
   padding: 10px 5px;
   border-bottom:10px solid #f5f5f5;
   justify-content: space-evenly;
+}
+.goodsBody>div{
+  cursor: pointer;
 }
 .goodsItem {
   width: 50%;
@@ -1503,6 +1508,7 @@ window['queryuserinfo'] = ()=>{
 }
 //定制推荐
 .recommend_list {
+  cursor: pointer;
   width: 370px;
   margin-right: 15px;
   border: 1px solid #ededed;

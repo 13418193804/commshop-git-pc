@@ -46,8 +46,8 @@
 
 <div style="padding:30px 20px;">
 
-      <van-button  style="border-radius:4%;background-color:#fff;color:red;border:1px solid red;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('change')" >地址切换</van-button>
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('add')" >新建地址</van-button>
+      <van-button  style="cursor: pointer;border-radius:4%;background-color:#fff;color:red;border:1px solid red;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('change')" >地址切换</van-button>
+      <van-button  style="cursor: pointer;border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('add')" >新建地址</van-button>
 </div>
 </div>
 </div>
@@ -150,7 +150,7 @@
 
         <div style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;" class="flex flex-pack-justify">
             <div>
-              <div v-if="haveinvoice===false" style="color:#F4C542;" @click="isinvoiceshow()">开发票</div>
+              <div v-if="haveinvoice===false" class="couponUp" style="color:#F4C542;" :class="coupon_active == '3'?'couponUpCur':''"   @click="isinvoiceshow(3)">开发票</div>
               <div v-if="haveinvoice===true" style="color:#F4C542;" @click="isupdateinvoiceshow()">修改</div>
             </div>
             <div v-show="haveinvoice">
@@ -164,9 +164,10 @@
         
         <div class="flex flex-pack-justify flex-align-center" style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;">
           <div class="flex">
-            <div @click="couponshow()" style="line-height: 30px;">使用优惠卷</div>
+            <div @click="couponshowNo('1')" class="couponUp" :class="coupon_active == '1'?'couponUpCur':''" style="color:#858585">不使用优惠券</div>
+            <div @click="couponshow('2')" class="couponUp" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
             <div style="color:#F4C542;padding:0 15px;line-height: 30px;">({{couponnum}}张) ></div>
-            <div v-show="yetShow == true" style="border:1px solid #ff5359;color:#ff5359;padding: 0 8px;line-height: 30px;">{{surecouponName}}</div>
+            <div v-show="yetShow == true" class="counponNum">{{surecouponName}}</div>
           </div>
           <div>
             <div>商品合计:￥{{totalPrice}}</div>
@@ -213,7 +214,7 @@
         <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative; width: 590px;">
           <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
           <div  class="add_titile">切换地址</div>
-          <div class="flex region" style="min-height:300px;    overflow: auto;">
+          <div class="flex region" style="min-height:300px; max-height: 500px;overflow: auto;">
             <div>
  
                 <div v-for="(item,index) in addressList" @click="setDefaultAddress(item.addressId)" class="bc_addres " :class="address&& address.addressId == item.addressId ?'bc_addresCur':''">
@@ -249,10 +250,10 @@
         <!-- 新增地址 -->
         <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
-            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
-              <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
+            <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding: 25px 60px 25px 30px;position:relative;">
+              <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div>
               <div v-if="!updateaddressid" class="add_titile">新增地址</div>
-              <div v-if="updateaddressid">修改地址</div>
+              <div v-if="updateaddressid" style="font-size: 16px; margin-bottom: 10px;">修改地址</div>
     
               <div class="flex region">
                 <div style="padding-right:15px;">所在地区</div>
@@ -287,7 +288,7 @@
                   <input v-model="contactMobile"/>
                 </div>
               </div>
-              <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
+              <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;border:1px solid #FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
               <div class="flex region_btn">
                 <div @click="addaddress()">确定</div>
                 <div @click="addcancel()">取消</div>
@@ -425,6 +426,9 @@ export default class shopIndex extends Vue {
   updateinvoiceshow=false;
   // 判断有没有选发票
   haveinvoice=false;
+  //使用优惠券切换
+  coupon_active1=false;
+  coupon_active='0';
   // 发票内容
   invoicecontent={
     titleType:'',
@@ -437,7 +441,8 @@ export default class shopIndex extends Vue {
     invoiceTitle:'',
     invoiceNo:'',
   };
-  isinvoiceshow(clean){
+  isinvoiceshow(clean,coupon_active){
+    this.coupon_active = '3'
     this.invoiceshow=!this.invoiceshow
     // 如果有传值 清除invoicecontent里全部东西
     if(clean){
@@ -1009,7 +1014,13 @@ this.getAddressList()
   }
   // 优惠卷框
   iscouponshow=false;
-  couponshow(clean){
+  //不使用
+  couponshowNo(coupon_active){
+    this.coupon_active = '1';
+    console.log('dd')
+  }
+  couponshow(clean,coupon_active){
+    this.coupon_active = '2';
     this.iscouponshow=!this.iscouponshow
     // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
     if(this.surecouponId!==""){
@@ -1147,6 +1158,18 @@ this.getAddressList()
   .distypeed{
     background: #fccb52;color:#fff;
   }
+  
+}
+.couponUp{
+  line-height: 30px;cursor: pointer;background: url(../../assets/image/未选择发票.png) no-repeat left center;
+  padding-left:26px;margin-right: 20px;
+}
+.couponUpCur{
+  background: url(../../assets/image/选择发票.png) no-repeat left center;
+}
+.counponNum{
+   border:1px solid #ff5359;color:#ff5359;padding: 0 8px;line-height: 30px;
+   background: url(../../assets/image/优惠卷选中拷贝.png) no-repeat right top;padding-right:30px;
 }
 </style>
 

@@ -2,11 +2,11 @@
 <div style=" position: relative;" v-if="model">
     <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" >
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
-        <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:780px;padding:20px; border-radius: 10px;    position: relative;">
+        <div class="" style="background-color:#fff;width:780px;padding:20px; border-radius: 10px;    position: relative;">
           <div style="position: absolute;top:10px;right:10px;" @click="model = false">
             <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;"/>
           </div>
-          <div class="flex btn_refund">
+          <div class="flex btn_refund" style="padding-left: 10px;">
             <div>售后类型</div>
             <button class="selectBox" :class="refundObj.refundType == 'REFUND' ?'selectType':''" @click="changerefundType('REFUND')">未收到货,只退款</button>
             <button class="selectBox" :class="refundObj.refundType == 'GOODS_RETURN' ?'selectType':''" @click="changerefundType('GOODS_RETURN')">退货退款</button>
@@ -347,7 +347,7 @@ this.$emit('getList');
             );
   
             Toast(res.data.message);
-  
+            
             return;
   
           }
@@ -463,9 +463,13 @@ this.$emit('getList');
     vertical-align: top;
   
     margin: 10px;
+    background: url(../../assets/image/添加图片.png) no-repeat;
+    background-size: 100%;
   
   }
-  
+  .el-upload--picture-card i{
+        opacity: 0;
+  }
   
   
   .el-upload {

@@ -2,7 +2,7 @@
   <div class="tab-contents">
 
      <div class="flex" style="background-color:#FBFBFB;border:1px solid #e5e5e5;">
-       <div v-for="(item,index) in orderTitleList" @click="changePage(index)" class="flex-1" :style="active == index ?'background-color:#E1E1E1':''" style="height:37px;line-height:37px;text-align:center;">
+       <div v-for="(item,index) in orderTitleList" @click="changePage(index)" class="flex-1" :style="active == index ?'background-color:#E1E1E1':''" style="height:37px;line-height:37px;text-align:center;cursor: pointer;">
            <span> {{item.name}}</span>
        </div>
 
@@ -610,6 +610,7 @@ export default class orderList extends Vue {
 
 }
 .detailBody {
+  cursor: pointer;
 }
 .deleteBorder {
   border-left: 1px #e5e5e5 solid;

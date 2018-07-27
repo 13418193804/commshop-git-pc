@@ -379,9 +379,10 @@ messageCount:any = 0
 }
 .content {
   font-size: 14px;position: relative;
-    padding:5px 0 !important;
-text-align:center;
+  padding:5px 0 !important;
+  text-align:center;
   border-bottom:2px #fff solid;
+  cursor: pointer;
     
 }
 .selectContent{

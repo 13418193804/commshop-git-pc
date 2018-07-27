@@ -18,9 +18,6 @@
 </div>
 </div>
 
-
-
-
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;" class="flex">
 <div style="width:500px;">
@@ -28,7 +25,7 @@
 
 <div class="flex" style="    overflow: auto;">
   <div v-for="(item,index) in detatil.goodsImg.split(',') " :key="index" @click="lookPic(index)">
-    <img v-lazy="item" style="width:100px;margin-right:10px;"/>
+    <img v-lazy="item" style="width:100px;margin-right:10px;cursor: pointer;"/>
   </div>
 </div>
 </div>
@@ -150,11 +147,8 @@
         </div>
       </div>
       <!-- 新品 -->
-      <div v-if=" new_active== '1'">
-         
+      <div v-if=" new_active== '1'">        
         <swipeauto ref="swipeauto" :lists="new_detatil" @goProductDetail="goProductDetail"></swipeauto>
-
-      
       </div>
 
 <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
@@ -651,6 +645,7 @@ this.evaluateList()
 <style lang="scss" scoped>
 @import '../../../node_modules/swiper/dist/css/swiper.css';
 @import "../../style/utils.scss";
+
 .swiper-slide img {
     height: 100%;
     width: 100%;
@@ -728,7 +723,7 @@ this.evaluateList()
         padding-left: 40px;
         span{
           display:inline-block;border: 1px solid #797979;border-radius: 3px;color:#000;font-size:16px;width: 120px;height:35px;
-          line-height: 35px;text-align: center;margin-right: 15px;
+          line-height: 35px;text-align: center;margin-right: 15px;cursor: pointer;
         }
         .btn_border{
           color:#f4c542;;border: 1px solid #f4c542;
