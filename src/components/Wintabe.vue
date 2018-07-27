@@ -1416,6 +1416,7 @@ window['queryuserinfo'] = ()=>{
   // flex-wrap: wrap;
   padding: 10px 5px;
   border-bottom:10px solid #f5f5f5;
+  justify-content: space-evenly;
 }
 .goodsItem {
   width: 50%;
