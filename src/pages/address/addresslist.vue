@@ -12,7 +12,7 @@
       <div  v-for="(item,index) in addressList" :key="index" class="" style="background-color:#fff;border-bottom:1px dashed #E5E5E5;overflow: hidden;">
         <div style="width:117px;text-align: center;float: left;">{{item.name}}</div>
         <div style="width:330px;text-align: center;float: left;line-height: 22px;">{{item.address}}</div>
-         <div style="width:160px;text-align: center;float: left;">{{item.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</div>
+         <div style="width:160px;text-align: center;float: left;" v-if="deladdress.tel">{{item.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</div>
         <div style="width:170px;text-align: center;float: left;">
           <div style="">
              <span style="padding-right:4px;color:#FFC630;border-right:1px solid #ABABAB;cursor: pointer;"  @click="update(item)">编辑</span> 
@@ -46,10 +46,10 @@
                   <span style="width:80px;">收货人:</span><span>{{deladdress.name}}</span>
                 </div>
                 <div class="flex" style="margin-bottom: 10px;">
-                  <span style="width:80px;">联系方式:</span><span>{{deladdress.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</span>
+                  <span style="width:80px;">联系方式:</span><span v-if="deladdress.tel">{{deladdress.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</span>
                 </div>
                 <div class="flex" style="margin-bottom: 10px;">
-                   <span style="width:80px;">收货地址:</span><span style="width: 460px;">{{deladdress.address}}</span>
+                   <span style="width:80px;">收货地址:</span><span  style="width: 460px;">{{deladdress.address}}</span>
                 </div>
               </div>
               <div style="text-align:center;">
@@ -239,7 +239,7 @@ gbdelshow(){
     this.provinceid=address.provinceid;
     this.cityid=address.cityid;
     this.countryid=address.countryid;
-    this.address=address.address;
+    // this.address=address.address;
     this.contactName=address.contactname;
     this.contactMobile=address.contactmobile;
     this.isDefault=address.isdefault;

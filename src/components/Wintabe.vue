@@ -290,7 +290,7 @@
                               <i class="user_img" >{{items.letter}}</i>
                               <i>{{items.name}}</i>
                               <p>{{items.nameEn}}</p>
-                              <div class="more">更多推荐 ></div>
+                              <div class="more">更多商品 ></div>
                           </div>
                           
                         <!-- //1 定制推荐-->
@@ -1635,7 +1635,10 @@ window['queryuserinfo'] = ()=>{
   margin-bottom:0;
 }
 .more{
-  position: absolute;right:30px;color: #f4c542;
+  position: absolute;right:30px;color: #333;cursor:pointer;
+}
+.more:hover{
+  color: #f4c542;
 }
 //新品推荐
 .collImg_none {
@@ -1651,9 +1654,7 @@ window['queryuserinfo'] = ()=>{
   transform: scale(1.2);
   -ms-transform: scale(1.2);
 }
-.el-carousel__arrow:hover{
-  background-color:#f4c542!important;
-}
+
 // 热卖效果
 .collImg {
   cursor: pointer;

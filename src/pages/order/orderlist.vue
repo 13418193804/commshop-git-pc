@@ -54,21 +54,21 @@
                     </div>
                     </div>
                 </div>
-                <div class="flex-1" style="font-size:14.8px;width:250px;">
+                <div class="flex-1" style="font-size:14.8px;width:250px;border-right: 1px dashed #ededed;">
                     <div class="  flex   flex-pack-center  flex  flex-align-center">
                           <span v-if="active == '0' && item.detailList[0].refundStatus == 'SUCCEED_REFUND' " style="color:red">退款完成</span>
-                          <span :style="formatStatusColor(item.orderStatus)" v-else-if="active != '5' ">{{formatStatus(item.orderStatus)}}</span>
+                          <span style="margin-right:10px;" :style="formatStatusColor(item.orderStatus)" v-else-if="active != '5' ">{{formatStatus(item.orderStatus)}}</span>
                           <!-- v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND'"  -->
 
                           <span v-if="active == '5'">
-                            <span v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' " style="color:red">退款中</span>
-                            <span v-if="item.detailList[0].refundStatus == 'SUCCEED_REFUND' " style="color:red">退款完成</span>
-                            <span v-if="item.detailList[0].refundStatus == 'WAIT_GOODS_BACK' " style="color:red">退款中</span>
-                            <span v-if="item.detailList[0].refundStatus == 'WAIT_RECVGOODS' " style="color:red">退款中</span>
+                            <span v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' " style="color:red;margin-right: 10px;">退款中</span>
+                            <span v-if="item.detailList[0].refundStatus == 'SUCCEED_REFUND' " style="color:red;margin-right: 10px;">退款完成</span>
+                            <span v-if="item.detailList[0].refundStatus == 'WAIT_GOODS_BACK' " style="color:red;margin-right: 10px;">退款中</span>
+                            <span v-if="item.detailList[0].refundStatus == 'WAIT_RECVGOODS' " style="color:red;margin-right: 10px;">退款中</span>
                           <!-- <span v-if="item.detailList[0].refundStatus == 'SUCCEED_REFUND'" style="color:#ffc630;">已退款</span>
                           <span v-if="item.detailList[0].refundStatus == 'WAIT_GOODS_BACK'" style="color:#ffc630;">待寄回</span>
                           <span v-if="item.detailList[0].refundStatus == 'WAIT_RECVGOODS'" style="color:#ffc630;">退货中</span> -->
-                          <span v-if="item.detailList[0].refundStatus == 'FAIL_REFUND'" style="color:red;">已拒绝</span>
+                          <span v-if="item.detailList[0].refundStatus == 'FAIL_REFUND'" style="color:red;margin-right: 10px;">已拒绝</span>
                           </span>
                     </div>
                   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_PAY'">
