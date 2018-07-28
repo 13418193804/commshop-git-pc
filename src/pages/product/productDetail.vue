@@ -54,8 +54,8 @@
   <div class="full_bg" v-if="detatil.couponList&& detatil.couponList.length>0">
     {{detatil.couponList[0].couponName}} 
   </div>
-  <div>
-    <span style="color:red" @click="goDiscount()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
+  <div style="cursor: pointer;">
+    <span style="color:red;" @click="goDiscount()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
   </div>
   <div>
     
@@ -99,11 +99,11 @@
   </div>
    <div class='num_box flex flex-align-center'>
       <div class="flex flex-align-center" style="color:#585858;width:87px;">数量</div>
-    <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;"/>
+    <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;cursor: pointer;"/>
     </div>
 <div class="flex">
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;height:54px;margin-right:10px;overflow: hidden;"  @click.stop="addCar()">立即购买</van-button>
-      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;height:54px;"  @click.stop="addCart()">加入购物车</van-button>
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;height:54px;margin-right:10px;overflow: hidden;cursor: pointer;"  @click.stop="addCar()">立即购买</van-button>
+      <van-button  style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;height:54px;"  @click.stop="addCart()">加入购物车</van-button>
 <div>
 <!-- <div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
   <p><i class="iconfont icon-shoucang1"></i></p>
@@ -660,9 +660,11 @@ this.evaluateList()
 .skuKeyBox {
   display: flex;
   flex-wrap: wrap;
+      cursor: pointer;
 }
 
 .sku_box {
+  cursor: pointer;
   margin: 10px 0px 0px 20px;
   padding: 3px 10px;
   border-radius: 4px;
@@ -672,6 +674,9 @@ this.evaluateList()
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 100px;
+}
+.van-stepper__plus{
+cursor: pointer;
 }
 .num_box {
   font-size: 16px;
@@ -694,7 +699,7 @@ this.evaluateList()
   
 }
 .collection{
-  cursor:pointer;color: #949494;
+  cursor:pointer;color: #949494;    margin-left: 20px;
   background: url(../../assets/image/未收藏.png) no-repeat;width: 54px; height: 54px;
 }
 .collection_cur{

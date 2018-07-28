@@ -44,6 +44,9 @@ html,body,#app{
 .tab-contents{
   
 }
+.el-carousel__arrow:hover{
+  background-color:#f4c542!important;
+}
 //按钮 黑色边框
 .btn_black{
   width: 125px;line-height: 34px;border:1px solid #797979;border-radius: 4px;font-size:15px;

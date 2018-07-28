@@ -39,16 +39,62 @@
 <div class="flex">
 <div class="content_title">收货地址：</div>
 <div>{{address.province}}{{address.city}}{{address.country}}{{address.address}}</div>
-</div>
-
-
-</div>
 
 <div style="padding:30px 20px;">
 
       <van-button  style="cursor: pointer;border-radius:4%;background-color:#fff;color:red;border:1px solid red;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('change')" >地址切换</van-button>
       <van-button  style="cursor: pointer;border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('add')" >新建地址</van-button>
 </div>
+</div>
+
+
+</div>
+<!-- //没有收货地址的时候 -->
+<div v-else>
+      <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding: 25px 60px 25px 30px;position:relative;">
+        <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div>
+        <div class="flex region">
+          <div style="padding-right:15px;">所在地区</div>
+      
+          <select v-model="provinceid" @change='changeprovince'>
+            <option v-for="(item,index) in province" v-bind:value="item.id" :key="index">
+              {{item.name}}
+            </option>
+          </select>
+          <select v-model="cityid" @change='changecity'>
+            <option v-for="(item,index) in city" v-bind:value="item.id" :key="index">
+              {{item.name}}
+            </option>
+          </select>
+          <select v-model="countryid">
+            <option v-for="(item,index) in country" v-bind:value="item.id" :key="index">
+              {{item.name}}
+            </option>
+          </select>
+        </div>
+        <div class="flex region">
+          <div style="padding-right:15px;">详细地址</div>
+          <textarea v-model="address1"/>
+        </div>
+        <div class="flex region">
+          <div class="flex">
+            <div style="padding-right:27px;">收货人</div>
+            <input  v-model="contactName"/>
+          </div>
+          <div class="flex region">
+            <div style="padding-right:24px;padding-left:15px;">手机号码</div>
+            <input v-model="contactMobile"/>
+          </div>
+        </div>
+        <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;border:1px solid #FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
+        <div class="flex region_btn">
+          <div @click="isaddress()">保存地址</div>
+          <div @click="addcancel()">取消</div>
+        </div>
+      </div>
+</div>
+
+
 </div>
 </div>
 
@@ -91,7 +137,7 @@
          </div>
        </div>
 <div>
-<span class="" style="font-size:20">￥{{item.price}}</span>
+<span class="" style="font-size:20">￥{{item.price.toFixed(2)}}</span>
 </div>
 <div style="">
   {{item.num}}
@@ -151,7 +197,7 @@
         <div style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;" class="flex flex-pack-justify">
             <div>
               <div v-if="haveinvoice===false" class="couponUp" style="color:#F4C542;" :class="coupon_active == '3'?'couponUpCur':''"   @click="isinvoiceshow(3)">开发票</div>
-              <div v-if="haveinvoice===true" style="color:#F4C542;" @click="isupdateinvoiceshow()">修改</div>
+              <div v-if="haveinvoice===true" style="color:#F4C542;cursor:pointer;" @click="isupdateinvoiceshow()">修改</div>
             </div>
             <div v-show="haveinvoice">
               <div>发票类型:{{invoicecontent.titleType=='PERSON'?'个人':'单位'}}</div>
@@ -534,7 +580,6 @@ export default class shopIndex extends Vue {
 
 
   update(){
-
     this.updateaddressid= this.address['addressId'];
     this.addshow=true;
     this.provinceid=this.address['provinceid'];
@@ -549,7 +594,82 @@ export default class shopIndex extends Vue {
     this.querycity();
     this.querycountry();
   }
-    addaddress() {
+  //增加地址
+    isaddress() {
+    if(this.provinceid==""){
+       this["$Message"].warning("请选择省份");
+      return;
+    }
+    if(this.cityid==""){
+       this["$Message"].warning("请选择城市");
+      return;      
+    }
+    if(this.countryid==""){
+       this["$Message"].warning("请选择市区");
+      return;
+    }
+    if(this.address1==""){
+       this["$Message"].warning("请填写详细地址");
+      return;
+    }
+    if(this.address1.length<5){
+       this["$Message"].warning("请至少输入五个字符");
+      return;
+    }
+    if(this.contactName==""){
+       this["$Message"].warning("请填写收货人");
+      return;
+    }
+    if(this.contactMobile==""){
+       this["$Message"].warning("请填写手机号码");
+      return;
+    }
+       if(this.contactMobile.length!= 11 ){
+       this["$Message"].warning("请填写正确的手机号码");
+      return;
+    }
+    Vue.prototype.$reqFormPost(
+      "/address/add",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        provinceId:this.provinceid,
+        cityId:this.cityid,
+        countryId:this.countryid,
+        address:this.address1,
+        contactName:this.contactName,
+        contactMobile:this.contactMobile,
+        isDefault:this.isDefault
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+        Toast("新建地址成功");
+        this.getAddressList();
+        this.provinceid="";
+        this.cityid="";
+        this.countryid="";
+        this.address1="";
+        this.contactName="";
+        this.contactMobile="";
+        this.isDefault=0;
+        this.addshow=false;
+        this.updateaddressid="";
+      }
+    );
+  }
+addaddress() {
  if(this.provinceid==""){
        this["$Message"].warning("请选择省份");
       return;
