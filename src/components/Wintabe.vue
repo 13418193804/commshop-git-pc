@@ -290,7 +290,7 @@
                               <i class="user_img" >{{items.letter}}</i>
                               <i>{{items.name}}</i>
                               <p>{{items.nameEn}}</p>
-                              <div class="more">更多推荐 ></div>
+                              <div class="more">更多商品 ></div>
                           </div>
                           
                         <!-- //1 定制推荐-->
