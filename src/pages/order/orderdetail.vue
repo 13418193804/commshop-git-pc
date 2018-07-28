@@ -259,7 +259,7 @@
     </div>
 </div>
       <logistics ref="logistics" :orderItem="orderItem" @queryDetail="queryDetail()"></logistics>
-      <reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
+      <reimburse ref="reimburse" :orderItem="orderItem"  @getList="queryDetail()" ></reimburse>
       <ship ref="ship" ></ship>
 </div>
 </template>
@@ -574,9 +574,8 @@ export default class orderdetail extends Vue {
     );
   }
 
-  doRefund(item){
-    console.log("申请退款");
-    this.orderItem =  item
+  doRefund(){
+    this.orderItem =  this.detail
     let a : any = this.$refs.reimburse
     a.model = true
   }

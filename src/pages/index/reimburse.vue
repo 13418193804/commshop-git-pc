@@ -110,7 +110,6 @@ import { Prop } from "vue-property-decorator";
   }
   
     doRefund() {
-console.log( this.refundObj.refundImgs.join(","))
 
 
       let url = "/order/refund/apply";
@@ -193,6 +192,15 @@ console.log( this.refundObj.refundImgs.join(","))
      this["$Message"].success('申请成功');
 this.$emit('getList');
   
+
+this.refundObj = {
+    refundType: "REFUND",
+    refundImgs: [],
+    reason: ""
+  }
+
+
+
       });
   
     }
