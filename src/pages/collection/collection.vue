@@ -1,21 +1,23 @@
 <template>
   <div class="" style="height:-webkit-fill-available;background-color:#FFFFFF;">
-    <div>
+    <div style="padding: 30px 15px;">
       <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
       <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index" 
         
       >
         <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"  
         > 
-          <div style="position: relative;" @click="goProductDetail(item.goodsId)">
-            <div v-if="index==classindex" style="position: absolute;top:-10px;right:-10px;">
-              <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="favdelete(item)"/>
+        <!-- <div class="flex flex-align-center" style="width:200px;margin:10px;"  
+        >  -->
+          <div style="position: relative;"  @click="goProductDetail(item.goodsId)">
+            <div v-if="index==classindex"  style="z-index: 2;position: absolute;top:-10px;right:-20px;">
+              <img src="../../assets/image/删除按钮.png" style="width:30px;height:30px;cursor: pointer;" @click.stop="favdelete(item)"/>
             </div>
-            <div :class="index==classindex?'overclass':'outclass'" class="flex flex-v flex-pack-center">
+            <div  class="flex flex-v flex-pack-center collImg">
               <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;vertical-align: middle;"/>
-              <div style="width:200px;text-align: center;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;height:25px;line-height:25px;background-color:#EFF1F1;">{{item.jingle}}</div>
+              <div style="width:200px;text-align: center;overflow: hidden;color:#a3a3a3;font-size:16px;text-overflow: ellipsis;white-space: nowrap;height:40px;line-height:45px;background: hsla(0,0%,81%,.3);">{{item.jingle}}</div>
             </div>
-            <div style="margin:10px 0;"><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
+            <div><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
             <div> <span class="textLabel marketPrice" >￥{{item.marketPrice.toFixed(2)}}</span></div>
           </div>
           
@@ -162,14 +164,46 @@ export default class collection extends Vue {
 .bg-purple-light {
   background: #e5e9f2;
 }
-.outclass{
+// .outclass{
+//   border:1px solid #EAEAEA;
+//   border-radius: 4px;
+//   cursor: pointer;
+//   -webkit-transform: scale(1);
+//   transform: scale(1);
+//   -ms-transform: scale(1);
+//   -webkit-transition: -webkit-transform 0.4s;
+//   transition: transform .4s;
+// }
+// .overclass{
+//   // box-shadow:0px 0px 5px 5px #F3F3F3;
+//   // border:1px solid #FFCF63;
+//   // border-radius: 5px;
+//   // height:260px;
+//   box-shadow:0px 0px 5px 5px #F3F3F3;
+//   border:1px solid #FFCF63;
+//   border-radius: 5px;
+//   margin-bottom: 15px;
+//   -webkit-transform: scale(1.05);
+//   transform: scale(1.05);
+//   -ms-transform: scale(1.05);
+// }
+
+.collImg {
+  margin: 10px 0px;
   border:1px solid #EAEAEA;
-  border-radius: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: transform .4s;
 }
-.overclass{
+.collImg:hover{
   box-shadow:0px 0px 5px 5px #F3F3F3;
   border:1px solid #FFCF63;
-  border-radius: 5px;
-  height:260px;
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  -ms-transform: scale(1.05);
 }
 </style>

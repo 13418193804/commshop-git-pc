@@ -42,7 +42,7 @@
 <div style="border:1px solid #e5e5e5;margin:20px 0;background-color:#FCFCFC;font-size:14px;">
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
   <div style="width:50px">价格</div>
-  <div><span class="marketPrice" style="font-size:20px;margin-right:10px">￥{{detatil.marketPrice}}</span>
+  <div><span class="marketPrice" style="font-size:20px;margin-right:10px">￥{{detatil.marketPrice.toFixed(2)}}</span>
   <span class="labelPrice">原价￥{{detatil.labelPrice}}</span></div>
 </div>
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
@@ -86,7 +86,7 @@
 
  <div style='font-size:14px;max-height:300px;overflow:auto;'>
       <div v-for='(item,indextop) in detatil.skuKey' :key="indextop" class="flex  flex-align-center">
-      <div style='padding:5px 20px 0;color:#585858;'>{{item.skuKeyIdName}}</div>
+      <div style='padding:5px 20px 0;color:#585858;width:87px;'>{{item.skuKeyIdName}}</div>
       <div class='skuKeyBox'>
       <div v-for="(items,index) in  item.valueList" :key="index">
         <div  :class="chosenList[indextop] === items ?'sku_box_select':'sku_box' " 
@@ -98,16 +98,19 @@
       </div>
   </div>
    <div class='num_box flex flex-align-center'>
-      <div class="flex flex-align-center" style="color:#585858;">数量</div>
+      <div class="flex flex-align-center" style="color:#585858;width:87px;">数量</div>
     <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;"/>
     </div>
 <div class="flex">
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;"  @click.stop="addCar()">立即购买</van-button>
-      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;"  @click.stop="addCart()">加入购物车</van-button>
-<div style="width:45px;height:45px;border:1px solid #e5e5e5;margin:0 10px;text-align:center;">
-<div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;height:54px;margin-right:10px;overflow: hidden;"  @click.stop="addCar()">立即购买</van-button>
+      <van-button  style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;height:54px;"  @click.stop="addCart()">加入购物车</van-button>
+<div>
+<!-- <div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
   <p><i class="iconfont icon-shoucang1"></i></p>
-  <span style="color:#999">{{detatil.favStatus ? "已收藏" : "收藏"}}</span>
+  <span style="color:#949494">{{detatil.favStatus ? "已收藏" : "收藏"}}</span>
+</div> -->
+<div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
+  
 </div>
 </div>
 </div>
@@ -141,7 +144,7 @@
                     <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
                   </div>
                   <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
-                  <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+                  <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice.toFixed(2)}}</div>
                 </div>
           </div>
         </div>
@@ -691,10 +694,12 @@ this.evaluateList()
   
 }
 .collection{
-  cursor:pointer;
+  cursor:pointer;color: #949494;
+  background: url(../../assets/image/未收藏.png) no-repeat;width: 54px; height: 54px;
 }
 .collection_cur{
   color: #ffc630;
+  background: url(../../assets/image/已收藏.png) no-repeat;width: 54px; height: 54px;
 }
 //评价
 .evaluate_nav{

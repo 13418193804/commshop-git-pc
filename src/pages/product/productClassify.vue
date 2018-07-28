@@ -30,8 +30,8 @@
                     <!-- 商品列表 -->
                     <div class="shop_list">
                        <ul class="flex flex-warp-justify">
-                           <li  v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
-                              <div class="shop_img">
+                           <li v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
+                              <div class="shop_img collImg">
                                 <div class="hot" v-if="shopItem.hotStatus"><img src="../../assets/hot.png"></div>
                                 <img v-lazy="shopItem.goodsImg.split(',')[0]" style="height:270px;">
                                 <h4 class="ellipsis">{{shopItem.jingle}}</h4>
@@ -42,7 +42,7 @@
                                   <span v-if="shopItem.isBargain" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                 </div>
                                 <h3 class="ellipsis"> {{shopItem.goodsName}}</h3>
-                                <p class="shop_prce" style="color:red">￥{{shopItem.costPrice}}</p>
+                                <p class="shop_prce" style="color:red">￥{{shopItem.costPrice.toFixed(2)}}</p>
                               </div>
                          </li>
                        </ul>
@@ -317,16 +317,19 @@ export default class ProductDetail extends Vue {
   ul {
     overflow: hidden;
     margin-bottom: 20px;
+    padding: 20px 0;
     li {
-      width: 277px;
-      border-radius: 3px;
+      width: 258px;
+      border-radius: 4px;
       float: left;
-      margin-right: 30px;
+      margin-right: 20px;
       cursor: pointer;
+      margin-bottom: 20px;
       .shop_img {
-        border: 1px solid #ededed;
+        // overflow: hidden;
+        
         border-radius: 4px;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         position: relative;
         // 热卖
         .hot {
@@ -381,5 +384,25 @@ export default class ProductDetail extends Vue {
       margin-right: 0;
     }
   }
+  ul li:nth-of-type(1),ul li:nth-of-type(5),ul li:nth-of-type(9),ul li:nth-of-type(13),ul li:nth-of-type(17){
+    padding-left: px;
+  }
+}
+.classify_shop{
+  border:1px solid #ededed;padding: 10px 40px 30px; 
+}
+.collImg {
+  cursor: pointer;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: transform .4s;
+}
+.collImg:hover{
+  border:1px solid #FFCF63;
+  -webkit-transform: scale(1.02);
+  transform: scale(1.02);
+  -ms-transform: scale(1.02);
 }
 </style>

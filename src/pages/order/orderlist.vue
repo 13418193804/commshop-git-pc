@@ -20,10 +20,10 @@
         
           <div  class="flex flex-align-center" >
             
-            <div style="padding:0 15px;position: relative;" 
+            <div style="padding:0 15px;position: relative;cursor: pointer;"
               @click.stop="doDleterShow(item.orderId)"  v-if=" active == '0' &&( item.orderStatus === 'ORDER_FINISH' || item.orderStatus =='ORDER_CANCEL_PAY')&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND') ">
-                <div class="deleteBorder"> </div>
-                <i class="iconfont icon-iconfontshanchu3" style="" ></i>
+                <div class="deleteBorder" > </div>
+                <i class="iconfont icon-iconfontshanchu3" ></i>
             </div>
             <!-- <div style="padding:0 15px;position: relative;" 
               @click.stop="doDeleteOrder(item.orderId)"  v-if=" active == '0' && item.orderStatus === 'ORDER_FINISH'&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND' ||item.orderStatus == 'ORDER_CANCEL_PAY') ">
@@ -625,6 +625,7 @@ export default class orderList extends Vue {
   justify-content: center;
   align-items: center;
   height: 50px;
+  
   span:hover{
     color: #ffc630!important;
   }

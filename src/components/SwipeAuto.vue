@@ -12,7 +12,7 @@
                   <img src="../assets/image/特价.png" style="width:35px;margin:10px 0"/>
                 </div>
                 <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
-                <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice}}</div>
+                <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice.toFixed(2)}}</div>
               </div>
         </div>
     </div>

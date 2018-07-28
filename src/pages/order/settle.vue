@@ -194,7 +194,7 @@
       <div>应付金额</div>
           <div class="flex flex-align-center">
         <div style="padding:0 20px;">
-            <span style="color:red;font-size:18px;">￥{{totalPrice}}</span>
+            <span style="color:red;font-size:18px;">￥{{totalPrice.toFixed(2)}}</span>
           </div>
           <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
           @click="onSubmit">

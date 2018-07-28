@@ -74,7 +74,7 @@
               </div>
           </div>
           <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
-                <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="doLogin">登录</van-button>
+                <van-button style="border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;cursor: pointer;"  class="flex-1" @click="doLogin">登录</van-button>
           </div>
            <div class="flex  flex-align-center flex-pack-center" style="    padding: 10px 0;">
               <div @click="modelType = 'sign'" class="flex  flex-align-center flex-pack-center">
@@ -129,7 +129,7 @@
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
                   <input placeholder="请输入验证码" v-model="forget_code" maxlength="11" style="border:0;width:100%;"/>
           </div>       
-          <van-button  @click="getVistyCode('FINDPASSWORD')"   class="flex-1" style="height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
+          <van-button  @click="getVistyCode('FINDPASSWORD')"   class="flex-1" style="cursor: pointer;height:40px;line-height:40px;border-radius:5px;background-color:#fff;color:#F4C542;border:1px solid #F4C542;padding: 0px 10px;margin-left: 10px;"  >{{vistyText}}</van-button>
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
             <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
@@ -193,9 +193,9 @@
   </div>
   
   <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px;cursor: pointer;"/>
-  <div style="    position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
+  <div style=" cursor: pointer; position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
     <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0">{{cartLen}}</div>
-      <img src="../assets/image/购物车.png"/>
+      <img src="../assets/image/购物车.png" />
       <div class="cartFexid" v-if="cartModel" >
         <div style="display: flex;justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">
@@ -239,7 +239,7 @@
         </div>
 <div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
     <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
-    <van-button  style="background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
+    <van-button  style="cursor: pointer;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
 
 </div>
 </div>
@@ -273,8 +273,10 @@
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
                         <el-carousel :interval="5000" arrow="always">
-                        <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex">
-                              <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/>
+                        <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex" 
+                        v-bind:style="{backgroundImage:'url(' + image.itemImgUrl + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
+                        >
+                              <!-- <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/> -->
                         </el-carousel-item>
                       </el-carousel>
                   </div>
@@ -288,15 +290,18 @@
                               <i class="user_img" >{{items.letter}}</i>
                               <i>{{items.name}}</i>
                               <p>{{items.nameEn}}</p>
+                              <div class="more">更多推荐 ></div>
                           </div>
+                          
                         <!-- //1 定制推荐-->
                          <div class="goodsBody" v-if="items.arrtibleIndex %3 == 1">
+                           
                            <div class="recommend_list" 
                             v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex<2"
                               @click="goProductDetail(goods.goodsId)" >
                               <div class="shop_img">
                                 <div class="hot"  v-if="goods.hotStatus"><img src="../assets/hot.png" /></div>
-                                <img v-lazy="goods.goodsImg.split(',')[0]" style="height:365px;">
+                                <img  v-lazy="goods.goodsImg.split(',')[0]" style="height:365px;">
                                 <h4 class="ellipsis">{{goods.jingle}}</h4>
                               </div>
                               <div class="shop_details">
@@ -311,13 +316,12 @@
                            
                            <div class="recommend_list"
                            >
-                              <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1"
+                              <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1&&goodsIndex<4"
                                 @click="goProductDetail(goods.goodsId)">
                                 <div class="shop_img"  
                                 v-bind:style="{backgroundImage:'url(' + goods.goodsImg.split(',')[0] + ')', backgroundRepeat:'no-repeat',height: '160px', backgroundPosition:'center center', backgroundSize: '100%'}"
                                 >
                                   <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png" /></div>
-                                  <!-- <img v-lazy="goods.goodsImg.split(',')[0]" style="height:160px;"> -->
                                   <h4 class="ellipsis">{{goods.jingle}}</h4>
                                 </div>
                                 <div class="shop_details">
@@ -339,7 +343,7 @@
                                 <div class="flex" style=" padding:10px;">
                                   <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
                                     <div class="hot" v-if="goods.hotStatus"><img src="../assets/hot.png"></div>
-                                    <img v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+                                    <img class="collImg_none" v-lazy="goods.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
                                   </div>
                                   <div style="padding:10px">
                                     <div >
@@ -360,9 +364,9 @@
                           <div class="goodsBody" v-if="items.arrtibleIndex %3 == 0">
                               <div style="width:260px;margin-right: 20px;" 
                               v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" v-if="goodsIndex<4" @click="goProductDetail(goods.goodsId)" >
-                                  <div class="shop_img">
+                                  <div class="shop_img collImg">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
-                                    <img  v-lazy="goods.goodsImg.split(',')[0]" style="height:270px;">
+                                    <img v-lazy="goods.goodsImg.split(',')[0]" style="height:270px;">
                                     <h4 class="ellipsis">{{goods.jingle}}</h4>
                                   </div>
                                   <div class="shop_details">
@@ -1515,6 +1519,7 @@ window['queryuserinfo'] = ()=>{
   .shop_img {
     border: none;
     margin-bottom: 12px;
+    overflow: hidden;
     h4 {
       height: 60px;
       line-height: 60px;
@@ -1542,14 +1547,15 @@ window['queryuserinfo'] = ()=>{
   height: 230px;
   margin-bottom: 10px;
   .shop_img {
-    > img {
-      height: 165px;
-    }
+    overflow: hidden;
     h4 {
       height: 30px;
       line-height: 30px;
       font-size: 12px;
     }
+  }
+  .shop_img>img{
+    height: 165px;
   }
   .shop_details {
     position: relative;
@@ -1569,6 +1575,7 @@ window['queryuserinfo'] = ()=>{
   border-radius: 4px;
   margin-bottom: 10px;
   position: relative;
+  overflow: hidden;
   // 热卖
   .hot {
     position: absolute;
@@ -1579,10 +1586,7 @@ window['queryuserinfo'] = ()=>{
       height: 38px;
     }
   }
-  img {
-    width: 100%;
-    height: 230px;
-  }
+  
   h4 {
     height: 54px;
     line-height: 54px;
@@ -1593,6 +1597,10 @@ window['queryuserinfo'] = ()=>{
     width: 100%;
   }
 }
+.shop_img>img {
+    width: 100%;
+    height: 230px;
+  }
 .shop_details {
   div {
     margin-bottom: 12px;
@@ -1622,5 +1630,44 @@ window['queryuserinfo'] = ()=>{
 }
 .textLabel:hover{
   color:#f4c542;
+}
+.recommend_list div:nth-of-type(2){
+  margin-bottom:0;
+}
+.more{
+  position: absolute;right:30px;color: #f4c542;
+}
+//新品推荐
+.collImg_none {
+  cursor: pointer;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: transform .4s;
+}
+.collImg_none:hover{
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  -ms-transform: scale(1.2);
+}
+.el-carousel__arrow:hover{
+  background-color:#f4c542!important;
+}
+// 热卖效果
+.collImg {
+  cursor: pointer;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -ms-transform: scale(1);
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: transform .4s;
+}
+.collImg:hover{
+  box-shadow:0px 0px 5px 5px #F3F3F3;
+  border:1px solid #FFCF63;
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  -ms-transform: scale(1.05);
 }
 </style>

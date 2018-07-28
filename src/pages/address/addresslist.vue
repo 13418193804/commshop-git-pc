@@ -46,7 +46,7 @@
                   <span style="width:80px;">收货人:</span><span>{{deladdress.name}}</span>
                 </div>
                 <div class="flex" style="margin-bottom: 10px;">
-                  <span style="width:80px;">联系方式:</span><span>{{deladdress.tel}}</span>
+                  <span style="width:80px;">联系方式:</span><span>{{deladdress.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</span>
                 </div>
                 <div class="flex" style="margin-bottom: 10px;">
                    <span style="width:80px;">收货地址:</span><span style="width: 460px;">{{deladdress.address}}</span>

@@ -88,7 +88,7 @@ ul.personal li:nth-child(1){
   border-right:1px dashed #e5e5e5;background: #fffdfa;
 }
 ul.personal li{
-  line-height: 31px;
+  line-height: 31px;cursor: pointer;
   div{
     overflow: hidden;justify-content: center;display: flex;
     span,img{
