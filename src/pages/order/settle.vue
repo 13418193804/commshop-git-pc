@@ -1007,11 +1007,14 @@ this.getAddressList()
         prepareId: prepareId
       },
       res => {
+
         if (res.returnCode !== 200) {
+          console.log(res)
           this["$Message"].warning(res.message);
           console.log("网络请求错误！");
           return;
         }
+
 
         this.shopCartList = res.data.shopCartList;
         this.address = res.data.address;
@@ -1183,12 +1186,16 @@ this.getAddressList()
   mounted() {
 
     
-    this.getcouponlist();
     this.prepareId = this.$store.getters[
       Vue.prototype.MutationTreeType.PREPAREID
     ];
- 
-
+    console.log(this.prepareId)
+    if(!this.prepareId){
+      this.$router.replace('/')
+return 
+    }
+    this.getcouponlist();
+    
     this.getPreInfo(
       this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
     );

@@ -11,8 +11,10 @@
       <div v-if="addressList.length>0" class="addressList" style="padding:15px 0;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
       <div  v-for="(item,index) in addressList" :key="index" class="" style="background-color:#fff;border-bottom:1px dashed #E5E5E5;overflow: hidden;">
         <div style="width:117px;text-align: center;float: left;">{{item.name}}</div>
-        <div style="width:330px;text-align: center;float: left;line-height: 22px;">{{item.address}}</div>
-         <div style="width:160px;text-align: center;float: left;" v-if="deladdress.tel">{{item.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</div>
+        <div style="width:330px;text-align: center;float: left;line-height: 22px;">{{item.province}} {{item.city}}  {{item.country}} {{item.address}}</div>
+         <div style="width:160px;text-align: center;float: left;" :style="item.contactmobile.length==11?'':' visibility: hidden;'">
+           {{item.contactmobile.substring(0,3)}}****{{ item.contactmobile.substring(7,13)}}
+           </div>
         <div style="width:170px;text-align: center;float: left;">
           <div style="">
              <span style="padding-right:4px;color:#FFC630;border-right:1px solid #ABABAB;cursor: pointer;"  @click="update(item)">编辑</span> 
@@ -27,11 +29,11 @@
 
       <div class="flex flex-align-center flex-v">
           <div v-if="addressList.length==0" style="color:#BFBFBF;padding:120px 0 30px;">您还未创建收货地址~~~</div>
-          <div @click="newaddress()" style="width:155px;height:45px;color:#ffc630;font-size:16px;border:1px solid #FFC630;text-align: center;line-height:45px;cursor: pointer;">新建地址</div>
+          <div @click="newaddress()" style="margin-bottom:30px;width:155px;height:45px;color:#ffc630;font-size:16px;border:1px solid #FFC630;text-align: center;line-height:45px;cursor: pointer;">新建地址</div>
       </div>
       <!-- 删除 -->
        <div style=" position: relative;">
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="delshow" >
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="delshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
             <div class="flex-around-justify flex-align-center" style="background-color:#fff;width:650px;position: relative;padding: 40px;">
               <div @click="delcancel()" style="position: absolute;top:10px;right:10px;">
@@ -46,10 +48,11 @@
                   <span style="width:80px;">收货人:</span><span>{{deladdress.name}}</span>
                 </div>
                 <div class="flex" style="margin-bottom: 10px;">
-                  <span style="width:80px;">联系方式:</span><span v-if="deladdress.tel">{{deladdress.tel.substring(0,3)}}****{{ item.tel.substring(7,13)}}</span>
+                  
+                  <span style="width:80px;">联系方式:</span><span v-if="deladdress.contactmobile && deladdress.contactmobile.length==11">{{deladdress.contactmobile.substring(0,3)}}****{{ deladdress.contactmobile.substring(7,13)}}</span>
                 </div>
                 <div class="flex" style="margin-bottom: 10px;">
-                   <span style="width:80px;">收货地址:</span><span  style="width: 460px;">{{deladdress.address}}</span>
+                   <span style="width:80px;">收货地址:</span><span  style="width: 460px;">{{deladdress.province}} {{deladdress.city}}  {{deladdress.country}} {{deladdress.address}}</span>
                 </div>
               </div>
               <div style="text-align:center;">
@@ -63,7 +66,7 @@
 
       <!-- 新增 -->
       <div style=" position: relative;">
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:25px 60px 25px 30px;position:relative;">
               <div @click="close()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div>
@@ -190,8 +193,9 @@ gbdelshow(){
           item["name"] = item.contactname;
           item["tel"] = item.contactmobile;
           item["readdress"] = item.address;
-          item["address"] =
-            item.province + item.city + item.country + item.address;
+          item["isDefault"] = item.isdefault;
+          // item["address"] =
+          //   item.province + item.city + item.country + item.address;
         });
       }
     );
@@ -239,11 +243,10 @@ gbdelshow(){
     this.provinceid=address.provinceid;
     this.cityid=address.cityid;
     this.countryid=address.countryid;
-    // this.address=address.address;
+    this.address=address.address;
     this.contactName=address.contactname;
     this.contactMobile=address.contactmobile;
     this.isDefault=address.isdefault;
-
     this.querycity();
     this.querycountry();
   }
@@ -390,7 +393,7 @@ gbdelshow(){
       return;
     }
     if(this.address.length<5){
-       this["$Message"].warning("请至少输入五个字符");
+       this["$Message"].warning("详细地址请至少输入五个字符");
       return;
     }
     if(this.contactName==""){
