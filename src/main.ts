@@ -14,7 +14,8 @@ import iView from 'iview';
 
 import ElementUI from 'element-ui';
 
-
+import VueQriously from 'vue-qriously';
+Vue.use(VueQriously);
 
 Vue.use(ElementUI);
 
@@ -30,7 +31,7 @@ Vue.use(MintUI);
 Vue.use(Vuex);
 Vue.use(Api);
 Vue.use(Vant);
-Vue.prototype.loginDialog = false
+Vue.prototype.loginDialog = false;
 Vue.config.productionTip = false;
 const init = new Vue({
     router,
