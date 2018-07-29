@@ -259,4 +259,7 @@ input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
 input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
      color:#c0c0c0;
 }
+.el-breadcrumb__item:last-child .el-breadcrumb__inner, .el-breadcrumb__item:last-child .el-breadcrumb__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover{
+  color:#a3a3a3;
+}
 </style>

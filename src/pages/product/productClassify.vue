@@ -384,7 +384,7 @@ export default class ProductDetail extends Vue {
     }
   }
   ul li:nth-of-type(1),ul li:nth-of-type(5),ul li:nth-of-type(9),ul li:nth-of-type(13),ul li:nth-of-type(17){
-    padding-left: px;
+    padding-left: 3px;
   }
 }
 .classify_shop{

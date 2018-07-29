@@ -86,7 +86,7 @@
             <input v-model="contactMobile"/>
           </div>
         </div>
-        <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;border:1px solid #FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;cursor:pointer;"></span>设为默认</div>
+        <div @click="isdef()" style="cursor:pointer;border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;border:1px solid #FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
         <div class="flex region_btn">
           <div @click="isaddress()">保存地址</div>
           <div @click="addcancel()">取消</div>
@@ -139,10 +139,10 @@
 <div>
 <span class="" style="font-size:20">￥{{item.price.toFixed(2)}}</span>
 </div>
-<div style="">
+<div>
   {{item.num}}
 </div>
-<div>
+<div style="width:82px;"> 
   <span class="marketPrice" style="font-size:20">￥{{(item.price * item.num).toFixed(2)}}</span>
 </div>
 </div>
@@ -231,7 +231,7 @@
 
         <div style="border:1px solid #e5e5e5;">
 
-          <textarea type="text" name="content"  rows="7" style="width: 100%;border:none" v-model="remark"></textarea>  
+          <textarea type="text" name="content"  rows="7" style="width: 100%;border:none;padding:10px;" v-model="remark"></textarea>  
 
         </div>
 
