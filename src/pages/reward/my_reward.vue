@@ -326,13 +326,14 @@ export default class my_reward extends Vue {
     );
   }
     getreward(){
-    Vue.prototype.$reqFormPost("/user/account/query", {
+    Vue.prototype.$reqFormPost("/user/account/query", { 
       userId: this.$store.getters[
             Vue.prototype.MutationTreeType.TOKEN_INFO
         ].userId,
         token: this.$store.getters[
             Vue.prototype.MutationTreeType.TOKEN_INFO
         ].token,
+
      }, res => {
       if (res == null) {
         console.log("网络请求错误！");
