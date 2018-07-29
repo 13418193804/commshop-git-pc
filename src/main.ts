@@ -14,8 +14,8 @@ import iView from 'iview';
 
 import ElementUI from 'element-ui';
 
-import VueQriously from 'vue-qriously';
-Vue.use(VueQriously);
+// import VueQriously from 'vue-qriously';
+// Vue.use(VueQriously);
 
 Vue.use(ElementUI);
 

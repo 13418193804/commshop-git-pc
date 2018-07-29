@@ -34,7 +34,7 @@
 <div class="goodsName">
   {{detatil.goodsName}}
 </div>
-  <div class="">
+  <div style="color:#a3a3a3">
   {{detatil.jingle}}
 </div>
 
@@ -134,14 +134,14 @@
         <div class="flex" style="    overflow: auto;">
           <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" >
               <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
-                  <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:25px;"/>
+                  <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:33px;"/>
                   <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
                   <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
                 </div>
                 <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;" >
                   <div>
-                    <img src="../../assets/image/满减.png" style="width:35px;margin:10px 0"/>
-                    <img src="../../assets/image/特价.png" style="width:35px;margin:10px 0"/>
+                    <img src="../../assets/image/满减.png" style="width:40px;margin:10px 0"/>
+                    <img src="../../assets/image/特价.png" style="width:40px;margin:10px 0"/>
                   </div>
                   <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
                   <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice.toFixed(2)}}</div>
@@ -180,7 +180,7 @@
           <div class="evaluate_right">
             <h6>大家都写到</h6>
             <div class="btn_evaluate">
-                <span :class="btn_active == '0'?' btn_border' :''" @click="btnList('0')">全部（999+）</span>
+                <span :class="btn_active == '0'?' btn_border' :''" @click="btnList('0')">全部（）</span>
                 <span :class="btn_active == '1'?' btn_border' :''" @click="btnList('1')">有图（666）</span>
             </div>   
           </div>
@@ -322,7 +322,7 @@ export default class ProductDetail extends Vue {
           }
           console.log(res.data.page.total)
           this.appraiseList = res.data.commentList;
-
+          console.log('评论',res.data.commentList)
         }
       );
     
@@ -601,6 +601,7 @@ this.evaluateList()
           total = total / (res.data.commentList.length * 5) * 100;
           const praisenum = total.toFixed(0);
           this.praise = praisenum;
+          console.log('评论数量',res.data.commentNum)
         }
 
         this.tabgoodslist = res.data.likeList;
