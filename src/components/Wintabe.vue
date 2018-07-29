@@ -19,7 +19,7 @@
                 <div @click="ruleshow()">退出登录</div>
               </div>
             </div>
-            <div class="contentBox borderleft " @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
+            <div class="contentBox" @click="changeLoginModel('login')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
               <span style="cursor: pointer;">登录</span>
             </div>
             <div class="contentBox borderleft " @click="changeLoginModel('sign')" v-if="!$store.getters[MutationTreeType.TOKEN_INFO].token">
@@ -1374,6 +1374,9 @@ window['queryuserinfo'] = ()=>{
   padding: 0 20px;
   text-align: center;
   cursor: pointer;
+}
+.contentBox span:hover{
+  color: #f4c542;
 }
 //消息样式
 .msgNum {

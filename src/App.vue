@@ -247,4 +247,16 @@ color:#f44!important;
   overflow-x: auto;
 
 }
+ input::-webkit-input-placeholder{
+     color:#c0c0c0;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+    color:#c0c0c0;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+     color:#c0c0c0;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+     color:#c0c0c0;
+}
 </style>

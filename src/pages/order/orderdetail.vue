@@ -254,7 +254,7 @@
        <div style="width:115px;text-align:right;line-height:45px;"> 服务时间：</div>
 <div class="flex flex-pack-justify flex-align-center" style="    width: 100%;">
         <div>9:00 - 22:00 </div>
-        <van-button size="small" onclick="showMeiQia()" style="   ">联系客服</van-button>
+        <van-button size="small" onclick="showMeiQia()" style="cursor: pointer;">联系客服</van-button>
 </div>
     </div>
 </div>
