@@ -39,20 +39,17 @@
 <div class="flex">
 <div class="content_title">收货地址：</div>
 <div>{{address.province}}{{address.city}}{{address.country}}{{address.address}}</div>
+</div>
 
 <div style="padding:30px 20px;">
-
       <van-button  style="cursor: pointer;border-radius:4%;background-color:#fff;color:red;border:1px solid red;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('change')" >地址切换</van-button>
       <van-button  style="cursor: pointer;border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;margin-right:10px;overflow: hidden;" @click="changeModel('add')" >新建地址</van-button>
 </div>
 </div>
-
-
-</div>
 <!-- //没有收货地址的时候 -->
 <div v-else>
       <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding: 25px 60px 25px 30px;position:relative;">
-        <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div>
+        <!-- <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div> -->
         <div class="flex region">
           <div style="padding-right:15px;">所在地区</div>
       
@@ -89,7 +86,7 @@
         <div @click="isdef()" style="border-top:1px solid #F4F4F4;padding-top:20px;"><span :style="isDefault==1?'background-color:#FF0506;border:1px solid #FF0506;':''" style="display: inline-block;vertical-align: middle;border:1px solid #D3D3D3;border-radius: 50px;width:15px;height:15px;margin-right:10px;"></span>设为默认</div>
         <div class="flex region_btn">
           <div @click="isaddress()">保存地址</div>
-          <div @click="addcancel()">取消</div>
+          <!-- <div @click="addcancel()">取消</div> -->
         </div>
       </div>
 </div>
@@ -117,7 +114,7 @@
 <div class="contentBox2 ">
 
   
-  <div class="cartItem flex  flex-align-center flex-pack-justify" v-for="(item,index) in shopCartList" :key="index">
+  <div class="cartItem flex  flex-align-center flex-pack-justify" style="    padding: 20px;" v-for="(item,index) in shopCartList" :key="index">
   <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px 0 20px;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
        </div>
@@ -213,7 +210,7 @@
             <div @click="couponshowNo('1')" class="couponUp" :class="coupon_active == '1'?'couponUpCur':''" style="color:#858585">不使用优惠券</div>
             <div @click="couponshow('2')" class="couponUp" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
             <div style="color:#F4C542;padding:0 15px;line-height: 30px;">({{couponnum}}张) ></div>
-            <div v-show="yetShow == true" class="counponNum">{{surecouponName}}</div>
+            <div v-show="yetShow == true && surecouponName" class="counponNum">{{surecouponName}}</div>
           </div>
           <div>
             <div>商品合计:￥{{totalPrice}}</div>
@@ -223,7 +220,7 @@
 
         <div style="height:30px;line-height:30px;">配送方式</div>
         <div class="flex flex-pack-justify flex-align-center" style="padding:10px 0;">
-          <div>快速</div>
+          <div>快递</div>
           <div>运费:{{freight}}</div>
         </div>
 
@@ -255,7 +252,7 @@
 </div>
 
 <div style=" position: relative;">
-  <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
+  <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="withchangeModel" >
     <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
         <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative; width: 590px;">
           <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close"></i></div>
@@ -294,7 +291,7 @@
       
       <div style=" position: relative;">
         <!-- 新增地址 -->
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="addshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding: 25px 60px 25px 30px;position:relative;">
               <div @click="addcancel()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div>
@@ -343,12 +340,11 @@
           </div>
         </div>
         <!-- 发票 -->
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="invoiceshow" >
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="invoiceshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
               <div @click="isinvoiceshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
               <div class="add_titile">发票信息</div>
-    
               <div class="flex region">
                 <div style="width:120px;">发票类型:</div>
                 <div @click="changetitleType('PERSON')" :style="invoicecontent.titleType=='PERSON'?'border-color:#F4C542;':'border-color:#eeeeee;'" style="width:100px;height:30px;line-height:30px;text-align:center;border:1px solid;">个人</div>
@@ -371,12 +367,11 @@
         </div>
 
         <!-- 修改发票 -->
-        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="updateinvoiceshow" >
+        <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="updateinvoiceshow" >
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:20px;position:relative;">
               <div @click="isupdateinvoiceshow()" class="add_colose"><i class="iconfont icon-close"></i></div>
               <div class="add_titile">发票信息</div>
-    
               <div class="flex region">
                 <div style="width:120px;">发票类型:</div>
                 <div @click="changeupdatetitleType('PERSON')" :style="updateinvoicecontent.titleType=='PERSON'?'border-color:#F4C542;':'border-color:#eeeeee;'" style="width:100px;height:30px;line-height:30px;text-align:center;border:1px solid;">个人</div>
@@ -399,7 +394,7 @@
         </div>
 
         <!-- 优惠卷框 -->
-        <div style="background-color:rgba(0, 0, 0, 0.5); z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="iscouponshow">
+        <div style="background-color:rgba(0, 0, 0, 0.5); z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="iscouponshow">
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">  
                <div style="background-color:#fff;padding:20px;position:relative;width: 750px;
                           min-height;max-height:620px;
@@ -407,17 +402,13 @@
               <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
               <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠卷</div>
                 <div class="discountBox">
-                    <div class="dis_list" v-for="(item,index) in couponList" :key="index" @click="selectcoupon(item)">
+                    <div class="dis_list dis_bgunUse"  v-for="(item,index) in couponList"   :key="index" @click="selectcoupon(item)">
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                          {{item.coupon.fullDenomination}}</span>元</p>
-                          <div class="distypeCur" v-if="item.coupon.id==selectcouponId">已选择</div>
-                        <!-- <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                            <i style="color: #fff;">{{item.createTime.split(' ')[0]}} - </i>
-                            <i style="color: #fff;">{{item.validityTime.split(' ')[0]}}</i>
-                        </div> -->
+                          {{item.fullDenomination}}</span>元</p>
+                          <div class="distypeCur" v-if="item.id==selectcouponId">已选择</div>
                         <div style="justify-content: space-between;" class="flex">
                             <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                              {{item.coupon.couponName}}</span>
+                              {{item.couponName}}</span>
                             <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
                             <i style="color: #fff;" v-if="item.validityTime">- {{item.validityTime.split(' ')[0]}}</i></div>
                         </div>
@@ -655,8 +646,8 @@ export default class shopIndex extends Vue {
           Toast(res.data.message);
           return;
         }
-        Toast("新建地址成功");
-        this.getAddressList();
+         
+       this.getAddressList();
         this.provinceid="";
         this.cityid="";
         this.countryid="";
@@ -666,6 +657,14 @@ export default class shopIndex extends Vue {
         this.isDefault=0;
         this.addshow=false;
         this.updateaddressid="";
+console.log('res.data.addressId',res.data.data.addressId)
+this.doChangePreDis('address',res.data.data.addressId,res=>{
+   this["$Message"].success("新建地址成功");
+})
+
+
+
+
       }
     );
   }
@@ -810,44 +809,17 @@ changeprovince(){
       return
     }
 
-    
 
-
-
-   Vue.prototype.$reqFormPost(
-      "/prepare/order/update",
-      {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-          prepareId:this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID],
-        addressId: addressId
-      },
-      res => {
-        if (res == null) {
-          console.log("网络请求错误！");
-          return;
-        }
-        if (res.data.status != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          Toast(res.data.message);
-          return;
-        }
-        
- this.getPreInfo(
-      this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
-    );
+this.doChangePreDis('address',addressId,res=>{
  this.withchangeModel = false
   this.addshow= false
-      }
-    );
+})
 
 
 
   }
+
+  // this.surecouponId
 
   querycity(){
     Vue.prototype.$reqFormPost(
@@ -989,13 +961,19 @@ this.getAddressList()
 
 
 
-
+goodsPrice = ""
   prepareId = "";
   shopCartList = [];
   address = {};
   totalPrice = "";
   goodsSum = "";
   freight = "";
+
+
+   couponList=[];
+  couponnum='';
+ 
+
   getPreInfo(prepareId) {
     Vue.prototype.$reqFormPost1(
       "/prepare/order/query",
@@ -1014,14 +992,30 @@ this.getAddressList()
           console.log("网络请求错误！");
           return;
         }
-
-
+this.goodsPrice = res.data.goodsPrice
         this.shopCartList = res.data.shopCartList;
+
         this.address = res.data.address;
-        console.log("address", this.address);
+    if(!this.address){
+          this.getprovince();
+    }
+
         this.totalPrice = res.data.totalPrice;
         this.goodsSum = res.data.goodsSum;
         this.freight = res.data.freight;
+if(res.data.currentCoupon){
+this.selectcoupon(res.data.currentCoupon);
+          this.selectcouponId=res.data.currentCoupon.id;
+      this.selectcouponName=res.data.currentCoupon.couponName;
+      this.selectcouponDenomination=res.data.currentCoupon.couponDenomination;
+    this.coupon_active = '2';
+}else{
+    this.coupon_active = '1';
+}
+res.data.currentCoupon
+        this.couponList=res.data.couponList;
+        this.couponnum=res.data.couponList.length;
+
       }
     );
   }
@@ -1105,46 +1099,25 @@ this.getAddressList()
     );
   }
   yetShow =false;
-  couponList=[];
-  couponnum='';
-  getcouponlist(){
-    Vue.prototype.$reqFormPost(
-      "/coupon/user/linklist",
-      {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-          status:'UNUSED',
-      },
-      res => {
-        if (res == null) {
-          console.log("网络请求错误！");
-          return;
-        }
-        if (res.data.status != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          Toast(res.data.message);
-          return;
-        }
-        console.log(res.data.data.couponList)
-        this.couponList=res.data.data.couponList;
-        this.couponnum=res.data.data.couponList.length;
-      }
-    );
-  }
   // 优惠卷框
   iscouponshow=false;
   //不使用
   couponshowNo(coupon_active){
     this.coupon_active = '1';
     console.log('dd')
+        this.surecouponId="";
+    this.surecouponName="";
+    this.surecouponDenomination="";
+this.doChangePreDis('dis',"",res=>{
+})
+
   }
-  couponshow(clean,coupon_active){
-    this.coupon_active = '2';
-    this.iscouponshow=!this.iscouponshow
+
+
+  couponshow(clean){
+if(parseInt(this.couponnum)>0){
+  this.iscouponshow=!this.iscouponshow
+    // this.coupon_active = '2';
     // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
     if(this.surecouponId!==""){
       this.selectcouponId=this.surecouponId;
@@ -1157,22 +1130,70 @@ this.getAddressList()
       this.selectcouponName="";
       this.selectcouponDenomination="";
     }
+}
   }
+
+
+doChangePreDis(type,value,callback){
+
+  console.log('选择的优惠券id',this.surecouponId)
+
+
+
+let data = {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+          prepareId:this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID],
+}
+if(type=='address'){
+ (<any>Object).assign(data,  {addressId: value});
+}
+if(type=='dis'){
+ (<any>Object).assign(data,  {couponId: value});
+}
+   Vue.prototype.$reqFormPost(
+      "/prepare/order/update",
+      data,
+      res => {
+       callback();
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
+ this.getPreInfo(
+      this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
+    );
+      }
+    );
+
+
+}
+
   // 选择时的优惠卷
   selectcouponId="";
   selectcouponName="";
   selectcouponDenomination="";
   selectcoupon(coupon){
-   
-    this.selectcouponId=coupon.coupon.id;
-    this.selectcouponName=coupon.coupon.couponName;
-    this.selectcouponDenomination=coupon.coupon.couponDenomination;
+    this.selectcouponId=coupon.id;
+    this.selectcouponName=coupon.couponName;
+    this.selectcouponDenomination=coupon.couponDenomination;
+  
   }
   // 确定的优惠卷
   surecouponId="";
   surecouponName="";
   surecouponDenomination="";
   surecoupon(yetShow){
+
      this.yetShow = true;
     if(this.selectcouponId==""){
       this["$Message"].warning("请选择优惠卷");
@@ -1180,8 +1201,13 @@ this.getAddressList()
     }
     this.iscouponshow=false;
     this.surecouponId=this.selectcouponId;
+    this.doChangePreDis('dis', this.surecouponId,res=>{
+    })
     this.surecouponName=this.selectcouponName;
     this.surecouponDenomination=this.selectcouponDenomination;
+  this.coupon_active = '2';
+    
+
   }
   mounted() {
 
@@ -1189,12 +1215,12 @@ this.getAddressList()
     this.prepareId = this.$store.getters[
       Vue.prototype.MutationTreeType.PREPAREID
     ];
-    console.log(this.prepareId)
+  
     if(!this.prepareId){
       this.$router.replace('/')
 return 
     }
-    this.getcouponlist();
+
     
     this.getPreInfo(
       this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
@@ -1259,14 +1285,14 @@ return
   }
 }
 .bc_addresCur{
-  border:#ffc630 1px solid;background: url(../../assets/image/打钩.png) no-repeat right top;
+  border:#ffc630 1px solid;background: url('../../assets/image/打钩.png') no-repeat right top;
 }
 //优惠券弹窗
 .discountBox{
   overflow: hidden;padding:30px 25px;padding-right:10px;
   .dis_list{
     float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
-    margin-bottom:10px;position: relative;background :url(../../assets/image/未使用优惠卷.png) no-repeat;
+    margin-bottom:10px;position: relative;
       background-size: 100%;
     .newtext{
       position: absolute;bottom: 4px;color: #fff;width:91%;font-size: 12px;
@@ -1274,6 +1300,12 @@ return
       white-space: nowrap;
       overflow: hidden;
     }
+  }
+  .dis_bgunUse{
+    background :url('../../assets/image/未使用优惠卷.png') no-repeat;
+  }
+    .dis_bgUse{
+    background :url('../../assets/image/已使用优惠卷.png') no-repeat;
   }
   .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
     margin-right: 0;

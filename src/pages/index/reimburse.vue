@@ -187,13 +187,10 @@ import { Prop } from "vue-property-decorator";
           return;
   
         }
-  
-     this.model = false
-     this["$Message"].success('申请成功');
-this.$emit('getList');
-  
-
-this.refundObj = {
+    this.model = false
+    this["$Message"].success('申请成功');
+    this.$emit('getList');
+    this.refundObj = {
     refundType: "REFUND",
     refundImgs: [],
     reason: ""

@@ -236,12 +236,8 @@ import Winbeet from "../../components/Winbeet.vue";
 export default class ProductDetail extends Vue {
 
   mounted() {
-
     this.goodsId = this.$route.query.goodsId;
-
-
  this.initPage()
-
   }
   initPage(){
        this.getProductDetail();
@@ -324,7 +320,9 @@ export default class ProductDetail extends Vue {
             this["$Message"].warning(res.message);
             return;
           }
+          console.log(res.data.page.total)
           this.appraiseList = res.data.commentList;
+
         }
       );
     
@@ -593,6 +591,7 @@ this.evaluateList()
         console.log("-----------");
         // 评论数量
         this.commentnum = res.data.commentNum;
+        
         // 好评计算
         if (res.data.commentList.length > 0) {
           let total = 0;
