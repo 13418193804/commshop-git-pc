@@ -565,15 +565,21 @@ this.evaluateList()
   scale= 0;
   click = "0"
   getProductDetail() {
+    let data ={
+   goodsId: this.goodsId
+    };
+ if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+
+    (<any>Object).assign(data,{ userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId});
+    }
     Vue.prototype.$reqFormPost1(
       "/goods/front/detail",
-      {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-        goodsId: this.goodsId
-      },
+      data,
       res => {
         if (res.returnCode != 200) {
           this["$Message"].warning(res.message);
