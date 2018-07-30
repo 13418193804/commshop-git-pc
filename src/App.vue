@@ -262,4 +262,14 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .el-breadcrumb__item:last-child .el-breadcrumb__inner, .el-breadcrumb__item:last-child .el-breadcrumb__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover{
   color:#a3a3a3;
 }
+.el-carousel__button{
+  border-radius: 5px;
+    height: 7px;
+    width:12px;
+    opacity: 1;
+    background:#cfcfcf;
+}
+.el-carousel__indicator.is-active button{
+  width:20px;background: #f4ce42;opacity: 1;
+}
 </style>

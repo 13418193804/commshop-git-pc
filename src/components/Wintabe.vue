@@ -295,7 +295,7 @@
                           
                         <!-- //1 定制推荐-->
                          <div class="goodsBody" v-if="items.arrtibleIndex %3 == 1">
-                           <div class="more">更多商品 ></div>
+                           <div class="more">更多推荐 ></div>
                            <div class="recommend_list" 
                             v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex<2"
                               @click="goProductDetail(goods.goodsId)" >
@@ -339,7 +339,7 @@
                      
                       <!-- 2 新品推荐-->
                           <div class="goodsBody" style="flex-wrap: wrap;" v-if="items.arrtibleIndex %3 == 2">
-                              <div class="more">更多推荐 ></div>
+                              <div class="more">更多新品 ></div>
                               <div v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;"> 
                                 <div class="flex" style=" padding:10px;">
                                   <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
@@ -363,10 +363,9 @@
                           </div>
                           <!-- 3 热卖-->
                           <div class="goodsBody" v-if="items.arrtibleIndex %3 == 0">
-                            
+                            <div class="more" >更多商品 ></div>
                               <div style="width:260px;margin-right: 20px;" 
                               v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" v-if="goodsIndex<4" @click="goProductDetail(goods.goodsId)" >
-                                <div class="more" >更多商品 ></div>
                                   <div class="shop_img collImg">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
                                     <img v-lazy="goods.goodsImg.split(',')[0]" style="height:270px;">
@@ -1537,7 +1536,6 @@ window['queryuserinfo'] = ()=>{
       color: #a3a3a3;
     }
   }
-
   .shop_details {
     padding: 0 10px 10px 20px;
     h3 {
@@ -1546,10 +1544,10 @@ window['queryuserinfo'] = ()=>{
     }
   }
 }
-.recommend_list:nth-of-type(3) {
+.recommend_list:nth-of-type(4) {
   border: none;
 }
-.recommend_list:nth-of-type(3) > div {
+.recommend_list:nth-of-type(4) > div {
   border: 1px solid #ededed;
   height: 230px;
   margin-bottom: 10px;
@@ -1642,7 +1640,7 @@ window['queryuserinfo'] = ()=>{
   margin-bottom:0;
 }
 .more{
-  position: absolute;right:30px;color: #333;cursor:pointer;z-index: 2;top:-45px;
+  position: absolute;right:30px;color: #333;cursor:pointer;z-index: 2;top:-65px;
 }
 .more:hover{
   color: #f4c542;
