@@ -193,8 +193,8 @@
 
         <div style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;" class="flex flex-pack-justify">
             <div>
-              <div v-if="haveinvoice===false" class="couponUp" style="color:#F4C542;" :class="coupon_active == '3'?'couponUpCur':''"   @click="isinvoiceshow(3)">开发票</div>
-              <div v-if="haveinvoice===true" style="color:#F4C542;cursor:pointer;" @click="isupdateinvoiceshow()">修改</div>
+              <div class="couponUp"  :class="haveinvoice?'couponUpCur':''"   @click="isinvoiceshow(3,haveinvoice)">我要开发票</div>
+              <div v-if="haveinvoice===true" style="color:#F4C542;cursor:pointer;margin-left:26px;" @click="isupdateinvoiceshow()">修改</div>
             </div>
             <div v-show="haveinvoice">
               <div>发票类型:{{invoicecontent.titleType=='PERSON'?'个人':'单位'}}</div>
@@ -208,9 +208,10 @@
         <div class="flex flex-pack-justify flex-align-center" style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;">
           <div class="flex">
             <div @click="couponshowNo('1')" class="couponUp" :class="coupon_active == '1'?'couponUpCur':''" style="color:#858585">不使用优惠券</div>
-            <div @click="couponshow('2')" class="couponUp" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
+            <div @click="couponshow()" class="couponUp" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
             <div style="color:#F4C542;padding:0 15px;line-height: 30px;">({{couponnum}}张) ></div>
             <div v-show="yetShow == true && surecouponName" class="counponNum">{{surecouponName}}</div>
+           
           </div>
           <div>
             <div>商品合计:￥{{totalPrice.toFixed(2)}}</div>
@@ -422,17 +423,7 @@
             </div>
           </div>
         </div>
-
-
       </div>
-
-
-
-
-
-
-
-
 
 
   <winbeet></winbeet>
@@ -479,8 +470,9 @@ export default class shopIndex extends Vue {
     invoiceNo:'',
   };
   isinvoiceshow(clean,coupon_active){
-    this.coupon_active = '3'
-    this.invoiceshow=!this.invoiceshow
+   
+ console.log(coupon_active)
+
     // 如果有传值 清除invoicecontent里全部东西
     if(clean){
       this.haveinvoice=false;
@@ -490,6 +482,9 @@ export default class shopIndex extends Vue {
         invoiceNo:'',
       };
     }
+if(!coupon_active){
+      this.invoiceshow=!this.invoiceshow
+}
   }
   isupdateinvoiceshow(){
     this.updateinvoiceshow=!this.updateinvoiceshow
@@ -999,26 +994,28 @@ this.goodsPrice = res.data.goodsPrice
     if(!this.address){
           this.getprovince();
     }
-
         this.totalPrice = res.data.totalPrice;
         this.goodsSum = res.data.goodsSum;
         this.freight = res.data.freight;
+        this.currentCoupon = res.data.currentCoupon
 if(res.data.currentCoupon){
-this.selectcoupon(res.data.currentCoupon);
-          this.selectcouponId=res.data.currentCoupon.id;
-      this.selectcouponName=res.data.currentCoupon.couponName;
-      this.selectcouponDenomination=res.data.currentCoupon.couponDenomination;
+    this.selectcouponId=res.data.currentCoupon.id;
+    this.selectcouponName=res.data.currentCoupon.couponName;
+    this.selectcouponDenomination=res.data.currentCoupon.couponDenomination;
+this.surecoupon(true);
     this.coupon_active = '2';
 }else{
     this.coupon_active = '1';
 }
-res.data.currentCoupon
+console.log(' this.selectcouponId', this.selectcouponId)
+
         this.couponList=res.data.couponList;
         this.couponnum=res.data.couponList.length;
 
       }
     );
   }
+  currentCoupon = null
   pageType = "";
   titlevalue = "";
   couponId = "";
@@ -1115,7 +1112,9 @@ this.doChangePreDis('dis',"",res=>{
 
 
   couponshow(clean){
+
 if(parseInt(this.couponnum)>0){
+  
   this.iscouponshow=!this.iscouponshow
     // this.coupon_active = '2';
     // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
@@ -1124,8 +1123,10 @@ if(parseInt(this.couponnum)>0){
       this.selectcouponName=this.surecouponName;
       this.selectcouponDenomination=this.surecouponDenomination;
     }
+    console.log('------',this.selectcouponId)
+    console.log(this.currentCoupon,clean && !this.currentCoupon)
     // 有传值就清空选择时的优惠卷
-    if(clean){
+    if(clean || !this.currentCoupon){
       this.selectcouponId="";
       this.selectcouponName="";
       this.selectcouponDenomination="";
@@ -1147,11 +1148,17 @@ let data = {
           .token,
           prepareId:this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID],
 }
+
 if(type=='address'){
  (<any>Object).assign(data,  {addressId: value});
-}
-if(type=='dis'){
+ if(this.surecouponId){
+ (<any>Object).assign(data,  {couponId: this.surecouponId});
+ }
+}else if(type=='dis'){
  (<any>Object).assign(data,  {couponId: value});
+if(this.address){
+ (<any>Object).assign(data,  {addressId: this.address['addressId']});
+}
 }
    Vue.prototype.$reqFormPost(
       "/prepare/order/update",
@@ -1186,25 +1193,27 @@ if(type=='dis'){
     this.selectcouponId=coupon.id;
     this.selectcouponName=coupon.couponName;
     this.selectcouponDenomination=coupon.couponDenomination;
-  
   }
   // 确定的优惠卷
   surecouponId="";
   surecouponName="";
   surecouponDenomination="";
-  surecoupon(yetShow){
-
+  surecoupon(filter){
      this.yetShow = true;
     if(this.selectcouponId==""){
       this["$Message"].warning("请选择优惠卷");
       return;
     }
-    this.iscouponshow=false;
     this.surecouponId=this.selectcouponId;
+if(!filter){
+    this.iscouponshow=false;
     this.doChangePreDis('dis', this.surecouponId,res=>{
     })
+}
     this.surecouponName=this.selectcouponName;
     this.surecouponDenomination=this.selectcouponDenomination;
+
+
   this.coupon_active = '2';
     
 
@@ -1225,6 +1234,7 @@ return
     this.getPreInfo(
       this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
     );
+console.log('this.selectcouponId',this.selectcouponId)
 
 
   }
