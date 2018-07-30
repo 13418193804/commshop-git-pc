@@ -575,10 +575,10 @@ if(!coupon_active){
     this.contactName=this.address['contactname'];
     this.contactMobile=this.address['contactmobile'];
     this.isDefault=this.address['isdefault'];
-
     this.getprovince();
     this.querycity();
     this.querycountry();
+
   }
   //增加地址
     isaddress() {
@@ -735,6 +735,9 @@ addaddress() {
         this.isDefault=0;
         this.addshow=false;
         this.updateaddressid="";
+         this.getPreInfo(
+      this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
+    );
       }
     );
     }else{
