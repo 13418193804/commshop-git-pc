@@ -2,9 +2,9 @@
 <div style=" position: relative;" v-if="reim_model">
     <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" >
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
-        <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:780px;padding:20px; border-radius: 10px;    position: relative;">
+        <div style="background-color:#fff;width:780px;padding:20px; border-radius: 10px;    position: relative;">
           <div style="position: absolute;top:10px;right:10px;" @click="reim_model = false">
-            <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;"/>
+            <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;cursor: pointer;"/>
           </div>
           <div class="flex btn_refund">
             <div>售后类型</div>
@@ -32,9 +32,11 @@
               </van-uploader>
         
             </div>
-            <div class="el-upload--picture-card" style="position: relative;" v-for="(item,index) in refundObj.refundImgs" :key="index">
+            <div class="el-upload--picture-card" style="position: relative;" 
+            v-bind:style="handleBackGround(item)"
+            v-for="(item,index) in refundObj.refundImgs" :key="index">
         
-              <img :src="item" style="width:100%;" />
+              <!-- <img :src="item" style="width:100%;" /> -->
         
               <i class="iconfont icon-shanchu3" style="color: #000;
         
@@ -46,7 +48,7 @@
             </div>
           </div>
           <div style="margin: 10px;">
-            <van-button size="large" @click="doRefund()" style="width:150px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;"
+            <van-button size="large" @click="doRefund()" style="cursor: pointer;width:150px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;"
             >提交</van-button>
           </div>
         </div>
@@ -108,7 +110,13 @@ import { Prop } from "vue-property-decorator";
     this.refundObj.refundType = data;
     console.log('退款类型',this.refundObj.refundType)
   }
-  
+  handleBackGround(img){
+    return `background-image:url('${img}');
+            background-repeat:no-repeat;
+            backgroundPosition:center centert;
+            backgroundSize:contain;`
+    // backgroundImage:'url(item)', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'
+  }
     doRefund() {
       console.log( this.refundObj.refundImgs.join(","))
       let url = "/order/refund/apply";
@@ -424,7 +432,9 @@ import { Prop } from "vue-property-decorator";
     background-color: #fff;
   
   }
-  
+   .el-upload--picture-card i{
+        opacity: 0;
+  }
   
   
   .selectBox {
@@ -459,6 +469,28 @@ import { Prop } from "vue-property-decorator";
     vertical-align: top;
   
     margin: 10px;
+
+    background-color: #fbfdff;
+  
+    border: 1px dashed #c0ccda;
+  
+    border-radius: 6px;
+  
+    box-sizing: border-box;
+  
+    width: 80px;
+  
+    height: 80px;
+  
+    cursor: pointer;
+  
+    line-height: 146px;
+  
+    vertical-align: top;
+  
+    margin: 10px;
+    background: url(../../assets/image/添加图片.png) no-repeat;
+    background-size: 100%;
   
   }
   
@@ -477,7 +509,7 @@ import { Prop } from "vue-property-decorator";
   }
   .btn_refund{
     div{
-      height:40px;line-height: 40px;width:100px;font-size:14px;margin-bottom: 20px;
+      height:40px;line-height: 40px;width:100px;font-size:14px;margin-bottom: 20px;padding-left: 10px;    cursor: pointer;
     }
     button{
         border:1px solid #e6e6e6;height:40px;width:155px;margin-right:28px;font-size:14px;

@@ -11,7 +11,7 @@
           <div style="color:#fff;margin:0 10px">48小时快速退款</div>
         </div>
         <div class="flex flex-align-center">
-          <img src="../assets/image/7天.png" style="width:40px;"/>
+          <img src="../assets/image/中宜.png" style="width:40px;"/>
           <div style="color:#fff;margin:0 10px">中宜严选品质</div>
         </div>
         <div style="text-align:center;">

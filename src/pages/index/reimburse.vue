@@ -3,7 +3,7 @@
     <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" >
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
         <div class="" style="background-color:#fff;width:780px;padding:20px; border-radius: 10px;    position: relative;">
-          <div style="position: absolute;top:10px;right:10px;" @click="model = false">
+          <div style="cursor: pointer;position: absolute;top:10px;right:10px;" @click="model = false">
             <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;"/>
           </div>
           <div class="flex btn_refund" style="padding-left: 10px;">
@@ -32,9 +32,11 @@
               </van-uploader>
         
             </div>
-            <div class="el-upload--picture-card" style="position: relative;" v-for="(item,index) in refundObj.refundImgs" :key="index">
+            <div class="el-upload--picture-card" style="position: relative;" v-for="(item,index) in refundObj.refundImgs" :key="index"
+            v-bind:style="handleBackGround(item)"
+            >
         
-              <img :src="item" style="width:100%;" />
+              <!-- <img :src="item" style="width:100%;" /> -->
         
               <i class="iconfont icon-shanchu3" style="color: #000;
         
@@ -46,7 +48,7 @@
             </div>
           </div>
           <div style="margin: 10px;">
-            <van-button size="large" @click="doRefund()" style="width:150px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;"
+            <van-button size="large" @click="doRefund()" style="cursor: pointer;width:150px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;"
             >提交</van-button>
           </div>
         </div>
@@ -109,6 +111,13 @@ import { Prop } from "vue-property-decorator";
     console.log('退款类型',this.refundObj.refundType)
   }
   
+  handleBackGround(img){
+    return `background-image:url('${img}');
+            background-repeat:no-repeat;
+            backgroundPosition:center centert;
+            backgroundSize:contain;`
+    // backgroundImage:'url(item)', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'
+  }
     doRefund() {
 
 
@@ -475,7 +484,9 @@ import { Prop } from "vue-property-decorator";
   .el-upload--picture-card i{
         opacity: 0;
   }
-  
+  .el-upload--picture-card>i{
+    opacity: 1;
+  }
   
   .el-upload {
   
@@ -490,7 +501,7 @@ import { Prop } from "vue-property-decorator";
   }
   .btn_refund{
     div{
-      height:40px;line-height: 40px;width:100px;font-size:14px;margin-bottom: 20px;
+      height:40px;line-height: 40px;width:100px;font-size:14px;margin-bottom: 20px;cursor: pointer;
     }
     button{
         border:1px solid #e6e6e6;height:40px;width:155px;margin-right:28px;font-size:14px;
