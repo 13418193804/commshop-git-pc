@@ -377,7 +377,6 @@ this.evaluateList()
     // console.log(this.skuItem.skuId);
   }
   goDiscount(){
-
  if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
