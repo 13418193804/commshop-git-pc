@@ -134,14 +134,14 @@ export const reqFormPost = (url, data, callBack, headers) => {
 
 
             if (res.data.status == 401 && res.data.message == "用户信息未找到") {
-                console.log(window.location.href)
+                console.log(url)
                 let a:any = window;
                 a.loginOut();
                 a.changeLoginModel();
                 return;
             }
             if (res.data.status == 400 && res.data.message == "账号已在其他设备登录") {
-                console.log(window.location.href)
+                console.log(url)
                 
                 let a:any = window;
                 a.loginOut();
@@ -184,7 +184,7 @@ export const reqFormPost1 = (url, data, callBack, headers) => {
 
 
                 if (res.data.status == 401 && res.data.message == "用户信息未找到") {
-                console.log(window.location.href)
+                console.log(url)
                 
                     let a:any = window;
                     a.loginOut();
@@ -193,7 +193,7 @@ export const reqFormPost1 = (url, data, callBack, headers) => {
                 }
                 
                 if (res.data.status == 400 && res.data.message == "账号已在其他设备登录") {
-                console.log(window.location.href)
+                console.log(url)
                 
                     let a:any = window;
                     a.loginOut();

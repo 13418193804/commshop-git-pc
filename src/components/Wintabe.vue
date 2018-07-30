@@ -1259,9 +1259,9 @@ window['queryuserinfo'] = ()=>{
     ) {
       this.getCartList();
       this.queryuserinfo();
+    this.getMessageCount();
     }
     this.gethotword();
-    this.getMessageCount();
   }
 }
 </script>

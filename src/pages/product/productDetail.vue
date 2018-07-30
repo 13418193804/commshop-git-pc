@@ -377,9 +377,25 @@ this.evaluateList()
     // console.log(this.skuItem.skuId);
   }
   goDiscount(){
+
+ if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+    
     this.$router.push({
       path: "/discount"
     });
+
+    }else{
+         let a:any = window;
+           a.loginOut();
+                a.changeLoginModel();
+    }
+        
+
+    
   }
   updataCollect(){
     if(this.detatil.favStatus == 0){
