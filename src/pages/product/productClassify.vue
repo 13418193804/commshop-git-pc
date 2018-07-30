@@ -317,8 +317,9 @@ export default class ProductDetail extends Vue {
     overflow: hidden;
     margin-bottom: 20px;
     padding: 20px 0;
+    padding-left:9px;
     li {
-      width: 258px;
+      width: 255px;
       border-radius: 4px;
       float: left;
       margin-right: 20px;
@@ -383,9 +384,6 @@ export default class ProductDetail extends Vue {
       margin-right: 0;
     }
   }
-  ul li:nth-of-type(1),ul li:nth-of-type(5),ul li:nth-of-type(9),ul li:nth-of-type(13),ul li:nth-of-type(17){
-    padding-left: 3px;
-  }
 }
 .classify_shop{
   border:1px solid #ededed;padding: 10px 40px 30px; 
@@ -400,8 +398,9 @@ export default class ProductDetail extends Vue {
 }
 .collImg:hover{
   border:1px solid #FFCF63;
-  -webkit-transform: scale(1.02);
-  transform: scale(1.02);
-  -ms-transform: scale(1.02);
+  box-shadow:0px 0px 5px 5px #F3F3F3;
+  -webkit-transform: scale(1.04);
+  transform: scale(1.04);
+  -ms-transform: scale(1.04);
 }
 </style>
