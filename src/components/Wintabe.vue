@@ -192,10 +192,10 @@
     </div>
   </div>
   
-  <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px;cursor: pointer;"/>
-  <div style=" cursor: pointer; position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
+  <!-- <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px;cursor: pointer;"/> -->
+  <div style=" cursor: pointer; position: relative;margin-left: 30px;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
     <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0">{{cartLen}}</div>
-      <img src="../assets/image/购物车.png" />
+      <img src="../assets/image/购物车.png" style="    vertical-align: middle;"/>
       <div class="cartFexid" v-if="cartModel" >
         <div style="display: flex;justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">
@@ -225,7 +225,7 @@
        </div>
 
        <div style="padding:10px;">
-            <span class="marketPrice" style="font-size:20">￥{{item.price}}</span>
+            <span class="marketPrice" style="font-size:20">￥{{item.price.toFixed(2)}}</span>
        </div>
        </div>
        </div>
@@ -251,7 +251,8 @@
 
 <!-- <div style="height:50px;background-color:red">123</div> -->
 <!-- 头部导航菜单 -->
-<van-tabs :active="active" @click="changeTab" v-on:mouseover="changeTab" class="index_tabs flex-1" style="width:100%;" >
+
+<van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab" class="searchBar index_tabs flex-1" style="width:100%;" >
 <!-- <van-tabs :active="active" k@clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
     <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
@@ -295,7 +296,7 @@
                           
                         <!-- //1 定制推荐-->
                          <div class="goodsBody" v-if="items.arrtibleIndex %3 == 1">
-                           <div class="more">更多推荐 ></div>
+                           <div class="more" @click.stop="goMoretj(active)">更多推荐 ></div>
                            <div class="recommend_list" 
                             v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex<2"
                               @click="goProductDetail(goods.goodsId)" >
@@ -339,7 +340,7 @@
                      
                       <!-- 2 新品推荐-->
                           <div class="goodsBody" style="flex-wrap: wrap;" v-if="items.arrtibleIndex %3 == 2">
-                              <div class="more">更多新品 ></div>
+                              <div class="more" @click.stop="goMorexp(active)">更多新品 ></div>
                               <div v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;"> 
                                 <div class="flex" style=" padding:10px;">
                                   <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
@@ -363,7 +364,7 @@
                           </div>
                           <!-- 3 热卖-->
                           <div class="goodsBody" v-if="items.arrtibleIndex %3 == 0">
-                            <div class="more" >更多商品 ></div>
+                            <div class="more" @click.stop="goMorerm(active)">更多商品 ></div>
                               <div style="width:260px;margin-right: 20px;" 
                               v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" v-if="goodsIndex<4" @click="goProductDetail(goods.goodsId)" >
                                   <div class="shop_img collImg">
@@ -933,6 +934,17 @@ this.loginModel = false;
     }
     return;
   }
+  //更多商品
+  goMoretj(active){
+    this.changeTab(1, true);
+  }
+  goMorexp(active){
+    this.changeTab(2, true);
+  }
+  goMorerm(active){
+    this.changeTab(3, true);
+  }
+
   changeTab(active, shit) {
     // shit 立刻检测  通常进来时不检测
     if (
@@ -948,11 +960,10 @@ this.loginModel = false;
       });
       return;
     }
+
     this.active = active;
-    if (active != "-1") {
-      // this.getSecCatList(active);
-      this.two_menu(active);
-    }
+
+    console.log(this.indexList, active)
 
     if (active != "-1" && !this.indexList[active].children) {
       console.log("哈哈", this.indexList[active].pageId);
@@ -985,8 +996,8 @@ this.loginModel = false;
           });
           console.log("jj", res.data);
           this.indexList.push();
-
-          if (this.indexList[active].catId) {
+          if (this.indexList[active] && this.indexList[active].catId) {
+            this.two_menu(active);
             Vue.prototype.$reqFormPost1(
               "/user/goods/list",
               {
@@ -1011,11 +1022,13 @@ this.loginModel = false;
           }
         }
       );
-    } else {
-    }
+    } 
   }
 
+
   two_menu(active) {
+
+
     Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
@@ -1215,27 +1228,38 @@ a.getUserInfo();
         type: "filter"
       }
     });
+    
+  }
+  //监听header滚动固定
+  handleScrollHead () {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    console.log(scrollTop)
+    // var offsetTop = document.querySelector('#searchBar').offsetTop
+    // if (scrollTop > offsetTop) {
+    // this.searchBarFixed = true
+    // } else {
+    // this.searchBarFixed = false
+    // }
   }
   mounted() {
-
-
-window['changeLoginModel'] = ()=>{
-  this.changeLoginModel('login')
-}
-window['loginOut'] = ()=>{
-  this.loginOut()
-}
-window['queryuserinfo'] = ()=>{
-  this.queryuserinfo()
-}
-
+    window['changeLoginModel'] = ()=>{
+      this.changeLoginModel('login')
+    }
+    window['loginOut'] = ()=>{
+      this.loginOut()
+    }
+    window['queryuserinfo'] = ()=>{
+      this.queryuserinfo()
+    }
 
     if (localStorage.filterValue) {
       this.stockpile = JSON.parse(localStorage.filterValue);
     }
-
     // 添加一个滚动滚动监听事件：
     window.addEventListener("scroll", this.handleScroll);
+    //监听header滚动固定
+    window.addEventListener("scroll", this.handleScrollHead);
+    
     this.table ? (this.active = "-1") : "";
     (this.$route.params.active || "") != ""
       ? (this.active = this.$route.params.active)
@@ -1672,8 +1696,16 @@ window['queryuserinfo'] = ()=>{
 .collImg:hover{
   box-shadow:0px 0px 5px 5px #F3F3F3;
   border:1px solid #FFCF63;
-  -webkit-transform: scale(1.05);
-  transform: scale(1.05);
-  -ms-transform: scale(1.05);
+  -webkit-transform: scale(1.04);
+  transform: scale(1.04);
+  -ms-transform: scale(1.04);
 }
+//头部导航固定
+.isFixed{
+    position:fixed;
+    background-color:#Fff;
+    top:0;
+    z-index:999;
+    left:200px;
+  }
 </style>

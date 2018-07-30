@@ -764,6 +764,6 @@ cursor: pointer;
 }
  .full_bg{
    background: url(../../assets/image/满减背景.png) no-repeat;padding: 0 18px;background-size: 100% 100%;height: 24px;
-   line-height: 24px;color: #ffc630;margin-right:5px;font-size: 10px;
+   line-height: 24px;color: #ffc630;margin-right:15px;font-size: 10px;
  }
 </style>

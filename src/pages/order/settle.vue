@@ -213,7 +213,7 @@
             <div v-show="yetShow == true && surecouponName" class="counponNum">{{surecouponName}}</div>
           </div>
           <div>
-            <div>商品合计:￥{{totalPrice}}</div>
+            <div>商品合计:￥{{totalPrice.toFixed(2)}}</div>
             <div v-if="surecouponDenomination">优惠卷:-￥{{surecouponDenomination}}</div>
           </div>
         </div>
