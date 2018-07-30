@@ -119,8 +119,8 @@ export default class User extends Vue {
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .token,
             // oldPassword:this.oldPassword,
-            oldPassword:require('crypto').createHash('md5').update(this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].loginName+this.oldPassword).digest('hex'),
-            newPassword:this.newPassword,
+            oldPassword:require('crypto').createHash('md5').update(this.oldPassword).digest('hex'),
+            newPassword:require('crypto').createHash('md5').update(this.newPassword).digest('hex'),
         },
         res => {
           if (res.returnCode != 200) {

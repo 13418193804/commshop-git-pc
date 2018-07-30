@@ -136,16 +136,8 @@ export default class shopIndex extends Vue {
     }else{
       //   window.location.href ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
       //  this.obj["payId"] +"#wechat_redirect"
-
-
      let a:any = window
-
-
-
-
       console.log('微信支付')
-
-
       Vue.prototype.$reqFormPost(
         "/wechat/pay/scan",
         {
@@ -172,12 +164,11 @@ export default class shopIndex extends Vue {
                 res.data.message
             );
               this["$Message"].warning(res.data.message);
-            Toast(res.data.message);
             return;
           }
             if(res.data.data.codeUrl){
             this.overModel = true
-this.mwebUrl = res.data.data.codeUrl
+            this.mwebUrl = res.data.data.codeUrl
             }else{
               this["$Message"].warning('获取二维码失败');
             }
