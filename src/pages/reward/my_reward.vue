@@ -35,7 +35,7 @@
             <div class="flex flex-around-justify" v-if="item.awardType == 'DISTRIBUTE'" style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;" >
                 <div>{{item.createTime}}</div>
                 <div>{{item.userName?item.userName:item.member.loginName}}消费了{{item.payTotal}}，您获得{{item.awardAmount}}积分</div>
-                <div style="color:#ffc630">{{item.awardAmount}}</div>
+                <div style="color:#ffc630">+{{item.awardAmount}}</div>
             </div>
             <div class="flex flex-around-justify" v-else style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;">
                 <div>{{item.createTime}}</div>

@@ -14,12 +14,14 @@
                     <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
                     <i style="color: #fff;" v-if="item.endDate">{{item.endDate.split(' ')[0]}}</i>
               </div> -->
-              <div style="justify-content: space-between;" class="flex">
+              <div style="justify-content: space-between;" class="flex" v-if="item.validityType == 'ABSELUTE_DATE'">
                       <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
                         {{item.couponName}}</span>
-                      <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
-                      <i style="color: #fff;" v-if="item.validityTime">- {{item.validityTime.split(' ')[0]}}</i></div>
+                      <div> <i style="color: #fff;">{{item.createTime.split(' ')[0]}} </i>
+                      <i style="color: #fff;">- {{item.endDate.split(' ')[0]}}</i></div>
                   </div>
+              <div v-else class="time">{{item.days}}天有效</div>
+
             <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
         </div>
     </div>
@@ -121,5 +123,8 @@ export default class User extends Vue {
   .distypeed{
     background: #fccb52;color:#fff;
   }
+}
+.time{
+  position: absolute;right: 16px;color:#fff;
 }
 </style>

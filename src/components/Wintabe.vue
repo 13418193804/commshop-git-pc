@@ -274,7 +274,9 @@
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
                         <el-carousel :interval="5000" arrow="always">
-                        <el-carousel-item v-for="(image, imageIndex) in items.items" :key="imageIndex" 
+                        <el-carousel-item 
+                        @click.stop="goActionType(image.actionType,image.actionValue)"
+                        v-for="(image, imageIndex) in items.items" :key="imageIndex" 
                         v-bind:style="{backgroundImage:'url(' + image.itemImgUrl + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
                         >
                               <!-- <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/> -->
@@ -874,6 +876,7 @@ this.loginModel = false;
     this.select_block = false;
   }
   goActionType(actionType, actionValue) {
+    console.log('来了来了来了')
     if (actionType == "ACTION_TYPE_GOODSID") {
       var goodsId = actionValue;
       this.$router.push({
@@ -1700,6 +1703,7 @@ a.getUserInfo();
   transform: scale(1.04);
   -ms-transform: scale(1.04);
 }
+
 //头部导航固定
 .isFixed{
     position:fixed;

@@ -50,6 +50,7 @@ html,body,#app{
 //按钮 黑色边框
 .btn_black{
   width: 125px;line-height: 34px;border:1px solid #797979;border-radius: 4px;font-size:15px;
+  background: #fff;
 }
 .pointer{
   cursor: pointer;
@@ -271,5 +272,8 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 }
 .el-carousel__indicator.is-active button{
   width:20px;background: #f4ce42;opacity: 1;
+}
+.el-carousel__container{
+  cursor:pointer;
 }
 </style>
