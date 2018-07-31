@@ -91,6 +91,7 @@ html,body,#app{
   top: 0;
   right: 30px;
   transform: translateY(-50%) translateX(100%);
+  
 }
 </style>
 <style>
@@ -142,7 +143,7 @@ html,body,#app{
   min-width: 79px;
 }
 .van-tabs__wrap{
-  z-index: 79;
+  z-index: 2;
 }
 .btn_refund button{
   background: #fff;
@@ -276,4 +277,5 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .el-carousel__container{
   cursor:pointer;
 }
+
 </style>

@@ -24,7 +24,7 @@
           <div class="content" :class="menuName == items.name ?'selectContent':''" 
               v-for="(items,indexs) in item.menu" @click="selectMenu(items)" :key="indexs">{{items.name}}
 
-               <div class="messageFexid" style="right:-5px;top:17px;" 
+               <div class="messageFexid" style="right:2px;top:15px;" 
                     v-if="items.name == '消息通知' && messageCount!= 0 ">
                     {{messageCount}}
                </div>

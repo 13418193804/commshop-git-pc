@@ -1,7 +1,8 @@
 <template>
   <div class="swiper-container">
     <div class="swiper-wrapper">
-        <div class="swiper-slide" v-for="(items,index) in lists" :key="index"  @click="goProductDetail(items.goodsId)">
+        <div class="swiper-slide" v-for="(items,index) in lists" :key="index"  @click="goProductDetail(items.goodsId)" 
+        style="cursor:pointer;">
             <div class="flex flex-pack-center flex-align-center" style="width:200px;margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
                 <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
                 <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>

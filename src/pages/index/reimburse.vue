@@ -38,13 +38,12 @@
         
               <!-- <img :src="item" style="width:100%;" /> -->
         
-              <i class="iconfont icon-shanchu3" style="color: #000;
-        
-            position: absolute;
-            right: -8px;
-            top: -8px;
-            height: 17px;
-            line-height: 17px;" @click="removeByValue(refundObj.refundImgs,item)"></i>
+              <i >
+                  <img src="../../assets/image/删除按钮.png" style="color: #000;
+                  position: absolute;
+                  right: -8px;width:23px;height:23px;
+                  top: -8px;" @click="removeByValue(refundObj.refundImgs,item)"/>
+                  </i>
             </div>
           </div>
           <div style="margin: 10px;">
@@ -119,91 +118,52 @@ import { Prop } from "vue-property-decorator";
     // backgroundImage:'url(item)', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'
   }
     doRefund() {
-
-
       let url = "/order/refund/apply";
-  
       let data = ( < any > Object).assign({
-  
           refundImgs: this.refundObj.refundImgs.join(","),
-  
           userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
             .userId,
-  
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
             .token,
-  
           orderId:this.orderItem["orderId"],
-  
           money: this.orderItem["payTotal"]
-  
         },
-  
         this.refundObj
-  
       );
-  
       if (this.orderItem["detailList"][0].refundStatus == "FAIL_REFUND") {
-  
         url = "/order/refund/reapply";
-  
         data = ( < any > Object).assign({
-  
             refundImgs: this.refundObj.refundImgs.join(","),
-  
             userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
               .userId,
-  
             token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-  
               .token,
-  
             refundId: this.orderItem["detailList"][0].refundOrderList[0].refundId,
-  
             money: this.orderItem["payTotal"]
-  
           },
-  
           this.refundObj
-  
         );
-  
       }
-  
-  
-  
       Vue.prototype.$reqFormPost(url, data, res => {
-  
         if (res == null) {
-  
           console.log("网络请求错误！");
-  
           return;
-  
         }
-  
         if (res.data.status != 200) {
-  
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-  
           Toast(res.data.message);
-  
           return;
-  
         }
     this.model = false
     this["$Message"].success('申请成功');
     this.$emit('getList');
     this.refundObj = {
-    refundType: "REFUND",
-    refundImgs: [],
-    reason: ""
-  }
+      refundType: "REFUND",
+      refundImgs: [],
+      reason: ""
+    }
 
 
 
@@ -450,7 +410,7 @@ import { Prop } from "vue-property-decorator";
     border: 1px #e5e5e5 solid;
     padding: 5px 18px;
     border-radius: 6px;
-
+    cursor: pointer;
   
   }
   
