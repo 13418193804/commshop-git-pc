@@ -298,7 +298,7 @@
                           
                         <!-- //1 定制推荐-->
                          <div class="goodsBody" v-if="items.arrtibleIndex %3 == 1">
-                           <div class="more" @click.stop="goMoretj(items)">更多商品 ></div>
+                           <div class="more" @click.stop="goMoretj(items)"  v-if="active==0">更多商品 ></div>
                            <div class="recommend_list" 
                             v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex<2"
                               @click="goProductDetail(goods.goodsId)" >
@@ -342,7 +342,7 @@
                      
                       <!-- 2 新品推荐-->
                           <div class="goodsBody" style="flex-wrap: wrap;" v-if="items.arrtibleIndex %3 == 2">
-                              <div class="more" @click.stop="goMoretj(items)">更多商品 ></div>
+                              <div class="more" @click.stop="goMoretj(items)" v-if="active==0">更多商品 ></div>
                               <div v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;"> 
                                 <div class="flex" style=" padding:10px;">
                                   <div class="flex flex-pack-center flex-align-center" style="width:200px;overflow:hidden;position: relative;">
@@ -366,7 +366,7 @@
                           </div>
                           <!-- 3 热卖-->
                           <div class="goodsBody" v-if="items.arrtibleIndex %3 == 0">
-                            <div class="more" @click.stop="goMoretj(items)">更多商品 ></div>
+                            <div class="more" @click.stop="goMoretj(items)"  v-if="active==0">更多商品 ></div>
                               <div style="width:260px;margin-right: 20px;" 
                               v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" v-if="goodsIndex<4" @click="goProductDetail(goods.goodsId)" >
                                   <div class="shop_img collImg">
