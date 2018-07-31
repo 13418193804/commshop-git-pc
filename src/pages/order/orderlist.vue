@@ -17,9 +17,10 @@
             <span style="margin-right:30px;">  下单时间:{{item.createTime}}</span>
             <span>  订单号:{{item.orderId}}</span>
           </div>
-        
+        <!-- 如果未付款显示去付款按钮 -->
+          <div v-if="item.orderStatus === 'ORDER_WAIT_PAY'" class="buyBtn" @click.stop="payOrder(item)">去付款</div>
+           <!-- 如果取消订单显示可删除按钮 -->
           <div  class="flex flex-align-center" >
-            
             <div style="padding:0 15px;position: relative;cursor: pointer;"
               @click.stop="doDleterShow(item.orderId)"  v-if=" active == '0' &&( item.orderStatus === 'ORDER_FINISH' || item.orderStatus =='ORDER_CANCEL_PAY')&&(item.detailList[0].refundStatus == 'WITHOUT_REFUND' ||item.detailList[0].refundStatus == 'SUCCEED_REFUND') ">
                 <div class="deleteBorder" > </div>
@@ -73,7 +74,7 @@
                     </div>
                   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_PAY'">
                     <span style="margin-right:10px;" @click.stop="doCancel(item)">取消订单</span>
-                    <span style="margin-right:10px;" :style="formatButtonColor()"  @click.stop="payOrder(item)">支付订单</span>
+                    <!-- <span style="margin-right:10px;" :style="formatButtonColor()"  @click.stop="payOrder(item)">支付订单</span> -->
                   </div>
 
                   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_SENDGOODS'">
@@ -126,7 +127,7 @@
                 </div>
 
                 <div style='text-align:center;font-size:16px;width:180px;'>
-                  <div style=""><span>￥{{item.orderTotalPrice.toFixed(2)}}</span></div>
+                  <div style=""><span>￥{{item.orderTotalPrice.toFixed(2)}} {{index}}</span></div>
                   <div style="font-size:12.6px;color:#999">  <span>(含运费{{item.transportPrice.toFixed(2)}})</span></div>
                 </div>
             </div>
@@ -149,14 +150,14 @@
     <div style="background-color:rgba(0, 0, 0, 0.5);    z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="deleteshow" >
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
         <div class="flex-around-justify flex-align-center" style="background-color:#fff;width:580px;position: relative;padding: 40px;">
-          <div @click="doDleterShow()" style="position: absolute;top:10px;right:10px;">
+          <div @click="doDleterShow()" style="position: absolute;top:10px;right:10px;cursor:pointer;">
             <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;" />
           </div>
           <div style="font-size: 16px;margin-bottom: 10px;text-align:center;">删除的订单无法申请售后和评论</div>
            <div style="font-size: 16px;margin-bottom: 10px;text-align:center;">是否要继续?</div>
           <div style="text-align:center;">
-            <button @click.stop="doDeleteOrder()" style="border:none;width:120px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;margin-right:10px;">确定</button>
-            <button @click="doDleterShow()"  style="border:none;width:120px;height:35px;color:#FCCB52;text-align: center;line-height:35px;border:1px solid #FCCB52;">取消</button>
+            <button @click.stop="doDeleteOrder()" style="cursor:pointer;border:none;width:120px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;margin-right:10px;">确定</button>
+            <button @click="doDleterShow()"  style="cursor:pointer;border:none;width:120px;height:35px;color:#FCCB52;text-align: center;line-height:35px;border:1px solid #FCCB52;">取消</button>
           </div>
         </div>
       </div>
@@ -164,7 +165,7 @@
   </div>
 
 <reimburse ref="reimburse" :orderItem="orderItem"  @getList="getList"></reimburse>
-<reimburseTwo ref="reimburseTwo" :orderItem="orderItem" ></reimburseTwo>
+<reimburseTwo ref="reimburseTwo" :orderItem="orderItem" @getList="getList" ></reimburseTwo>
 <ship ref="ship" ></ship>
 
 </div>
@@ -608,6 +609,19 @@ export default class orderList extends Vue {
   height: 44px;
   line-height: 44px;
 
+}
+.buyBtn{
+  color:#fff;
+  background-color: rgb(239, 202, 92);
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    margin-top: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    right: 45px;
 }
 .detailBody {
   cursor: pointer;

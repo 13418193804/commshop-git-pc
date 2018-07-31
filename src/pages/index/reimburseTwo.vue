@@ -7,7 +7,7 @@
             <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;cursor: pointer;"/>
           </div>
           <div class="flex btn_refund">
-            <div>售后类型</div>
+            <div>222售后类型</div>
             <button class="selectBox" :class="refundObj.refundType == 'REFUND' ?'selectType':''" @click="changerefundType('REFUND')">未收到货,只退款</button>
             <button class="selectBox" :class="refundObj.refundType == 'GOODS_RETURN' ?'selectType':''" @click="changerefundType('GOODS_RETURN')">退货退款</button>
           </div>
@@ -38,13 +38,12 @@
         
               <!-- <img :src="item" style="width:100%;" /> -->
         
-              <i class="iconfont icon-shanchu3" style="color: #000;
-        
-            position: absolute;
-            right: -8px;
-            top: -8px;
-            height: 17px;
-            line-height: 17px;" @click="removeByValue(refundObj.refundImgs,item)"></i>
+              <i >
+                  <img src="../../assets/image/删除按钮.png" style="color: #000;
+                  position: absolute;
+                  right: -8px;width:23px;height:23px;
+                  top: -8px;" @click="removeByValue(refundObj.refundImgs,item)"/>
+                  </i>
             </div>
           </div>
           <div style="margin: 10px;">
@@ -196,7 +195,11 @@ import { Prop } from "vue-property-decorator";
      this.reim_model = false
         this["$Message"].success('申请成功');
         this.$emit('getList');
-  
+        this.refundObj = {
+          refundType: "REFUND",
+          refundImgs: [],
+          reason: ""
+        }
       });
   
     }
@@ -435,14 +438,16 @@ import { Prop } from "vue-property-decorator";
    .el-upload--picture-card i{
         opacity: 0;
   }
-  
+  .el-upload--picture-card>i{
+    opacity: 1;
+  }
   
   .selectBox {
   
     border: 1px #e5e5e5 solid;
     padding: 5px 18px;
     border-radius: 6px;
-
+    cursor: pointer;
   
   }
   

@@ -132,7 +132,7 @@
       <!-- 大家还看了 -->
       <div style="height:320px;" v-if=" new_active== '0'">
         <div class="flex" style="    overflow: auto;">
-          <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" >
+          <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" style="cursor:pointer;">
               <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
                   <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:33px;"/>
                   <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
@@ -296,6 +296,7 @@ export default class ProductDetail extends Vue {
 //  return JSON.parse(skuValue);
 // }
  goProductDetail(goodsId) {
+   console.log('点击详情',goodsId)
    sessionStorage.goodsId = goodsId;
     this.$router.push({
       path: "/productDetail",
@@ -303,9 +304,9 @@ export default class ProductDetail extends Vue {
         goodsId: goodsId
       }
     });
-
-    this.initPage()
+   window.location.reload()
   }
+  
 //获取评价列表
   evaluateList(){
         Vue.prototype.$reqFormPost1(

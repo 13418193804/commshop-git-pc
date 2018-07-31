@@ -24,8 +24,7 @@
 
   <div class="cartItem flex  flex-align-center flex-pack-justify" v-for="(item,index) in cartList">
   <div style="padding: 0 10px" class="pointer">
-    <van-checkbox   :name="item.id" >
-  </van-checkbox>
+    <van-checkbox  :name="item.id" ></van-checkbox>
   </div>
   <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px 0 0;overflow:hidden;">
        <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
@@ -82,7 +81,7 @@
   <div class="flex flex-align-center flex-pack-center">
        <van-checkbox v-if="cartList.length>0" v-model="checked"  @change="allSelect" style="margin:15px 15px 15px 25px;" class="pointer"></van-checkbox>
       <div>全选</div>
-      <div style="margin:0 30px;">批量删除</div>
+      <div style="margin:0 30px;cursor:pointer;" @click="allDelete">批量删除</div>
   </div>
 </div>
 <div class="flex  flex-align-center ">
@@ -92,7 +91,7 @@
 
   </div>
   <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:60px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" @click="onSubmit">
-<span>下单</span>
+  <span>下单</span>
   </div>
 
 </div>
@@ -151,7 +150,6 @@ export default class Cart extends Vue {
       Toast("您还没选择商品");
       return;
     }
-
     Vue.prototype.$reqFormPost1(
       "/prepare/order/add",
       {
@@ -228,6 +226,35 @@ export default class Cart extends Vue {
       }
     );
   }
+
+  allDelete() {
+    console.log('订单号',this.result.join(","))
+    if (this.result.length <= 0) {
+      Toast("您还没选择商品");
+      return;
+    }
+    Vue.prototype.$reqFormPost1(
+      "/shop/cart/delete",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        cartIds: this.result.join(",")
+      },
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log("网络请求错误！");
+          return;
+        }
+          this["$Message"].success("已删除");
+        let a: any = this.$refs.wintabe;
+        a.getCartList();
+      }
+    );
+  }
+
   collect(index) {
     Vue.prototype.$reqFormPost1(
       "/fav/add",

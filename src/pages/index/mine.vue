@@ -61,10 +61,11 @@ goDiscountLobby(){
   });
 }
   mounted() {
+    
     window['getUserInfo'] = ()=>{
- this.getUserInfo()
-    }
- this.getUserInfo()
+    this.getUserInfo()
+        }
+    this.getUserInfo()
   }
 }
 </script>

@@ -16,7 +16,7 @@
             <div class="flex shopStar">
               <div>评分</div>
               <div>
-                   <div class="star-box" style="margin:0 10px;">
+                   <div class="star-box" style="margin:0 10px;cursor:pointer;">
                         <img v-for="(star,index) in stars" :key="index" :src="star.src"  @click="getstars(index+1)"/>
                   </div>
               </div>
@@ -38,17 +38,26 @@
                     </van-uploader>
               
                   </div>
-                  <div class="el-upload--picture-card" style="position: relative;" v-for="(item,index) in refundObj.refundImgs" :key="index">
+                  <div class="el-upload--picture-card" style="position: relative;" 
+                  v-bind:style="handleBackGround(item)"
+                  v-for="(item,index) in refundObj.refundImgs" :key="index">
               
-                    <img :src="item" style="width:100%;" />
+                    <!-- <img :src="item" style="width:100%;" /> -->
               
-                    <i class="iconfont icon-shanchu3" style="color: #000;
+                    <!-- <i class="iconfont icon-shanchu3" style="color: #000;
               
                   position: absolute;
                   right: -8px;
                   top: -8px;
                   height: 17px;
-                  line-height: 17px;" @click="removeByValue(refundObj.refundImgs,item)"></i>
+                  line-height: 17px;" @click="removeByValue(refundObj.refundImgs,item)"></i> -->
+                  <i >
+                  <img src="../../assets/image/删除按钮.png" style="color: #000;
+                  position: absolute;
+                  right: -8px;width:23px;height:23px;
+                  top: -8px;" @click="removeByValue(refundObj.refundImgs,item)"/>
+                  </i>
+                  
                   </div>
             </div>
           <div style="margin: 10px;">
@@ -235,7 +244,13 @@ getorderdetail(){
       }
   
     }
-  
+    handleBackGround(img){
+    return `background-image:url('${img}');
+            background-repeat:no-repeat;
+            backgroundPosition:center centert;
+            backgroundSize:contain;`
+    // backgroundImage:'url(item)', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'
+  }
     onRead(file) {
   
       console.log();
@@ -409,10 +424,17 @@ getorderdetail(){
     vertical-align: top;
   
     margin: 10px;
+    background: url(../../assets/image/添加图片.png) no-repeat;
+    background-size: 100%;
   
   }
   
-  
+  .el-upload--picture-card i{
+        opacity: 0;
+  }
+  .el-upload--picture-card>i{
+    opacity: 1;
+  }
   
   .el-upload {
   

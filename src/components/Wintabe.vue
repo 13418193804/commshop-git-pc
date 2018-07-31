@@ -4,6 +4,7 @@
    
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
+            @click="myCenter()"
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img">
                  <img :src="userInfo.userIcon" v-if="userInfo.userIcon"/>
@@ -53,8 +54,6 @@
                <img src="../assets/appcode.jpeg" style="width:80px;height:80px;"/></div>
         </div>
    </div>
-
-   <div style="height:52px;"></div>
    <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
       <div style="height:400px;width:380px;background-color:#fff;position: relative;">
             <img src="../assets/image/关闭按钮1.png" style="width:35px;position: absolute;right: -50px;top: -50px;border-radius: 50%;" @click="close()"/>
@@ -194,7 +193,7 @@
   
   <!-- <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px;cursor: pointer;"/> -->
   <div style=" cursor: pointer; position: relative;margin-left: 30px;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
-    <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0">{{cartLen}}</div>
+    <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0" @click="goCart1()">{{cartLen}}</div>
       <img src="../assets/image/购物车.png" style="    vertical-align: middle;"/>
       <div class="cartFexid" v-if="cartModel" >
         <div style="display: flex;justify-content: flex-end;"> 
@@ -252,7 +251,8 @@
 <!-- <div style="height:50px;background-color:red">123</div> -->
 <!-- 头部导航菜单 -->
 
-<van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab" class="searchBar index_tabs flex-1" style="width:100%;" >
+<van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab"
+ class="searchBar index_tabs flex-1" style="width:100%;">
 <!-- <van-tabs :active="active" k@clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
     <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
@@ -461,6 +461,7 @@ export default class Comhead extends Vue {
   }
   filterModel = false;
   app_code = false;
+  sticky = true;
   //hover二维码
    appMouseover() {
     this.app_code = true;
@@ -711,6 +712,16 @@ export default class Comhead extends Vue {
     });
   }
   // 导航跳转
+  goCart1(){
+    this.$router.push({
+      path:"cart"
+    })
+  }
+  myCenter(){
+    this.$router.push({
+      path: "center"
+    })
+  }
   myDiscount() {
     this.$router.push({
       path: "discountLobby"
@@ -1391,12 +1402,12 @@ a.getUserInfo();
   font-size: 15px;
 }
 .toplabel {
-  z-index: 999;
+  z-index: 1;
   background-color: #212426;
   height: 52px;
   width: 100%;
-  position: fixed;
-  top: 0;
+  // position: fixed;
+  // top: 0;
 }
 .contentBox {
   min-width: 65px;
@@ -1527,6 +1538,7 @@ a.getUserInfo();
   border: 1px solid #efefef;
   border-top: 0;
   right: 0;
+  z-index: 999;
   div {
     text-align: center;
     line-height: 50px;
