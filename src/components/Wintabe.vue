@@ -293,7 +293,6 @@
                               <i class="user_img" >{{items.letter}}</i>
                               <i>{{items.name}}</i>
                               <p>{{items.nameEn}}</p>
-                              
                           </div>
                           
                         <!-- //1 定制推荐-->
@@ -977,10 +976,11 @@ let b =  this.indexList.filter((item,index)=>{
 
     this.active = active;
 
-    console.log(this.indexList, active)
-
+    if(active != "-1" && this.indexList[active] && this.indexList[active].catId)
+  {
+   this.two_menu(active);
+     }
     if (active != "-1" && !this.indexList[active].children) {
-      console.log("哈哈", this.indexList[active].pageId);
       Vue.prototype.$reqFormPost1(
         "/page/info",
         {
@@ -995,7 +995,6 @@ let b =  this.indexList.filter((item,index)=>{
           let a = res.data.filter((item, index) => {
             return item.componentType === "COMPONENT_TYPE_GOODS_TAG";
           });
-          console.log(res.data);
           res.data.forEach((items, index) => {
             for (let i = 0; i < a.length; i++) {
               if (items.id == a[i].id) {
@@ -1008,10 +1007,9 @@ let b =  this.indexList.filter((item,index)=>{
           (<any>Object).assign(this.indexList[active], {
             children: res.data
           });
-          console.log("jj", res.data);
           this.indexList.push();
           if (this.indexList[active] && this.indexList[active].catId) {
-            this.two_menu(active);
+           
             Vue.prototype.$reqFormPost1(
               "/user/goods/list",
               {
@@ -1028,8 +1026,7 @@ let b =  this.indexList.filter((item,index)=>{
                   columnNum: 1,
                   items: res.data.goodsList
                 });
-
-                console.log("首页", res.data.goodsList);
+                
                 this.indexList.push();
               }
             );
