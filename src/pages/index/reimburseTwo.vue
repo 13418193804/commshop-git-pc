@@ -7,7 +7,7 @@
             <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;cursor: pointer;"/>
           </div>
           <div class="flex btn_refund">
-            <div>222售后类型</div>
+            <div>售后类型</div>
             <button class="selectBox" :class="refundObj.refundType == 'REFUND' ?'selectType':''" @click="changerefundType('REFUND')">未收到货,只退款</button>
             <button class="selectBox" :class="refundObj.refundType == 'GOODS_RETURN' ?'selectType':''" @click="changerefundType('GOODS_RETURN')">退货退款</button>
           </div>

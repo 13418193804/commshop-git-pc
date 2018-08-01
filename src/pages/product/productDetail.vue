@@ -37,8 +37,6 @@
   <div style="color:#a3a3a3">
   {{detatil.jingle}}
 </div>
-
-
 <div style="border:1px solid #e5e5e5;margin:20px 0;background-color:#FCFCFC;font-size:14px;">
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
   <div style="width:50px">价格</div>
@@ -55,7 +53,7 @@
     {{detatil.couponList[0].couponName}} 
   </div>
   <div style="cursor: pointer;">
-    <span style="color:red;" @click="goDiscount()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
+    <span style="color:red;"  @click="show()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
   </div>
   <div>
     
@@ -180,8 +178,8 @@
           <div class="evaluate_right">
             <h6>大家都写到</h6>
             <div class="btn_evaluate">
-                <span :class="btn_active == '0'?' btn_border' :''" @click="btnList('0')">全部（）</span>
-                <span :class="btn_active == '1'?' btn_border' :''" @click="btnList('1')">有图（666）</span>
+                <span :class="btn_active == '0'?' btn_border' :''" @click="btnList('0')">全部（{{detatil.commentNum}}）</span>
+                <span :class="btn_active == '1'?' btn_border' :''" @click="btnList('1')">有图（{{total}}）</span>
             </div>   
           </div>
       </div>
@@ -208,34 +206,45 @@
    
 </div>
 </div>
+<!-- // 优惠券弹窗 -->
 <div style="background-color:rgba(0, 0, 0, 0.5); z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="iscouponshow">
-          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">  
-               <div style="background-color:#fff;padding:20px;position:relative;width: 750px;
-                          min-height;max-height:620px;
-                          overflow-y: auto;">
-              <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
-              <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠券</div>
-                <div class="discountBox">
-                    <div class="dis_list dis_bgunUse"  v-for="(item,index) in couponList"   :key="index" @click="selectcoupon(item)">
+    <div class="flex flex-pack-center flex-align-center" style="height:100vh;">  
+          <div style="background-color:#fff;padding:20px;position:relative;width: 750px;
+                    min-height;max-height:620px;padding-bottom:40px;
+                    overflow-y: auto;">
+                <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
+                <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠券</div>
+                  <div class="discountBox">
+                      <div class="dis_list dis_bgunUse"  v-for="(item,index) in detatil.couponList"   :key="index" @click="selectcoupon(item)">
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                          {{item.fullDenomination}}</span>元</p>
-                          <div class="distypeCur" v-if="item.id==selectcouponId">已选择</div>
-                        <div style="justify-content: space-between;" class="flex">
-                            <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                              {{item.couponName}}</span>
-                            <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
-                            <i style="color: #fff;" v-if="item.validityTime">- {{item.validityTime.split(' ')[0]}}</i></div>
-                        </div>
-                        <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+                {{item.fullDenomination}}</span>元</p>
+                <div class="distype" 
+                  :class="item.status? 'distypeed' :'distype'"
+                  @click="getDiccount(item)"
+                  >
+                  {{item.status ? "已领取" : "领取"}}</div>
+                <!-- <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.couponName}}</span>
+                      <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
+                      <i style="color: #fff;" v-if="item.endDate">{{item.endDate.split(' ')[0]}}</i>
+                </div> -->
+                <div style="justify-content: space-between;" class="flex" v-if="item.validityType == 'ABSELUTE_DATE'">
+                        <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
+                          {{item.couponName}}</span>
+                        <div> <i style="color: #fff;">{{item.createTime.split(' ')[0]}} </i>
+                        <i style="color: #fff;">- {{item.endDate.split(' ')[0]}}</i></div>
                     </div>
-                </div>
-              <div style="text-align: center;margin-top: 30px;">
-                <button @click="surecoupon()"
-                 style="border: none;width: 290px;height: 45px;background-color: rgb(252, 203, 82);color: rgb(255, 255, 255);text-align: center;line-height: 45px;margin-right: 5px;font-size: 16px;">确定</button>
+                <div v-else class="time">{{item.days}}天有效</div>
+
+              <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
-            </div>
           </div>
-        </div>
+        <!-- <div style="text-align: center;margin-top: 30px;">
+          <button @click="surecoupon()"
+            style="cursor:pointer;border: none;width: 290px;height: 45px;background-color: rgb(252, 203, 82);color: rgb(255, 255, 255);text-align: center;line-height: 45px;margin-right: 5px;font-size: 16px;">确定</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
   <winbeet ></winbeet>
   </div>
   </div>
@@ -265,11 +274,12 @@ export default class ProductDetail extends Vue {
 
   mounted() {
     this.goodsId = this.$route.query.goodsId;
- this.initPage()
+    this.initPage()
   }
   initPage(){
-       this.getProductDetail();
+    this.getProductDetail();
     this.evaluateList();
+    this.evaluatePic()
   }
   goodsId = "";
   detatil:any= {
@@ -293,6 +303,7 @@ export default class ProductDetail extends Vue {
   chosensku = [];
   skuItem = {};
   appraiseList = [];
+  total = [];
   status = 1;
   commentnum = 0;
   praise = "0";
@@ -312,7 +323,6 @@ export default class ProductDetail extends Vue {
       this.tabgoodslist = this.newList;
       this.tabindex = 1;
     }
-
   }
   
   // 新品推荐切换
@@ -357,10 +367,34 @@ export default class ProductDetail extends Vue {
     
   }
 
+    evaluatePic(){
+        Vue.prototype.$reqFormPost1(
+        "/comment/list",
+        {
+          goodsId: this.goodsId,
+          status:"1"
+        },
+        res => {
+          console.log(res)
+        if (res.returnCode != 200) {
+            this["$Message"].warning(res.message);
+            return;
+          }
+          console.log('有图',res.data.page.total)
+          this.total = res.data.page.total;
+        }
+      );
+    
+  }
+
+
+
+
   //评论筛选
   btnList(btn_active){
-this.btn_active = btn_active;
-this.evaluateList()
+  this.btn_active = btn_active;
+  this.evaluateList();
+  this.evaluatePic()
   }
    addCar() {
     if (!this.skuItem["skuId"]) {
@@ -401,26 +435,32 @@ this.evaluateList()
     );
     // console.log(this.skuItem.skuId);
   }
+  discList = [];
     // 优惠卷框
   iscouponshow=false;
-  goDiscount(){
-    this.iscouponshow=true;
-    // if (
-    //   this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
-    //     "" &&
-    //   this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
-    // ) {
-    
-    // this.$router.push({
-    //   path: "/discount"
-    // });
-
-    // }else{
-    //      let a:any = window;
-    //       a.loginOut();
-    //       a.changeLoginModel();
-    // } 
+  couponshow(){
+    this.iscouponshow=false;
   }
+  // 立即领取优惠券
+  getDiccount(item){
+    console.log('点击领取',item.id)
+    Vue.prototype.$reqFormPost1(
+        "/coupon/user/linkadd",   
+        {
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
+          couponId:item.id
+        },
+        res => {
+          if (res.returnCode != 200) {
+            this["$Message"].warning(res.message);
+            return;
+          }
+          this.getProductDetail()
+        }
+    
+      );
+    }
   updataCollect(){
     if(this.detatil.favStatus == 0){
         console.log("添加收藏" + this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId);
@@ -604,11 +644,19 @@ this.evaluateList()
   ];
   scale= 0;
   click = "0"
+  isshowConp(){
+    
+  }
+
+  show(){
+    this.iscouponshow=true;
+  }
   getProductDetail() {
+    
     let data ={
-   goodsId: this.goodsId
+        goodsId: this.goodsId
     };
- if (
+    if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
@@ -637,6 +685,7 @@ this.evaluateList()
         console.log("-----------");
         // 评论数量
         this.commentnum = res.data.commentNum;
+        console.log('总数',res.data.commentNum)
         
         // 好评计算
         if (res.data.commentList.length > 0) {
@@ -813,41 +862,41 @@ cursor: pointer;
    line-height: 24px;color: #ffc630;margin-right:15px;font-size: 10px;
  }
  //优惠券弹窗
-.discountBox{
-  overflow: hidden;padding:30px 25px;padding-right:10px;
-  .dis_list{
-    float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
-    margin-bottom:10px;position: relative;
-      background-size: 100%;
-    .newtext{
-      position: absolute;bottom: 4px;color: #fff;width:91%;font-size: 12px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-  }
-  .dis_bgunUse{
-    background :url('../../assets/image/未使用优惠卷.png') no-repeat;
-  }
-    .dis_bgUse{
-    background :url('../../assets/image/已使用优惠卷.png') no-repeat;
-  }
-  .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
-    margin-right: 0;
-  }
-  .distypeCur{
-    height:30px;line-height:30px;color:#fff;position: absolute;right:15px;top:20px;cursor: pointer;
-    text-align: center;padding: 0 10px;border:1px solid #fff;width:80px;
-  }
-  .distypeed{
-    background: #fccb52;color:#fff;
-  }
-  
-}
 .add_colose{
   position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
 }
 .add_titile{
   line-height: 40px;font-size: 18px;
+}
+
+.discountBox{
+  overflow: hidden;padding: 30px 15px;padding-right:10px;height: 400px;overflow: auto;
+  .dis_list{
+    float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
+    margin-bottom:10px;position: relative;background :url(../../assets/image/领卷中心背景.png) no-repeat;
+      background-size: 100%;
+    .newtext{
+      position: absolute;bottom: 4px;color: #fff;font-size: 10px;width:90%;
+       text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    }
+  }
+  .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
+    margin-right: 0;
+  }
+  .dis_list:nth-child(even){
+    
+  }
+  .distype{
+    height:30px;line-height:30px;color:#ffc630;position: absolute;right:15px;top:20px;background: #fff;cursor: pointer;
+    text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
+  }
+  .distypeed{
+    background: #fccb52;color:#fff;
+  }
+}
+.time{
+  position: absolute;right: 16px;color:#fff;
 }
 </style>

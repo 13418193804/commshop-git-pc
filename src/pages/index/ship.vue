@@ -3,7 +3,7 @@
     <div style="background-color:rgba(0, 0, 0, 0.5);  z-index: 99999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" >
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
         <div style=" min-height: 300px;background-color:#fff;width:780px;padding:20px; border-radius: 10px;    position: relative;">
-          <div style="position: absolute;top:10px;right:10px;" @click="ship_model = false">
+          <div style="cursor:pointer;position: absolute;top:10px;right:10px;" @click="ship_model = false">
             <img src="../../assets/image/关闭按钮1.png" style="width:20px;height:20px;"/>
           </div>
             <div style="font-size:16px;text-align:center;    padding-bottom: 10px;

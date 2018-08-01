@@ -127,16 +127,21 @@
                 </div>
 
                 <div style='text-align:center;font-size:16px;width:180px;'>
-                  <div style=""><span>￥{{item.orderTotalPrice.toFixed(2)}} {{index}}</span></div>
-                  <div style="font-size:12.6px;color:#999">  
-                    <!-- <span>(含运费{{item.transportPrice.toFixed(2)}})</span> -->
+                  <div style="">
+                      <span>￥{{(items.goodsPrice * items.goodsNum).toFixed(2)}}</span>
                   </div>
+                  <!-- <div style=""><span>￥{{item.orderTotalPrice.toFixed(2)}} {{index}}</span></div> -->
                 </div>
             </div>
           </div>
       </div>
-      <!-- 运费 -->
-      <div class="shoplistSum">共2件商品 合计：¥ 0.01 (含运费{{item.transportPrice.toFixed(2)}})</div>
+      <!-- 已取消订单信息 -->
+      <div class="shoplistSum" v-if="item.orderStatus =='ORDER_CANCEL_PAY'" >共{{item.detailList.length}}件商品 合计：¥{{item.orderTotalPrice.toFixed(2)}} </div>
+      <!-- 订单信息 -->
+      <div class="shoplistSum" v-else>共{{item.detailList.length}}件商品 合计：¥{{item.orderTotalPrice.toFixed(2)}}
+        (含运费{{item.transportPrice.toFixed(2)}})
+      </div>
+
   </div>
 </div>
 

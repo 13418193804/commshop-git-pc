@@ -143,6 +143,7 @@
   subcomment(){
       if(this.commentContent==""){
           Toast("请填写评价");
+          return;
       }
       let commentImg = this.filename.toString()
       Vue.prototype.$reqFormPost(
@@ -174,12 +175,11 @@
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-
-          Toast(res.data.message);
+          Toast("评价成功～");
           return;
         }
           this.$router.go(-1);       
-        Vue.prototype.$confirmLogin({
+          Vue.prototype.$confirmLogin({
               name: "orderlist",
               query: {
                 orderStatus: "ORDER_WAIT_REVIEW"

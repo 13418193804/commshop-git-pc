@@ -38,7 +38,7 @@
   <div style="width:60%;">
      <div  style="margin:20px 0;float:right;background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
   @click="dopay">
-<span>立即支付</span>
+    <span>立即支付</span>
   </div>
 
   </div>
