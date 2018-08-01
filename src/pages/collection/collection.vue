@@ -1,9 +1,10 @@
 <template>
   <div class="" style="height:-webkit-fill-available;background-color:#FFFFFF;">
-    <div style="padding: 30px 15px;">
+
+
+    <div style="padding: 30px 15px;" >
       <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
       <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index" 
-        
       >
         <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"  
         > 
@@ -20,11 +21,19 @@
             <div><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
             <div> <span class="textLabel marketPrice" >￥{{item.marketPrice.toFixed(2)}}</span></div>
           </div>
-          
         </div>
       </el-col>
+      <el-col>
+          <div v-if="goodsList.length == 0">
+              <div style="text-align:center;margin-top:50px;">暂无收藏</div>
+          </div>
+        </el-col>
     </el-row>
     </div>
+
+
+
+
   </div>
 </template>
 

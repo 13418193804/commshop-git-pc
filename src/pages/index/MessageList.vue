@@ -21,6 +21,18 @@
           <div style="color:#B4B4B4;font-size:13px;">{{item.updateTime}}</div>
         </div>
       </div>
+
+
+    
+    <div v-if="messagelist.length==0">
+          <div style="text-align:center;margin-top:20px;">
+            暂无通知
+          </div>
+    </div>
+
+
+
+
   </div>
 </template>
 
