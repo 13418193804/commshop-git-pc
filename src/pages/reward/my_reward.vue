@@ -25,7 +25,7 @@
 
     <div>
         <div style="color:#959595;margin:27px 0 15px 20px;">明细</div>
-        <div class="flex flex-around-justify" style="padding:10px 0;background-color:#F8F8F8;">
+        <div class="rewardBox" style="padding:10px 0;background-color:#F8F8F8;">
           <div>时间</div>
           <div>详情</div>
           <div>积分</div>
@@ -33,13 +33,13 @@
         <div v-if="awardList.length>0" style="padding:15px;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
           <div v-for="(item,index) in awardList" :key="index">
             
-            <div class="flex flex-around-justify" v-if="item.awardType == 'DISTRIBUTE'" style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;" >
+            <div class="rewardBox" v-if="item.awardType == 'DISTRIBUTE'" style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;" >
                 <div>{{item.createTime}}</div>
                 <div>{{item.userName?item.userName:item.member.loginName}}消费了{{item.payTotal}}，您获得{{item.awardAmount}}积分</div>
                 <div style="color:#ffc630">+{{item.awardAmount}}</div>
             </div>
 
-            <div class="flex flex-around-justify" v-else style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;">
+            <div class="rewardBox" v-else style="padding:15px 0;background-color:#fff;border-bottom:1px dashed #E5E5E5;">
                 <div>{{item.createTime}}</div>
                 <div>您消费了{{item.payTotal}}，您获得{{item.awardAmount}}积分</div>
                 <div style="color:#ffc630">+{{item.awardAmount}}</div>
@@ -465,4 +465,10 @@ export default class my_reward extends Vue {
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
+.rewardBox{
+  width:100%;overflow:hidden;display: flex;display: -webkit-flex; /* Safari */
+}
+.rewardBox>div{
+  float:left;text-align:center;flex: 1;
+}
 </style>
