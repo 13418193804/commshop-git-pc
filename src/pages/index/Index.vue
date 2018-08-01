@@ -29,11 +29,18 @@ export default class shopIndex extends Vue {
 
     // console.log(this.$route.query)
     console.log('index')
+   
+   
+ 
+
+
     // Vue.prototype.$reqFormPost1("/address/queryprovince", {}, res => {
     //   console.log(1, res);
     // });
     this.doNone()
   }
+
+   
   //隐藏首页tab
   doNone(){
     console.log(this.$refs.wintabe)

@@ -863,6 +863,7 @@ this.loginModel = false;
   loginName = "";
   password = "";
   doLogin() {
+
     if (this.loginName == "") {
       this["$Message"].warning("请输入账号");
       return;

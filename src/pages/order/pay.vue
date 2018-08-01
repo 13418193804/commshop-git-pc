@@ -36,11 +36,22 @@
 </div>
 <div class=" flex   flex-pack-center ">
   <div style="width:60%;">
-     <div  style="margin:20px 0;float:right;background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
+     <div style="float:right;">
+
+  
+
+     <div   :style=" surplus.minutes==0 && surplus.seconds ==0?'background-color:#999;color:#FFFFFF;':'background-color:#F4C542;color:#FFFFFF;'" style="border-color:#F4C542; margin-top:20px;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
   @click="dopay">
-    <span>立即支付</span>
+    <span>{{ surplus.minutes==0 && surplus.seconds ==0?'订单失效':  '立即支付'}}</span>
+  </div>
+     <div style="margin-top:5px;color:#666;font-size:12.8px;">
+    剩余付款时间:<span style="color:red">
+  {{surplus.minutes}}分{{surplus.seconds}}秒
+</span>
   </div>
 
+
+  </div>
   </div>
 </div>
 
@@ -64,6 +75,7 @@
         </div>
       </div>
     </div>
+    
 
 
   <winbeet></winbeet>
@@ -98,6 +110,12 @@ export default class shopIndex extends Vue {
   this.overModel=false
   }
     dopay() {
+      if( this.surplus.minutes==0 && this.surplus.seconds ==0){
+        return ;
+      }
+
+
+
     //    this.obj["payTotal"]
     if (this.payActive == "ali") {
       console.log('支付宝支付')
@@ -195,7 +213,55 @@ export default class shopIndex extends Vue {
     this.address.address = this.$route.query.address; 
     this.address.contactname = this.$route.query.contactname; 
     this.address.contactmobile = this.$route.query.contactmobile; 
+
+
+       let a = "2018-08-01 20:04:21";
+    this.timeFn(a)
+    let timer = setInterval(()=> {
+      if( this.surplus.minutes ==0 && this.surplus.seconds ==0){
+        clearInterval(timer);
+      } else {
+    this.timeFn(a)
+      }
+    }, 1000);
   }
+// 剩余时间
+  surplus = {
+    minutes:0,
+    seconds:0
+  }
+
+   timeFn(d1) {//di作为一个变量传进来
+    //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
+    var dateBegin = new Date(d1.replace(/-/g, "/"));//将-转化为/，使用new Date
+    var dateEnd = new Date();//获取当前时间
+    var dateDiff = dateEnd.getTime() - dateBegin.getTime();//时间差的毫秒数
+    var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
+    var leave1=dateDiff%(24*3600*1000)    //计算天数后剩余的毫秒数
+    var hours=Math.floor(leave1/(3600*1000))//计算出小时数
+    //计算相差分钟数
+    var leave2=leave1%(3600*1000)    //计算小时数后剩余的毫秒数
+    var minutes=Math.floor(leave2/(60*1000))//计算相差分钟数
+    //计算相差秒数
+    var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
+    var seconds=Math.round(leave3/1000)
+
+   if(hours>0 || dayDiff>0 ||minutes>30){
+      console.log('订单失效,置灰按钮')
+    this.surplus.minutes = 0
+    this.surplus.seconds = 0
+    }else{
+
+    this.surplus.minutes = 30-minutes
+    this.surplus.seconds = 60-seconds
+
+    }
+
+
+
+}
+
+
 }
 </script>
 
