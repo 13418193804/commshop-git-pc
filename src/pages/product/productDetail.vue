@@ -212,28 +212,33 @@
           <div style="background-color:#fff;padding:20px;position:relative;width: 750px;
                     min-height;max-height:620px;padding-bottom:40px;
                     overflow-y: auto;">
-                <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
+                <div @click="couponshow(true)" class="add_colose">
+                  <i class="iconfont icon-close"></i>
+                  </div>
                 <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠券</div>
                   <div class="discountBox">
-                      <div class="dis_list dis_bgunUse"  v-for="(item,index) in detatil.couponList"   :key="index" @click="selectcoupon(item)">
+                      <div class="dis_list dis_bgunUse"  v-for="(item,index) in goodsCoupon"   :key="index" >
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
                 {{item.fullDenomination}}</span>元</p>
                 <div class="distype" 
                   :class="item.status? 'distypeed' :'distype'"
                   @click="getDiccount(item)"
                   >
-                  {{item.status ? "已领取" : "领取"}}</div>
+                  {{item.getStatus ? "已领取" : "领取"}}</div>
                 <!-- <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.couponName}}</span>
                       <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
                       <i style="color: #fff;" v-if="item.endDate">{{item.endDate.split(' ')[0]}}</i>
                 </div> -->
-                <div style="justify-content: space-between;" class="flex" v-if="item.validityType == 'ABSELUTE_DATE'">
+                <div style="justify-content: space-between;" class="flex">
                         <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
                           {{item.couponName}}</span>
-                        <div> <i style="color: #fff;">{{item.createTime.split(' ')[0]}} </i>
+                        <div  v-if="item.getStatus  && item.validityType == 'RELATIVE_DATE'">
+                           <i style="color: #fff;">{{item.createTime.split(' ')[0]}} </i>
                         <i style="color: #fff;">- {{item.endDate.split(' ')[0]}}</i></div>
+
+                            <div v-else class="time">{{item.days}}天有效</div>
                     </div>
-                <div v-else class="time">{{item.days}}天有效</div>
+            
 
               <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
               </div>
@@ -441,8 +446,14 @@ export default class ProductDetail extends Vue {
   couponshow(){
     this.iscouponshow=false;
   }
+
+
   // 立即领取优惠券
   getDiccount(item){
+    
+    if(item.getStatus){
+      return;
+    }
     console.log('点击领取',item.id)
     Vue.prototype.$reqFormPost1(
         "/coupon/user/linkadd",   
@@ -456,11 +467,11 @@ export default class ProductDetail extends Vue {
             this["$Message"].warning(res.message);
             return;
           }
-          this.getProductDetail()
+          this.queryGoodsCoupon()
         }
-    
       );
     }
+
   updataCollect(){
     if(this.detatil.favStatus == 0){
         console.log("添加收藏" + this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId);
@@ -650,7 +661,32 @@ export default class ProductDetail extends Vue {
 
   show(){
     this.iscouponshow=true;
+    this.queryGoodsCoupon();
   }
+  queryGoodsCoupon(){
+Vue.prototype.$reqFormPost1(
+      "/coupon/goods/list",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        goodsId: this.goodsId,
+      },
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log("网络请求错误！");
+          return;
+        }
+        console.log(res.data)
+        this.goodsCoupon = res.data
+        
+      }
+    );
+  }
+  goodsCoupon = []
+  
   getProductDetail() {
     
     let data ={
