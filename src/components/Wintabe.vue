@@ -391,10 +391,10 @@
                   
 <!-- 商品列表 -->
   <div class="classify_shop">
-                    <div class="classify_top">
-                  111
-          </div>
-          </div>
+      <div class="classify_top">
+          111
+      </div>
+  </div>
 
 
 
@@ -1097,7 +1097,11 @@ let b =  this.indexList.filter((item,index)=>{
         console.log('--------')
         this.catList = res.data;
         console.log(this.catList)
+   // 取第一个 id的详情 
 
+    //   goodsList
+
+  
       }
     );
   }
