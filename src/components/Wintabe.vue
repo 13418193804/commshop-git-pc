@@ -60,7 +60,7 @@
       <!-- 登录 -->
       <div v-if="modelType=='login'">
           <div style="text-align:center;padding:20px;">
-              <img src="../assets/image/LOGO.png" style="width:80px;"/>
+              <img src="../assets/image/LOGO.png" style="width:80px;cursor:pointer;"/>
           </div>  
           <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px;margin:15px 0">
               <div style="border:1px #e5e5e5 solid;padding:10px;border-radius:5px;" class="flex-1">
