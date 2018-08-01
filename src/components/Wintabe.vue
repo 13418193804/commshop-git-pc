@@ -390,16 +390,56 @@
 
                   
 <!-- 商品列表 -->
-  <div class="classify_shop">
-      <div class="classify_top">
-          111
-      </div>
-  </div>
-
-
-
-
-          </div>
+ <!-- 商品列表页-->
+        <div class="classify_shop"  v-if="item.catId &&catList&& catList.length>0">
+           <div class="classifyTitle">
+              <h5>{{catName}}</h5>
+              <p>CUSTOM RECOMMENDATION</p>
+            </div>
+            <div class="classify_top">
+               
+                <div class="flex" v-if="$route.query.type !=='filter' && catList.length>0">
+                  <div> 分类</div>
+                  <div> <span 
+                  v-for="(catItem,index) in catList" :key="index" class="colorGray" 
+                  :class="{ colorYellow:catItem.catId == catId}" @click="checkSecCat(catItem)" 
+                  >
+                    {{catItem.catName}}
+                    </span>
+                  </div>
+                </div>
+                <div class="flex">
+                  <div> 排序</div>
+                  <div> <span :style="sortName !=='PRICE' && sortName !=='SALES'?' color:#f4c542':''"  @click="doPriceFitler('')">默认</span>
+                  <span :class="handleStatus('PRICE')" :style="sortName =='PRICE'?' color:#f4c542':''" @click="doPriceFitler('PRICE')">价格</span><span :class="handleStatus('SALES')"  :style="sortName =='SALES'?' color:#f4c542':''" @click="doPriceFitler('SALES')">销量</span> </div>
+                </div>
+            </div>
+            <!-- 新品上架 -->
+            <div class="headline flex-pack-center" v-if="false">
+              <h2>{{secItem.catName}}</h2>
+            </div>
+            <!-- 商品列表 -->
+            <div class="shop_list">
+                <ul class="flex flex-warp-justify">
+                    <li v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
+                      <div class="shop_img collImg">
+                        <div class="hot" v-if="shopItem.hotStatus"><img src="../assets/hot.png"></div>
+                        <img v-lazy="shopItem.goodsImg.split(',')[0]" style="height:270px;">
+                        <h4 class="ellipsis">{{shopItem.jingle}}</h4>
+                      </div>
+                      <div class="shop_details">
+                        <div class="discounts">
+                          <span v-if="shopItem.couponList.length>0">满减</span>
+                          <span v-if="shopItem.isBargain" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                        </div>
+                        <h3 class="ellipsis"> {{shopItem.goodsName}}</h3>
+                        <p class="shop_prce" style="color:red">￥{{shopItem.costPrice.toFixed(2)}}</p>
+                      </div>
+                  </li>
+                </ul>
+            </div>
+        </div>
+        </div>
     </van-tab>
   </van-tabs>
      <!-- <div style="height:50px;background-color:red">123</div> -->
@@ -595,8 +635,80 @@ export default class Comhead extends Vue {
       }
     );
   }
+  //分类模块
+  page = 0 ;
+  pageSize= 10;
+  total = 0;
+  catId = "";
+  sortName = "";
+  shopList = [];
+  secItem = {};
 
+  getproductList(catId) {
+    
+    this.shopList = []
+    let a: any = this.$refs.wintabe;
+    let data = {
+      page: this.page,
+      pageSize: this.pageSize
+    };
 
+    (<any>Object).assign(data, { catId: catId });
+    
+    if ((this.sortName || "") !== "") {
+      (<any>Object).assign(data, { sortName: this.sortName });
+    }
+    if (this.sortStatus != "" || this.sortStatus != undefined) {
+      (<any>Object).assign(data, { sortStatus: this.sortStatus });
+    }
+   
+
+      (<any>Object).assign(data, { page: this.page});
+      (<any>Object).assign(data, { pageSize: this.pageSize});
+    
+    
+
+   
+
+    Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
+      if (res.returnCode !== 200) {
+        this["$Message"].warning(res.message);
+        console.log(res.message);
+        return;
+      }
+    
+  
+      this.shopList = res.data.goodsList;
+      this.total = res.data.page.total
+    });
+  }
+  // 分类
+  checkSecCat(item) {
+    this.secItem = item;
+    this.catId = item.catId;
+    this.catName = item.catName;
+    this.getproductList(item.catId);
+  }
+  sortStatus: any = false;
+  // 排序
+  handleStatus(type) {
+    if (this.sortName == type && this.sortStatus == false) {
+      return "sortPrice";
+    } else if (this.sortName == type && this.sortStatus) {
+      return "sortTime";
+    } else {
+      return "";
+    }
+  }
+
+  doPriceFitler(sortName) {
+    if (this.sortName !== sortName) {
+      this.sortName = sortName;
+    } else {
+      this.sortStatus = !this.sortStatus;
+    }
+    this.getproductList(this.catId);
+  }
 
   doSign() {
     if ((this.sign_loginName || "") == "") {
@@ -902,7 +1014,7 @@ this.loginModel = false;
   indexList = [];
   catList = [];
   active = "0";
-
+  catName = "";
   twoList(active, catList) {
     sessionStorage.catId = this.catList[active].catId;
     sessionStorage.parentId = this.indexList[this.active].catId;
@@ -1080,8 +1192,6 @@ let b =  this.indexList.filter((item,index)=>{
 
 
   two_menu(active) {
-
-
     Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
@@ -1097,11 +1207,17 @@ let b =  this.indexList.filter((item,index)=>{
         console.log('--------')
         this.catList = res.data;
         console.log(this.catList)
+
    // 取第一个 id的详情 
+        if(this.catList.length>0){
+          console.log('第一个',this.catList[0]);
+          this.catId = this.catList[0].catId;
+          this.catName = this.catList[0].catName;
+          this.getproductList(this.catList[0].catId)
 
-    //   goodsList
+        }
 
-  
+        //goodsList 
       }
     );
   }
@@ -1303,6 +1419,7 @@ a.getUserInfo();
     // }
   }
   mounted() {
+
     window['changeLoginModel'] = ()=>{
       this.changeLoginModel('login')
     }
@@ -1878,5 +1995,53 @@ a.getUserInfo();
       }
     }
   }
+}
+//商品分类
+
+.classify_shop {
+  .classify_top {
+    div {
+      color: #a8a8a8;
+      margin-right: 20px;
+      height: 60px;
+      line-height: 60px;
+      border-bottom: 1px solid #ededed;
+      span {
+        padding-right: 30px;
+        cursor: pointer;
+      }
+      .colorGray {
+        color: #2a2a2a;
+      }
+      .colorYellow {
+        color: #f4c542;
+      }
+      .sortPrice {
+        background: url(../assets/down.png) no-repeat right 17px center;
+      }
+      .sortTime {
+        background: url(../assets/up.png) no-repeat right 17px center;
+      }
+    }
+    div:nth-of-type(2) {
+      width: 90%;
+      span:hover {
+        color: #f4c542;
+      }
+    }
+  }
+}
+.classifyTitle{
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 28px;
+    padding-bottom: 20px;
+    height:auto;
+    h5{
+      color:#333;font-size:28px;font-weight: normal;
+    }
+    p{
+      font-size:20px;
+    }
 }
 </style>

@@ -2,7 +2,8 @@
   <div>
     <div style="height:40px;line-height:40px;background:#fbfbfb;border-bottom:1px solid #e6e6e6;padding-left:40px;">领卷中心</div>
     <div class="discountBox">
-        <div class="dis_list" v-for="(item,index) in discList"  :key="index">
+        <div class="dis_list" v-for="(item,index) in discList"  :key="index"
+        >
             <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
               {{item.fullDenomination}}</span>元</p>
               <div class="distype" 
@@ -127,6 +128,7 @@ export default class User extends Vue {
     background: #fccb52;color:#fff;
   }
 }
+
 .time{
   position: absolute;right: 16px;color:#fff;
 }
