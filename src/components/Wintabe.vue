@@ -151,7 +151,7 @@
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;padding:5px 0;">
          <div style="" class="flex flex-pack-justify flex-align-center">
-            <img  src="../assets/image/logo拷贝.png" @click="goIndex()"/>
+            <img  src="../assets/image/logo拷贝.png" @click="goIndex()" style="cursor:pointer;"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
   
 <!-- 搜索记录 -->

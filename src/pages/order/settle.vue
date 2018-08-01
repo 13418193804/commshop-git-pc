@@ -401,7 +401,7 @@
                           min-height;max-height:620px;
                           overflow-y: auto;">
               <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
-              <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠卷</div>
+              <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠券</div>
                 <div class="discountBox">
                     <div class="dis_list dis_bgunUse"  v-for="(item,index) in couponList"   :key="index" @click="selectcoupon(item)">
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
@@ -1115,26 +1115,25 @@ this.doChangePreDis('dis',"",res=>{
 
 
   couponshow(clean){
-
-if(parseInt(this.couponnum)>0){
-  
-  this.iscouponshow=!this.iscouponshow
-    // this.coupon_active = '2';
-    // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
-    if(this.surecouponId!==""){
-      this.selectcouponId=this.surecouponId;
-      this.selectcouponName=this.surecouponName;
-      this.selectcouponDenomination=this.surecouponDenomination;
+    if(parseInt(this.couponnum)>0){
+      
+      this.iscouponshow=!this.iscouponshow
+        // this.coupon_active = '2';
+        // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
+        if(this.surecouponId!==""){
+          this.selectcouponId=this.surecouponId;
+          this.selectcouponName=this.surecouponName;
+          this.selectcouponDenomination=this.surecouponDenomination;
+        }
+        console.log('------',this.selectcouponId)
+        console.log(this.currentCoupon,clean && !this.currentCoupon)
+        // 有传值就清空选择时的优惠卷
+        if(clean || !this.currentCoupon){
+          this.selectcouponId="";
+          this.selectcouponName="";
+          this.selectcouponDenomination="";
+        }
     }
-    console.log('------',this.selectcouponId)
-    console.log(this.currentCoupon,clean && !this.currentCoupon)
-    // 有传值就清空选择时的优惠卷
-    if(clean || !this.currentCoupon){
-      this.selectcouponId="";
-      this.selectcouponName="";
-      this.selectcouponDenomination="";
-    }
-}
   }
 
 

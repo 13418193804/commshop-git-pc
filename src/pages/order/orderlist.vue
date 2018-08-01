@@ -128,11 +128,15 @@
 
                 <div style='text-align:center;font-size:16px;width:180px;'>
                   <div style=""><span>￥{{item.orderTotalPrice.toFixed(2)}} {{index}}</span></div>
-                  <div style="font-size:12.6px;color:#999">  <span>(含运费{{item.transportPrice.toFixed(2)}})</span></div>
+                  <div style="font-size:12.6px;color:#999">  
+                    <!-- <span>(含运费{{item.transportPrice.toFixed(2)}})</span> -->
+                  </div>
                 </div>
             </div>
           </div>
       </div>
+      <!-- 运费 -->
+      <div class="shoplistSum">共2件商品 合计：¥ 0.01 (含运费{{item.transportPrice.toFixed(2)}})</div>
   </div>
 </div>
 
@@ -659,6 +663,9 @@ export default class orderList extends Vue {
 /* 删除弹框提示 */
 .van-dialog{
   width: 25%;
+}
+.shoplistSum{
+  color:red;text-align: right;height:40px;line-height: 40px;padding-right:20px;
 }
 </style>
 

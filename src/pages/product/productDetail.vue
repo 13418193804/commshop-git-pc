@@ -208,6 +208,34 @@
    
 </div>
 </div>
+<div style="background-color:rgba(0, 0, 0, 0.5); z-index: 999;position: fixed;width: 100%;height: 100vh;top:0;left:0;" v-show="iscouponshow">
+          <div class="flex flex-pack-center flex-align-center" style="height:100vh;">  
+               <div style="background-color:#fff;padding:20px;position:relative;width: 750px;
+                          min-height;max-height:620px;
+                          overflow-y: auto;">
+              <div @click="couponshow(true)" class="add_colose"><i class="iconfont icon-close"></i></div>
+              <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠券</div>
+                <div class="discountBox">
+                    <div class="dis_list dis_bgunUse"  v-for="(item,index) in couponList"   :key="index" @click="selectcoupon(item)">
+                        <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
+                          {{item.fullDenomination}}</span>元</p>
+                          <div class="distypeCur" v-if="item.id==selectcouponId">已选择</div>
+                        <div style="justify-content: space-between;" class="flex">
+                            <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
+                              {{item.couponName}}</span>
+                            <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
+                            <i style="color: #fff;" v-if="item.validityTime">- {{item.validityTime.split(' ')[0]}}</i></div>
+                        </div>
+                        <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+                    </div>
+                </div>
+              <div style="text-align: center;margin-top: 30px;">
+                <button @click="surecoupon()"
+                 style="border: none;width: 290px;height: 45px;background-color: rgb(252, 203, 82);color: rgb(255, 255, 255);text-align: center;line-height: 45px;margin-right: 5px;font-size: 16px;">确定</button>
+              </div>
+            </div>
+          </div>
+        </div>
   <winbeet ></winbeet>
   </div>
   </div>
@@ -329,10 +357,6 @@ export default class ProductDetail extends Vue {
     
   }
 
-
-
-
-
   //评论筛选
   btnList(btn_active){
 this.btn_active = btn_active;
@@ -377,25 +401,25 @@ this.evaluateList()
     );
     // console.log(this.skuItem.skuId);
   }
+    // 优惠卷框
+  iscouponshow=false;
   goDiscount(){
- if (
-      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
-        "" &&
-      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
-    ) {
+    this.iscouponshow=true;
+    // if (
+    //   this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+    //     "" &&
+    //   this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    // ) {
     
-    this.$router.push({
-      path: "/discount"
-    });
+    // this.$router.push({
+    //   path: "/discount"
+    // });
 
-    }else{
-         let a:any = window;
-           a.loginOut();
-                a.changeLoginModel();
-    }
-        
-
-    
+    // }else{
+    //      let a:any = window;
+    //       a.loginOut();
+    //       a.changeLoginModel();
+    // } 
   }
   updataCollect(){
     if(this.detatil.favStatus == 0){
@@ -788,4 +812,42 @@ cursor: pointer;
    background: url(../../assets/image/满减背景.png) no-repeat;padding: 0 18px;background-size: 100% 100%;height: 24px;
    line-height: 24px;color: #ffc630;margin-right:15px;font-size: 10px;
  }
+ //优惠券弹窗
+.discountBox{
+  overflow: hidden;padding:30px 25px;padding-right:10px;
+  .dis_list{
+    float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
+    margin-bottom:10px;position: relative;
+      background-size: 100%;
+    .newtext{
+      position: absolute;bottom: 4px;color: #fff;width:91%;font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+  .dis_bgunUse{
+    background :url('../../assets/image/未使用优惠卷.png') no-repeat;
+  }
+    .dis_bgUse{
+    background :url('../../assets/image/已使用优惠卷.png') no-repeat;
+  }
+  .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
+    margin-right: 0;
+  }
+  .distypeCur{
+    height:30px;line-height:30px;color:#fff;position: absolute;right:15px;top:20px;cursor: pointer;
+    text-align: center;padding: 0 10px;border:1px solid #fff;width:80px;
+  }
+  .distypeed{
+    background: #fccb52;color:#fff;
+  }
+  
+}
+.add_colose{
+  position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
+}
+.add_titile{
+  line-height: 40px;font-size: 18px;
+}
 </style>
