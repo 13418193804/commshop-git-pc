@@ -275,10 +275,11 @@
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
                         <el-carousel :interval="5000" arrow="always">
                         <el-carousel-item 
-                        @click.stop="goActionType(image.actionType,image.actionValue)"
+                        
                         v-for="(image, imageIndex) in items.items" :key="imageIndex" 
                         v-bind:style="{backgroundImage:'url(' + image.itemImgUrl + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
                         >
+                        <div @click.stop="goActionType(image.actionType,image.actionValue)" style="height:100%;width:100%;"></div>
                               <!-- <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/> -->
                         </el-carousel-item>
                       </el-carousel>
@@ -386,6 +387,17 @@
                     
                     </div>
                   </div>
+
+                  
+<!-- 商品列表 -->
+  <div class="classify_shop">
+                    <div class="classify_top">
+                  111
+          </div>
+          </div>
+
+
+
 
           </div>
     </van-tab>
@@ -737,19 +749,48 @@ export default class Comhead extends Vue {
     });
   }
   myAward() {
-    this.$router.push({
+               if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+      this.$router.push({
       path: "/my_reward"
     });
+    }else{
+        this.changeLoginModel('login')
+    }
+  
   }
   myOrder() {
-    this.$router.push({
+
+            if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+      this.$router.push({
       path: "/orderlist"
     });
+    }else{
+        this.changeLoginModel('login')
+    }
+  
   }
   myMessagelist() {
-    this.$router.push({
+
+              if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+      this.$router.push({
       path: "/Messagelist"
     });
+    }else{
+        this.changeLoginModel('login')
+    }
+  
   }
   goProductDetail(goodsId) {
     sessionStorage.goodsId = goodsId;
@@ -1051,7 +1092,11 @@ let b =  this.indexList.filter((item,index)=>{
           console.log(res.message);
           return;
         }
+
+        console.log('--------')
         this.catList = res.data;
+        console.log(this.catList)
+
       }
     );
   }
@@ -1721,4 +1766,112 @@ a.getUserInfo();
     z-index:999;
     left:200px;
   }
+
+  .shop_list {
+  margin-top: 10px;
+  ul {
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding: 20px 0;
+    padding-left:9px;
+    li {
+      width: 255px;
+      border-radius: 4px;
+      float: left;
+      margin-right: 20px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      .shop_img {
+        // overflow: hidden;
+        
+        border-radius: 4px;
+        margin-bottom: 20px;
+        position: relative;
+        // 热卖
+        .hot {
+          position: absolute;
+          left: 0;
+          top: 0;
+          img {
+            width: 33px;
+            height: 38px;
+          }
+        }
+        img {
+          width: 100%;
+          height: 230px;
+        }
+        h4 {
+          height: 54px;
+          line-height: 54px;
+          background: #eff1f1;
+          text-align: center;
+          font-size: 22px;
+          color: #a3a3a3;
+          width: 100%;
+        }
+      }
+      .shop_details {
+        div {
+          margin-bottom: 12px;
+          span {
+            display: inline-block;
+            width: 40px;
+            height: 19px;
+            text-align: center;
+            color: red;
+            border: 1px solid red;
+            margin-right: 10px;
+            border-radius: 5px;
+          }
+        }
+        h3 {
+          font-size: 20px;
+          margin-bottom: 8px;
+        }
+        p {
+          font-size: 16px;
+        }
+      }
+    }
+    :nth-of-type(4),
+    :nth-of-type(8),
+    :nth-of-type(12) :nth-of-type(16) {
+      margin-right: 0;
+    }
+  }
+}
+.classify_shop {
+  .classify_top {
+    div {
+      color: #a8a8a8;
+      margin-right: 20px;
+      height: 60px;
+      line-height: 60px;
+      border-bottom: 1px solid #ededed;
+      span {
+        padding-right: 30px;
+        cursor: pointer;
+      }
+      .colorGray {
+        color: #2a2a2a;
+      }
+      .colorYellow {
+        color: #f4c542;
+      }
+      .sortPrice {
+        background: url(../assets/down.png) no-repeat right 17px center;
+      }
+      .sortTime {
+        background: url(../assets/up.png) no-repeat right 17px center;
+      }
+    }
+    div:nth-of-type(2) {
+      width: 90%;
+      span:hover {
+        color: #f4c542;
+      }
+    }
+  }
+}
 </style>

@@ -7,7 +7,7 @@
               <!-- 商品列表页-->
                 <div class="classify_shop">
                     <div class="classify_top">
-                        <div class="flex" v-if="$route.query.type !=='filter'">
+                        <div class="flex" v-if="$route.query.type !=='filter' && catList.length>0">
                           <div> 分类</div>
                           <div> <span 
                           v-for="(catItem,index) in catList" :key="index" class="colorGray" 
