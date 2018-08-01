@@ -2,25 +2,19 @@
   <div class="">
       <div style="padding:30px;">
        
+
+
         <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" 
-            style="padding:15px 0;cursor: pointer;border-bottom:1px dashed #E5E5E5;" @click="goOrderDetail(item)"
-            v-if="item.type=='ORDER_MSG'"
+            style="padding:15px 0;cursor: pointer;border-bottom:1px dashed #E5E5E5;" @click="handleContent(item)"
         >
           <div :style="item.status==false?'font-size: 14px;color:#000':'font-size: 14px;color:#a9a9a9'"><span v-if="item.status==false" 
            style="margin-top:-2px;margin-right:8px;display: inline-block;vertical-align: middle;background-color:#FF0506;border-radius: 50px;width:10px;height:10px;"></span>{{item.content}}<span style="color:#FDD273;">查看详情》</span>
            </div>
           <div style="color:#B4B4B4;font-size:13px;">{{item.updateTime}}</div>
         </div>
-
-         <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" 
-              style="padding:15px 0;cursor: pointer;border-bottom:1px dashed #E5E5E5;" @click="goReward()"
-              v-if="item.type=='AWARD_MSG'"
-          >
-          <div :style="item.status==false?'font-size: 14px;color:#000':'font-size: 14px;color:#a9a9a9'"><span v-if="item.status==false" 
-           style="margin-top:-2px;margin-right:8px;display: inline-block;vertical-align: middle;background-color:#FF0506;border-radius: 50px;width:10px;height:10px;"></span>{{item.content}}<span style="color:#FDD273;">查看详情》</span></div>
-          <div style="color:#B4B4B4;font-size:13px;">{{item.updateTime}}</div>
         </div>
-      </div>
+
+
 
 
     
@@ -48,6 +42,17 @@ import { Toast } from "vant";
   mixins: [mixin]
 })
 export default class messagelist extends Vue {
+
+  handleContent(item){
+    if(item.type == 'ORDER_MSG'){
+    this.goOrderDetail(item)
+    }
+    if(item.type == 'ORDER_MSG'){
+this.goReward()
+    }
+
+
+  }
   messagelist=[];
   orderId="";
   page=0;
