@@ -1289,7 +1289,7 @@ a.getUserInfo();
   //监听header滚动固定
   handleScrollHead () {
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-    console.log(scrollTop)
+    // console.log(scrollTop)
     // var offsetTop = document.querySelector('#searchBar').offsetTop
     // if (scrollTop > offsetTop) {
     // this.searchBarFixed = true
