@@ -1,5 +1,5 @@
 <template>
-  <div class="" style="height:-webkit-fill-available;background-color:#FFFFFF;">
+  <div class="" style="background-color:#FFFFFF;">
 
 
     <div style="padding: 30px 15px;" >

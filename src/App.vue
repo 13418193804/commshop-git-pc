@@ -40,6 +40,9 @@ html,body,#app{
   min-height: 100%;
   padding-bottom: 140px;
   box-sizing: border-box;
+
+  overflow-x: auto!important;
+   width: 1200px;
 }
 .tab-contents{
   
