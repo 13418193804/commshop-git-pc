@@ -311,12 +311,16 @@ export default class orderList extends Vue {
 
 }
   payOrder(item) {
+   
     this.$router.push({
       name: "pay",
       query: {
         body: item.orderTitle,
         payId: item.payNo,
         payTotal: item.payTotal
+      },
+      params:{
+        createTime:item.createTime
       }
     });
   }
@@ -555,9 +559,24 @@ export default class orderList extends Vue {
             this.orderList[valKey].loading = false;
           }
         }
+
+ this.orderList[valKey].orderList.forEach((item,index)=>{
+   if(item.detailList.length==0){
+     this.removeByValue(this.orderList[valKey].orderList,item);
+   }
+ })
+console.log(this.orderList[valKey].orderList)
       }
     );
   }
+    removeByValue(arr, val) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == val) {
+          arr.splice(i, 1);
+          break;
+        }
+      }
+    }
   goDetail(item) {
     this.$router.push({
       name: "orderdetail",
@@ -581,6 +600,7 @@ export default class orderList extends Vue {
     this.getOrderList(this.orderTitleList[index].status,true);
   }
   mounted() {
+
     this.$emit('selectMenu',{
       name: '我的订单',
       url:'/orderlist',
@@ -593,10 +613,12 @@ export default class orderList extends Vue {
         return;
       }
     });
-    if (this.$route.query.orderStatus === "REFUND") {
-      return;
-    }
+
+if(this.$route.query.orderStatus == 'ORDER_WAIT_SENDGOODS'){
+    this.changePage(2);
+}else{
     this.getOrderList(this.orderTitleList[this.active].status);
+}
   }
 }
 </script>

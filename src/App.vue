@@ -95,6 +95,9 @@ html,body,#app{
 }
 </style>
 <style>
+.van-dialog{
+  width:20%;
+}
 /* 首页导航样式修改 */
 .van-tabs__wrap--scrollable .van-tab{
   flex:0 1 auto;

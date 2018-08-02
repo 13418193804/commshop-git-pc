@@ -918,26 +918,24 @@ export default class Comhead extends Vue {
 sendLoginOut(){
    this.isruleshow = !this.isruleshow;
    this.loginOut()
-   
+   this.$router.replace('/')
 }
 
   // 退出登录
   loginOut() {
-
     this.$store.commit(Vue.prototype.MutationTreeType.TOKEN_INFO, {
       userId: "",
       token: ""
     });
-    localStorage.removeItem(Vue.prototype.MutationTreeType.TOKEN_INFO);
 
+    localStorage.removeItem(Vue.prototype.MutationTreeType.TOKEN_INFO);
     sessionStorage.userInfo = ''
-       
    if(this.$route.path =='/center'){
      let a :any = window
 a.getUserInfo();
 }
 
-
+// this.$router.replace('/')
   }
     goCart() {
          if (
