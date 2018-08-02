@@ -41,8 +41,8 @@ html,body,#app{
   padding-bottom: 140px;
   box-sizing: border-box;
 
-  overflow-x: auto!important;
-   width: 1200px;
+  overflow: visible!important;
+
 }
 .tab-contents{
   
