@@ -108,6 +108,8 @@ export default class User extends Vue {
     });
   }
   discountList(status){
+
+    this.discList = []
     if(this.status == status){
        return;
     }
@@ -129,10 +131,14 @@ export default class User extends Vue {
             this["$Message"].warning(res.message);
             return;
           }
-          this.discList = res.data.couponList;
+          this.discList = res.data.couponList.filter(item=>{
+            return item.coupon
+          });
+
         }
       );
   }
+  
   goshop(){
     this.$router.push({
       path:"/"

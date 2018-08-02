@@ -42,14 +42,45 @@ import { Prop, Watch } from "vue-property-decorator";
 export default class collection extends Vue {
 
 userInfo = {}
-getUserInfo(){
-  if(!sessionStorage.userInfo || sessionStorage.userInfo ==''){
-    this.userInfo =  {}
- }else{
-    this.userInfo =   JSON.parse(sessionStorage.userInfo)
- }
+// getUserInfo(){
+//   if(!sessionStorage.userInfo || sessionStorage.userInfo ==''){
+//     this.userInfo =  {}
+//   }else{
+//     this.userInfo =   JSON.parse(sessionStorage.userInfo)
+//   }
+   
 
-}
+// }
+
+  getUserInfo() {
+     if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+    Vue.prototype.$reqFormPost1(
+      "/user/query",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token
+      },
+      res => {
+        if (res.returnCode != 200) {
+     this["$Message"].warning(res.message);
+        return;
+        }
+ 
+        this.userInfo = res.data;
+        sessionStorage.userInfo = JSON.stringify(res.data)
+      }
+    );
+    }else{
+         this.userInfo =  {}
+    }
+  }
+
 goReward(){
   this.$router.push({
     path:"my_reward"
@@ -60,12 +91,13 @@ goDiscountLobby(){
     path:"discountLobby"
   });
 }
+
   mounted() {
+    this.getUserInfo()
     
     window['getUserInfo'] = ()=>{
-    this.getUserInfo()
-        }
-    this.getUserInfo()
+      this.getUserInfo()
+    }
   }
 }
 </script>

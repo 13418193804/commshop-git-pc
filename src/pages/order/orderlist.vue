@@ -560,11 +560,11 @@ export default class orderList extends Vue {
           }
         }
 
- this.orderList[valKey].orderList.forEach((item,index)=>{
-   if(item.detailList.length==0){
-     this.removeByValue(this.orderList[valKey].orderList,item);
-   }
+  this.orderList[valKey].orderList = this.orderList[valKey].orderList.filter((item,index)=>{
+return item.detailList.length!==0;
  })
+
+
 console.log(this.orderList[valKey].orderList)
       }
     );
