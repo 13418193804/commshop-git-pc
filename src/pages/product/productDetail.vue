@@ -148,8 +148,10 @@
         </div>
       </div>
       <!-- 新品 -->
-      <div v-if=" new_active== '1'">        
-        <swipeauto ref="swipeauto" :lists="new_detatil" @goProductDetail="goProductDetail"></swipeauto>
+      <div style="height:320px;" v-if=" new_active== '1'">        
+        <swipeauto  ref="swipeauto" :lists="new_detatil" @goProductDetail="goProductDetail"></swipeauto>
+
+
       </div>
 
 <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
@@ -157,7 +159,7 @@
     <div  class="taber" :class="shop_active == '1'?' selecttaber' :'taber'" @click="shop_active ='1' ">评价</div>
 </div>
 
-<div v-if="shop_active == '0' ">
+<div v-if="shop_active == '0' " style="min-height:151px;">
   <div style="background-color:#ffffff;margin-top:10px;">
       <div v-for="(item,index) in detatil.detail.imageList" :key="index">
         <img v-lazy="item" style="width:100%;"/>
@@ -240,7 +242,12 @@
                     </div>
             
 
-              <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
+              <div class="newtext">
+                      <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
+              <span v-if="item.rangeType == 'ALL'">全场通用;</span>
+              <span v-else>{{item.catName}}类商品适用</span>
+              特价商品或其他优惠活动商品不可用
+              </div>
               </div>
           </div>
         <!-- <div style="text-align: center;margin-top: 30px;">

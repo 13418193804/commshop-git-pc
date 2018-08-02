@@ -206,7 +206,9 @@ export default class shopIndex extends Vue {
       "px;"
     );
   }
+  createTime =null
   mounted() {
+    this.createTime = this.$route.params.createTime
     this.obj.body = this.$route.query.body;
     this.obj.payId = this.$route.query.payId;
     this.obj.payTotal = this.$route.query.payTotal;
@@ -214,8 +216,9 @@ export default class shopIndex extends Vue {
     this.address.contactname = this.$route.query.contactname; 
     this.address.contactmobile = this.$route.query.contactmobile; 
 
+if(this.createTime){
 
-       let a = "2018-08-01 20:04:21";
+       let a = this.createTime;
     this.timeFn(a)
     let timer = setInterval(()=> {
       if( this.surplus.minutes ==0 && this.surplus.seconds ==0){
@@ -224,6 +227,8 @@ export default class shopIndex extends Vue {
     this.timeFn(a)
       }
     }, 1000);
+}
+
   }
 // 剩余时间
   surplus = {

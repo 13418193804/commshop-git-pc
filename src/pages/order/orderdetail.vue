@@ -596,6 +596,9 @@ export default class orderdetail extends Vue {
         body: this.detail["orderTitle"],
         payId: this.detail["payNo"],
         payTotal: this.detail["payTotal"]
+      },
+      params:{
+        createTime:this.detail['createTime']
       }
     });
   }

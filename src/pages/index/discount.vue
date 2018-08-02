@@ -24,9 +24,12 @@
 
                             <div v-else class="time">{{item.days}}天有效</div>
                   </div>
-          
-
-            <div class="newtext">新人专享;全场通用;特价商品或其他优惠活动商品不可</div>
+            <div class="newtext">
+              <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
+              <span v-if="item.rangeType == 'ALL'">全场通用;</span>
+              <span v-else>{{item.catName}}类商品适用</span>
+              特价商品或其他优惠活动商品不可用
+              </div>
         </div>
     </div>
   </div>

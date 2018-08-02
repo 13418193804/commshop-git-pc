@@ -558,7 +558,6 @@ if(!coupon_active){
   }
 
   addcancel(){
-
       this.withchangeModel = false
   this.addshow= false
   }
@@ -1070,7 +1069,10 @@ console.log(' this.selectcouponId', this.selectcouponId)
               this.address["address"],
             body: res.data.data.body,
             payId: res.data.data.payId,
-            payTotal: res.data.data.payTotal
+            payTotal: res.data.data.payTotal,
+          },
+          params:{
+            createTime:res.data.data.createTime
           }
         });
         console.log(res.data.data);
