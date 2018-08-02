@@ -595,10 +595,10 @@ export default class orderdetail extends Vue {
       query: {
         body: this.detail["orderTitle"],
         payId: this.detail["payNo"],
-        payTotal: this.detail["payTotal"]
+        payTotal: this.detail["payTotal"],
+     createTime:this.detail['createTime']
       },
       params:{
-        createTime:this.detail['createTime']
       }
     });
   }

@@ -317,10 +317,10 @@ export default class orderList extends Vue {
       query: {
         body: item.orderTitle,
         payId: item.payNo,
-        payTotal: item.payTotal
+        payTotal: item.payTotal,
+        createTime:item.createTime
       },
       params:{
-        createTime:item.createTime
       }
     });
   }
