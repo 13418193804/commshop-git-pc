@@ -1230,8 +1230,8 @@ if(!filter){
     ];
   
     if(!this.prepareId){
-      this.$router.replace('/')
-return 
+      this.$router.go(-1);
+      return 
     }
 
     
