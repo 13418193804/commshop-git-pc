@@ -837,11 +837,11 @@ cursor: pointer;
   
 }
 .collection{
-  cursor:pointer;color: #949494;    margin-left: 20px;
+  cursor:pointer;color: #949494;margin-left: 20px;
   background: url(../../assets/image/未收藏.png) no-repeat;width: 54px; height: 54px;
 }
 .collection_cur{
-  color: #ffc630;
+  color: #ffc630; margin-left: 20px;
   background: url(../../assets/image/已收藏.png) no-repeat;width: 54px; height: 54px;
 }
 //评价

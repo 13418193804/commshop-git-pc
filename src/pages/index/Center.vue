@@ -116,11 +116,13 @@ export default class shopIndex extends Vue {
     },
 
   ]
+  
   menuName = '个人中心'
 selectMenu(items){
     if(items.url == '/'){
       return 
     }
+
     this.menuName = items.name
     if(this.$route.path !== items.url){
     this.$router.replace(items.url);
