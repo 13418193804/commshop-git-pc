@@ -4,7 +4,6 @@
    
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
-            @click="myCenter()"
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img">
                  <img :src="userInfo.userIcon" v-if="userInfo.userIcon"/>
@@ -842,12 +841,12 @@ export default class Comhead extends Vue {
   }
   myCenter(){
     this.$router.push({
-      path: "center"
+      path: "/center"
     })
   }
   myDiscount() {
     this.$router.push({
-      path: "discountLobby"
+      path: "/discountLobby"
     });
   }
   myCollect() {
@@ -857,20 +856,9 @@ export default class Comhead extends Vue {
   }
 
   mySite() {
-
-if(this.$route.path == '/center'){
-this.$emit('selectMenu',{
-          name: '地址管理',
-          url:'/addresslist',
-        })
-
-}else{
     this.$router.push({
       path: "/addresslist"
     });
-}
-
-
   }
   myAward() {
                if (
@@ -887,7 +875,6 @@ this.$emit('selectMenu',{
   
   }
   myOrder() {
-
             if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&

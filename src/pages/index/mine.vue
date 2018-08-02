@@ -48,8 +48,6 @@ userInfo = {}
 //   }else{
 //     this.userInfo =   JSON.parse(sessionStorage.userInfo)
 //   }
-   
-
 // }
 
   getUserInfo() {

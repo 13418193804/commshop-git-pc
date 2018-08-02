@@ -494,9 +494,12 @@ gbdelshow(){
       }
     );
     }
-    
   }
   mounted() {
+       this.$emit('selectMenu',{
+          name: '地址管理',
+          url:'/addresslist',
+        })
     this.getAddressList();
     this.getprovince();
   }
