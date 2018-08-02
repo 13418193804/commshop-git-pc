@@ -1070,9 +1070,9 @@ console.log(' this.selectcouponId', this.selectcouponId)
             body: res.data.data.body,
             payId: res.data.data.payId,
             payTotal: res.data.data.payTotal,
+            createTime:res.data.data.createTime
           },
           params:{
-            createTime:res.data.data.createTime
           }
         });
         console.log(res.data.data);
@@ -1230,8 +1230,8 @@ if(!filter){
     ];
   
     if(!this.prepareId){
-      this.$router.replace('/')
-return 
+      this.$router.go(-1);
+      return 
     }
 
     
