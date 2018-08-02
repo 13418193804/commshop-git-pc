@@ -855,10 +855,22 @@ export default class Comhead extends Vue {
       path: "/collection"
     });
   }
+
   mySite() {
+
+if(this.$route.path == '/center'){
+this.$emit('selectMenu',{
+          name: '地址管理',
+          url:'/addresslist',
+        })
+
+}else{
     this.$router.push({
       path: "/addresslist"
     });
+}
+
+
   }
   myAward() {
                if (

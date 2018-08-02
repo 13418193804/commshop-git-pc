@@ -499,11 +499,6 @@ gbdelshow(){
   mounted() {
     this.getAddressList();
     this.getprovince();
-    
-    this.$emit('selectMenu',{
-      name: '地址管理',
-      url:'/addresslist',
-    })
   }
 }
 </script>

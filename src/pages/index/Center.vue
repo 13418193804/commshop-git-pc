@@ -2,7 +2,7 @@
   <div class="tab-contents" style="    overflow: hidden;">
 
 
-<wintabe ref="wintabe" :table="true" :router="true"></wintabe>
+<wintabe ref="wintabe" :table="true" :router="true" @selectMenu="selectMenu"></wintabe>
 
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;">
@@ -118,17 +118,13 @@ export default class shopIndex extends Vue {
   ]
   menuName = '个人中心'
 selectMenu(items){
-  console.log('--------')
     if(items.url == '/'){
       return 
     }
     this.menuName = items.name
-
     if(this.$route.path !== items.url){
-    this.$router.push(items.url);
+    this.$router.replace(items.url);
     }
-      
-
 }
 messageCount:any = 0
   getMessageCount(){
