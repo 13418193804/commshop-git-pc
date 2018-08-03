@@ -30,7 +30,7 @@
             </div>
             <div class="contentBox borderleft ">
               <span @click="myMessagelist()" style="position:relative">消息
-                    <div class="messageFexid" style="right:10px" v-if="messageCount!= 0">{{messageCount}}</div>
+                    <div class="messageFexid" style="right:5px" v-if="messageCount!= 0">{{messageCount}}</div>
                 </span>
             </div>
             <div class="contentBox borderleft ">
@@ -1001,8 +1001,8 @@ this.loginModel = false;
           JSON.stringify(res.data)
         );
         this.queryuserinfo();
-
-
+        this.getMessageCount();
+      this.getCartList();
         this.loginModel = false;
   
       }
@@ -1426,6 +1426,12 @@ a.getUserInfo();
     window['queryuserinfo'] = ()=>{
       this.queryuserinfo()
     }
+
+    window['getMessageCount'] = ()=>{
+      this.getMessageCount();
+    }
+
+
 
     if (localStorage.filterValue) {
       this.stockpile = JSON.parse(localStorage.filterValue);

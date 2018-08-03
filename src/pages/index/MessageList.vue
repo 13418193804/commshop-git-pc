@@ -44,10 +44,15 @@ import { Toast } from "vant";
 export default class messagelist extends Vue {
 
   handleContent(item){
+ 
+
     if(item.type == 'ORDER_MSG'){
+
+      
     this.goOrderDetail(item)
     }
-    if(item.type == 'ORDER_MSG'){
+    if(item.type == 'AWARD_MSG'){
+
 this.goReward()
     }
 

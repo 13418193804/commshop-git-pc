@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class=" flex-1" :class="menuName !='我的订单' &&  $route.path !=='/orderdetail' ?'borderSet':''">
-        <router-view @selectMenu="selectMenu"></router-view>
+        <router-view @selectMenu="selectMenu" @getMessageCount="getMessageCount"></router-view>
     </div>
 </div>
 </div>
@@ -127,6 +127,11 @@ selectMenu(items){
     if(this.$route.path !== items.url){
     this.$router.replace(items.url);
     }
+
+    let a:any = window
+a.getMessageCount()
+this.getMessageCount();
+
 }
 messageCount:any = 0
   getMessageCount(){

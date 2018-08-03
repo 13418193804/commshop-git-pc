@@ -619,6 +619,8 @@ if(this.$route.query.orderStatus == 'ORDER_WAIT_SENDGOODS'){
 }else{
     this.getOrderList(this.orderTitleList[this.active].status);
 }
+
+
   }
 }
 </script>
