@@ -234,11 +234,12 @@
                 <div style="justify-content: space-between;" class="flex">
                         <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
                           {{item.couponName}}</span>
-                        <div  v-if="item.getStatus  && item.validityType == 'RELATIVE_DATE'">
+                       
+                            <div  v-if="!item.getStatus  && item.validityType == 'RELATIVE_DATE'"  class="time">{{item.days}}天有效</div>
+                     <div  v-else>
                            <i style="color: #fff;">{{item.createTime.split(' ')[0]}} </i>
                         <i style="color: #fff;">- {{item.endDate.split(' ')[0]}}</i></div>
 
-                            <div v-else class="time">{{item.days}}天有效</div>
                     </div>
             
 
