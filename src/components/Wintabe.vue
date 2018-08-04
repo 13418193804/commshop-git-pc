@@ -149,7 +149,7 @@
 
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;padding:5px 0;">
-         <div style="" class="flex flex-pack-justify flex-align-center">
+         <div style="" class="flex flex-pack-justify flex-align-center" style="margin-bottom:20px;">
             <img  src="../assets/image/logo拷贝.png" @click="goIndex()" style="cursor:pointer;"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
   
@@ -158,10 +158,8 @@
    <div style="position: relative;min-width:250px;"> 
         <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品"  @focus="onFocus()"  @blur="onblur()"/>
         
-       
-
-      
- <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
+  
+        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
           <div style="border-bottom: 1px #e5e5e5 solid;" v-if="stockpile.length>0">
 
               <div style="color:#999;">搜索记录
@@ -249,7 +247,28 @@
 
 <!-- <div style="height:50px;background-color:red">123</div> -->
 <!-- 头部导航菜单 -->
-
+<!-- <div class="flex headerTab" :class="searchBarFixed == true ? 'isFixed' :''">
+    <div class="headerList headerListCur">首页</div>
+    <div class="headerList" v-on:mouseover="twoListHover()">新品</div>
+    <div class="headerList">推荐</div>
+    <div class="headerList">热卖</div>
+    <div class="headerList">版本</div>
+</div> -->
+<!-- 二级类目 -->
+<!-- <div class="flex flex-pack-center two_classify" v-if="listTwo">
+    <div>
+      <p class="flex-pack-center"><img src="../assets/image/LOGO.png"/></p>
+      <p class="flex-pack-center">牛仔</p>
+    </div>
+    <div>
+      <p class="flex-pack-center"><img src="../assets/image/LOGO.png"/></p>
+      <p class="flex-pack-center">牛仔</p>
+    </div>
+    <div>
+      <p class="flex-pack-center"><img src="../assets/image/LOGO.png"/></p>
+      <p class="flex-pack-center">牛仔</p>
+    </div>
+</div> -->
 <van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab"
  class="searchBar index_tabs flex-1" style="width:100%;">
 <!-- <van-tabs :active="active" k@clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
@@ -642,7 +661,12 @@ export default class Comhead extends Vue {
   sortName = "";
   shopList = [];
   secItem = {};
-
+  listTwo = false;
+ 
+ twoListHover(){
+   this.listTwo = true;
+   console.log('二级目录',this.listTwo)
+ }
   getproductList(catId) {
     
     this.shopList = []
@@ -961,7 +985,7 @@ a.getUserInfo();
   }
   loginModel = false;
   close() {
-this.loginModel = false;
+    this.loginModel = false;
   }
 
   changeLoginModel(type) {
@@ -1364,7 +1388,7 @@ a.getUserInfo();
     }
   }
   doSelect(keyword,cookie) {
-
+    // console.log('搜索开始')
     if (keyword == "") {
       return;
     }
@@ -1404,19 +1428,20 @@ a.getUserInfo();
     });
     
   }
+  searchBarFixed = false;
   //监听header滚动固定
   handleScrollHead () {
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-    // console.log(scrollTop)
-    // var offsetTop = document.querySelector('#searchBar').offsetTop
-    // if (scrollTop > offsetTop) {
-    // this.searchBarFixed = true
-    // } else {
-    // this.searchBarFixed = false
-    // }
+    console.log(scrollTop)
+    var offsetTop = document.querySelector('#searchBar')['offsetTop']
+    if (scrollTop > offsetTop) {
+    this.searchBarFixed = true
+    } else {
+    this.searchBarFixed = false
+    }
   }
   mounted() {
-
+    
     window['changeLoginModel'] = ()=>{
       this.changeLoginModel('login')
     }
