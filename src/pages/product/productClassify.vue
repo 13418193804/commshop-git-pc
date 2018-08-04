@@ -28,7 +28,7 @@
                       <h2>{{secItem.catName}}</h2>
                     </div>
                     <!-- 商品列表 -->
-                    <div class="shop_list">
+                    <div class="shop_list" v-if="shopList.length>0">
                        <ul class="flex flex-warp-justify">
                            <li v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
                               <div class="shop_img collImg">
@@ -47,6 +47,13 @@
                          </li>
                        </ul>
                     </div>
+                    <!-- 暂无商品 -->
+                  <div  style="font-size:14px;padding:15px;" v-else>
+                      <div style="margin-top:50px;text-align:center;">
+                        <img src="../../assets/none.png" />
+                        <p>暂时还没有相关的商品哦！</p>
+                      </div>
+                  </div>
 
                     <el-pagination v-if="total>0"
                       background
@@ -143,6 +150,7 @@ export default class ProductDetail extends Vue {
   checkSecCat(item) {
     this.secItem = item;
     this.catId = item.catId;
+    this.catName = item.catName;
     this.getproductList();
   }
 
@@ -157,6 +165,7 @@ export default class ProductDetail extends Vue {
   }
 
   getproductList() {
+    this.shopList = []
     let a: any = this.$refs.wintabe;
     let data = {
       page: this.page,
@@ -194,7 +203,7 @@ export default class ProductDetail extends Vue {
   }
 
   secItem = {};
-
+  catName = "";
   catId = "";
   catList = [];
   sortName = "";

@@ -156,18 +156,18 @@
 <!-- 搜索记录 -->
 <div class="flex flex-align-center" style="border:1px #EAEAEA solid;">
    <div style="position: relative;min-width:250px;"> 
-        <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品"  @focus="onFocus()"  @blur="onblur()"/>
+        <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品"  @focus="onFocus()"  @blur="onblur()" />
+        <!-- -->
         
-  
-        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;padding:10px;top:24px;" v-if="filterModel">
-          <div style="border-bottom: 1px #e5e5e5 solid;" v-if="stockpile.length>0">
+        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;top:24px;" v-if="filterModel">
+          <div style="border-bottom: 1px #e5e5e5 solid;padding-right:5px;" v-if="stockpile.length>0">
 
-              <div style="color:#999;">搜索记录
+            <div style="color:#999;padding:5px 10px 0;">搜索记录
                 <!-- 删除历史记录 -->
             </div>
-            <div class="flex-pack-justify  flex-align-center" style="padding-left:5px;position:relative" >
+            <div class="flex-pack-justify  flex-align-center" style="position:relative" >
               <div v-for="(item,index) in stockpile" :key="index" class="flex  flex-align-center flex-pack-justify">
-                 <div style=" overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor: pointer;" @click="doSelect(item.value,true)">{{item.value}}</div>
+                 <div class="searchList"  @click="doSelect(item.value,true)">{{item.value}}</div>
                  <div >
                 <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;cursor: pointer;" 
                   @click="clearSearch(item)"
@@ -177,10 +177,12 @@
             </div>
 
 
-          <div style="padding-top:10px;padding-left:5px;    cursor: pointer;">
+          <div style="cursor: pointer;color:red;">
+              <div style="color:#999;padding:5px 10px 0;">推荐热词</div>
               <div class="hotwordItem1 flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word,false)">
               </div>
           </div>
+          
         </div> 
     </div>
     <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword,true)" class="flex flex-align-center flex-pack-center">
@@ -410,12 +412,7 @@
 <!-- 商品列表 -->
  <!-- 商品列表页-->
         <div class="classify_shop"  v-if="item.catId &&catList&& catList.length>0">
-           <div class="classifyTitle">
-              <h5>{{catName}}</h5>
-              <p>CUSTOM RECOMMENDATION</p>
-            </div>
             <div class="classify_top">
-               
                 <div class="flex" v-if="$route.query.type !=='filter' && catList.length>0">
                   <div> 分类</div>
                   <div> <span 
@@ -431,6 +428,10 @@
                   <div> <span :style="sortName !=='PRICE' && sortName !=='SALES'?' color:#f4c542':''"  @click="doPriceFitler('')">默认</span>
                   <span :class="handleStatus('PRICE')" :style="sortName =='PRICE'?' color:#f4c542':''" @click="doPriceFitler('PRICE')">价格</span><span :class="handleStatus('SALES')"  :style="sortName =='SALES'?' color:#f4c542':''" @click="doPriceFitler('SALES')">销量</span> </div>
                 </div>
+            </div>
+            <div class="classifyTitle">
+              <h5>{{catName}}</h5>
+              <p>CUSTOM RECOMMENDATION</p>
             </div>
             <!-- 新品上架 -->
             <div class="headline flex-pack-center" v-if="false">
@@ -1394,7 +1395,7 @@ a.getUserInfo();
     }
 
     if(cookie){this.stockpile || [];
-    if (this.stockpile.length > 10) {
+    if (this.stockpile.length > 2) {
       this.removeByValue(
         this.stockpile,
         this.stockpile[this.stockpile.length - 1]
@@ -1414,7 +1415,7 @@ a.getUserInfo();
 }
 
     if (this.$route.path == "/productclassify") {
-        this.keyword = keyword
+      this.keyword = keyword
       this.$emit("filterproduct");
       return;
     }
@@ -1746,6 +1747,8 @@ a.getUserInfo();
 
 .hotwordItem1 {
   font-size: 14px;
+  line-height: 30px;
+  padding-left:15px;
 }
 //定制推荐
 .recommend_list {
@@ -2063,7 +2066,7 @@ a.getUserInfo();
     text-align: center;
     border-bottom: 1px solid #e5e5e5;
     font-size: 28px;
-    padding-bottom: 20px;
+    padding: 30px 0;
     height:auto;
     h5{
       color:#333;font-size:28px;font-weight: normal;
@@ -2071,5 +2074,13 @@ a.getUserInfo();
     p{
       font-size:20px;
     }
+}
+
+.searchList{
+  width: 100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor: pointer;line-height:30px;
+  padding-left:15px;
+}
+.searchList:hover{
+  background:#f2f2f2;
 }
 </style>
