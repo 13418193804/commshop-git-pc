@@ -96,7 +96,11 @@ export default class share_code extends Vue {
   mounted() {
       console.log("分享");
       this.queryuserinfo();
+      console.log()
   }
+ 
+
+
 
 }
 </script>

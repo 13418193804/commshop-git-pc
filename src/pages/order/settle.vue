@@ -1230,7 +1230,7 @@ if(!filter){
     ];
   
     if(!this.prepareId){
-      this.$router.go(-1);
+      this.$router.go(-2);
       return 
     }
 

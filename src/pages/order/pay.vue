@@ -298,7 +298,7 @@ if(this.createTime){
     var seconds=Math.round(leave3/1000)
 
    if(hours>0 || dayDiff>0 ||minutes>30){
-      console.log('订单失效,置灰按钮')
+
     this.surplus.minutes = 0
     this.surplus.seconds = 0
             this.overModel = false
