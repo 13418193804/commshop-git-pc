@@ -20,7 +20,7 @@
 <img v-bind:src="detatil.goodsImg.split(',')[click]" style="width:100%;"/>
 
 <div class="flex" style="    overflow: auto;">
-  <div v-for="(item,index) in detatil.goodsImg.split(',') " :key="index" @click="lookPic(index)" style="border:1px solid rgb(244, 197, 66)">
+  <div v-for="(item,index) in detatil.goodsImg.split(',') " :key="index" @click="lookPic(index)">
     <img v-lazy="item" style="width:100px;padding:5px;cursor: pointer;"/>
   </div>
 </div>
@@ -201,7 +201,19 @@
           </div>
           <p>{{item.commentContent}}</p>
           <div class="flex evaluate_pic">
-              <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div>
+              <!-- <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div> -->
+         
+              <div  v-for="(itemImg,index) in item.commentImg  ? item.commentImg .split(','):[]" :key="index">
+                <img v-lazy="itemImg" style="width:100px;height:100px;vertical-align: middle;"/>                  
+                
+              </div>
+           
+              <!-- <div v-for="(item,index) in detatil.slogan.split(';')" :key="index">
+                <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span>
+                    <span>{{item}}</span>
+                </span> 
+              </div> -->
+
           </div>
           <div class="time">{{item.createTime}}</div>
       </div>
@@ -688,7 +700,7 @@ Vue.prototype.$reqFormPost1(
           console.log("网络请求错误！");
           return;
         }
-        console.log(res.data)
+        console.log('zheshisha',res.data)
         this.goodsCoupon = res.data
         
       }
@@ -730,7 +742,7 @@ Vue.prototype.$reqFormPost1(
         console.log("-----------");
         // 评论数量
         this.commentnum = res.data.commentNum;
-        console.log('总数',res.data.commentNum)
+        console.log('总数',res.data)
         
         // 好评计算
         if (res.data.commentList.length > 0) {
@@ -748,7 +760,7 @@ Vue.prototype.$reqFormPost1(
         this.likeList = res.data.likeList;
         this.newList = res.data.newList;
         this.scale = res.data.scale;
-          this.getstars(res.data.commentStar);
+        this.getstars(res.data.commentStar);
         // this.couponList = res.data.couponList;
 
         this.detatil.skuKey.forEach((keyItem, keyIndex) => {

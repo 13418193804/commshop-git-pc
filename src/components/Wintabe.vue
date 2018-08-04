@@ -167,7 +167,7 @@
             </div>
             <div class="flex-pack-justify  flex-align-center" style="position:relative" >
               <div v-for="(item,index) in stockpile" :key="index" class="flex  flex-align-center flex-pack-justify">
-                 <div class="searchList"  @click="doSelect(item.value,true)">{{item.value}}</div>
+                 <div class="searchList"  @click="checKeyword(item.value)">{{item.value}}</div>
                  <div >
                 <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;cursor: pointer;" 
                   @click="clearSearch(item)"
@@ -179,7 +179,7 @@
 
           <div style="cursor: pointer;color:red;">
               <div style="color:#999;padding:5px 10px 0;">推荐热词</div>
-              <div class="hotwordItem1 flex" v-for="n in hotwordList" v-text="n.word" @click="doSelect(n.word,false)">
+              <div class="hotwordItem1 flex" v-for="n in hotwordList" v-text="n.word" @click="checKeyword(n.word)">
               </div>
           </div>
           
@@ -1387,6 +1387,9 @@ a.getUserInfo();
         break;
       }
     }
+  }
+  checKeyword(keyword){
+    this.keyword = keyword
   }
   doSelect(keyword,cookie) {
     // console.log('搜索开始')

@@ -297,7 +297,7 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 button{
   background:#fff;
 }
-el-pagination{
+.el-pagination{
   text-align:center;
 }
 </style>
