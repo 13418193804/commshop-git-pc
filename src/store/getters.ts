@@ -57,7 +57,7 @@ export default {
     },
     [MutationTreeType.PREPAREID](state) {
         if ((sessionStorage[MutationTreeType.PREPAREID] || '') !== '') {
-            state.prepareId = JSON.parse(localStorage[MutationTreeType.PREPAREID]);
+            state.prepareId = sessionStorage[MutationTreeType.PREPAREID];
             return state.prepareId;
         } else {
             return state.prepareId;

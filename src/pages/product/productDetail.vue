@@ -452,11 +452,13 @@ export default class ProductDetail extends Vue {
           Toast(res.data.message);
           return;
         }
-        // this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
-        sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] = res.data.data.prepareId;
+      //  this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
+     
+       sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] = res.data.data.prepareId;
         this.$router.push({
           path: "/settle"
-        });
+        }
+        );
         console.log("预支付订单ID", res.data.data.prepareId);
       }
     );

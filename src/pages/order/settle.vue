@@ -1222,18 +1222,12 @@ if(!filter){
 
   }
   mounted() {
- 
-    
-    this.prepareId = this.$store.getters[
-      Vue.prototype.MutationTreeType.PREPAREID
-    ];
-  
+    this.prepareId = sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]
+    this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]);
     if(!this.prepareId){
       this.$router.go(-2);
       return 
     }
-
-    
     this.getPreInfo(
       this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
     );
