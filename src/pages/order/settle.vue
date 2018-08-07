@@ -1215,12 +1215,9 @@ if(!filter){
 }
     this.surecouponName=this.selectcouponName;
     this.surecouponDenomination=this.selectcouponDenomination;
-
-
   this.coupon_active = '2';
-    
-
   }
+
   mounted() {
     this.prepareId = sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]
     this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]);

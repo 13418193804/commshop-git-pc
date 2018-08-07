@@ -359,16 +359,20 @@ export default class ProductDetail extends Vue {
 // handleSkuValue(skuValue){
 //  return JSON.parse(skuValue);
 // }
+
+
  goProductDetail(goodsId) {
    console.log('点击详情',goodsId)
    sessionStorage.goodsId = goodsId;
-    this.$router.push({
-      path: "/productDetail",
-      query: {
-        goodsId: goodsId
-      }
-    });
-   window.location.reload()
+    // this.$router.push({
+    //   path: "/productDetail",
+    //   query: {
+    //     goodsId: goodsId
+    //   }
+    // });
+    window.open(window.location.origin + '/#/productDetail?goodsId='+goodsId )
+
+  //  window.location.reload()
   }
   
 //获取评价列表
