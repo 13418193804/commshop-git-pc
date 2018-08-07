@@ -334,7 +334,7 @@
                                   <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                 </div>
                                 <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                <p class="shop_prce" style="color:red">￥{{goods.costPrice.toFixed(2)}}</p>
+                                <p class="shop_prce" style="color:red">￥{{goods.marketPrice.toFixed(2)}}</p>
                               </div>
                            </div>
                            
@@ -354,7 +354,7 @@
                                   <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                   </div>
                                   <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                  <p class="shop_prce" style="color:red">￥{{goods.costPrice.toFixed(2)}}</p>
+                                  <p class="shop_prce" style="color:red">￥{{goods.marketPrice.toFixed(2)}}</p>
                                 </div>
                               </div>
                            </div>
@@ -458,7 +458,7 @@
                           <span  :style=" shopItem.isBargain?'':'visibility: hidden;'"  style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                         </div>
                         <h3 class="ellipsis"> {{shopItem.goodsName}}</h3>
-                        <p class="shop_prce" style="color:red">￥{{shopItem.costPrice.toFixed(2)}}</p>
+                        <p class="shop_prce" style="color:red">￥{{shopItem.marketPrice.toFixed(2)}}</p>
                       </div>
                   </li>
                 </ul>
@@ -1223,9 +1223,20 @@ let b =  this.indexList.filter((item,index)=>{
 
    // 取第一个 id的详情 
         if(this.catList.length>0){
-          this.catId = this.catList[0].catId;
-          this.catName = this.catList[0].catName;
-          this.getproductList(this.catList[0].catId)
+        let a =0
+          if(this.$route.query.secCatId){
+              this.catList.forEach((item,index)=>{
+                console.log(item.catId)
+                if(item.catId==this.$route.query.secCatId){
+                  a=index
+                  return false
+                }
+              })
+          }
+          this.catId = this.catList[a].catId;
+          this.catName = this.catList[a].catName;
+          this.getproductList(this.catList[a].catId)
+          
         }else{
           this.catId = this.indexList[active].catId
           this.catName = "商品列表"
@@ -1266,9 +1277,17 @@ let b =  this.indexList.filter((item,index)=>{
       //   this.handleGoodSend(item,this.indexList)
       // })
 
-      if (this.indexList.length > 0) {
+      if(this.$route.query.catId && this.$route.path=='/'){
+        this.indexList.forEach((item,index)=>{
+          if(this.$route.query.catId == item.catId){
+              this.active =index.toString();
+                   this.changeTab(this.active, true);
+          }
+        })
+      }else if (this.indexList.length > 0) {
         this.changeTab(this.active, true);
       }
+
     });
   }
   cartList = [];
@@ -1406,8 +1425,10 @@ a.getUserInfo();
       );
     }
 })
+
     this.stockpile.unshift({ value: keyword });
     localStorage.filterValue = JSON.stringify(this.stockpile);
+
 }
 
     if (this.$route.path == "/productclassify") {
@@ -1416,6 +1437,7 @@ a.getUserInfo();
       return;
     }
 
+
     sessionStorage.keyword = keyword;
     this.$router.push({
       name: "productclassify",
@@ -1423,6 +1445,8 @@ a.getUserInfo();
         type: "filter"
       }
     });
+      this.$emit("filterproduct");
+   
     
   }
   searchBarFixed = false;

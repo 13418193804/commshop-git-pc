@@ -29,8 +29,8 @@ export default class shopIndex extends Vue {
 
     // console.log(this.$route.query)
     console.log('index')
-   
-   
+
+
  
 
 

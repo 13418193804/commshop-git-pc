@@ -98,6 +98,9 @@ html,body,#app{
 }
 </style>
 <style>
+.el-breadcrumb__inner a:hover, .el-breadcrumb__inner.is-link:hover {
+  color:#f4c542!important;
+}
 .van-dialog{
   width:20%;
 }

@@ -8,14 +8,15 @@
           </div>
             <div style="font-size:16px;text-align:center;    padding-bottom: 10px;
     border-bottom: 1px solid rgb(221, 221, 221);">查看物流</div>
-            <div class="detailBody">
-              <div v-for="items in  shipInfoList">
-             
+            <div class="detailBody" style="    height: 500px;    overflow: auto;">
+       <div v-if="shipInfoList.length>0">       <div v-for="items in  shipInfoList">
                   <div>{{items.time}}</div>
           <div>{{items.context}}</div>
-             
-           
-
+        </div></div>
+        <div v-else style="    margin: 50px;
+    text-align: center;
+    color: #999;">
+          暂无信息
         </div>
         </div>
         </div>
@@ -45,6 +46,7 @@ export default class shopIndex extends Vue {
   ship_model = false;
   shipInfoList: any = [];
   getShipInfoList(transportNo,transportCode) {
+      this.shipInfoList = []
     Vue.prototype.$reqFormPost(
       "/transport/info",
       {
@@ -63,8 +65,9 @@ export default class shopIndex extends Vue {
           Toast(res.data.message);
           return;
         }
+        console.log('--------',res)
         console.log(res.data.data);
-        console.log(transportNo);
+
         this.shipInfoList = res.data.data;
       }
       
