@@ -12,7 +12,11 @@
         </div>
 
 
-
+<el-pagination v-if="total>0"
+                      background
+                      layout="prev, pager, next"
+                    :page-size="pageSize" :total="total" @current-change="onPageChange">
+                    </el-pagination>
 
     
     <div v-if="messagelist.length==0">
@@ -55,8 +59,15 @@ export default class messagelist extends Vue {
   }
   messagelist=[];
   orderId="";
-  page=0;
   lookMesge="";
+    pageSize = 20;
+  page = 0;
+  total = 0;
+    onPageChange(page) {
+    this.page = page - 1;
+    this.getList();
+  }
+
   getList() {
     Vue.prototype.$reqFormPost("/message/list", {
       
@@ -64,8 +75,8 @@ export default class messagelist extends Vue {
             .userId,
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .token,
-          // page: this.page,
-          // pageSize: 20
+          page: this.page,
+          pageSize: 20
     }, res => {
           if (res == null) {
             console.log("网络请求错误！");
@@ -80,6 +91,7 @@ export default class messagelist extends Vue {
           }
           console.log(res.data.data)
         this.messagelist = res.data.data.messageList;
+        this.total = res.data.data.page.total
         });
   }
   //未阅读消息
