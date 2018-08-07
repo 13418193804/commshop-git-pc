@@ -145,7 +145,7 @@
           Toast("请填写评价");
           return;
       }
-      let commentImg = this.filename.toString()
+      let commentImg = this.refundObj.refundImgs.join(',');
       Vue.prototype.$reqFormPost(
       "/comment/add",
       {

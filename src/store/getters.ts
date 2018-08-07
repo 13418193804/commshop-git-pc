@@ -56,7 +56,12 @@ export default {
         return state.prepareId;
     },
     [MutationTreeType.PREPAREID](state) {
-        return state.prepareId;
+        if ((sessionStorage[MutationTreeType.PREPAREID] || '') !== '') {
+            state.prepareId = JSON.parse(localStorage[MutationTreeType.PREPAREID]);
+            return state.prepareId;
+        } else {
+            return state.prepareId;
+        }
     },
     [MutationTreeType.SYSTEM](state) {
         return state.labelActive;
