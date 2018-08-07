@@ -366,16 +366,20 @@ export default class ProductDetail extends Vue {
 // handleSkuValue(skuValue){
 //  return JSON.parse(skuValue);
 // }
+
+
  goProductDetail(goodsId) {
    console.log('点击详情',goodsId)
    sessionStorage.goodsId = goodsId;
-    this.$router.push({
-      path: "/productDetail",
-      query: {
-        goodsId: goodsId
-      }
-    });
-   window.location.reload()
+    // this.$router.push({
+    //   path: "/productDetail",
+    //   query: {
+    //     goodsId: goodsId
+    //   }
+    // });
+    window.open(window.location.origin + '/#/productDetail?goodsId='+goodsId )
+
+  //  window.location.reload()
   }
   
 //获取评价列表
@@ -459,11 +463,13 @@ export default class ProductDetail extends Vue {
           Toast(res.data.message);
           return;
         }
-        // this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
-        sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] = res.data.data.prepareId;
+      //  this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
+     
+       sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] = res.data.data.prepareId;
         this.$router.push({
           path: "/settle"
-        });
+        }
+        );
         console.log("预支付订单ID", res.data.data.prepareId);
       }
     );
@@ -560,7 +566,8 @@ export default class ProductDetail extends Vue {
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
         goodsId: this.goodsId,
-        skuId: this.skuItem["skuId"]
+        skuId: this.skuItem["skuId"],
+        num:this.num
       },
       res => {
         if (res.returnCode !== 200) {

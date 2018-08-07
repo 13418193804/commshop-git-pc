@@ -1215,25 +1215,16 @@ if(!filter){
 }
     this.surecouponName=this.selectcouponName;
     this.surecouponDenomination=this.selectcouponDenomination;
-
-
   this.coupon_active = '2';
-    
-
   }
+
   mounted() {
- 
-    
-    this.prepareId = this.$store.getters[
-      Vue.prototype.MutationTreeType.PREPAREID
-    ];
-  
+    this.prepareId = sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]
+    this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]);
     if(!this.prepareId){
       this.$router.go(-2);
       return 
     }
-
-    
     this.getPreInfo(
       this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
     );

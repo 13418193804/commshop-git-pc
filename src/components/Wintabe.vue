@@ -1282,6 +1282,7 @@ let b =  this.indexList.filter((item,index)=>{
   cartList = [];
   getNumber(cartList = []) {
     let num = 0;
+    console.log(cartList)
     cartList.forEach((item, index) => {
       num += item.num;
     });
