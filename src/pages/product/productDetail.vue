@@ -259,7 +259,7 @@
               <div class="newtext">
                       <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
               <span v-if="item.rangeType == 'ALL'">全场通用;</span>
-              <span v-else>{{item.catName}}类商品适用</span>
+              <span v-else>{{item.catName}}类商品适用;</span>
               特价商品或其他优惠活动商品不可用
               </div>
               </div>

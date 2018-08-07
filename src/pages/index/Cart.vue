@@ -147,7 +147,7 @@ export default class Cart extends Vue {
 
    onSubmit() {
     if (this.result.length <= 0) {
-      Toast("您还没选择商品");
+      Toast("请选择商品");
       return;
     }
     Vue.prototype.$reqFormPost1(
@@ -165,7 +165,8 @@ export default class Cart extends Vue {
           console.log("网络请求错误！");
           return;
         }
-        this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID,res.data.prepareId)
+        // this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID,res.data.prepareId)
+               sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] = res.data.prepareId;
         this.$router.push({
           path: "/settle"
         });
