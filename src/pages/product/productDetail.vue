@@ -8,6 +8,8 @@
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex  flex-align-center">
     <el-breadcrumb separator-class="el-icon-arrow-right">
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{ path: '/?catId='+detatil.category.catId }" v-if="detatil">{{detatil.category.catName}}</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{ path: '/?catId='+detatil.category.catId+'&secCatId='+ detatil.category.child.catId }" v-if="detatil">{{detatil.category.child.catName}}</el-breadcrumb-item>
   <el-breadcrumb-item>{{detatil.goodsName}}</el-breadcrumb-item>
 </el-breadcrumb>
 </div>
@@ -220,6 +222,13 @@
           </div>
           <div class="time">{{item.createTime}}</div>
       </div>
+      <div style="margin:20px 0">
+            <el-pagination v-if="evaluatetotal>0"
+                      background
+                      layout="prev, pager, next"
+                    :page-size="pageSize" :total="evaluatetotal" @current-change="onPageChange">
+                    </el-pagination>
+      </div>
   </div>
    
 </div>
@@ -262,7 +271,7 @@
               <div class="newtext">
                       <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
               <span v-if="item.rangeType == 'ALL'">全场通用;</span>
-              <span v-else>{{item.catName}}类商品适用</span>
+              <span v-else>{{item.catName}}类商品适用;</span>
               特价商品或其他优惠活动商品不可用
               </div>
               </div>
@@ -382,13 +391,23 @@ export default class ProductDetail extends Vue {
   //  window.location.reload()
   }
   
+  pageSize = 20;
+  page = 0;
+  evaluatetotal = 0;
+    onPageChange(page) {
+    this.page = page - 1;
+    this.evaluateList();
+  }
+
 //获取评价列表
   evaluateList(){
         Vue.prototype.$reqFormPost1(
         "/comment/list",
         {
           goodsId: this.goodsId,
-          status:this.btn_active
+          status:this.btn_active,
+          page:this.page,
+          pageSize:this.pageSize
         },
         res => {
           console.log(res)
@@ -398,6 +417,7 @@ export default class ProductDetail extends Vue {
           }
           console.log(res.data.page.total)
           this.appraiseList = res.data.commentList;
+          this.evaluatetotal = res.data.page.total
           console.log('评论',res.data.commentList)
         }
       );

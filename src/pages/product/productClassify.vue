@@ -42,7 +42,7 @@
                                   <span v-if="shopItem.isBargain" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                 </div>
                                 <h3 class="ellipsis"> {{shopItem.goodsName}}</h3>
-                                <p class="shop_prce" style="color:red">￥{{shopItem.costPrice.toFixed(2)}}</p>
+                                <p class="shop_prce" style="color:red">￥{{shopItem.marketPrice.toFixed(2)}}</p>
                               </div>
                          </li>
                        </ul>
@@ -165,7 +165,9 @@ export default class ProductDetail extends Vue {
   }
 
   getproductList() {
+console.log('==========')
     this.shopList = []
+
     let a: any = this.$refs.wintabe;
     let data = {
       page: this.page,

@@ -61,7 +61,7 @@
 
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_RECVGOODS'">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'  || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
-      <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="getShip(item)">查看物流</van-button>
+      <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="getShip()">查看物流</van-button>
       <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="doRefund(item)">退货/退款</van-button>
       <van-button size="small" style="margin-right:10px;cursor: pointer;"  :style="formatButtonColor()" @click.stop="recvgoods(detail.orderId,detail)">确认收货</van-button>
         </div>
@@ -96,7 +96,7 @@
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_END_GOODS' ">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND' || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
       <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="doRefund()">退换/售后</van-button>
-        <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="getShip(item)" :style="formatButtonColor()">查看物流</van-button>
+        <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="getShip()" :style="formatButtonColor()">查看物流</van-button>
     </div>
 
         <div v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND' && detail.detailList[0].refundStatus !== 'FAIL_REFUND'">
@@ -317,11 +317,11 @@ export default class orderdetail extends Vue {
   }
  
    //查看物流信息
-  getShip(item) {
+  getShip() {
     let e : any = this.$refs.ship
     e.ship_model = true
     e.getShipInfoList(
-      item.transportNo,item.transportCode
+      this.detail['transportNo'],this.detail['transportCode']
     );
      console.log('触发')
   }

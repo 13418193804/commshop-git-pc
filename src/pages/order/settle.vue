@@ -413,7 +413,11 @@
                             <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
                             <i style="color: #fff;" v-if="item.validityTime">- {{item.validityTime.split(' ')[0]}}</i></div>
                         </div>
-                        <div class="newtext">新人专享：全场通用;特价商品或其他优惠活动商品不可</div>
+
+                        <div class="newtext">        <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
+              <span v-if="item.rangeType == 'ALL'">全场通用;</span>
+              <span v-else>{{item.catName}}类商品适用;</span>特价商品或其他优惠活动商品不可</div>
+
                     </div>
                 </div>
               <div style="text-align: center;margin-top: 30px;">
@@ -424,8 +428,6 @@
           </div>
         </div>
       </div>
-
-
   <winbeet></winbeet>
   </div>
 </template>
@@ -653,9 +655,12 @@ if(!coupon_active){
         this.updateaddressid="";
 
         console.log('res.data.addressId',res.data.data.addressId)
+        
         this.doChangePreDis('address',res.data.data.addressId,res=>{
           this["$Message"].success("新建地址成功");
         })
+
+        
       }
     );
   }
@@ -766,8 +771,12 @@ addaddress() {
           return;
         }
         Toast("新建地址成功");
-        this.getAddressList();
 
+
+        this.getAddressList();
+      this.doChangePreDis('address',res.data.data.addressId,res=>{
+          this["$Message"].success("新建地址成功");
+        })
         this.provinceid="";
         this.cityid="";
         this.countryid="";
@@ -777,6 +786,7 @@ addaddress() {
         this.isDefault=0;
         this.addshow=false;
         this.updateaddressid="";
+
       }
     );
     }
