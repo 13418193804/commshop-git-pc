@@ -1,9 +1,6 @@
 <template>
   <div class="">
       <div style="padding:30px;">
-       
-
-
         <div class="flex flex-pack-justify" v-for="(item,index) in messagelist" :key="index" 
             style="padding:15px 0;cursor: pointer;border-bottom:1px dashed #E5E5E5;" @click="handleContent(item)"
         >
@@ -44,16 +41,14 @@ import { Toast } from "vant";
 export default class messagelist extends Vue {
 
   handleContent(item){
- 
-
     if(item.type == 'ORDER_MSG'){
-
-      
     this.goOrderDetail(item)
     }
     if(item.type == 'AWARD_MSG'){
-
-this.goReward()
+      this.goReward()
+    }
+    if(item.type == 'MEMBER_MSG'){
+      this.goMember()
     }
 
 
@@ -112,7 +107,7 @@ this.goReward()
             Toast(res.data.message);
             return;
           }
-          console.log('消息',res.data.message);
+          
           this.messagelist = res.data.data.messageList;
         });
 }
@@ -129,6 +124,11 @@ this.goReward()
     console.log('积分详情')
     this.$router.push({
       name:"my_reward"
+    })
+  }
+  goMember(){
+    this.$router.push({
+      name:"my_member"
     })
   }
   mounted() {

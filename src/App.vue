@@ -294,4 +294,10 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 .headerListCur{
   color:#ffc630;border-bottom:3px solid #ffc630;
 }
+button{
+  background:#fff;
+}
+.el-pagination{
+  text-align:center;
+}
 </style>

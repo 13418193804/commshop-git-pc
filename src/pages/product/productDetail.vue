@@ -1,11 +1,7 @@
 <template>
   <div>
    <div class="tab-contents" style="    overflow: hidden;">
-
-
 <wintabe ref="wintabe" :table="true" :router="true"></wintabe>
-
-
 
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;">
@@ -25,7 +21,7 @@
 
 <div class="flex" style="    overflow: auto;">
   <div v-for="(item,index) in detatil.goodsImg.split(',') " :key="index" @click="lookPic(index)">
-    <img v-lazy="item" style="width:100px;margin-right:10px;cursor: pointer;"/>
+    <img v-lazy="item" style="width:100px;padding:5px;cursor: pointer;"/>
   </div>
 </div>
 </div>
@@ -37,7 +33,11 @@
   <div style="color:#a3a3a3">
   {{detatil.jingle}}
 </div>
-<div style="border:1px solid #e5e5e5;margin:20px 0;background-color:#FCFCFC;font-size:14px;">
+<div style="border:1px solid #e5e5e5;margin:20px 0;background-color:#FCFCFC;font-size:14px;position: relative;">
+  <!-- 用户评价统计 -->
+  <div class="all_evaluate">
+        用户评价{{detatil.commentNum}}
+  </div>
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
   <div style="width:50px">价格</div>
   <div><span class="marketPrice" style="font-size:20px;margin-right:10px">￥{{detatil.marketPrice.toFixed(2)}}</span>
@@ -101,7 +101,8 @@
     </div>
 <div class="flex">
       <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;height:54px;margin-right:10px;overflow: hidden;cursor: pointer;"  @click.stop="addCar()">立即购买</van-button>
-      <van-button  style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;height:54px;"  @click.stop="addCart()">加入购物车</van-button>
+      <van-button  style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;height:54px;"  @click.stop="addCart()"><img src="../../assets/image/购物车白色.png" style="margin-right: 7px;
+    vertical-align: middle;"/>加入购物车</van-button>
 <div>
 <!-- <div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
   <p><i class="iconfont icon-shoucang1"></i></p>
@@ -200,7 +201,19 @@
           </div>
           <p>{{item.commentContent}}</p>
           <div class="flex evaluate_pic">
-              <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div>
+              <!-- <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div> -->
+         
+              <div  v-for="(itemImg,index) in item.commentImg  ? item.commentImg .split(','):[]" :key="index">
+                <img v-lazy="itemImg" style="width:100px;height:100px;vertical-align: middle;"/>                  
+                
+              </div>
+           
+              <!-- <div v-for="(item,index) in detatil.slogan.split(';')" :key="index">
+                <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span>
+                    <span>{{item}}</span>
+                </span> 
+              </div> -->
+
           </div>
           <div class="time">{{item.createTime}}</div>
       </div>
@@ -687,7 +700,7 @@ Vue.prototype.$reqFormPost1(
           console.log("网络请求错误！");
           return;
         }
-        console.log(res.data)
+        console.log('zheshisha',res.data)
         this.goodsCoupon = res.data
         
       }
@@ -729,7 +742,7 @@ Vue.prototype.$reqFormPost1(
         console.log("-----------");
         // 评论数量
         this.commentnum = res.data.commentNum;
-        console.log('总数',res.data.commentNum)
+        console.log('总数',res.data)
         
         // 好评计算
         if (res.data.commentList.length > 0) {
@@ -747,7 +760,7 @@ Vue.prototype.$reqFormPost1(
         this.likeList = res.data.likeList;
         this.newList = res.data.newList;
         this.scale = res.data.scale;
-          this.getstars(res.data.commentStar);
+        this.getstars(res.data.commentStar);
         // this.couponList = res.data.couponList;
 
         this.detatil.skuKey.forEach((keyItem, keyIndex) => {
@@ -942,5 +955,9 @@ cursor: pointer;
 }
 .time{
   position: absolute;right: 16px;color:#fff;
+}
+.all_evaluate{
+  position:absolute;right:20px;top:50px;color:#f4c542;background: url(../../assets/image/评价.png) no-repeat right top;
+  padding-top:30px;font-size: 15px;
 }
 </style>

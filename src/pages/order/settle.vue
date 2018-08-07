@@ -651,14 +651,11 @@ if(!coupon_active){
         this.isDefault=0;
         this.addshow=false;
         this.updateaddressid="";
-console.log('res.data.addressId',res.data.data.addressId)
-this.doChangePreDis('address',res.data.data.addressId,res=>{
-   this["$Message"].success("新建地址成功");
-})
 
-
-
-
+        console.log('res.data.addressId',res.data.data.addressId)
+        this.doChangePreDis('address',res.data.data.addressId,res=>{
+          this["$Message"].success("新建地址成功");
+        })
       }
     );
   }
@@ -691,7 +688,7 @@ addaddress() {
        this["$Message"].warning("请填写手机号码");
       return;
     }
-       if(this.contactMobile.length!= 11 ){
+    if(this.contactMobile.length!= 11 ){
        this["$Message"].warning("请填写正确的手机号码");
       return;
     }
@@ -725,6 +722,7 @@ addaddress() {
           return;
         }
         this["$Message"].success("保存成功");
+        
         this.provinceid="";
         this.cityid="";
         this.countryid="";
@@ -734,9 +732,9 @@ addaddress() {
         this.isDefault=0;
         this.addshow=false;
         this.updateaddressid="";
-         this.getPreInfo(
-      this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
-    );
+        this.getPreInfo(
+        this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
+      );
       }
     );
     }else{
@@ -769,6 +767,7 @@ addaddress() {
         }
         Toast("新建地址成功");
         this.getAddressList();
+
         this.provinceid="";
         this.cityid="";
         this.countryid="";
@@ -935,11 +934,11 @@ changeModel(type){
 if(type=='change'){
   console.log('切换地址')
   this.withchangeModel = true;
-this.getAddressList()
+  this.getAddressList()
 }else{
 
     this.getprovince();
-      this.addshow=false;
+    this.addshow=false;
     this.provinceid="";
     this.cityid="";
     this.countryid="";
@@ -948,7 +947,7 @@ this.getAddressList()
     this.contactMobile="";
     this.isDefault=0;    
     this.updateaddressid="";
-  this.addshow= true;
+    this.addshow= true;
 
 }
  
@@ -1288,7 +1287,7 @@ console.log('this.selectcouponId',this.selectcouponId)
   background: #fff;color: rgb(252, 203, 82);margin-left:15px;
 }
 .bc_addres{
-  border:#e5e5e5 1px solid;
+  border:#e5e5e5 1px solid;cursor:pointer;
   width:500px;
   margin: 20px;
   div{
