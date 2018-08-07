@@ -559,7 +559,8 @@ export default class ProductDetail extends Vue {
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
         goodsId: this.goodsId,
-        skuId: this.skuItem["skuId"]
+        skuId: this.skuItem["skuId"],
+        num:this.num
       },
       res => {
         if (res.returnCode !== 200) {
