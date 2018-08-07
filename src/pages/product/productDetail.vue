@@ -20,7 +20,10 @@
 <img v-bind:src="detatil.goodsImg.split(',')[click]" style="width:100%;"/>
 
 <div class="flex" style="    overflow: auto;">
-  <div v-for="(item,index) in detatil.goodsImg.split(',') " :key="index" @click="lookPic(index)">
+  <div v-for="(item,index) in detatil.goodsImg.split(',') " :key="index" @click="lookPic(index)"
+    class="borderImg"
+   v-on:click="addClassFun(index)" v-bind:class='{border:index==qwerqwre}'
+  >
     <img v-lazy="item" style="width:100px;padding:5px;cursor: pointer;"/>
   </div>
 </div>
@@ -339,6 +342,7 @@ export default class ProductDetail extends Vue {
   btn_active = '0';
   new_detatil = [];
   goCoupon = [];
+  qwerqwre = 0;
   selecttablist(index) {
     this.tabgoodslist = [];
     if (index == 0) {
@@ -350,7 +354,10 @@ export default class ProductDetail extends Vue {
       this.tabindex = 1;
     }
   }
-  
+  //商品图片点击
+  addClassFun(index) {
+    this.qwerqwre = index;
+  }
   // 新品推荐切换
   new_actdiv(new_active){
     this.new_active = new_active;
@@ -978,5 +985,11 @@ cursor: pointer;
 .all_evaluate{
   position:absolute;right:20px;top:50px;color:#f4c542;background: url('../../assets/image/评价.png') no-repeat right top;
   padding-top:30px;font-size: 15px;
+}
+.borderImg{
+  border:2px solid #fff;height:104px;
+}
+.border{
+  border:2px solid #f4c542;
 }
 </style>
