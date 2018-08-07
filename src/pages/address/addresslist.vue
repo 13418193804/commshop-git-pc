@@ -70,7 +70,6 @@
           <div class="flex flex-pack-center flex-align-center" style="height:100vh;">          
             <div class="flex flex-around-justify flex-v" style="background-color:#fff;padding:25px 60px 25px 30px;position:relative;">
               <div @click="close()" class="add_colose"><i class="iconfont icon-close" style="font-weight: bold;color: #bfbfbf;"></i></div>
-
               <div v-if="!updateaddressid" class="add_titile">新增地址</div>
               <div v-if="updateaddressid" style="font-size:16px; margin-bottom: 10px;">修改地址</div>
               <div class="flex region">
