@@ -229,14 +229,14 @@
                     overflow-y: auto;">
                 <div @click="couponshow(true)" class="add_colose">
                   <i class="iconfont icon-close"></i>
-                  </div>
+                </div>
                 <div class="add_titile" style="text-align:center;border-bottom:1px solid #ddd;">选择优惠券</div>
                   <div class="discountBox">
                       <div class="dis_list dis_bgunUse"  v-for="(item,index) in goodsCoupon"   :key="index" >
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
                 {{item.fullDenomination}}</span>元</p>
                 <div class="distype" 
-                  :class="item.status? 'distypeed' :'distype'"
+                  :class="item.getStatus? 'distypeed' :'distype'"
                   @click="getDiccount(item)"
                   >
                   {{item.getStatus ? "已领取" : "领取"}}</div>
@@ -452,7 +452,8 @@ export default class ProductDetail extends Vue {
           Toast(res.data.message);
           return;
         }
-        this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
+        // this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
+        sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] = res.data.data.prepareId;
         this.$router.push({
           path: "/settle"
         });
@@ -950,7 +951,7 @@ cursor: pointer;
     text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
   }
   .distypeed{
-    background: #fccb52;color:#fff;
+    background: #fccb52 url(../../assets/已领取白色.png) no-repeat top right;color:#fff;padding-right:20px;
   }
 }
 .time{

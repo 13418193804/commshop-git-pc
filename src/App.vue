@@ -288,8 +288,8 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
   border-top:1px solid #f2f2f2;margin-top:0px;
 }
 .headerList{
-    float: left;height:40px;line-height: 40px;padding:0px 10px;flex: 0 1 auto;min-width:80px;
-    cursor: pointer;text-align: center;
+  float: left;height:40px;line-height: 40px;padding:0px 10px;flex: 0 1 auto;min-width:80px;
+  cursor: pointer;text-align: center;
 }
 .headerListCur{
   color:#ffc630;border-bottom:3px solid #ffc630;
