@@ -290,7 +290,7 @@
                       <p class="flex-pack-center">{{catItem.catName}}</p>
                     </div>
                 </div>
-                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" >
+                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
                         <el-carousel :interval="5000" arrow="always">
@@ -304,6 +304,7 @@
                         </el-carousel-item>
                       </el-carousel>
                   </div>
+
                      <!-- 新品推荐 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
 
@@ -411,14 +412,13 @@
                   
 <!-- 商品列表 -->
  <!-- 商品列表页-->
-        <div class="classify_shop"  v-if="item.catId &&catList&& catList.length>0">
+        <div class="classify_shop"  v-if="catId">
             <div class="classify_top">
                 <div class="flex" v-if="$route.query.type !=='filter' && catList.length>0">
                   <div> 分类</div>
                   <div> <span 
                   v-for="(catItem,index) in catList" :key="index" class="colorGray" 
-                  :class="{ colorYellow:catItem.catId == catId}" @click="checkSecCat(catItem)" 
-                  >
+                  :class="{ colorYellow:catItem.catId == catId}" @click="checkSecCat(catItem)" >
                     {{catItem.catName}}
                     </span>
                   </div>
@@ -429,10 +429,16 @@
                   <span :class="handleStatus('PRICE')" :style="sortName =='PRICE'?' color:#f4c542':''" @click="doPriceFitler('PRICE')">价格</span><span :class="handleStatus('SALES')"  :style="sortName =='SALES'?' color:#f4c542':''" @click="doPriceFitler('SALES')">销量</span> </div>
                 </div>
             </div>
+
             <div class="classifyTitle">
-              <h5>{{catName}}</h5>
-              <p>CUSTOM RECOMMENDATION</p>
+              <h5>
+                <i  style="color:#f4c542;font-size: 36px;" >G</i>
+                {{catName}}
+               </h5>
+              <p>GOODS LIST</p>
             </div>
+
+                          
             <!-- 新品上架 -->
             <div class="headline flex-pack-center" v-if="false">
               <h2>{{secItem.catName}}</h2>
@@ -447,9 +453,9 @@
                         <h4 class="ellipsis">{{shopItem.jingle}}</h4>
                       </div>
                       <div class="shop_details">
-                        <div class="discounts">
-                          <span v-if="shopItem.couponList.length>0">满减</span>
-                          <span v-if="shopItem.isBargain" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
+                        <div class="discounts" >
+                          <span :style=" shopItem.couponList.length>0?'':'visibility: hidden;'">满减</span>
+                          <span  :style=" shopItem.isBargain?'':'visibility: hidden;'"  style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                         </div>
                         <h3 class="ellipsis"> {{shopItem.goodsName}}</h3>
                         <p class="shop_prce" style="color:red">￥{{shopItem.costPrice.toFixed(2)}}</p>
@@ -457,6 +463,11 @@
                   </li>
                 </ul>
             </div>
+               <el-pagination v-if="total>0"
+                      background
+                      layout="prev, pager, next"
+                    :page-size="pageSize" :total="total" @current-change="onPageChange">
+                    </el-pagination>
         </div>
         </div>
     </van-tab>
@@ -655,9 +666,7 @@ export default class Comhead extends Vue {
     );
   }
   //分类模块
-  page = 0 ;
-  pageSize= 10;
-  total = 0;
+
   catId = "";
   sortName = "";
   shopList = [];
@@ -668,13 +677,13 @@ export default class Comhead extends Vue {
    this.listTwo = true;
    console.log('二级目录',this.listTwo)
  }
+
   getproductList(catId) {
     
     this.shopList = []
     let a: any = this.$refs.wintabe;
     let data = {
-      page: this.page,
-      pageSize: this.pageSize
+
     };
 
     (<any>Object).assign(data, { catId: catId });
@@ -685,23 +694,14 @@ export default class Comhead extends Vue {
     if (this.sortStatus != "" || this.sortStatus != undefined) {
       (<any>Object).assign(data, { sortStatus: this.sortStatus });
     }
-   
-
       (<any>Object).assign(data, { page: this.page});
       (<any>Object).assign(data, { pageSize: this.pageSize});
-    
-    
-
-   
-
     Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
       if (res.returnCode !== 200) {
         this["$Message"].warning(res.message);
         console.log(res.message);
         return;
       }
-    
-  
       this.shopList = res.data.goodsList;
       this.total = res.data.page.total
     });
@@ -1135,6 +1135,9 @@ let b =  this.indexList.filter((item,index)=>{
 
 
   changeTab(active, shit) {
+    this.catId = null;
+    this.catList = []
+    this.page = 0;
     // shit 立刻检测  通常进来时不检测
     if (
       this.active == "-1" &&
@@ -1152,10 +1155,14 @@ let b =  this.indexList.filter((item,index)=>{
 
     this.active = active;
 
+
     if(active != "-1" && this.indexList[active] && this.indexList[active].catId)
-  {
+      {
    this.two_menu(active);
      }
+
+
+
     if (active != "-1" && !this.indexList[active].children) {
       Vue.prototype.$reqFormPost1(
         "/page/info",
@@ -1167,7 +1174,6 @@ let b =  this.indexList.filter((item,index)=>{
             this["$Message"].warning(res.message);
             return;
           }
-
           let a = res.data.filter((item, index) => {
             return item.componentType === "COMPONENT_TYPE_GOODS_TAG";
           });
@@ -1179,41 +1185,26 @@ let b =  this.indexList.filter((item,index)=>{
               }
             }
           });
-
+        console.log(res.data);
           (<any>Object).assign(this.indexList[active], {
             children: res.data
           });
           this.indexList.push();
-          if (this.indexList[active] && this.indexList[active].catId) {
-           
-            Vue.prototype.$reqFormPost1(
-              "/user/goods/list",
-              {
-                catId: this.indexList[active].catId
-              },
-              res => {
-                if (res.returnCode != 200) {
-                  this["$Message"].warning(res.message);
-                  return;
-                }
-
-                this.indexList[active].children.push({
-                  componentType: "COMPONENT_TYPE_GOODS_TAG",
-                  columnNum: 1,
-                  items: res.data.goodsList
-                });
-                
-                this.indexList.push();
-              }
-            );
-          }
         }
       );
     } 
   }
 
+  pageSize = 12;
+  page = 0;
+  total = 0;
+    onPageChange(page) {
+    this.page = page - 1;
+    this.getproductList(this.catId);
+  }
 
   two_menu(active) {
+
     Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
@@ -1228,17 +1219,18 @@ let b =  this.indexList.filter((item,index)=>{
 
         console.log('--------')
         this.catList = res.data;
-        console.log(this.catList)
+
 
    // 取第一个 id的详情 
         if(this.catList.length>0){
-          console.log('第一个',this.catList[0]);
           this.catId = this.catList[0].catId;
           this.catName = this.catList[0].catName;
           this.getproductList(this.catList[0].catId)
-
+        }else{
+          this.catId = this.indexList[active].catId
+          this.catName = "商品列表"
+          this.getproductList(this.indexList[active].catId)
         }
-
         //goodsList 
       }
     );
@@ -1760,6 +1752,7 @@ a.getUserInfo();
   width: 370px;
   margin-right: 15px;
   border: 1px solid #ededed;
+  
   .shop_img {
     border: none;
     margin-bottom: 12px;
@@ -1999,6 +1992,9 @@ a.getUserInfo();
   }
 }
 .classify_shop {
+  padding:30px;
+  border:1px #e5e5e5 solid;
+  margin-bottom:20px;
   .classify_top {
     div {
       color: #a8a8a8;
@@ -2024,7 +2020,7 @@ a.getUserInfo();
       }
     }
     div:nth-of-type(2) {
-      width: 90%;
+   
       span:hover {
         color: #f4c542;
       }
@@ -2034,6 +2030,7 @@ a.getUserInfo();
 //商品分类
 
 .classify_shop {
+  margin:20px 0;
   .classify_top {
     div {
       color: #a8a8a8;
@@ -2059,7 +2056,7 @@ a.getUserInfo();
       }
     }
     div:nth-of-type(2) {
-      width: 90%;
+     
       span:hover {
         color: #f4c542;
       }
