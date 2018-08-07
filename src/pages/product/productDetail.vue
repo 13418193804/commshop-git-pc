@@ -951,14 +951,14 @@ cursor: pointer;
     text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
   }
   .distypeed{
-    background: #fccb52 url(../../assets/已领取白色.png) no-repeat top right;color:#fff;padding-right:20px;
+    background: #fccb52 url('../../assets/已领取白色.png') no-repeat top right;color:#fff;padding-right:20px;
   }
 }
 .time{
   position: absolute;right: 16px;color:#fff;
 }
 .all_evaluate{
-  position:absolute;right:20px;top:50px;color:#f4c542;background: url(../../assets/image/评价.png) no-repeat right top;
+  position:absolute;right:20px;top:50px;color:#f4c542;background: url('../../assets/image/评价.png') no-repeat right top;
   padding-top:30px;font-size: 15px;
 }
 </style>
