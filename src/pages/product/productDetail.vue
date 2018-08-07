@@ -688,10 +688,21 @@ export default class ProductDetail extends Vue {
     
   }
 
+
   show(){
-    this.iscouponshow=true;
+
+    if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+
+this.iscouponshow=true;
     this.queryGoodsCoupon();
-  }
+    }else{
+      (<any>this.$refs.wintabe).changeLoginModel('login')
+    }
+}
   queryGoodsCoupon(){
 Vue.prototype.$reqFormPost1(
       "/coupon/goods/list",
