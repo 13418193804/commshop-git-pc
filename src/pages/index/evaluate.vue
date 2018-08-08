@@ -41,16 +41,6 @@
                   <div class="el-upload--picture-card" style="position: relative;" 
                   v-bind:style="handleBackGround(item)"
                   v-for="(item,index) in refundObj.refundImgs" :key="index">
-              
-                    <!-- <img :src="item" style="width:100%;" /> -->
-              
-                    <!-- <i class="iconfont icon-shanchu3" style="color: #000;
-              
-                  position: absolute;
-                  right: -8px;
-                  top: -8px;
-                  height: 17px;
-                  line-height: 17px;" @click="removeByValue(refundObj.refundImgs,item)"></i> -->
                   <i >
                   <img src="../../assets/image/删除按钮.png" style="color: #000;
                   position: absolute;
@@ -60,11 +50,11 @@
                   
                   </div>
             </div>
-          <div style="margin: 10px;position: absolute;
+          <div style="position: absolute;
     right: 0;
-    top: 190px;">
+    top: 200px;">
             <van-button size="large" @click="subcomment()" 
-            style="width:150px;height:45px;background-color:#fff;color:#FCCB52;text-align: center;line-height:45px;margin-right:10px;border:1px solid #FCCB52;cursor:pointer;"
+            style="width:150px;height:45px;background-color:#fff;color:#FCCB52;text-align: center;line-height:45px;border:1px solid #FCCB52;cursor:pointer;"
             >提交</van-button>
           </div>
         </div>
@@ -475,7 +465,7 @@ getorderdetail(){
     }
   }
   .shopText{
-    width: 720px;position: relative;
+    width: 100%;position: relative;
     .shopStar{
       height: 26px;line-height:26px;margin-bottom:13px;
       div{
@@ -487,7 +477,7 @@ getorderdetail(){
     }
     div{
       textarea{
-        resize: none;width:720px;height: 130px;border:1px solid #ddd;padding:10px;margin-bottom: 10px;
+        resize: none;width:100%;height: 130px;border:1px solid #ddd;padding:10px;margin-bottom: 10px;
       }
     }
     div{

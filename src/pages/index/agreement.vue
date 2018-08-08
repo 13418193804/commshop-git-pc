@@ -86,7 +86,7 @@
 <h5 style="margin-bottom:10px;">第 14 条 其他</h5>
 <p style="margin-bottom:10px;">14.1 中宜严选平台所有者是指在政府部门依法许可或备案的中宜严选平台经营主体。</p>
 <p style="margin-bottom:10px;">14.2 中宜严选尊重用户和消费者的合法权利，本协议及本平台上发布的各类规则、声明等其他内容，均 是为了更好地、更加便利地为用户和消费者提供服务。本平台欢迎用户和社会各界提出意见和建议，中宜 严选将虚心接受并适时修改本协议及本平台上的各类规则。</p>
-<h5 style="margin-bottom:10px;text-decoration: underline" >14.3 您点击本协议下方的"同意并继续"按钮即视为您完全接受本协议，在点击之前请您再次确认已知悉。</h5>
+<h5 style="margin-bottom:10px;text-decoration: underline" >14.3 您点击本协议下方的"同意并继续"按钮即视为您完全接受本协议，在点击之前请您再次确认已知悉并完全理解本协议的全部内容。</h5>
              
         </div>
         <div style="text-align:center;margin-top:30px;">
