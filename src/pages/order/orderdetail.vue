@@ -611,12 +611,13 @@ export default class orderdetail extends Vue {
       name: '我的订单',
       url:'/orderdetail',
     })
-
-    let a:any = window
+    setTimeout(
+        ()=>{
+          let a:any = window
 a.getMessageCount()
 this.$emit('getMessageCount');
-
-
+        },
+    1000)
 
   }
 }

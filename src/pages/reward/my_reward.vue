@@ -458,10 +458,15 @@ export default class my_reward extends Vue {
       name: '我的积分',
       url:'/my_reward',
     })
-        let a:any = window
+
+    setTimeout(
+        ()=>{
+          let a:any = window
 a.getMessageCount()
 this.$emit('getMessageCount');
 
+        },
+    1000)
   }
 }
 </script>
