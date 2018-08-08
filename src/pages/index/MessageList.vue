@@ -45,6 +45,8 @@ import { Toast } from "vant";
 export default class messagelist extends Vue {
 
   handleContent(item){
+
+
     if(item.type == 'ORDER_MSG'){
     this.goOrderDetail(item)
     }
@@ -70,7 +72,6 @@ export default class messagelist extends Vue {
 
   getList() {
     Vue.prototype.$reqFormPost("/message/list", {
-      
           userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .userId,
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]

@@ -603,8 +603,21 @@ export default class orderdetail extends Vue {
     });
   }
   mounted() {
+
     this.orderId = this.$route.query.orderId;
     this.queryDetail();
+
+        this.$emit('selectMenu',{
+      name: '我的订单',
+      url:'/orderdetail',
+    })
+
+    let a:any = window
+a.getMessageCount()
+this.$emit('getMessageCount');
+
+
+
   }
 }
 </script>
