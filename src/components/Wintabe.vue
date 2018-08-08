@@ -1852,9 +1852,10 @@ a.getUserInfo();
     line-height: 54px;
     background: #eff1f1;
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
     color: #a3a3a3;
     width: 100%;
+    padding: 0 5px;
   }
 }
 .shop_img>img {
@@ -1925,7 +1926,7 @@ a.getUserInfo();
   transition: transform .4s;
 }
 .collImg:hover{
-  box-shadow:0px 0px 5px 5px #F3F3F3;
+  box-shadow:0px 0px 8px 3px #F3F3F3;
   border:1px solid #FFCF63;
   -webkit-transform: scale(1.04);
   transform: scale(1.04);

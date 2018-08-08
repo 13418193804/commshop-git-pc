@@ -28,7 +28,7 @@
                 <!-- <textarea placeholder="填写高质量的评价，即可参与抽奖哦" v-model="commentContent"></textarea> -->
             </div>
   
-            <div class="flex" style="margin:10px;">
+            <div class="flex" style="width:80%;    flex-wrap: wrap;">
                   <div class="el-upload--picture-card">
               
                     <van-uploader :after-read="onRead" class="flex flex-pack-center flex-align-center" style="width: 100%;height: 100%;" accept="image/jpg,image/png, image/jpeg">
@@ -60,8 +60,11 @@
                   
                   </div>
             </div>
-          <div style="margin: 10px;">
-            <van-button size="large" @click="subcomment()" style="width:150px;height:45px;background-color:#FCCB52;color:#fff;text-align: center;line-height:45px;margin-right:10px;"
+          <div style="margin: 10px;position: absolute;
+    right: 0;
+    top: 190px;">
+            <van-button size="large" @click="subcomment()" 
+            style="width:150px;height:45px;background-color:#fff;color:#FCCB52;text-align: center;line-height:45px;margin-right:10px;border:1px solid #FCCB52;cursor:pointer;"
             >提交</van-button>
           </div>
         </div>
@@ -175,9 +178,10 @@
           console.log(
             "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
           );
-          Toast("评价成功～");
+          
           return;
         }
+        Toast("评价成功～");
           this.$router.go(-1);       
           Vue.prototype.$confirmLogin({
               name: "orderlist",
@@ -186,8 +190,8 @@
               }
             });
 
-        console.log(res.data)
-        },
+          console.log(res.data)
+          },
         {
         "Content-Type": "application/json"
     }     
@@ -421,9 +425,8 @@ getorderdetail(){
   
     line-height: 146px;
   
-    vertical-align: top;
-  
-    margin: 10px;
+    vertical-align: middle;
+    margin-right:10px;margin-bottom:10px;
     background: url(../../assets/image/添加图片.png) no-repeat;
     background-size: 100%;
   
@@ -472,7 +475,7 @@ getorderdetail(){
     }
   }
   .shopText{
-    width: 720px;
+    width: 720px;position: relative;
     .shopStar{
       height: 26px;line-height:26px;margin-bottom:13px;
       div{
