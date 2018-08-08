@@ -1316,10 +1316,10 @@ console.log('this.selectcouponId',this.selectcouponId)
     }
   }
   .dis_bgunUse{
-    background :url('../../assets/image/未使用优惠卷.png') no-repeat;
+    background :url('../../assets/image/未使用优惠卷.png') no-repeat;background-size:100% 100%; 
   }
     .dis_bgUse{
-    background :url('../../assets/image/已使用优惠卷.png') no-repeat;
+    background :url('../../assets/image/已使用优惠卷.png') no-repeat;background-size:100% 100%; 
   }
   .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
     margin-right: 0;
