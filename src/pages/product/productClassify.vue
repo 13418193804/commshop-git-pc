@@ -361,9 +361,10 @@ console.log('==========')
           line-height: 54px;
           background: #eff1f1;
           text-align: center;
-          font-size: 22px;
+          font-size: 18px;
           color: #a3a3a3;
           width: 100%;
+          padding: 0 5px;
         }
       }
       .shop_details {

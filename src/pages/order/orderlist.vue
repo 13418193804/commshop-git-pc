@@ -340,7 +340,12 @@ export default class orderList extends Vue {
   // ORDER_END_GOODS
   // ORDER_FINISH
   doCancel(item) {
-    Vue.prototype.$reqFormPost(
+    Dialog.confirm({
+      title: "提示",
+      message: "是否取消订单?"
+    })
+    .then(() => {
+      Vue.prototype.$reqFormPost(
       "/order/cancel",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
@@ -364,8 +369,12 @@ export default class orderList extends Vue {
         this.getOrderList(this.orderTitleList[this.active].status,true);
 
         console.log("取消订单");
-      }
-    );
+        }
+      )
+      })
+      .catch(() => {
+        // on cancel
+      }); 
   }
 
 
