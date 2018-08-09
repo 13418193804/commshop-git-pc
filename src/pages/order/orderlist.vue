@@ -534,7 +534,7 @@ export default class orderList extends Vue {
   }
   getOrderList(orderStatus,keep:boolean=false) {
     let valKey = this.returnKey();
-
+this.orderList[valKey].orderList = []
     Vue.prototype.$reqFormPost(
       orderStatus != "REFUND" ? "/order/queryorder" : "/refund/order/query",
       {

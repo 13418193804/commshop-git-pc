@@ -149,7 +149,7 @@
 
 <div class=" flex   flex-pack-center">
        <div  style="width:1200px;padding:5px 0;">
-         <div style="" class="flex flex-pack-justify flex-align-center" style="margin-bottom:20px;">
+         <div  class="flex flex-pack-justify flex-align-center" style="margin-bottom:20px;">
             <img  src="../assets/image/logo拷贝.png" @click="goIndex()" style="cursor:pointer;"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
   
@@ -1655,7 +1655,7 @@ a.getUserInfo();
   top: 0;
   width: 100%;
   z-index: 1000;
-  background-color: #0000007f;
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
 }
 .index_headline {

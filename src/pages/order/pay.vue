@@ -305,7 +305,7 @@ if(this.createTime){
     
     }else{
 
-    this.surplus.minutes = 30-minutes
+    this.surplus.minutes = 29-minutes
     this.surplus.seconds = 60-seconds
 
     }

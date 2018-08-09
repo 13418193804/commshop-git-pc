@@ -10,9 +10,12 @@ function resolve(dir) {
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
-    entry: {
-        app: './src/main.ts'
-    },
+
+    // entry: {
+    //     app: './src/main.ts'
+    // },
+      entry: ['babel-polyfill' ,'./src/main.ts'],
+
     output: {
         path: config.build.assetsRoot,
         filename: '[name].js',
