@@ -604,6 +604,9 @@ console.log(this.orderList[valKey].orderList)
   }
   Pageindex = 0;
   changePage(index) {
+    if(this.active == index){
+      return
+    }
     this.active = index;
     this.Pageindex = index
     this.getOrderList(this.orderTitleList[index].status,true);
