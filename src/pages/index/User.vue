@@ -136,7 +136,7 @@ export default class User extends Vue {
   }
 
   changeLogo(){
-   let a:any = this.$refs.logo
+   let a:any = this.$refs.logo;
     let form = new FormData();
     form.append('file',a.files[0])
     Vue.prototype.$reqFormUpload(

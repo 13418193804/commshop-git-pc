@@ -151,7 +151,7 @@ export default class Cart extends Vue {
       return;
     }
     Vue.prototype.$reqFormPost1(
-      "/prepare/order/add",
+      "/prepare/add",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .userId,

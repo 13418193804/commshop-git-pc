@@ -982,7 +982,7 @@ goodsPrice = ""
 
   getPreInfo(prepareId) {
     Vue.prototype.$reqFormPost1(
-      "/prepare/order/query",
+      "/prepare/query",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .userId,
@@ -1040,7 +1040,7 @@ console.log(' this.selectcouponId', this.selectcouponId)
       return;
     }
     Vue.prototype.$reqFormPost(
-      "/prepare/order/submit",
+      "/prepare/submit",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .userId,
@@ -1174,7 +1174,7 @@ if(this.address){
 }
 }
    Vue.prototype.$reqFormPost(
-      "/prepare/order/update",
+      "/prepare/update",
       data,
       res => {
        callback();
