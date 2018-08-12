@@ -5,7 +5,7 @@
         <div class="dis_list" v-for="(item,index) in discList"  :key="index"
         >
             <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-              {{item.fullDenomination}}</span>元</p>
+              {{item.couponDenomination}}</span>元</p>
               <div class="distype" 
                 :class="item.getStatus? 'distypeed' :'distype'"
                 @click="getDiccount(item)"
@@ -17,8 +17,7 @@
               </div> -->
               <div style="justify-content: space-between;" class="flex" >
                       <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                        {{item.couponName}}</span>
-                        
+                        满{{item.fullDenomination}}减{{item.couponDenomination}}</span>
                             <div  v-if="!item.getStatus  && item.validityType == 'RELATIVE_DATE'"  class="time">{{item.days}}天有效</div>
                      <div  v-else>
                            <i style="color: #fff;">{{item.createTime.split(' ')[0]}} </i>
@@ -73,8 +72,13 @@ export default class User extends Vue {
         }
       );
   }
+  
   //领取优惠券
   getDiccount(item){
+
+    if(item.getStatus){
+      return
+    }
     console.log('点击领取',item.id)
     Vue.prototype.$reqFormPost1(
           "/coupon/user/linkadd",   

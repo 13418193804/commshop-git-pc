@@ -11,19 +11,19 @@
           <div class="discountBox"  v-if="status == 'UNUSED'">
               <div class="dis_list notused" v-for="(item,index) in discList"  :key="index">
                   <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                    {{item.coupon.couponDenomination}}</span>元</p>
+                    {{item.couponDenomination}}</span>元</p>
                     <div class="distype" 
                       @click="goshop()"
                       >
                       去使用</div>
-                  <!-- <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">{{item.coupon.couponName}}</span>
-                      <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
+                  <!-- <div style="width: 100%;overflow: hidden;height: 20px;"><span style="margin-right:15px;color: #fff;">满{{item.fullDenomination}}减{{item.couponDenomination}}</span>
+                      <i style="color: #fff;" v-if="item.linkCreateTime">{{item.linkCreateTime.split(' ')[0]}} - </i>
                       <i style="color: #fff;" v-if="item.validityTime">{{item.validityTime.split(' ')[0]}}</i>
                   </div> -->
                   <div style="justify-content: space-between;" class="flex">
                       <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                        {{item.coupon.couponName}}</span>
-                      <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
+                        满{{item.fullDenomination}}减{{item.couponDenomination}}</span>
+                      <div> <i style="color: #fff;" v-if="item.linkCreateTime">{{item.linkCreateTime.split(' ')[0]}} - </i>
                       <i style="color: #fff;" v-if="item.validityTime">{{item.validityTime.split(' ')[0]}}</i></div>
                   </div>
                   <div class="newtext">
@@ -37,15 +37,15 @@
           <div class="discountBox"  v-if="status == 'USED'">
               <div class="dis_list used" v-for="(item,index) in discList"  :key="index">
                   <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                    {{item.coupon.couponDenomination}}</span>元</p>
+                    {{item.couponDenomination}}</span>元</p>
                     <div class="distype" style="border:none;color:#fff;background:#bbbbbb;"
                       @click="goshop()"
                       >
                       已使用</div>
                   <div style="justify-content: space-between;" class="flex">
                       <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                        {{item.coupon.couponName}}</span>
-                      <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} - </i>
+                        满{{item.fullDenomination}}减{{item.couponDenomination}}</span>
+                      <div> <i style="color: #fff;" v-if="item.linkCreateTime">{{item.linkCreateTime.split(' ')[0]}} - </i>
                       <i style="color: #fff;" v-if="item.validityTime">{{item.validityTime.split(' ')[0]}}</i></div>
                   </div>
                   <div class="newtext">  <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
@@ -57,11 +57,11 @@
           <div class="discountBox"   v-if="status == 'OVERDUE'">
               <div class="dis_list overdue" v-for="(item,index) in discList"  :key="index">
                   <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                    {{item.coupon.couponDenomination}}</span>元</p>
+                    {{item.couponDenomination}}</span>元</p>
                   <div style="justify-content: space-between;" class="flex">
                       <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                        {{item.coupon.couponName}}</span>
-                      <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
+                       满{{item.fullDenomination}}减{{item.couponDenomination}}</span>
+                      <div> <i style="color: #fff;" v-if="item.linkCreateTime">{{item.linkCreateTime.split(' ')[0]}} </i>
                       - <i style="color: #fff;" v-if="item.validityTime">{{item.validityTime.split(' ')[0]}}</i></div>
                   </div>
                   <div class="newtext">  <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
@@ -118,7 +118,7 @@ export default class User extends Vue {
     }
      this.status = status
      Vue.prototype.$reqFormPost1(
-        "/coupon/user/linklist",
+        "/coupon/user/list",
         {
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
           userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
@@ -131,10 +131,7 @@ export default class User extends Vue {
             this["$Message"].warning(res.message);
             return;
           }
-          this.discList = res.data.couponList.filter(item=>{
-            return item.coupon
-          });
-
+          this.discList =  res.data.couponList
         }
       );
   }

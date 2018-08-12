@@ -55,7 +55,7 @@
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
   <div style="width:50px" v-if="detatil.couponList && detatil.couponList.length>0">领券</div>
   <div class="full_bg" v-if="detatil.couponList&& detatil.couponList.length>0">
-    {{detatil.couponList[0].couponName}} 
+     满{{detatil.couponList[0].fullDenomination}}减{{detatil.couponList[0].couponDenomination}}
   </div>
   <div style="cursor: pointer;">
     <span style="color:red;"  @click="show()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
@@ -246,7 +246,7 @@
                   <div class="discountBox">
                       <div class="dis_list dis_bgunUse"  v-for="(item,index) in goodsCoupon"   :key="index" >
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                {{item.fullDenomination}}</span>元</p>
+                {{item.couponDenomination}}</span>元</p>
                 <div class="distype" 
                   :class="item.getStatus? 'distypeed' :'distype'"
                   @click="getDiccount(item)"
@@ -258,7 +258,7 @@
                 </div> -->
                 <div style="justify-content: space-between;" class="flex">
                         <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                          {{item.couponName}}</span>
+                         满{{item.fullDenomination}}减{{item.couponDenomination}}</span>
                        
                             <div  v-if="!item.getStatus  && item.validityType == 'RELATIVE_DATE'"  class="time">{{item.days}}天有效</div>
                      <div  v-else>

@@ -405,15 +405,14 @@
                 <div class="discountBox">
                     <div class="dis_list dis_bgunUse"  v-for="(item,index) in couponList"   :key="index" @click="selectcoupon(item)">
                         <p style="font-size:18px;color: #fff;"><span style="font-size:28px;color: #fff;">
-                          {{item.fullDenomination}}</span>元</p>
-                          <div class="distypeCur" v-if="item.id==selectcouponId">已选择</div>
+                          {{item.couponDenomination}}</span>元</p>
+                          <div class="distypeCur" v-if="item.couponId==selectcouponId">已选择</div>
                         <div style="justify-content: space-between;" class="flex">
                             <span style="margin-right:5px;color: #fff;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">
-                              {{item.couponName}}</span>
-                            <div> <i style="color: #fff;" v-if="item.createTime">{{item.createTime.split(' ')[0]}} </i>
+                             满{{item.fullDenomination}}减{{item.couponDenomination}}</span>
+                            <div> <i style="color: #fff;" v-if="item.linkCreateTime">{{item.linkCreateTime.split(' ')[0]}} </i>
                             <i style="color: #fff;" v-if="item.validityTime">- {{item.validityTime.split(' ')[0]}}</i></div>
                         </div>
-
                         <div class="newtext">        <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
               <span v-if="item.rangeType == 'ALL'">全场通用;</span>
               <span v-else>{{item.catName}}类商品适用;</span>特价商品或其他优惠活动商品不可</div>
@@ -1009,9 +1008,13 @@ this.goodsPrice = res.data.goodsPrice
         this.goodsSum = res.data.goodsSum;
         this.freight = res.data.freight;
         this.currentCoupon = res.data.currentCoupon
+
+
 if(res.data.currentCoupon){
-    this.selectcouponId=res.data.currentCoupon.id;
-    this.selectcouponName=res.data.currentCoupon.couponName;
+  console.log('---res.data.currentCoupon',res.data.currentCoupon)
+
+    this.selectcouponId=res.data.currentCoupon.couponId;
+    this.selectcouponName="满"+res.data.currentCoupon.fullDenomination + "减"+res.data.currentCoupon.couponDenomination;
     this.selectcouponDenomination=res.data.currentCoupon.couponDenomination;
 this.surecoupon(true);
     this.coupon_active = '2';
@@ -1203,8 +1206,8 @@ if(this.address){
   selectcouponName="";
   selectcouponDenomination="";
   selectcoupon(coupon){
-    this.selectcouponId=coupon.id;
-    this.selectcouponName=coupon.couponName;
+    this.selectcouponId=coupon.couponId;
+    this.selectcouponName= "满"+coupon.fullDenomination + "减"+coupon.couponDenomination;
     this.selectcouponDenomination=coupon.couponDenomination;
   }
   // 确定的优惠卷
@@ -1223,6 +1226,7 @@ if(!filter){
     this.doChangePreDis('dis', this.surecouponId,res=>{
     })
 }
+console.log("this.selectcouponName",this.selectcouponName)
     this.surecouponName=this.selectcouponName;
     this.surecouponDenomination=this.selectcouponDenomination;
   this.coupon_active = '2';
