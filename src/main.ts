@@ -11,11 +11,16 @@ import Api from './config/fetch';
 import MutationTreeType from './store/mutation-types';
 import MintUI from 'mint-ui';
 import iView from 'iview';
-
+import VConsole from 'vconsole/dist/vconsole.min.js';
 import ElementUI from 'element-ui';
 
 import VueQriously from 'vue-qriously';
+import Es6Promise from 'es6-promise';
+
 import 'babel-polyfill';
+
+Es6Promise.polyfill();
+
 Vue.use(VueQriously);
 
 Vue.use(ElementUI);
@@ -34,6 +39,8 @@ Vue.use(Api);
 Vue.use(Vant);
 Vue.prototype.loginDialog = false;
 Vue.config.productionTip = false;
+// const vsconsole = new VConsole();
+
 const init = new Vue({
     router,
     store,

@@ -254,13 +254,55 @@ checkPayStatus(){
   }
   createTime =null
   mounted() {
+    
     this.createTime = this.$route.query.createTime
+
     this.obj.body = this.$route.query.body;
     this.obj.payId = this.$route.query.payId;
     this.obj.payTotal = this.$route.query.payTotal;
     this.address.address = this.$route.query.address; 
     this.address.contactname = this.$route.query.contactname; 
     this.address.contactmobile = this.$route.query.contactmobile; 
+
+    if(this.$route.query.orderId){
+
+
+ Vue.prototype.$reqFormPost(
+        "/order/residue/time",
+        {
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .token,
+        orderId: this.$route.query.orderId
+        },
+        res => {
+          
+          if (res == null) {
+            console.log("网络请求错误！");
+            return;
+          }
+       console.log('---',
+       res.data.data.residueTime
+       )
+       this.residueTime = res.data.data.residueTime
+       this.handleResidueTime(this.residueTime)
+         let timer = setInterval(()=> {
+      if( this.surplus.minutes ==0 && this.surplus.seconds ==0){
+        clearInterval(timer);
+      } else {
+          this.residueTime -= 1
+       this.handleResidueTime(this.residueTime)
+          
+      }
+    }, 1000);
+        }
+      );
+
+
+    return 
+    }
+
 
 if(this.createTime){
        let a = this.createTime;
@@ -272,9 +314,17 @@ if(this.createTime){
     this.timeFn(a)
       }
     }, 1000);
-
 }
 
+
+
+
+  }
+  residueTime = 0
+
+  handleResidueTime(residueTime){
+        this.surplus.minutes =  parseInt((residueTime/60).toString())
+    this.surplus.seconds =residueTime%60;
   }
 // 剩余时间
   surplus = {
@@ -282,7 +332,8 @@ if(this.createTime){
     seconds:0
   }
 
-   timeFn(d1) {//di作为一个变量传进来
+   timeFn(d1) {
+     //di作为一个变量传进来
     //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
     var dateBegin = new Date(d1.replace(/-/g, "/"));//将-转化为/，使用new Date
     var dateEnd = new Date();//获取当前时间
@@ -296,22 +347,14 @@ if(this.createTime){
     //计算相差秒数
     var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
     var seconds=Math.round(leave3/1000)
-
-   if(hours>0 || dayDiff>0 ||minutes>30){
-
+   if(hours>0 || dayDiff>0 ||minutes>30 ){
     this.surplus.minutes = 0
     this.surplus.seconds = 0
             this.overModel = false
-    
     }else{
-
     this.surplus.minutes = 29-minutes
     this.surplus.seconds = 60-seconds
-
     }
-
-
-
 }
 
 

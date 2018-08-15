@@ -48,14 +48,19 @@
   <div><span class="marketPrice" style="font-size:20px;margin-right:10px">￥{{detatil.marketPrice.toFixed(2)}}</span>
   <span class="labelPrice">原价￥{{detatil.labelPrice}}</span></div>
 </div>
-<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
+
+<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;" v-if="detatil.bargainStatus">
   <div style="width:50px">限制</div>
   <div>此商品不可与优惠券叠加使用</div>
 </div>
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
   <div style="width:50px" v-if="detatil.couponList && detatil.couponList.length>0">领券</div>
-  <div class="full_bg" v-if="detatil.couponList&& detatil.couponList.length>0">
-     满{{detatil.couponList[0].fullDenomination}}减{{detatil.couponList[0].couponDenomination}}
+ <div style="    overflow: hidden;text-overflow:ellipsis;margin-right:5px;" > 
+   <div class="full_bg" v-if="detatil.couponList&&index<3" v-for="(item,index) in detatil.couponList" >
+     满{{item.fullDenomination}}减{{item.couponDenomination}}
+  </div>
+  <div style="float:left;font-weight: 600;" v-if="detatil.couponList.length>3">
+    <div style="position: relative;top: 5px;    right: 10px;">...</div></div>
   </div>
   <div style="cursor: pointer;">
     <span style="color:red;"  @click="show()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
@@ -386,7 +391,7 @@ export default class ProductDetail extends Vue {
     //     goodsId: goodsId
     //   }
     // });
-    window.open(window.location.origin + '/#/productDetail?goodsId='+goodsId )
+    window.open(window.location.origin + '/#/productdetail?goodsId='+goodsId )
 
   //  window.location.reload()
   }
@@ -961,6 +966,7 @@ cursor: pointer;
   }
 }
  .full_bg{
+   float: left;
    background: url(../../assets/image/满减背景.png) no-repeat;padding: 0 18px;background-size: 100% 100%;height: 24px;
    line-height: 24px;color: #ffc630;margin-right:15px;font-size: 10px;
  }
@@ -1003,7 +1009,7 @@ cursor: pointer;
   position: absolute;right: 16px;color:#fff;
 }
 .all_evaluate{
-  position:absolute;right:20px;top:50px;color:#f4c542;background: url('../../assets/image/评价.png') no-repeat right top;
+  position:absolute;right:20px;top:35px;color:#f4c542;background: url('../../assets/image/评价.png') no-repeat right top;
   padding-top:30px;font-size: 15px;
 }
 .borderImg{

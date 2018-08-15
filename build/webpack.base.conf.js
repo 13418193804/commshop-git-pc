@@ -49,6 +49,21 @@ module.exports = {
                 ],
             },
             {
+                test: /vux.src.*?js$/,
+                loader: 'babel-loader',
+                query: {
+                presets: ['es2015']
+                },
+                },
+                {
+                    test: /\.js$/,
+                   loader: 'babel-loader',
+                   query: {
+                   presets: ['es2015']
+                   },
+                   include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+                   },
+            {
                 test: /\.ts$/,
                 exclude: /node_modules/,
                 enforce: 'pre',

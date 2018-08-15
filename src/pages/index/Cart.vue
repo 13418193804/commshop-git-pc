@@ -48,7 +48,7 @@
 <span class="" style="font-size:20">￥{{item.price}}</span>
 </div>
 <div>
-    <van-stepper v-model="item.num" @plus="pluscart(item.id,item.num)" @minus="minuscart(item.id,item.num)" style="margin: 10px 0px 0px 20px;cursor:pointer;"/>
+    <van-stepper v-model="item.num" @change="changeNum(item.id,item.num)"  @plus="pluscart(item.id,item.num)" @minus="minuscart(item.id,item.num)" style="margin: 10px 0px 0px 20px;cursor:pointer;"/>
 </div>
 <div>
   <span class="marketPrice" style="font-size:20">￥{{(item.price * item.num).toFixed(2)}}</span>
@@ -278,8 +278,9 @@ export default class Cart extends Vue {
     );
   }
 
-  pluscart(id, num) {
-    Vue.prototype.$reqFormPost1(
+ changeNum(id, num){
+setTimeout(()=>{
+ Vue.prototype.$reqFormPost1(
       "/shop/cart/updatenum",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
@@ -300,7 +301,8 @@ export default class Cart extends Vue {
         a.getCartList();
       }
     );
-  }
+},500)
+ }
   minuscart(id, num) {
     Vue.prototype.$reqFormPost1(
       "/shop/cart/updatenum",
