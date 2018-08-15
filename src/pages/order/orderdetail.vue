@@ -243,7 +243,7 @@
     </div>
     <div v-if="detail.detailList[0].refundStatus == 'WAIT_GOODS_BACK'||detail.detailList[0].refundStatus ==  'WAIT_RECVGOODS'"  style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="width:115px;text-align:right;line-height:45px;"> 物流单号：</div>
-<div class="flex flex-pack-justify flex-align-center" style="    width: 100%;">
+<div class="flex flex-pack-justify flex-align-center flex-1" style="    ">
         <div><span style="color:#999" v-if="detail.detailList[0].refundOrderList[0].transNo">{{detail.detailList[0].refundOrderList[0].transNo}}</span><span v-else>未填写</span> </div>
      <van-button size="small" :style="formatButtonColor()" @click="inputTransNo()" v-if="!detail.detailList[0].refundOrderList[0].transNo">填写</van-button>
 </div>
@@ -252,7 +252,7 @@
     </div>
     <div style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="width:115px;text-align:right;line-height:45px;"> 服务时间：</div>
-<div class="flex flex-pack-justify flex-align-center" style="    width: 100%;">
+<div class="flex flex-pack-justify flex-align-center flex-1" >
         <div>9:00 - 22:00 </div>
         <van-button size="small" onclick="showMeiQia()" style="cursor: pointer;">联系客服</van-button>
 </div>
@@ -590,9 +590,12 @@ export default class orderdetail extends Vue {
   //}
 
   payOrder() {
+
+
     this.$router.push({
       name: "pay",
       query: {
+     orderId: this.detail['orderId'],
         body: this.detail["orderTitle"],
         payId: this.detail["payNo"],
         payTotal: this.detail["payTotal"],

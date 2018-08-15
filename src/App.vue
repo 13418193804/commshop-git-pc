@@ -108,9 +108,11 @@ html,body,#app{
 .van-tabs__wrap--scrollable .van-tab{
   flex:0 1 auto;
 }
+
 .el-pagination.is-background .el-pager li:not(.disabled).active{
   background-color:#f4c542;
 }
+
 .van-tabs__line{
   background-color:#f4c542;
 }

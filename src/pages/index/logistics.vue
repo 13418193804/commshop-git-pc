@@ -59,8 +59,6 @@ export default class shopIndex extends Vue {
 tranSportList = []
   mounted() {
       this.getTranSportList()
-      console.log("支付成功",this.$route.query.refundId	);
-     
   }
   save(){
 

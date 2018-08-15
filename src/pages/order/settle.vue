@@ -211,7 +211,6 @@
             <div @click="couponshow()" class="couponUp" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
             <div style="color:#F4C542;padding:0 15px;line-height: 30px;">({{couponnum}}张) ></div>
             <div v-show="yetShow == true && surecouponName" class="counponNum">{{surecouponName}}</div>
-           
           </div>
           <div>
             <div>商品合计:￥{{totalPrice.toFixed(2)}}</div>
@@ -1068,7 +1067,6 @@ console.log(' this.selectcouponId', this.selectcouponId)
           Toast(res.data.message);
           return;
         }
-
         this.$router.replace({
           name: "pay",
           query: {
@@ -1197,8 +1195,6 @@ if(this.address){
     );
       }
     );
-
-
 }
 
   // 选择时的优惠卷
