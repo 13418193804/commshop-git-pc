@@ -11,7 +11,7 @@
       <div v-if="addressList.length>0" class="addressList" style="padding:15px 0;margin-bottom:45px;border-bottom:1px solid #EEEEEE;">
       <div  v-for="(item,index) in addressList" :key="index" class="" style="background-color:#fff;border-bottom:1px dashed #E5E5E5;overflow: hidden;">
         <div style="width:117px;text-align: center;float: left;">{{item.name}}</div>
-        <div style="width:330px;text-align: center;float: left;line-height: 22px;">{{item.province}} {{item.city}}  {{item.country}} {{item.address}}</div>
+        <div style="width:330px;text-align: center;float: left;line-height: 32px;">{{item.province}} {{item.city}}  {{item.country}} {{item.address}}</div>
          <div style="width:160px;text-align: center;float: left;" :style="item.contactmobile.length==11?'':' visibility: hidden;'">
            {{item.contactmobile.substring(0,3)}}****{{ item.contactmobile.substring(7,13)}}
            </div>
