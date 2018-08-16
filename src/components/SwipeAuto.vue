@@ -1,4 +1,6 @@
 <template>
+<div style="    position: relative;">
+  
   <div class="swiper-container">
     <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="(items,index) in lists" :key="index"  @click="goProductDetail(items.goodsId)" 
@@ -18,43 +20,75 @@
         </div>
     </div>
   </div>
+        <div class="swiper-button-prev"></div><!--左箭头-->
+    <div class="swiper-button-next"></div><!--右箭头-->
+</div>
 </template>
 
 <style>
-@import '../../node_modules/swiper/dist/css/swiper.css';
-.swiper-slide{
-  width:200px!important;
+@import "../../node_modules/swiper/dist/css/swiper.css";
+.swiper-slide {
+  width: 200px !important;
 }
 .swiper-slide img {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
+.swiper-button-prev{
+background-image: url('../assets/image/未点击效果（左灰）.png');
+    width: 36px;
+    height: 36px;
+    background-size: 100% 100%;
+    left: -60px;
+}
+.swiper-button-prev:hover{
+background-image: url('../assets/image/鼠标效果（左黄）拷贝.png');
+}
+
+
+.swiper-button-next{
+background-image: url('../assets/image/未点击效果（右灰）.png');
+    width: 36px;
+    height: 36px;
+    background-size: 100% 100%;
+    right: -60px;
+}
+
+
+.swiper-button-next:hover{
+background-image: url('../assets/image/鼠标效果（右黄）.png');
+
+}
+
 </style>
 
 
 <script lang="ts">
-import Vue from 'vue';
-import Component from 'vue-class-component';
-import { Prop } from 'vue-property-decorator';
-import Swiper from 'swiper';
+import Vue from "vue";
+import Component from "vue-class-component";
+import { Prop } from "vue-property-decorator";
+import Swiper from "swiper";
 
 @Component
 export default class Swipe extends Vue {
-    @Prop({ required: true })
-    lists: any;
-goProductDetail(goodsId){
-  this.$emit('goProductDetail',goodsId)
-}
-    mounted() {
-        new Swiper('.swiper-container', {
-            slidesPerView :'auto',
-            spaceBetween: 30,
-            pagination: {
-              el: '.swiper-pagination',
-              clickable: true,
-            },
-        });
-    
-    }
+  @Prop({ required: true })
+  lists: any;
+  goProductDetail(goodsId) {
+    this.$emit("goProductDetail", goodsId);
+  }
+  mounted() {
+    new Swiper(".swiper-container", {
+      slidesPerView: "auto",
+      spaceBetween: 30,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      }
+    });
+  }
 }
 </script>

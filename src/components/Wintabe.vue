@@ -1306,6 +1306,8 @@ let b =  this.indexList.filter((item,index)=>{
   cartLen = "0";
   totalMoney = 0;
   getCartList() {
+    this.cartList = []
+
     Vue.prototype.$reqFormPost1(
       "/shop/cart/query",
       {
@@ -1322,7 +1324,9 @@ let b =  this.indexList.filter((item,index)=>{
         this.cartList = res.data.carts;
         this.totalMoney = res.data.totalMoney;
         this.cartLen = this.getNumber(res.data.carts);
+
         this.$emit("getCartList");
+
       }
     );
   }

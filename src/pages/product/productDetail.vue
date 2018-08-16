@@ -53,7 +53,7 @@
   <div style="width:50px">限制</div>
   <div>此商品不可与优惠券叠加使用</div>
 </div>
-<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
+<div class="flex flex-align-center" v-if="!detatil.bargainStatus" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
   <div style="width:50px" v-if="detatil.couponList && detatil.couponList.length>0">领券</div>
  <div style="    overflow: hidden;text-overflow:ellipsis;margin-right:5px;" > 
    <div class="full_bg" v-if="detatil.couponList&&index<3" v-for="(item,index) in detatil.couponList" >
@@ -1013,9 +1013,11 @@ cursor: pointer;
   padding-top:30px;font-size: 15px;
 }
 .borderImg{
+      box-sizing: content-box;
   border:2px solid #fff;height:104px;
 }
 .border{
+      box-sizing: content-box;
   border:2px solid #f4c542;
 }
 </style>
