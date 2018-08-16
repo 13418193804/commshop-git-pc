@@ -1812,7 +1812,7 @@ a.getUserInfo();
 }
 .recommend_list:nth-of-type(4) > div {
   border: 1px solid #ededed;
-  height: 230px;
+  height: 240px;
   margin-bottom: 10px;
   .shop_img {
     overflow: hidden;

@@ -33,7 +33,7 @@
                            <li v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
                               <div class="shop_img collImg">
                                 <div class="hot" v-if="shopItem.hotStatus"><img src="../../assets/hot.png"></div>
-                                <img v-lazy="shopItem.goodsImg.split(',')[0]" style="height:270px;">
+                                <img v-lazy="shopItem.goodsImg.split(',')[0]" style="height:270px;margin-bottom: -7px;">
                                 <h4 class="ellipsis">{{shopItem.jingle}}</h4>
                               </div>
                               <div class="shop_details">
