@@ -1,7 +1,6 @@
 <template>
   <div class="alter-container">
    <div class="toplabel flex   flex-pack-center">
-   
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
@@ -200,7 +199,9 @@
             <img src="../assets/image/关闭按钮1.png" style="cursor: pointer;width:20px;height:20px;vertical-align: middle;" />
           </div>
         </div>
+
         <div style="   height: 310px;overflow:auto;">
+          
 <div  v-if="cartList.length>0">      
 <div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
