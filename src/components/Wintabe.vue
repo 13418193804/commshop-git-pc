@@ -275,7 +275,7 @@
     <!-- v-on:mouseover="two_menu(active)" -->
           <div  v-for="(item,index) in indexList"  v-if="active == index">
               
-                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'" 
+                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'" >
 
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
