@@ -249,10 +249,13 @@
 
 <!-- <div style="height:50px;background-color:red">123</div> -->
 
-<!-- :class="searchBarFixed == true ? 'isFixed' :''" -->
+
+
+
+
 
 <!-- 头部导航菜单 -->
-<div class="flex headerTab" >
+<div class="flex headerTab" id="searchBar" >
     <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
       <i class="headerTitle" @click="changeTab(index,'')" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
       </div>
@@ -266,6 +269,27 @@
 </div>
 
 
+<div :class="['flex', searchBarFixed == true ? 'isFixed' :'']" >
+  
+
+<!-- 头部导航菜单 -->
+<div class="flex headerTab" id="searchBar" >
+    <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
+      <i class="headerTitle" @click="changeTab(index,'')" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
+      </div>
+<!-- 二级类目 -->
+<div class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+    <div v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+      <p class="flex-pack-center"><img :src="item.catIcon"/></p>
+      <p class="flex-pack-center">{{item.catName}}</p>
+    </div>
+</div>
+</div>
+
+
+   </div>
+
+
 <!-- <van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab"
  class="searchBar index_tabs flex-1" style="width:100%;"> -->
 <!-- <van-tabs :active="active" @clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
@@ -273,7 +297,7 @@
     <!-- <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
     > -->
     <!-- v-on:mouseover="two_menu(active)" -->
-          <div  v-for="(item,index) in indexList"  v-if="active == index">
+          <div  v-for="(item,index) in indexList"  v-if="active == index" >
                 <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
@@ -1465,8 +1489,11 @@ a.getUserInfo();
   //监听header滚动固定
   handleScrollHead () {
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-    console.log(scrollTop)
+    
+    console.log(document.querySelector('#searchBar'))
     var offsetTop = document.querySelector('#searchBar')['offsetTop']
+    console.log(scrollTop)
+    
     if (scrollTop > offsetTop) {
     this.searchBarFixed = true
     } else {
