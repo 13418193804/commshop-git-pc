@@ -1,7 +1,12 @@
 <template>
   <div class="alter-container">
    <div class="toplabel flex   flex-pack-center">
+<<<<<<< HEAD
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
+=======
+   
+        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;position: relative;">
+>>>>>>> 54c64789ca9faac6954d04ae514802bea3444027
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img">
@@ -48,7 +53,7 @@
     bottom: 160px;
     z-index: 9999;
     width: 110px;
-    height: 120px;">
+    height: 120px;right:0;">
                <img src="../assets/appcode.jpeg" style="width:80px;height:80px;"/></div>
         </div>
    </div>
@@ -298,10 +303,19 @@
     <!-- <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
     > -->
     <!-- v-on:mouseover="two_menu(active)" -->
+<<<<<<< HEAD
           <div  v-for="(item,index) in indexList"  v-if="active == index" >
                 <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
+=======
+          <div  v-for="(item,index) in indexList"  v-if="active == index">
+              
+                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'" >
+
+>>>>>>> 54c64789ca9faac6954d04ae514802bea3444027
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
+
+
                         <el-carousel :interval="5000" arrow="always">
                         <el-carousel-item 
                         
@@ -312,6 +326,8 @@
                               <!-- <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/> -->
                         </el-carousel-item>
                       </el-carousel>
+
+
                   </div>
 
                      <!-- 新品推荐 -->
@@ -401,7 +417,7 @@
                               v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" v-if="goodsIndex<4" @click="goProductDetail(goods.goodsId)" >
                                   <div class="shop_img collImg">
                                     <div class="hot"><img src="../assets/hot.png" /></div>
-                                    <img v-lazy="goods.goodsImg.split(',')[0]" style="height:270px;">
+                                    <img v-lazy="goods.goodsImg.split(',')[0]" style="height:270px;margin-bottom:-7px;">
                                     <h4 class="ellipsis">{{goods.jingle}}</h4>
                                   </div>
                                   <div class="shop_details">
@@ -456,7 +472,7 @@
                     <li v-for="(shopItem,index) in shopList"  :key="index" @click="goProductDetail(shopItem.goodsId)">
                       <div class="shop_img collImg">
                         <div class="hot" v-if="shopItem.hotStatus"><img src="../assets/hot.png"></div>
-                        <img v-lazy="shopItem.goodsImg.split(',')[0]" style="height:270px;">
+                        <img v-lazy="shopItem.goodsImg.split(',')[0]" style="height:270px;margin-bottom:-7px;">
                         <h4 class="ellipsis">{{shopItem.jingle}}</h4>
                       </div>
                       <div class="shop_details">
@@ -2161,5 +2177,8 @@ a.getUserInfo();
 }
 .searchList:hover{
   background:#f2f2f2;
+}
+.swiperPic{
+  position: absolute;
 }
 </style>
