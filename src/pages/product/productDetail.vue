@@ -53,14 +53,14 @@
   <div style="width:50px">限制</div>
   <div>此商品不可与优惠券叠加使用</div>
 </div>
-<div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
+<div class="flex flex-align-center" v-if="!detatil.bargainStatus" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
   <div style="width:50px" v-if="detatil.couponList && detatil.couponList.length>0">领券</div>
  <div style="    overflow: hidden;text-overflow:ellipsis;margin-right:5px;" > 
    <div class="full_bg" v-if="detatil.couponList&&index<3" v-for="(item,index) in detatil.couponList" >
      满{{item.fullDenomination}}减{{item.couponDenomination}}
   </div>
   <div style="float:left;font-weight: 600;" v-if="detatil.couponList.length>3">
-    <div style="position: relative;top: 5px;    right: 10px;">...</div></div>
+    <div style="position: relative;top: 5px;    right: 10px;color:#ffc630;">...</div></div>
   </div>
   <div style="cursor: pointer;">
     <span style="color:red;"  @click="show()" v-if="detatil.couponList&& detatil.couponList.length>0">立即领取></span>
@@ -167,14 +167,13 @@
 
 <div style="height:55px;background-color:#f7f7f7;font-size:15px;border-bottom:1px solid #e5e5e5;" class="flex">
     <div class="taber" :class="shop_active == '0'?' selecttaber' :'taber'" @click="shop_active ='0'">商品详情</div>
-    <div  class="taber" :class="shop_active == '1'?' selecttaber' :'taber'" @click="shop_active ='1' ">评价</div>
+    <div  class="taber" :class="shop_active == '1'?' selecttaber' :'taber'" @click="shop_active ='1' ">评价（{{detatil.commentNum}}）</div>
 </div>
 
 <div v-if="shop_active == '0' " style="min-height:151px;">
   <div style="background-color:#ffffff;margin-top:10px;">
-      <div v-for="(item,index) in detatil.detail.imageList" :key="index">
-        <img v-lazy="item" style="width:100%;"/>
-      </div>
+   <div v-html="detatil.detail.detail" style="width:100%"></div>
+
   </div>
 </div>
 
@@ -1013,9 +1012,11 @@ cursor: pointer;
   padding-top:30px;font-size: 15px;
 }
 .borderImg{
+      box-sizing: content-box;
   border:2px solid #fff;height:104px;
 }
 .border{
+      box-sizing: content-box;
   border:2px solid #f4c542;
 }
 </style>

@@ -208,8 +208,8 @@
         <div class="flex flex-pack-justify flex-align-center" style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;">
           <div class="flex">
             <div @click="couponshowNo('1')" class="couponUp" :class="coupon_active == '1'?'couponUpCur':''" style="color:#858585">不使用优惠券</div>
-            <div @click="couponshow()" class="couponUp" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
-            <div style="color:#F4C542;padding:0 15px;line-height: 30px;">({{couponnum}}张) ></div>
+            <div  class="couponUp" @click="coupon_active = '2'" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
+            <div style="color:#F4C542;margin:0 15px;line-height: 30px;cursor: pointer;" @click="couponshow()" v-if="coupon_active == '2'">({{couponnum}}张) ></div>
             <div v-show="yetShow == true && surecouponName" class="counponNum">{{surecouponName}}</div>
           </div>
           <div>
@@ -420,7 +420,7 @@
                 </div>
               <div style="text-align: center;margin-top: 30px;">
                 <button @click="surecoupon()"
-                 style="border: none;width: 290px;height: 45px;background-color: rgb(252, 203, 82);color: rgb(255, 255, 255);text-align: center;line-height: 45px;margin-right: 5px;font-size: 16px;">确定</button>
+                 style="cursor: pointer;border: none;width: 290px;height: 45px;background-color: rgb(252, 203, 82);color: rgb(255, 255, 255);text-align: center;line-height: 45px;margin-right: 5px;font-size: 16px;">确定</button>
               </div>
             </div>
           </div>
@@ -1316,6 +1316,7 @@ console.log('this.selectcouponId',this.selectcouponId)
     }
   }
   .dis_bgunUse{
+    cursor: pointer;
     background :url('../../assets/image/未使用优惠卷.png') no-repeat;background-size:100% 100%; 
   }
     .dis_bgUse{

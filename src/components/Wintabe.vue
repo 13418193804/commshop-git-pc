@@ -248,48 +248,32 @@
  </div>
 
 <!-- <div style="height:50px;background-color:red">123</div> -->
+
+<!-- :class="searchBarFixed == true ? 'isFixed' :''" -->
+
 <!-- 头部导航菜单 -->
-<!-- <div class="flex headerTab" :class="searchBarFixed == true ? 'isFixed' :''">
-    <div class="headerList headerListCur">首页</div>
-    <div class="headerList" v-on:mouseover="twoListHover()">新品</div>
-    <div class="headerList">推荐</div>
-    <div class="headerList">热卖</div>
-    <div class="headerList">版本</div>
-</div> -->
+<div class="flex headerTab" >
+    <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
+      <i class="headerTitle" @click="changeTab(index)" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
+      </div>
 <!-- 二级类目 -->
-<!-- <div class="flex flex-pack-center two_classify" v-if="listTwo">
-    <div>
-      <p class="flex-pack-center"><img src="../assets/image/LOGO.png"/></p>
-      <p class="flex-pack-center">牛仔</p>
+<div class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+    <div v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+      <p class="flex-pack-center"><img :src="item.catIcon"/></p>
+      <p class="flex-pack-center">{{item.catName}}</p>
     </div>
-    <div>
-      <p class="flex-pack-center"><img src="../assets/image/LOGO.png"/></p>
-      <p class="flex-pack-center">牛仔</p>
-    </div>
-    <div>
-      <p class="flex-pack-center"><img src="../assets/image/LOGO.png"/></p>
-      <p class="flex-pack-center">牛仔</p>
-    </div>
-</div> -->
-<van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab"
- class="searchBar index_tabs flex-1" style="width:100%;">
+</div>
+</div>
+
+
+<!-- <van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab"
+ class="searchBar index_tabs flex-1" style="width:100%;"> -->
 <!-- <van-tabs :active="active" k@clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
-    <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
-      
-    >
+    <!-- <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
+    > -->
     <!-- v-on:mouseover="two_menu(active)" -->
-          <div v-if="active == index">
-              <!-- {{item.catId}}  -->
-              <!-- 二级菜单 -->
-                <div class="flex flex-pack-center two_classify" 
-                  v-if="item.catId &&catList&& catList.length>0"
-                >
-                    <div  v-for="(catItem,index) in catList"  :key="index" @click="twoList(index)">
-                      <p class="flex-pack-center"><img v-lazy="catItem.catIcon"/></p>
-                      <p class="flex-pack-center">{{catItem.catName}}</p>
-                    </div>
-                </div>
+          <div  v-for="(item,index) in indexList"  v-if="active == index">
                 <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
@@ -408,8 +392,6 @@
                     
                     </div>
                   </div>
-
-                  
 <!-- 商品列表 -->
  <!-- 商品列表页-->
         <div class="classify_shop"  v-if="catId">
@@ -470,8 +452,10 @@
                     </el-pagination>
         </div>
         </div>
+
+<!--         
     </van-tab>
-  </van-tabs>
+  </van-tabs> -->
      <!-- <div style="height:50px;background-color:red">123</div> -->
   </div>
 </div>
@@ -498,15 +482,15 @@
       <div class="flex flex-pack-center flex-align-center" style="height:100vh;">
         <div class="flex flex-around-justify flex-align-center flex-v" style="background-color:#fff;width:300px;height:170px;padding:20px; border-radius: 10px;    position: relative;">
           <div style="position: absolute;top:10px;right:10px;">
-            <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;" @click="ruleshow()"/>
+            <img src="../assets/image/关闭按钮1.png" style="width:20px;height:20px;cursor: pointer;" @click="ruleshow()"/>
           </div>
           <div style="padding:10px;font-size:14px">是否退出登录</div>
           <div class="flex">
             <div @click="ruleshow()" 
-            style="width:90px;height:35px;border:1px solid #FCCB52;color:#FCCB52;text-align: center;line-height:35px;margin-right:8px;font-size:14px;">取消</div>
+            style="cursor: pointer;width:90px;height:35px;border:1px solid #FCCB52;color:#FCCB52;text-align: center;line-height:35px;margin-right:8px;font-size:14px;">取消</div>
 
             <div @click="sendLoginOut()" 
-            style="width:90px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;font-size:14px;">确认</div>
+            style="cursor: pointer;width:90px;height:35px;background-color:#FCCB52;color:#fff;text-align: center;line-height:35px;font-size:14px;">确认</div>
 
           </div>
         </div>
@@ -672,11 +656,53 @@ export default class Comhead extends Vue {
   shopList = [];
   secItem = {};
   listTwo = false;
- 
- twoListHover(){
+
+
+listTwoout(){
+  console.log('鼠标移出')
+  this.listTwo = false
+}
+listTwoSet(){
    this.listTwo = true;
-   console.log('二级目录',this.listTwo)
+}
+ twoListHover(item,index){
+this.rewordObj.index = index
+   this.listTwo = true;
+   if(this.indexList[index].catId && !this.rewordList[index] ){
+       setTimeout(()=>{
+ this.two_menu1(index,this.indexList[index].catId);
+   },500)
+   }
  }
+
+ rewordList=[]
+ rewordObj={
+   index:0
+ }
+  two_menu1(active,catId) {
+    Vue.prototype.$reqFormPost1(
+      "/user/cat/list",
+      {
+        parentId: catId
+      },
+      res => {
+        if (res.returnCode !== 200) {
+          this["$Message"].warning(res.message);
+          console.log(res.message);
+          return;
+        }
+        this.rewordList[active] = {
+          posting: true,
+          data:res.data,
+          parentId:catId
+        }
+
+      }
+
+    );
+  }
+
+
 
   getproductList(catId) {
     
@@ -1041,14 +1067,16 @@ a.getUserInfo();
   catList = [];
   active = "0";
   catName = "";
-  twoList(active, catList) {
-    sessionStorage.catId = this.catList[active].catId;
-    sessionStorage.parentId = this.indexList[this.active].catId;
+
+  twoList(catId,parentId) {
+    sessionStorage.catId =catId;
+    sessionStorage.parentId = parentId;
     sessionStorage.keyword = "";
     this.$router.push({
       path: "/productClassify"
     });
   }
+
 
   cartModel_code = false;
   mouseover_code() {
@@ -1208,7 +1236,6 @@ let b =  this.indexList.filter((item,index)=>{
   }
 
   two_menu(active) {
-
     Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
@@ -1220,17 +1247,12 @@ let b =  this.indexList.filter((item,index)=>{
           console.log(res.message);
           return;
         }
-
-        console.log('--------')
         this.catList = res.data;
-
-
    // 取第一个 id的详情 
         if(this.catList.length>0){
         let a =0
           if(this.$route.query.secCatId){
               this.catList.forEach((item,index)=>{
-                console.log(item.catId)
                 if(item.catId==this.$route.query.secCatId){
                   a=index
                   return false
@@ -1240,32 +1262,13 @@ let b =  this.indexList.filter((item,index)=>{
           this.catId = this.catList[a].catId;
           this.catName = this.catList[a].catName;
           this.getproductList(this.catList[a].catId)
-          
         }else{
           this.catId = this.indexList[active].catId
           this.catName = "商品列表"
           this.getproductList(this.indexList[active].catId)
         }
-        //goodsList 
       }
     );
-  }
-  //二级菜单
-  getSecCatList(active) {
-    // Vue.prototype.$reqFormPost1(
-    //   "/user/cat/list",
-    //   {
-    //     parentId: this.indexList[active].catId
-    //   },
-    //   res => {
-    //     if (res.returnCode !== 200) {
-    //       this["$Message"].warning(res.message);
-    //       console.log(res.message);
-    //       return;
-    //     }
-    //     this.catList = res.data;
-    //   }
-    // );
   }
 
   initIndex() {
@@ -1277,10 +1280,11 @@ let b =  this.indexList.filter((item,index)=>{
       }
 
       this.indexList = res.data;
-      // this.indexList.forEach((item,index)=>{
-      //   this.handleGoodSend(item,this.indexList)
-      // })
-
+  this.indexList.forEach((item,index)=>{
+if(item.catId){
+       this.two_menu1(index,item.catId);
+    }
+  })
       if(this.$route.query.catId && this.$route.path=='/'){
         this.indexList.forEach((item,index)=>{
           if(this.$route.query.catId == item.catId){
@@ -1306,6 +1310,8 @@ let b =  this.indexList.filter((item,index)=>{
   cartLen = "0";
   totalMoney = 0;
   getCartList() {
+    this.cartList = []
+
     Vue.prototype.$reqFormPost1(
       "/shop/cart/query",
       {
@@ -1322,7 +1328,9 @@ let b =  this.indexList.filter((item,index)=>{
         this.cartList = res.data.carts;
         this.totalMoney = res.data.totalMoney;
         this.cartLen = this.getNumber(res.data.carts);
+
         this.$emit("getCartList");
+
       }
     );
   }
@@ -1517,6 +1525,11 @@ a.getUserInfo();
     this.getMessageCount();
     }
     this.gethotword();
+
+
+
+
+
   }
 }
 </script>
@@ -1717,12 +1730,17 @@ a.getUserInfo();
   padding: 0;
   cursor: pointer;
 }
-
+.two_classifyFexid{
+        position: absolute;
+    bottom: -100px;
+    z-index: 100;
+}
 .two_classify {
   width: 100%;
   background: #fefefe;
   height: 100px;
   padding: 20px;
+
   div {
     flex: 1;
     cursor: pointer;
@@ -2105,7 +2123,9 @@ a.getUserInfo();
       font-size:20px;
     }
 }
-
+  .headerTitle:hover{
+    cursor: pointer;
+  }
 .searchList{
   width: 100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor: pointer;line-height:30px;
   padding-left:15px;

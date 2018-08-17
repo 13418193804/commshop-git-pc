@@ -290,12 +290,19 @@ input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
 }
 /* 头部导航样式 */
 .headerTab{
-  border-top:1px solid #f2f2f2;margin-top:0px;
+  border-top:1px solid #f2f2f2;
+  border-bottom:1px solid #f2f2f2;
+  margin-top:0px;
+  position: relative;
 }
 .headerList{
   float: left;height:40px;line-height: 40px;padding:0px 10px;flex: 0 1 auto;min-width:80px;
-  cursor: pointer;text-align: center;
+  text-align: center;
 }
+.headerList:hover{
+  color:#ffc630;border-bottom:3px solid #ffc630;
+}
+
 .headerListCur{
   color:#ffc630;border-bottom:3px solid #ffc630;
 }

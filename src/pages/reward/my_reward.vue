@@ -17,7 +17,7 @@
                   <img src="../../assets/image/金币.png" style="float: left;vertical-align: middle;width:35px;height:35px;"/>
                   <span style="font-size:18px;line-height: 39px;float: left;margin-left: 10px;">累积获取积分</span>
               </div>
-              <div style="color:#ffc600;text-align: center;font-size:24px;padding-left: 70px;">{{award.awardAmount}}</div>
+              <div style="color:#ffc600;text-align: left;font-size:24px;    padding-left: 74px;">{{award.awardAmount}}</div>
             </div>            
             <button @click="ruleshow()" class="btn_black" style="cursor: pointer;">积分规则</button>
         </div>

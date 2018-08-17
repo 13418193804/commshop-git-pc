@@ -202,6 +202,7 @@ export default class Cart extends Vue {
     }
   }
   deleteCart(index, collect) {
+    
     Vue.prototype.$reqFormPost1(
       "/shop/cart/delete",
       {

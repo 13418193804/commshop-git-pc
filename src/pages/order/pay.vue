@@ -96,33 +96,33 @@ import { Toast } from "vant";
 import Wintabe from "../../components/Wintabe.vue";
 import Winbeet from "../../components/Winbeet.vue";
 @Component({
-  components: { 
-     Wintabe,
+  components: {
+    Wintabe,
     Winbeet
-   },
+  },
   mixins: [mixin]
 })
 export default class shopIndex extends Vue {
-  obj = {body:"",payId:"",payTotal:""};
-  address={contactname:"",contactmobile:"",address:""};
+  obj = { body: "", payId: "", payTotal: "" };
+  address = { contactname: "", contactmobile: "", address: "" };
   payActive = "ali";
-  mwebUrl =""
-  overModel=false
+  mwebUrl = "";
+  overModel = false;
 
-payStatus = "qrcode"
+  payStatus = "qrcode";
 
-  overPay (){
-  this.overModel=false
-   clearInterval(this.timer);
+  overPay() {
+    this.overModel = false;
+    clearInterval(this.timer);
   }
 
-    dopay() {
-      if( this.surplus.minutes==0 && this.surplus.seconds ==0){
-        return ;
-      }
+  dopay() {
+    if (this.surplus.minutes == 0 && this.surplus.seconds == 0) {
+      return;
+    }
     //    this.obj["payTotal"]
     if (this.payActive == "ali") {
-      console.log('支付宝支付')
+      console.log("支付宝支付");
       Vue.prototype.$reqFormPost(
         "/ali/pay/wap",
         {
@@ -130,10 +130,10 @@ payStatus = "qrcode"
             .userId,
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .token,
-            clientType:'WEB',
+          clientType: "WEB",
           body: this.obj["body"],
           outTradeNo: this.obj["payId"],
-          totalFee: this.obj['payTotal']
+          totalFee: this.obj["payTotal"]
         },
         res => {
           if (res == null) {
@@ -155,10 +155,10 @@ payStatus = "qrcode"
             res.data.data.orderString;
         }
       );
-    }else{
+    } else {
       //   window.location.href ="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx2e2d97a4e10ef2b6&redirect_uri=http://sr.cncloud.com/qichang/wechat/enter/call?action=viewtest&response_type=code&scope=snsapi_userinfo&state="+
       //  this.obj["payId"] +"#wechat_redirect"
-     let a:any = window
+      let a: any = window;
       Vue.prototype.$reqFormPost(
         "/wechat/pay/scan",
         {
@@ -166,13 +166,12 @@ payStatus = "qrcode"
             .userId,
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .token,
-            spbillCreateIp:a.getAddressIP().cip,
+          spbillCreateIp: a.getAddressIP().cip,
           body: this.obj["body"],
           outTradeNo: this.obj["payId"],
-          totalFee: this.obj['payTotal']
+          totalFee: this.obj["payTotal"]
         },
         res => {
-          
           if (res == null) {
             console.log("网络请求错误！");
             return;
@@ -184,63 +183,61 @@ payStatus = "qrcode"
                 ",错误信息：" +
                 res.data.message
             );
-              this["$Message"].warning(res.data.message);
+            this["$Message"].warning(res.data.message);
 
             return;
           }
-            if(res.data.data.codeUrl){
-            this.overModel = true
-            this.mwebUrl = res.data.data.codeUrl
+          if (res.data.data.codeUrl) {
+            this.overModel = true;
+            this.mwebUrl = res.data.data.codeUrl;
             this.lveventTime();
-            }else{
-              this["$Message"].warning('获取二维码失败');
-            }
+          } else {
+            this["$Message"].warning("获取二维码失败");
+          }
         }
       );
     }
   }
 
-destroyed () {
-        clearInterval(this.timer);
-}
-timer :any ={}
-lveventTime(){
-    this.timer = setInterval(()=> {
-     this.checkPayStatus();
+  destroyed() {
+    clearInterval(this.timer);
+  }
+  timer: any = {};
+  lveventTime() {
+    this.timer = setInterval(() => {
+      this.checkPayStatus();
     }, 4000);
-}
+  }
 
-checkPayStatus(){
+  checkPayStatus() {
     Vue.prototype.$reqFormPost(
-        "/wechat/order/status",
-        {
-          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .userId,
-          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .token,
+      "/wechat/order/status",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
         outTradeNo: this.obj["payId"]
-        },
-        res => {
-          
-          if (res == null) {
-            console.log("网络请求错误！");
-            return;
-          }
-          if(res.data.data.tradeState == 'USERPAYING'){
-          this.payStatus = 'paying'
-          }else if(res.data.data.tradeState == 'SUCCESS'){
-            this.$router.replace({path:'/orderlist',
-              query:{
-                orderStatus:'ORDER_WAIT_SENDGOODS'
-              }
-            })
-              this["$Message"].success(res.data.message);
-          
-          }
-      
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
         }
-      );
-}
+        if (res.data.data.tradeState == "USERPAYING") {
+          this.payStatus = "paying";
+        } else if (res.data.data.tradeState == "SUCCESS") {
+          this.$router.replace({
+            path: "/orderlist",
+            query: {
+              orderStatus: "ORDER_WAIT_SENDGOODS"
+            }
+          });
+          this["$Message"].success(res.data.message);
+        }
+      }
+    );
+  }
 
   handlePX(CssName, PxNumber) {
     return (
@@ -252,122 +249,104 @@ checkPayStatus(){
       "px;"
     );
   }
-  createTime =null
+  createTime = null;
   mounted() {
-    
-    this.createTime = this.$route.query.createTime
-
+    this.createTime = this.$route.query.createTime;
     this.obj.body = this.$route.query.body;
     this.obj.payId = this.$route.query.payId;
     this.obj.payTotal = this.$route.query.payTotal;
-    this.address.address = this.$route.query.address; 
-    this.address.contactname = this.$route.query.contactname; 
-    this.address.contactmobile = this.$route.query.contactmobile; 
-
-    if(this.$route.query.orderId){
-
-
- Vue.prototype.$reqFormPost(
+    this.address.address = this.$route.query.address;
+    this.address.contactname = this.$route.query.contactname;
+    this.address.contactmobile = this.$route.query.contactmobile;
+    if (this.$route.query.orderId) {
+      Vue.prototype.$reqFormPost(
         "/order/residue/time",
         {
           userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .userId,
           token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
             .token,
-        orderId: this.$route.query.orderId
+          orderId: this.$route.query.orderId
         },
         res => {
-          
           if (res == null) {
             console.log("网络请求错误！");
             return;
           }
-       console.log('---',
-       res.data.data.residueTime
-       )
-       this.residueTime = res.data.data.residueTime
-       this.handleResidueTime(this.residueTime)
-         let timer = setInterval(()=> {
-      if( this.surplus.minutes ==0 && this.surplus.seconds ==0){
-        clearInterval(timer);
-      } else {
-          this.residueTime -= 1
-       this.handleResidueTime(this.residueTime)
-          
-      }
-    }, 1000);
+          console.log("---", res.data.data.residueTime);
+          this.residueTime = res.data.data.residueTime;
+          this.handleResidueTime(this.residueTime);
+          let timer = setInterval(() => {
+            if (this.surplus.minutes == 0 && this.surplus.seconds == 0) {
+              clearInterval(timer);
+            } else {
+              this.residueTime -= 1;
+              this.handleResidueTime(this.residueTime);
+            }
+          }, 1000);
         }
       );
 
-
-    return 
+      return;
     }
 
-
-if(this.createTime){
-       let a = this.createTime;
-    this.timeFn(a)
-    let timer = setInterval(()=> {
-      if( this.surplus.minutes ==0 && this.surplus.seconds ==0){
-        clearInterval(timer);
-      } else {
-    this.timeFn(a)
-      }
-    }, 1000);
-}
-
-
-
-
+    if (this.createTime) {
+      let a = this.createTime;
+      this.timeFn(a);
+      let timer = setInterval(() => {
+        if( this.surplus.minutes ==0 && this.surplus.seconds ==0){
+          clearInterval(timer);
+        } else {
+        this.timeFn(a);
+        }
+      }, 1000);
+    }
   }
-  residueTime = 0
+  residueTime = 0;
 
-  handleResidueTime(residueTime){
-        this.surplus.minutes =  parseInt((residueTime/60).toString())
-    this.surplus.seconds =residueTime%60;
+  handleResidueTime(residueTime) {
+    this.surplus.minutes = parseInt((residueTime / 60).toString());
+    this.surplus.seconds = residueTime % 60;
   }
-// 剩余时间
+
+  // 剩余时间
   surplus = {
-    minutes:0,
-    seconds:0
+    minutes: 0,
+    seconds: 0
+  };
+  a_minutes = 0;
+  a_seconds = 0;
+
+
+/**
+ * 结算页面进来 计时与服务器的时间差
+ * 订单那边进来 使用的是接口给的秒数
+ */
+  timeFn(d1) {
+    let dateBegin: any = new Date(d1.replace(/-/g, "/"));
+    let a = new Date().getTime();
+    parseInt(((a - dateBegin.getTime()) / 1000).toString()) < 0 && this.a_seconds==0
+      ? (this.a_seconds = parseInt(
+          ((a - dateBegin.getTime()) / 1000).toString()
+        ))
+      :'';
+    dateBegin.setSeconds(dateBegin.getSeconds() + 1800 + this.a_seconds);
+    var dateDiff: any = parseInt(((dateBegin.getTime() - a) / 1000).toString()); //时间差的毫秒数
+    this.residueTime = dateDiff;
+console.log(this.residueTime)
+    
+    this.handleResidueTime(this.residueTime);
   }
-
-   timeFn(d1) {
-     //di作为一个变量传进来
-    //如果时间格式是正确的，那下面这一步转化时间格式就可以不用了
-    var dateBegin = new Date(d1.replace(/-/g, "/"));//将-转化为/，使用new Date
-    var dateEnd = new Date();//获取当前时间
-    var dateDiff = dateEnd.getTime() - dateBegin.getTime();//时间差的毫秒数
-    var dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));//计算出相差天数
-    var leave1=dateDiff%(24*3600*1000)    //计算天数后剩余的毫秒数
-    var hours=Math.floor(leave1/(3600*1000))//计算出小时数
-    //计算相差分钟数
-    var leave2=leave1%(3600*1000)    //计算小时数后剩余的毫秒数
-    var minutes=Math.floor(leave2/(60*1000))//计算相差分钟数
-    //计算相差秒数
-    var leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-    var seconds=Math.round(leave3/1000)
-   if(hours>0 || dayDiff>0 ||minutes>30 ){
-    this.surplus.minutes = 0
-    this.surplus.seconds = 0
-            this.overModel = false
-    }else{
-    this.surplus.minutes = 29-minutes
-    this.surplus.seconds = 60-seconds
-    }
-}
-
-
 }
 </script>
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
-.contentBox2{
-    border: 1px #e5e5e5 solid;
+.contentBox2 {
+  border: 1px #e5e5e5 solid;
   width: 60%;
-  font-size:14.2px;
-  margin-bottom:20px;
+  font-size: 14.2px;
+  margin-bottom: 20px;
 }
 .btmContent {
   background-color: #f9f9f9;
