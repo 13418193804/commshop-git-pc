@@ -1734,6 +1734,7 @@ a.getUserInfo();
         position: absolute;
     bottom: -100px;
     z-index: 100;
+    left:0;
 }
 .two_classify {
   width: 100%;
