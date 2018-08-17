@@ -591,7 +591,6 @@ export default class orderdetail extends Vue {
 
   payOrder() {
 
-
     this.$router.push({
       name: "pay",
       query: {
