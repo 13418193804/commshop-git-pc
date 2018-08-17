@@ -254,7 +254,7 @@
 <!-- 头部导航菜单 -->
 <div class="flex headerTab" >
     <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
-      <i class="headerTitle" @click="changeTab(index)" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
+      <i class="headerTitle" @click="changeTab(index,'')" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
       </div>
 <!-- 二级类目 -->
 <div class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
@@ -268,7 +268,7 @@
 
 <!-- <van-tabs id="searchBar" :active="active" @click="changeTab" v-on:mouseover="changeTab"
  class="searchBar index_tabs flex-1" style="width:100%;"> -->
-<!-- <van-tabs :active="active" k@clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
+<!-- <van-tabs :active="active" @clic="changeTab" class="index_tabs flex-1" style="width:100%;" > -->
 <!-- :style="$route.query.active?'margin-top:-45px':''" -->
     <!-- <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
     > -->
