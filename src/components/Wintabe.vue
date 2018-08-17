@@ -2,7 +2,7 @@
   <div class="alter-container">
    <div class="toplabel flex   flex-pack-center">
    
-        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
+        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;position: relative;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img">
@@ -49,7 +49,7 @@
     bottom: 160px;
     z-index: 9999;
     width: 110px;
-    height: 120px;">
+    height: 120px;right:0;">
                <img src="../assets/appcode.jpeg" style="width:80px;height:80px;"/></div>
         </div>
    </div>
@@ -274,9 +274,13 @@
     > -->
     <!-- v-on:mouseover="two_menu(active)" -->
           <div  v-for="(item,index) in indexList"  v-if="active == index">
-                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
+              
+                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'" 
+
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
+
+
                         <el-carousel :interval="5000" arrow="always">
                         <el-carousel-item 
                         
@@ -287,6 +291,8 @@
                               <!-- <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/> -->
                         </el-carousel-item>
                       </el-carousel>
+
+
                   </div>
 
                      <!-- 新品推荐 -->
@@ -1734,6 +1740,7 @@ a.getUserInfo();
         position: absolute;
     bottom: -100px;
     z-index: 100;
+    left:0;
 }
 .two_classify {
   width: 100%;
@@ -2132,5 +2139,8 @@ a.getUserInfo();
 }
 .searchList:hover{
   background:#f2f2f2;
+}
+.swiperPic{
+  position: absolute;
 }
 </style>
