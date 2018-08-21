@@ -346,11 +346,11 @@
     </div>
   </div>
   
-  <img src="../assets/image/登录.png" @click="goCenter" style="height: 32px;    margin: 0 10px;cursor: pointer;"/>
+  <img src="../assets/image/登录.png" @click="goCenter" style="height: 30px;    margin: 0 10px;cursor: pointer;"/>
 
 <div style=" cursor: pointer; position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
     <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0 && $store.getters[MutationTreeType.TOKEN_INFO].token" @click="goCart1()">{{cartLen}}</div>
-      <img src="../assets/image/购物车.png" style="  height: 32px;  vertical-align: middle;"/>
+      <img src="../assets/image/购物车.png" style="  height: 30px;  vertical-align: middle;"/>
       <div class="cartFexid" v-if="cartModel" >
         <div style="display: flex;justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">

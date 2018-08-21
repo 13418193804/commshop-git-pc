@@ -12,8 +12,10 @@
               </div>
               <div style="padding:10px;font-size:14px">物流单号填写</div>
               <div class="tc_select">
-                  <select v-model="form.item">
-                      <option v-for="(item,index) in tranSportList" :value="item" :label="item.transportName" :key="index"></option>
+                  <select v-model="form.item" >
+                      <option  v-for="(item,index) in tranSportList" :value="item" :key="index" >
+                        {{item.transportName}}
+                      </option>
                   </select>
               </div>
               <div class="tc_select">
@@ -158,5 +160,7 @@ this.tranSportList =res.data.data
   select,input{
     width:450px;height: 50px;border:1px solid #eeeeee;outline:none;padding-left: 10px;
   }
+
 }
+
 </style>

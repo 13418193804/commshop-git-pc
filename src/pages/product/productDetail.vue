@@ -208,27 +208,25 @@
           <div class="style" style="color:#a1a1a1;display: inline-block;" v-for="item in JSON.parse(item.skuKeyValue)" >
             <span>{{item.key}}:{{item.value}}</span>
           </div>
-          <p>{{item.commentContent}}</p>
+          <p style="word-break:break-all">{{item.commentContent}}</p>
           <div class="flex evaluate_pic">
               <!-- <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div> -->
          
               <div  v-for="(itemImg,index) in item.commentImg  ? item.commentImg .split(','):[]" :key="index">
                 <img v-lazy="itemImg" style="width:100px;height:100px;vertical-align: middle;"/>                  
-                
               </div>
-           
+
               <!-- <div v-for="(item,index) in detatil.slogan.split(';')" :key="index">
                 <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span>
                     <span>{{item}}</span>
                 </span> 
               </div> -->
-
           </div>
-          <div class="time">{{item.createTime}}</div>
+            <div>{{item.createTime}}</div>
       </div>
       <div style="margin:20px 0">
             <el-pagination v-if="evaluatetotal>0"
-                      background
+                      background :current-page="page+1"
                       layout="prev, pager, next"
                     :page-size="pageSize" :total="evaluatetotal" @current-change="onPageChange">
                     </el-pagination>
@@ -454,6 +452,7 @@ export default class ProductDetail extends Vue {
   //评论筛选
   btnList(btn_active){
   this.btn_active = btn_active;
+  this.page = 0
   this.evaluateList();
   this.evaluatePic()
   }
@@ -1004,9 +1003,7 @@ cursor: pointer;
     background: #fccb52 url('../../assets/已领取白色.png') no-repeat top right;color:#fff;padding-right:20px;
   }
 }
-.time{
-  position: absolute;right: 16px;color:#fff;
-}
+
 .all_evaluate{
   position:absolute;right:20px;top:35px;color:#f4c542;background: url('../../assets/image/评价.png') no-repeat right top;
   padding-top:30px;font-size: 15px;
