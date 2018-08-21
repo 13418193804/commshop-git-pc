@@ -1,12 +1,7 @@
 <template>
   <div class="alter-container">
-   <div class="toplabel flex   flex-pack-center">
-<<<<<<< HEAD
-        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
-=======
-   
-        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;position: relative;">
->>>>>>> 54c64789ca9faac6954d04ae514802bea3444027
+   <div class="toplabel">
+        <div class="flex flex-end-justify flex-align-center" style="background-color: #212426;margin: 0 auto;height:100%;width:1200px;color:#fff;font-size:14px;">
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img">
@@ -41,21 +36,28 @@
               <span onclick="showMeiQia()">在线客服</span>
             </div>
 
-            <div class="contentBox borderleft borderright" v-on:mouseover="appMouseover()" v-on:mouseout="appMouseout()">
+          
+        
+
+
+              <div class="contentBox borderleft borderright" v-on:mouseover="appMouseover()" v-on:mouseout="appMouseout()">
               <span> <img src="../assets/phone1.png" style="vertical-align: middle;"/>APP</span>
-            </div>
-             <div class="icon_code" v-if="app_code" style="    top: 52px;
+                    <div class="icon_code" v-if="app_code" style="    top: 52px;
     z-index: 9999999;
     padding: 20px 15px;
     box-shadow: 2px 5px 19px #888888;
     background: #fff;
     position: absolute;
-    bottom: 160px;
+     top: 40px;right:-12px;
     z-index: 9999;
     width: 110px;
-    height: 120px;right:0;">
+    height: 120px;">
                <img src="../assets/appcode.jpeg" style="width:80px;height:80px;"/></div>
         </div>
+            </div>
+
+
+
    </div>
    <div class="dialog  flex  flex-align-center flex-pack-center" v-if="loginModel">
       <div style="height:400px;width:380px;background-color:#fff;position: relative;">
@@ -143,7 +145,6 @@
               <input type="password" placeholder="请再输入一次密码" v-model="forget_repassword" style="border:0;width:100%;"/>
             </div>       
         </div>
-
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
               <van-button style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="goforget()">保存</van-button>
         </div>
@@ -151,23 +152,20 @@
   </div>
 </div>
 
-<div class=" flex   flex-pack-center">
-       <div  style="width:1200px;padding:5px 0;">
+<div class=" flex   flex-pack-center" style="width:1200px;margin: 0 auto;">
+       <div  style="padding:5px 0;">
          <div  class="flex flex-pack-justify flex-align-center" style="margin-bottom:20px;">
             <img  src="../assets/image/logo拷贝.png" @click="goIndex()" style="cursor:pointer;"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
-  
+
 <!-- 搜索记录 -->
-<div class="flex flex-align-center" style="border:1px #EAEAEA solid;">
+<div class="flex flex-align-center" style="border:1px #EAEAEA solid;    position: relative;
+    height: 30px;top:0">
    <div style="position: relative;min-width:250px;"> 
         <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品"  @focus="onFocus()"  @blur="onblur()" />
-        <!-- -->
-        
-        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;top:24px;" v-if="filterModel">
+        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;top:24px;" v-if="filterModel && !searchBarFixed" >
           <div style="border-bottom: 1px #e5e5e5 solid;padding-right:5px;" v-if="stockpile.length>0">
-
             <div style="color:#999;padding:5px 10px 0;">搜索记录
-                <!-- 删除历史记录 -->
             </div>
             <div class="flex-pack-justify  flex-align-center" style="position:relative" >
               <div v-for="(item,index) in stockpile" :key="index" class="flex  flex-align-center flex-pack-justify">
@@ -179,34 +177,31 @@
               </div>
             </div>
             </div>
-
-
           <div style="cursor: pointer;color:red;">
               <div style="color:#999;padding:5px 10px 0;">推荐热词</div>
               <div class="hotwordItem1 flex" v-for="n in hotwordList" v-text="n.word" @click="checKeyword(n.word)">
               </div>
           </div>
-          
         </div> 
     </div>
-    <div style="width:30px;height:30px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword,true)" class="flex flex-align-center flex-pack-center">
+    <div style="width:30px;height:30px;background-color:#F4C542;    position: absolute;
+    right: 0;cursor: pointer;"  @click="doSelect(keyword,true)" class="flex flex-align-center flex-pack-center">
         <img src="../assets/image/放大镜.png" />
     </div>
+
   </div>
 
   <!-- <img src="../assets/image/登录.png" @click="goCenter" style="margin:0 10px;cursor: pointer;"/> -->
   <div style=" cursor: pointer; position: relative;margin-left: 30px;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
     <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0 && $store.getters[MutationTreeType.TOKEN_INFO].token" @click="goCart1()">{{cartLen}}</div>
       <img src="../assets/image/购物车.png" style="    vertical-align: middle;"/>
-      <div class="cartFexid" v-if="cartModel" >
+      <div class="cartFexid" v-if="cartModel && !searchBarFixed" >
         <div style="display: flex;justify-content: flex-end;"> 
           <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">
             <img src="../assets/image/关闭按钮1.png" style="cursor: pointer;width:20px;height:20px;vertical-align: middle;" />
           </div>
         </div>
-
         <div style="   height: 310px;overflow:auto;">
-          
 <div  v-if="cartList.length>0">      
 <div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
       <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
@@ -239,12 +234,10 @@
 <div class=" flex  flex-align-center   flex-pack-center" v-else>
   <img src="../assets/空购物车拷贝.png" style="width:180px;height:180px;"/>
 </div>
-
         </div>
 <div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
     <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
     <van-button  style="cursor: pointer;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
-
 </div>
 </div>
 </div>
@@ -253,18 +246,27 @@
 </div>
  </div>
 
-<!-- <div style="height:50px;background-color:red">123</div> -->
 
 
 
+<!-- data-swiper-autoplay="200000000000"  -->
 
+  <!-- <div class="swiper-container">
+<div  class="swiper-wrapper" >
+    <div class="swiper-slide "  v-for="n in indexList1">
+   {{n}}
+      </div>
+</div>
+</div> -->
 
 
 <!-- 头部导航菜单 -->
-<div class="flex headerTab" id="searchBar" >
+<div class=" headerTab " id="searchBar" >
+<div class="flex scorell" style="overflow: auto;" >
     <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
       <i class="headerTitle" @click="changeTab(index,'')" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
       </div>
+</div>
 <!-- 二级类目 -->
 <div class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
     <div v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
@@ -275,16 +277,25 @@
 </div>
 
 
-<div :class="['flex', searchBarFixed == true ? 'isFixed' :'']" >
+
+
+
+<div :class="['flex   flex-pack-center', searchBarFixed == true ? 'isFixed' :'']" v-if="searchBarFixed" style=" width:100%;left:0;border-bottom:1px #f2f2f2 solid;">
+
+<div style="width:1200px;" class="flex flex-align-center flex-pack-justify">
+            <img  src="../assets/image/logo拷贝.png" style="    margin: 5px 20px 5px 0;cursor:pointer;" @click="goIndex()"/>
+
+<!-- 头部导航菜单 -->
+<div class="headerTab"  style="border: 0;width: 0;flex: 1;">
+<div class="flex scorell" style="overflow: auto;">
   
-
-<!-- 头部导航菜单 -->
-<div class="flex headerTab" id="searchBar" >
     <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
       <i class="headerTitle" @click="changeTab(index,'')" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
       </div>
+</div>
+      
 <!-- 二级类目 -->
-<div class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+<div style="width:1200px;margin-left:-157px;" class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
     <div v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
       <p class="flex-pack-center"><img :src="item.catIcon"/></p>
       <p class="flex-pack-center">{{item.catName}}</p>
@@ -292,6 +303,105 @@
 </div>
 </div>
 
+<div class="flex flex-align-center" style="    padding-left: 10px;">
+
+
+
+<!-- 
+    <div style="width:50px;height:50px;background-color:#F4C542;    cursor: pointer;"  @click="doSelect(keyword,true)" class="flex flex-align-center flex-pack-center">
+        <img src="../assets/image/放大镜.png" />
+    </div> -->
+
+
+<!-- 搜索记录 -->
+<div class="flex flex-align-center" style="border:1px #EAEAEA solid;    position: relative;
+    height: 30px;top:0;">
+   <div style="position: relative;min-width:250px;"> 
+        <input  style="border:none;margin:0 10px;width:90%;" v-model="keyword" placeholder="搜索商品"  @focus="onFocus()"  @blur="onblur()" />
+        <div style="position: absolute;width: 100%;font-size:14px;border: 1px #e5e5e5 solid;background-color:#fff;z-index: 300;top:24px;" v-if="filterModel">
+          <div style="border-bottom: 1px #e5e5e5 solid;padding-right:5px;" v-if="stockpile.length>0">
+            <div style="color:#999;padding:5px 10px 0;">搜索记录
+            </div>
+            <div class="flex-pack-justify  flex-align-center" style="position:relative" >
+              <div v-for="(item,index) in stockpile" :key="index" class="flex  flex-align-center flex-pack-justify">
+                 <div class="searchList"  @click="checKeyword(item.value)">{{item.value}}</div>
+                 <div >
+                <i class="iconfont icon-iconfontshanchu3" style="font-size:14px;cursor: pointer;" 
+                  @click="clearSearch(item)"
+                ></i></div>
+              </div>
+            </div>
+            </div>
+          <div style="cursor: pointer;color:red;">
+              <div style="color:#999;padding:5px 10px 0;">推荐热词</div>
+              <div class="hotwordItem1 flex" v-for="n in hotwordList" v-text="n.word" @click="checKeyword(n.word)">
+              </div>
+          </div>
+        </div> 
+    </div>
+
+    <div style="width:30px;height:30px;background-color:#F4C542;     position: absolute;
+    right: 0;   cursor: pointer;"  @click="doSelect(keyword,true)" class="flex flex-align-center flex-pack-center">
+        <img src="../assets/image/放大镜.png" />
+    </div>
+  </div>
+  
+  <img src="../assets/image/登录.png" @click="goCenter" style="height: 32px;    margin: 0 10px;cursor: pointer;"/>
+
+<div style=" cursor: pointer; position: relative;" v-on:mouseover="mouseover()" v-on:mouseout="mouseout()">
+    <div class="messageFexid" style="right:10px;cursor: pointer;" v-if="cartLen!=0 && $store.getters[MutationTreeType.TOKEN_INFO].token" @click="goCart1()">{{cartLen}}</div>
+      <img src="../assets/image/购物车.png" style="  height: 32px;  vertical-align: middle;"/>
+      <div class="cartFexid" v-if="cartModel" >
+        <div style="display: flex;justify-content: flex-end;"> 
+          <div style="width:30px;height:30px;line-height:30px;text-align:center" @click="cartModel = false">
+            <img src="../assets/image/关闭按钮1.png" style="cursor: pointer;width:20px;height:20px;vertical-align: middle;" />
+          </div>
+        </div>
+        <div style="   height: 310px;overflow:auto;">
+<div  v-if="cartList.length>0">      
+<div v-for="(item,index) in cartList" class="cartItem flex flex-align-center" >
+      <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px;overflow:hidden;">
+       <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+       </div>
+       <div class="flex-1" style="overflow: hidden;">
+         <div>
+           <span class="textLabel" style="color:#000000;font-size:15px">{{item.goodsName}}</span>
+          </div>
+         <div style="color:#666;" class="textLabel">
+        <span v-if="item.skuKeyValue.length>2 ">
+<span v-for="items in JSON.parse(item.skuKeyValue)" style="margin-right:10px;">
+  <span>{{items.key}}:{{items.value}} X {{item.num}}</span>
+</span>
+        </span>
+        <span v-else>
+          X {{item.num}}
+        </span>
+         </div>
+       </div>
+
+       <div style="padding:10px;">
+            <span class="marketPrice" style="font-size:20">￥{{item.price.toFixed(2)}}</span>
+       </div>
+       </div>
+       </div>
+
+
+
+<div class=" flex  flex-align-center   flex-pack-center" v-else>
+  <img src="../assets/空购物车拷贝.png" style="width:180px;height:180px;"/>
+</div>
+        </div>
+<div style="border-top:1px solid #e5e5e5;background-color:#FCFCFC;height:60px" class="flex flex-align-center">
+    <div class="flex-1" style="padding:10px;font-size:15px;">  商品合计：<span class="marketPrice"  style="font-size:20"> ￥{{totalMoney}}</span></div>
+    <van-button  style="cursor: pointer;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:130px;margin:0 10px;"  @click.stop="goCart()">去结算</van-button>
+</div>
+</div>
+</div>
+</div>
+
+
+
+</div>
 
    </div>
 
@@ -303,15 +413,8 @@
     <!-- <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
     > -->
     <!-- v-on:mouseover="two_menu(active)" -->
-<<<<<<< HEAD
           <div  v-for="(item,index) in indexList"  v-if="active == index" >
                 <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
-=======
-          <div  v-for="(item,index) in indexList"  v-if="active == index">
-              
-                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'" >
-
->>>>>>> 54c64789ca9faac6954d04ae514802bea3444027
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
 
@@ -549,6 +652,7 @@ import Component from "vue-class-component";
 import { Prop, Watch } from "vue-property-decorator";
 // import agreement from "../pages/index/agreement.vue";
 import agreement from "../pages/index/agreement.vue";
+import Swiper from "swiper";
 
 @Component({
   components: {
@@ -1322,6 +1426,7 @@ let b =  this.indexList.filter((item,index)=>{
 
       this.indexList = res.data;
   this.indexList.forEach((item,index)=>{
+    // this.indexList.push(item)
 if(item.catId){
        this.two_menu1(index,item.catId);
     }
@@ -1338,11 +1443,12 @@ if(item.catId){
       }
 
     });
+
+
   }
   cartList = [];
   getNumber(cartList = []) {
     let num = 0;
-    console.log(cartList)
     cartList.forEach((item, index) => {
       num += item.num;
     });
@@ -1518,7 +1624,17 @@ a.getUserInfo();
     }
   }
   mounted() {
-    
+
+//     var mySwiper = new Swiper('.swiper-container',{
+// slidesPerView : 'auto',
+//  loop : false,
+// autoplay: {
+//     delay: 100000000,//1秒切换一次
+//   },
+// })
+
+
+
     window['changeLoginModel'] = ()=>{
       this.changeLoginModel('login')
     }
@@ -1571,8 +1687,7 @@ a.getUserInfo();
     this.gethotword();
 
 
-
-
+ 
 
   }
 }
@@ -1739,7 +1854,7 @@ a.getUserInfo();
   // flex-wrap: wrap;
   padding: 10px 5px;
   border-bottom:10px solid #f5f5f5;
-  justify-content: space-evenly;
+  // justify-content: space-evenly;
   position:relative;
 }
 .goodsBody>div{
@@ -1775,6 +1890,7 @@ a.getUserInfo();
   cursor: pointer;
 }
 .two_classifyFexid{
+  background: rgba(255,255,255, 0.8)!important;
         position: absolute;
     bottom: -100px;
     z-index: 100;
@@ -2181,4 +2297,30 @@ a.getUserInfo();
 .swiperPic{
   position: absolute;
 }
+
+@import "../../node_modules/swiper/dist/css/swiper.css";
+
+.swiper-slide {
+  width: 200px !important;
+  height:100px;
+}
+.scorell{
+
+}
+.scorell::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 4px;    /*高宽分别对应横竖滚动条的尺寸*/
+            height: 6px; 
+            background: rgba(0,0,0,0.1);
+        }
+        .scorell::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 5px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.2);
+        }
+        .scorell::-webkit-scrollbar-track {/*滚动条里面轨道*/
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            border-radius: 0;
+            background: rgba(0,0,0,0.1);
+        }
+
 </style>
