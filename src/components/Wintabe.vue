@@ -154,7 +154,7 @@
 
 <div class=" flex   flex-pack-center" style="width:1200px;margin: 0 auto;">
        <div  style="padding:5px 0;    width: 100%;">
-         <div  class="flex flex-pack-justify flex-align-center" style="margin-bottom:20px;">
+         <div  class="flex flex-pack-justify flex-align-center" style="margin-bottom:20px;    padding-right: 10px;">
             <img  src="../assets/image/logo拷贝.png" @click="goIndex()" style="cursor:pointer;"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
 
@@ -303,7 +303,7 @@
 </div>
 </div>
 
-<div class="flex flex-align-center" style="    padding-left: 10px;">
+<div class="flex flex-align-center" style="padding:0 10px 0 20px;">
 
 
 
