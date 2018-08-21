@@ -147,13 +147,13 @@
         </div>
         <div class="flex  flex-align-center flex-pack-center" style="padding:0 30px">
               <van-button style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;"  class="flex-1" @click="goforget()">保存</van-button>
-        </div>
+        </div> 
       </div>
   </div>
 </div>
 
 <div class=" flex   flex-pack-center" style="width:1200px;margin: 0 auto;">
-       <div  style="padding:5px 0;">
+       <div  style="padding:5px 0;    width: 100%;">
          <div  class="flex flex-pack-justify flex-align-center" style="margin-bottom:20px;">
             <img  src="../assets/image/logo拷贝.png" @click="goIndex()" style="cursor:pointer;"/>
 <div class="flex flex-align-center flex-1 flex-end-justify">
@@ -446,7 +446,7 @@
                           </div>
                           
                         <!-- //1 定制推荐-->
-                         <div class="goodsBody" v-if="items.arrtibleIndex %3 == 1">
+                         <div class="goodsBody flex-pack-center" v-if="items.arrtibleIndex %3 == 1">
                            <div class="more" @click.stop="goMoretj(items)"  v-if="active==0">更多商品 ></div>
                            <div class="recommend_list" 
                             v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex<2"
@@ -466,8 +466,7 @@
                               </div>
                            </div>
                            
-                           <div class="recommend_list"
-                           >
+                           <div class="recommend_list second_list" >
                               <div v-for="(goods,goodsIndex) in items.items " :key="goodsIndex" v-if="goodsIndex>1&&goodsIndex<4"
                                 @click="goProductDetail(goods.goodsId)">
                                 <div class="shop_img"  
@@ -490,7 +489,7 @@
                         </div>
                      
                       <!-- 2 新品推荐-->
-                          <div class="goodsBody" style="flex-wrap: wrap;" v-if="items.arrtibleIndex %3 == 2">
+                          <div class="goodsBody flex-pack-center" style="flex-wrap: wrap;" v-if="items.arrtibleIndex %3 == 2">
                               <div class="more" @click.stop="goMoretj(items)" v-if="active==0">更多商品 ></div>
                               <div v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" @click="goProductDetail(goods.goodsId)" class="flex" style="width:50%;border-bottom: 1px solid #e5e5e5;"> 
                                 <div class="flex" style=" padding:10px;">
@@ -514,7 +513,7 @@
                                 </div>
                           </div>
                           <!-- 3 热卖-->
-                          <div class="goodsBody" v-if="items.arrtibleIndex %3 == 0">
+                          <div class="goodsBody flex-pack-center" v-if="items.arrtibleIndex %3 == 0">
                             <div class="more" @click.stop="goMoretj(items)"  v-if="active==0">更多商品 ></div>
                               <div style="width:260px;margin-right: 20px;" 
                               v-for="(goods,goodsIndex) in items.items" :key="goodsIndex" v-if="goodsIndex<4" @click="goProductDetail(goods.goodsId)" >
@@ -1217,9 +1216,10 @@ a.getUserInfo();
     sessionStorage.catId =catId;
     sessionStorage.parentId = parentId;
     sessionStorage.keyword = "";
-    this.$router.push({
-      path: "/productClassify"
-    });
+ 
+
+window.open(window.location.origin + '/#/productClassify' )
+
   }
 
 
@@ -1982,10 +1982,10 @@ a.getUserInfo();
     }
   }
 }
-.recommend_list:nth-of-type(4) {
-  border: none;
+.second_list{
+  border:none;
 }
-.recommend_list:nth-of-type(4) > div {
+.second_list > div {
   border: 1px solid #ededed;
   height: 240px;
   margin-bottom: 10px;

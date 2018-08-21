@@ -197,36 +197,36 @@
 
 
  <div v-if="detail.payTime" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"> 支付时间：</div>{{detail.payTime}}
+       <div style="    text-align: left;margin-left: 44px;"> 支付时间：</div>{{detail.payTime}}
     </div>
     
     
  <div v-if="detail.shipTime" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"> 发货时间：</div>{{detail.shipTime}}
+       <div style="    text-align: left;margin-left: 44px;"> 发货时间：</div>{{detail.shipTime}}
     </div>
     
  <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"> 申请退款时间：</div>{{detail.detailList[0].refundOrderList[0].createTime}}
+       <div style="    text-align: left;margin-left: 44px;"> 申请退款时间：</div>{{detail.detailList[0].refundOrderList[0].createTime}}
     </div>
 
      <div v-if="detail.detailList[0].refundStatus === 'FAIL_REFUND'" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"> 拒绝退款时间：</div>{{detail.detailList[0].refundOrderList[0].updateTime}}
+       <div style="    text-align: left;margin-left: 44px;"> 拒绝退款时间：</div>{{detail.detailList[0].refundOrderList[0].updateTime}}
     </div>
 
     
  <div v-if="detail.detailList[0].refundStatus == 'FAIL_REFUND'" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"> 退回原因：</div>{{detail.detailList[0].refundOrderList[0].merchantRemark}}
+       <div style="    text-align: left;margin-left: 44px;"> 退回原因：</div>{{detail.detailList[0].refundOrderList[0].merchantRemark}}
     </div>
         
  <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"> 售后类型：</div>{{detail.detailList[0].refundOrderList[0].refundType=='REFUND'?'退款':'退货/退款'}} 
+       <div style="    text-align: left;margin-left: 44px;"> 售后类型：</div>{{detail.detailList[0].refundOrderList[0].refundType=='REFUND'?'退款':'退货/退款'}} 
     </div>
     
  <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"> 售后原因：</div> {{detail.detailList[0].refundOrderList[0].refundReason}}
+       <div style="    text-align: left;margin-left: 44px;"> 售后原因：</div> {{detail.detailList[0].refundOrderList[0].refundReason}}
     </div>
 <div v-if="detail.detailList[0].refundOrderList[0]">
-<div class="flex">
+<div class="flex" style="    padding-left: 34px;">
   <div v-for="n in  detail.detailList[0].refundOrderList[0].refundImg?detail.detailList[0].refundOrderList[0].refundImg.split(','):[]">
           <img :src="n" style="width: 80px;height: 80px;padding:10px;"/>
     </div>
@@ -236,13 +236,13 @@
        <div style="margin-left:10px;"> 请在七天内将商品寄回一下地址并填写物流单号：</div> 
     </div>
  <div  style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;padding-right:10px;"> {{detail.detailList[0].refundOrderList[0].contactName}}</div>{{detail.detailList[0].refundOrderList[0].contactMobile}}
+       <div style="    text-align: left;margin-left: 44px;padding-right:10px;"> {{detail.detailList[0].refundOrderList[0].contactName}}</div>{{detail.detailList[0].refundOrderList[0].contactMobile}}
     </div>
  <div  style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;"><i class="iconfont icon-location" style="margin-right:10px;font-size:22px;"></i></div>  <div class="lineTwo">{{detail.detailList[0].refundOrderList[0].provinceName}}{{detail.detailList[0].refundOrderList[0].cityName}}{{detail.detailList[0].refundOrderList[0].countryName}}{{detail.detailList[0].refundOrderList[0].address}}</div>
+       <div style="    text-align: left;margin-left: 44px;"><i class="iconfont icon-location" style="margin-right:10px;font-size:22px;"></i></div>  <div class="lineTwo">{{detail.detailList[0].refundOrderList[0].provinceName}}{{detail.detailList[0].refundOrderList[0].cityName}}{{detail.detailList[0].refundOrderList[0].countryName}}{{detail.detailList[0].refundOrderList[0].address}}</div>
     </div>
     <div v-if="detail.detailList[0].refundStatus == 'WAIT_GOODS_BACK'||detail.detailList[0].refundStatus ==  'WAIT_RECVGOODS'"  style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;line-height:45px;"> 物流单号：</div>
+       <div style="    text-align: left;margin-left: 44px;line-height:45px;"> 物流单号：</div>
 <div class="flex flex-pack-justify flex-align-center flex-1" style="    ">
         <div><span style="color:#999" v-if="detail.detailList[0].refundOrderList[0].transNo">{{detail.detailList[0].refundOrderList[0].transNo}}</span><span v-else>未填写</span> </div>
      <van-button size="small" :style="formatButtonColor()" @click="inputTransNo()" v-if="!detail.detailList[0].refundOrderList[0].transNo">填写</van-button>
@@ -251,7 +251,7 @@
            </div>
     </div>
     <div style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
-       <div style="width:115px;text-align:right;line-height:45px;"> 服务时间：</div>
+       <div style="    text-align: left;margin-left: 44px;line-height:45px;"> 服务时间：</div>
 <div class="flex flex-pack-justify flex-align-center flex-1" >
         <div>9:00 - 22:00 </div>
         <van-button size="small" onclick="showMeiQia()" style="cursor: pointer;">联系客服</van-button>
