@@ -259,17 +259,18 @@
 </div>
 </div> -->
 
-
 <!-- 头部导航菜单 -->
 <div class=" headerTab " id="searchBar" >
 <div class="flex scorell" style="overflow: auto;" >
-    <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
+    <div class="headerList " v-for="(item,index) in indexList" :class="active == index || goodsDetailCatId == item.catId?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
+     
+     
       <i class="headerTitle" @click="changeTab(index,'')" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
       </div>
 </div>
 <!-- 二级类目 -->
-<div class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
-    <div v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+<div class="flex flex-pack-center two_classify two_classifyFexid" style="justify-content: flex-start;" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+    <div style="max-width:100px" v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
       <p class="flex-pack-center"><img :src="item.catIcon"/></p>
       <p class="flex-pack-center">{{item.catName}}</p>
     </div>
@@ -289,14 +290,14 @@
 <div class="headerTab"  style="border: 0;width: 0;flex: 1;">
 <div class="flex scorell" style="overflow: auto;">
   
-    <div class="headerList " v-for="(item,index) in indexList" :class="active == index ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
+    <div class="headerList " v-for="(item,index) in indexList" :class="active == index|| goodsDetailCatId == item.catId ?'headerListCur':''"  v-on:mouseout.prevent="listTwoout()" v-on:mouseover.prevent="twoListHover(item,index)" >
       <i class="headerTitle" @click="changeTab(index,'')" v-on:mouseover="listTwoSet()">{{item.pageName}}</i>
       </div>
 </div>
       
 <!-- 二级类目 -->
-<div style="width:1200px;margin-left:-157px;" class="flex flex-pack-center two_classify two_classifyFexid" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
-    <div v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+<div class="flex flex-pack-center two_classify two_classifyFexid"  style="width:1200px;margin-left:-157px;justify-content: flex-start;" v-if="rewordList[rewordObj.index] && listTwo && rewordList[rewordObj.index].data.length>0" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
+    <div style="max-width:100px" v-for="(item,index) in rewordList[rewordObj.index].data" @click="twoList(item.catId,rewordList[rewordObj.index].parentId)" v-on:mouseout="listTwoout()" v-on:mouseover="listTwoSet()">
       <p class="flex-pack-center"><img :src="item.catIcon"/></p>
       <p class="flex-pack-center">{{item.catName}}</p>
     </div>
@@ -414,16 +415,16 @@
     > -->
     <!-- v-on:mouseover="two_menu(active)" -->
           <div  v-for="(item,index) in indexList"  v-if="active == index" >
-                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
+                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'" >
                   <!-- 轮播图 -->
-                  <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
+                  <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'&& item.pageName =='首页'" :style="'margin-left:-' +innerWidth+'px;width:'+carousel  " >
 
 
                         <el-carousel :interval="5000" arrow="always">
                         <el-carousel-item 
                         
                         v-for="(image, imageIndex) in items.items" :key="imageIndex" 
-                        v-bind:style="{backgroundImage:'url(' + image.itemImgUrl + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
+                        v-bind:style="{backgroundImage:'url(' + itemImageUrl(image)  + ')', backgroundRepeat:'no-repeat', backgroundPosition:'center center', backgroundSize: 'contain'}"
                         >
                         <div @click.stop="goActionType(image.actionType,image.actionValue)" style="height:100%;width:100%;"></div>
                               <!-- <img v-lazy="image.itemImgUrl" style="width:100%;height: 300px;" @click="goActionType(image.actionType,image.actionValue)"/> -->
@@ -434,7 +435,7 @@
                   </div>
 
                      <!-- 新品推荐 -->
-                  <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'">
+                  <div v-if="items.componentType === 'COMPONENT_TYPE_GOODS_TAG'&& item.pageName =='首页'">
 
                     <div style="background-color:#f7f7f7;"></div>
                     
@@ -462,7 +463,10 @@
                                   <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                 </div>
                                 <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                <p class="shop_prce" style="color:red">￥{{goods.marketPrice.toFixed(2)}}</p>
+                                <p class="shop_prce" style="color:red">
+                                          <span v-if="goods.goodsType =='RETAIL'">￥</span>
+                                      {{goods.marketPrice.toFixed(2)}}<span v-if="goods.goodsType =='SCORE'">积分</span>
+                                      </p>
                               </div>
                            </div>
                            
@@ -481,7 +485,10 @@
                                   <span v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                   </div>
                                   <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                  <p class="shop_prce" style="color:red">￥{{goods.marketPrice.toFixed(2)}}</p>
+                                  <p class="shop_prce" style="color:red">
+                                            <span v-if="goods.goodsType =='RETAIL'">￥</span>
+                                      {{goods.marketPrice.toFixed(2)}}<span v-if="goods.goodsType =='SCORE'">积分</span>
+                                      </p>
                                 </div>
                               </div>
                            </div>
@@ -504,8 +511,11 @@
                                     </div>
                                     <div class="textLabel"  style="color:#A3A3A3;font-size:16px;width:350px;" >{{goods.jingle}}</div>
                                     <div>
-                                      <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">￥{{goods.marketPrice.toFixed(2)}}</span>
-                                      <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" >原价:{{goods.labelPrice.toFixed(2)}}</span>
+                                      <span style="display:inline-block;color:#E05459;font-size:22px;margin:12px 5px 12px 0;">
+                                         <span v-if="goods.goodsType =='RETAIL'">￥</span>
+                                      {{goods.marketPrice.toFixed(2)}}<span v-if="goods.goodsType =='SCORE'">积分</span>
+                                      </span>
+                                      <span style="color:#C5C4C4;text-decoration:line-through;font-size:18px" v-if="goods.goodsType =='RETAIL'">原价:{{goods.labelPrice.toFixed(2)}}</span>
                                     </div>
                                     <van-button class="btn_yellow" @click.stop="goProductDetail(goods.goodsId)">立即抢购</van-button>
                                   </div>
@@ -528,7 +538,9 @@
                                       <span  v-if="goods.singleStatus" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                     </div>
                                     <h3 class="ellipsis"> {{goods.goodsName}}</h3>
-                                    <p class="shop_prce" style="color:red">￥{{goods.marketPrice.toFixed(2)}}</p>
+                                    <p class="shop_prce" style="color:red">
+                                            <span v-if="goods.goodsType =='RETAIL'">￥</span>
+                                      {{goods.marketPrice.toFixed(2)}}<span v-if="goods.goodsType =='SCORE'">积分</span></p>
                                   </div>
                               </div>
                           </div>
@@ -562,8 +574,6 @@
                </h5>
               <p>GOODS LIST</p>
             </div>
-
-                          
             <!-- 新品上架 -->
             <div class="headline flex-pack-center" v-if="false">
               <h2>{{secItem.catName}}</h2>
@@ -583,7 +593,10 @@
                           <span  :style=" shopItem.isBargain?'':'visibility: hidden;'"  style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                         </div>
                         <h3 class="ellipsis"> {{shopItem.goodsName}}</h3>
-                        <p class="shop_prce" style="color:red">￥{{shopItem.marketPrice.toFixed(2)}}</p>
+                        <p class="shop_prce" style="color:red">
+                          <span v-if="shopItem.goodsType =='RETAIL'">￥</span>
+                                      {{shopItem.marketPrice.toFixed(2)}}<span v-if="shopItem.goodsType =='SCORE'">积分</span>
+                          </p>
                       </div>
                   </li>
                 </ul>
@@ -672,17 +685,16 @@ export default class Comhead extends Vue {
   app_code = false;
   sticky = true;
   //hover二维码
-   appMouseover() {
+  appMouseover() {
     this.app_code = true;
   }
   appMouseout() {
-     this.app_code = false;
+    this.app_code = false;
   }
   //用户协议
   goAgreement() {
     console.log("进来协议");
     let b: any = this.$refs.agreement;
-    console.log(b);
     b.userModel = true;
   }
   onFocus() {
@@ -729,7 +741,7 @@ export default class Comhead extends Vue {
     this.cartModel = true;
   }
   mouseout() {
-     this.cartModel = false;
+    this.cartModel = false;
   }
 
   menu_block = false;
@@ -801,29 +813,35 @@ export default class Comhead extends Vue {
   secItem = {};
   listTwo = false;
 
+  listTwoout() {
+    console.log("鼠标移出");
+    this.listTwo = false;
+  }
 
-listTwoout(){
-  console.log('鼠标移出')
-  this.listTwo = false
-}
-listTwoSet(){
-   this.listTwo = true;
-}
- twoListHover(item,index){
-this.rewordObj.index = index
-   this.listTwo = true;
-   if(this.indexList[index].catId && !this.rewordList[index] ){
-       setTimeout(()=>{
- this.two_menu1(index,this.indexList[index].catId);
-   },500)
-   }
- }
+  itemImageUrl(image) {
+    return (image.pcItemImgUrl || "") !== ""
+      ? image.pcItemImgUrl
+      : image.itemImgUrl;
+  }
 
- rewordList=[]
- rewordObj={
-   index:0
- }
-  two_menu1(active,catId) {
+  listTwoSet() {
+    this.listTwo = true;
+  }
+  twoListHover(item, index) {
+    this.rewordObj.index = index;
+    this.listTwo = true;
+    if (this.indexList[index].catId && !this.rewordList[index]) {
+      setTimeout(() => {
+        this.two_menu1(index, this.indexList[index].catId);
+      }, 500);
+    }
+  }
+
+  rewordList = [];
+  rewordObj = {
+    index: 0
+  };
+  two_menu1(active, catId) {
     Vue.prototype.$reqFormPost1(
       "/user/cat/list",
       {
@@ -837,35 +855,28 @@ this.rewordObj.index = index
         }
         this.rewordList[active] = {
           posting: true,
-          data:res.data,
-          parentId:catId
-        }
-
+          data: res.data,
+          parentId: catId
+        };
       }
-
     );
   }
 
-
-
   getproductList(catId) {
-    
-    this.shopList = []
+    this.shopList = [];
     let a: any = this.$refs.wintabe;
-    let data = {
-
-    };
+    let data = {};
 
     (<any>Object).assign(data, { catId: catId });
-    
+
     if ((this.sortName || "") !== "") {
       (<any>Object).assign(data, { sortName: this.sortName });
     }
     if (this.sortStatus != "" || this.sortStatus != undefined) {
       (<any>Object).assign(data, { sortStatus: this.sortStatus });
     }
-      (<any>Object).assign(data, { page: this.page});
-      (<any>Object).assign(data, { pageSize: this.pageSize});
+    (<any>Object).assign(data, { page: this.page });
+    (<any>Object).assign(data, { pageSize: this.pageSize });
     Vue.prototype.$reqFormPost1("/user/goods/list", data, res => {
       if (res.returnCode !== 200) {
         this["$Message"].warning(res.message);
@@ -873,7 +884,7 @@ this.rewordObj.index = index
         return;
       }
       this.shopList = res.data.goodsList;
-      this.total = res.data.page.total
+      this.total = res.data.page.total;
     });
   }
   // 分类
@@ -913,7 +924,7 @@ this.rewordObj.index = index
       this["$Message"].warning("请输入验证码");
       return;
     }
-    if ((this.sign_code || "") == "") {
+    if ((this.sign_password || "") == "") {
       this["$Message"].warning("请输入密码");
       return;
     }
@@ -1023,21 +1034,21 @@ this.rewordObj.index = index
       }
     );
   }
-  goIndex(){
+  goIndex() {
     this.$router.push({
       path: "/"
     });
   }
   // 导航跳转
-  goCart1(){
+  goCart1() {
     this.$router.push({
-      path:"cart"
-    })
+      path: "cart"
+    });
   }
-  myCenter(){
+  myCenter() {
     this.$router.push({
       path: "/center"
-    })
+    });
   }
   myDiscount() {
     this.$router.push({
@@ -1056,50 +1067,45 @@ this.rewordObj.index = index
     });
   }
   myAward() {
-               if (
+    if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
       this.$router.push({
-      path: "/my_reward"
-    });
-    }else{
-        this.changeLoginModel('login')
+        path: "/my_reward"
+      });
+    } else {
+      this.changeLoginModel("login");
     }
-  
   }
   myOrder() {
-            if (
+    if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
       this.$router.push({
-      path: "/orderlist"
-    });
-    }else{
-        this.changeLoginModel('login')
+        path: "/orderlist"
+      });
+    } else {
+      this.changeLoginModel("login");
     }
-  
   }
   myMessagelist() {
-
-              if (
+    if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
       this.$router.push({
-      path: "/Messagelist"
-    });
-    }else{
-        this.changeLoginModel('login')
+        path: "/Messagelist"
+      });
+    } else {
+      this.changeLoginModel("login");
     }
-  
   }
   goProductDetail(goodsId) {
-
     sessionStorage.goodsId = goodsId;
     // this.$router.push({
     //   path: "/productdetail",
@@ -1108,16 +1114,15 @@ this.rewordObj.index = index
     //   }
     // });
 
-        window.open(window.location.origin + '/#/productdetail?goodsId='+goodsId )
-
+    window.open(window.location.origin + "/#/productdetail?goodsId=" + goodsId);
   }
   modelType = "login";
 
-sendLoginOut(){
-   this.isruleshow = !this.isruleshow;
-   this.loginOut()
-   this.$router.replace('/')
-}
+  sendLoginOut() {
+    this.isruleshow = !this.isruleshow;
+    this.loginOut();
+    this.$router.replace("/");
+  }
 
   // 退出登录
   loginOut() {
@@ -1127,35 +1132,34 @@ sendLoginOut(){
     });
 
     localStorage.removeItem(Vue.prototype.MutationTreeType.TOKEN_INFO);
-    sessionStorage.userInfo = ''
-   if(this.$route.path =='/center'){
-     let a :any = window
-a.getUserInfo();
-}
-
-// this.$router.replace('/')
-  }
-    goCart() {
-         if (
-      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
-        "" &&
-      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
-    ) {
-    this.$router.push("/cart");
-    }else{
-        this.changeLoginModel('login')
+    sessionStorage.userInfo = "";
+    if (this.$route.path == "/center") {
+      let a: any = window;
+      a.getUserInfo();
     }
+
+    // this.$router.replace('/')
   }
-  goCenter() {
-  
+  goCart() {
     if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
-    this.$router.push("/center");
-    }else{
-        this.changeLoginModel('login')
+      this.$router.push("/cart");
+    } else {
+      this.changeLoginModel("login");
+    }
+  }
+  goCenter() {
+    if (
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
+        "" &&
+      this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
+    ) {
+      this.$router.push("/center");
+    } else {
+      this.changeLoginModel("login");
     }
   }
   loginModel = false;
@@ -1165,13 +1169,12 @@ a.getUserInfo();
 
   changeLoginModel(type) {
     this.modelType = type;
-     this.loginModel = true
+    this.loginModel = true;
   }
- 
+
   loginName = "";
   password = "";
   doLogin() {
-
     if (this.loginName == "") {
       this["$Message"].warning("请输入账号");
       return;
@@ -1201,9 +1204,8 @@ a.getUserInfo();
         );
         this.queryuserinfo();
         this.getMessageCount();
-      this.getCartList();
+        this.getCartList();
         this.loginModel = false;
-  
       }
     );
   }
@@ -1212,16 +1214,13 @@ a.getUserInfo();
   active = "0";
   catName = "";
 
-  twoList(catId,parentId) {
-    sessionStorage.catId =catId;
+  twoList(catId, parentId) {
+    sessionStorage.catId = catId;
     sessionStorage.parentId = parentId;
     sessionStorage.keyword = "";
- 
 
-window.open(window.location.origin + '/#/productClassify' )
-
+    window.open(window.location.origin + "/#/productClassify");
   }
-
 
   cartModel_code = false;
   mouseover_code() {
@@ -1239,7 +1238,7 @@ window.open(window.location.origin + '/#/productClassify' )
     this.select_block = false;
   }
   goActionType(actionType, actionValue) {
-    console.log('来了来了来了')
+    console.log("来了来了来了");
     if (actionType == "ACTION_TYPE_GOODSID") {
       var goodsId = actionValue;
       this.$router.push({
@@ -1266,28 +1265,34 @@ window.open(window.location.origin + '/#/productClassify' )
         }
 
         for (var i = 0; i < res.data.data.children.length; i++) {
-          for (var j = 0; j < res.data.data.children[i].children.length; j++) {
-            if (res.data.data.children[i].children[j].catId == actionValue) {
-              var selectIndex = j.toString();
+          if (res.data.data.children[i].children) {
+            for (
+              var j = 0;
+              j < res.data.data.children[i].children.length;
+              j++
+            ) {
+              if (res.data.data.children[i].children[j].catId == actionValue) {
+                var selectIndex = j.toString();
 
-              sessionStorage.catId = actionValue;
-              sessionStorage.parentId =
-                res.data.data.children[i].children[j].parentId;
-              sessionStorage.keyword = "";
-              this.$router.push({
-                path: "/productClassify"
-              });
-              // this.$router.push({
-              //   path: "/productClassify",
-              //   query: {
-              //     catId: res.data.data.children[i].children[j].catId,
-              //     parentCatId: res.data.data.children[i].children[j].parentId,
+                sessionStorage.catId = actionValue;
+                sessionStorage.parentId =
+                  res.data.data.children[i].children[j].parentId;
+                sessionStorage.keyword = "";
+                this.$router.push({
+                  path: "/productClassify"
+                });
+                // this.$router.push({
+                //   path: "/productClassify",
+                //   query: {
+                //     catId: res.data.data.children[i].children[j].catId,
+                //     parentCatId: res.data.data.children[i].children[j].parentId,
 
-              //     title: res.data.data.children[i].label
-              //   }
-              // });
+                //     title: res.data.data.children[i].label
+                //   }
+                // });
 
-              return;
+                return;
+              }
             }
           }
         }
@@ -1301,19 +1306,18 @@ window.open(window.location.origin + '/#/productClassify' )
     return;
   }
   //更多商品
-  goMoretj(row){
-    let a:string= row.dataSource?row.dataSource.split(',')[0]:''
-let b =  this.indexList.filter((item,index)=>{
-   item['currgerIndex'] = index
-  return a == item.catId
-})
+  goMoretj(row) {
+    let a: string = row.dataSource ? row.dataSource.split(",")[0] : "";
+    let b = this.indexList.filter((item, index) => {
+      item["currgerIndex"] = index;
+      return a == item.catId;
+    });
     this.changeTab(b[0].currgerIndex, true);
   }
 
-
   changeTab(active, shit) {
     this.catId = null;
-    this.catList = []
+    this.catList = [];
     this.page = 0;
     // shit 立刻检测  通常进来时不检测
     if (
@@ -1332,13 +1336,13 @@ let b =  this.indexList.filter((item,index)=>{
 
     this.active = active;
 
-
-    if(active != "-1" && this.indexList[active] && this.indexList[active].catId)
-      {
-   this.two_menu(active);
-     }
-
-
+    if (
+      active != "-1" &&
+      this.indexList[active] &&
+      this.indexList[active].catId
+    ) {
+      this.two_menu(active);
+    }
 
     if (active != "-1" && !this.indexList[active].children) {
       Vue.prototype.$reqFormPost1(
@@ -1362,20 +1366,20 @@ let b =  this.indexList.filter((item,index)=>{
               }
             }
           });
-        console.log(res.data);
+          console.log(res.data);
           (<any>Object).assign(this.indexList[active], {
             children: res.data
           });
           this.indexList.push();
         }
       );
-    } 
+    }
   }
 
   pageSize = 12;
   page = 0;
   total = 0;
-    onPageChange(page) {
+  onPageChange(page) {
     this.page = page - 1;
     this.getproductList(this.catId);
   }
@@ -1393,24 +1397,24 @@ let b =  this.indexList.filter((item,index)=>{
           return;
         }
         this.catList = res.data;
-   // 取第一个 id的详情 
-        if(this.catList.length>0){
-        let a =0
-          if(this.$route.query.secCatId){
-              this.catList.forEach((item,index)=>{
-                if(item.catId==this.$route.query.secCatId){
-                  a=index
-                  return false
-                }
-              })
+        // 取第一个 id的详情
+        if (this.catList.length > 0) {
+          let a = 0;
+          if (this.$route.query.secCatId) {
+            this.catList.forEach((item, index) => {
+              if (item.catId == this.$route.query.secCatId) {
+                a = index;
+                return false;
+              }
+            });
           }
           this.catId = this.catList[a].catId;
           this.catName = this.catList[a].catName;
-          this.getproductList(this.catList[a].catId)
-        }else{
-          this.catId = this.indexList[active].catId
-          this.catName = "商品列表"
-          this.getproductList(this.indexList[active].catId)
+          this.getproductList(this.catList[a].catId);
+        } else {
+          this.catId = this.indexList[active].catId;
+          this.catName = "商品列表";
+          this.getproductList(this.indexList[active].catId);
         }
       }
     );
@@ -1425,26 +1429,23 @@ let b =  this.indexList.filter((item,index)=>{
       }
 
       this.indexList = res.data;
-  this.indexList.forEach((item,index)=>{
-    // this.indexList.push(item)
-if(item.catId){
-       this.two_menu1(index,item.catId);
-    }
-  })
-      if(this.$route.query.catId && this.$route.path=='/'){
-        this.indexList.forEach((item,index)=>{
-          if(this.$route.query.catId == item.catId){
-              this.active =index.toString();
-                   this.changeTab(this.active, true);
+      this.indexList.forEach((item, index) => {
+        // this.indexList.push(item)
+        if (item.catId) {
+          this.two_menu1(index, item.catId);
+        }
+      });
+      if (this.$route.query.catId && this.$route.path == "/") {
+        this.indexList.forEach((item, index) => {
+          if (this.$route.query.catId == item.catId) {
+            this.active = index.toString();
+            this.changeTab(this.active, true);
           }
-        })
-      }else if (this.indexList.length > 0) {
+        });
+      } else if (this.indexList.length > 0) {
         this.changeTab(this.active, true);
       }
-
     });
-
-
   }
   cartList = [];
   getNumber(cartList = []) {
@@ -1457,7 +1458,7 @@ if(item.catId){
   cartLen = "0";
   totalMoney = 0;
   getCartList() {
-    this.cartList = []
+    this.cartList = [];
 
     Vue.prototype.$reqFormPost1(
       "/shop/cart/query",
@@ -1477,11 +1478,9 @@ if(item.catId){
         this.cartLen = this.getNumber(res.data.carts);
 
         this.$emit("getCartList");
-
       }
     );
   }
-
 
   queryuserinfo() {
     Vue.prototype.$reqFormPost1(
@@ -1499,11 +1498,10 @@ if(item.catId){
         }
         sessionStorage.userInfo = JSON.stringify(res.data);
         this.userInfo = res.data;
-        if(this.$route.path =='/center'){
-     let a :any = window
-a.getUserInfo();
-}
-
+        if (this.$route.path == "/center") {
+          let a: any = window;
+          a.getUserInfo();
+        }
       }
     );
   }
@@ -1548,7 +1546,7 @@ a.getUserInfo();
     );
   }
   clearSearch(item) {
-    this.removeByValue( this.stockpile ,item);
+    this.removeByValue(this.stockpile, item);
     localStorage.filterValue = JSON.stringify(this.stockpile);
   }
   removeByValue(arr, val) {
@@ -1559,43 +1557,39 @@ a.getUserInfo();
       }
     }
   }
-  checKeyword(keyword){
-    this.keyword = keyword
+  checKeyword(keyword) {
+    this.keyword = keyword;
   }
-  doSelect(keyword,cookie) {
+  doSelect(keyword, cookie) {
     // console.log('搜索开始')
     if (keyword == "") {
       return;
     }
 
-    if(cookie){this.stockpile || [];
-    if (this.stockpile.length > 2) {
-      this.removeByValue(
-        this.stockpile,
-        this.stockpile[this.stockpile.length - 1]
-      );
-    }
-
- this.stockpile.forEach((item,index)=>{
-    if(item.value ==  keyword){
+    if (cookie) {
+      this.stockpile || [];
+      if (this.stockpile.length > 2) {
         this.removeByValue(
-        this.stockpile,
-        item
-      );
+          this.stockpile,
+          this.stockpile[this.stockpile.length - 1]
+        );
+      }
+
+      this.stockpile.forEach((item, index) => {
+        if (item.value == keyword) {
+          this.removeByValue(this.stockpile, item);
+        }
+      });
+
+      this.stockpile.unshift({ value: keyword });
+      localStorage.filterValue = JSON.stringify(this.stockpile);
     }
-})
-
-    this.stockpile.unshift({ value: keyword });
-    localStorage.filterValue = JSON.stringify(this.stockpile);
-
-}
 
     if (this.$route.path == "/productclassify") {
-      this.keyword = keyword
+      this.keyword = keyword;
       this.$emit("filterproduct");
       return;
     }
-
 
     sessionStorage.keyword = keyword;
     this.$router.push({
@@ -1604,52 +1598,74 @@ a.getUserInfo();
         type: "filter"
       }
     });
-      this.$emit("filterproduct");
-   
-    
+    this.$emit("filterproduct");
   }
   searchBarFixed = false;
   //监听header滚动固定
-  handleScrollHead () {
-    var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-    
-    console.log(document.querySelector('#searchBar'))
-    var offsetTop = document.querySelector('#searchBar')['offsetTop']
-    console.log(scrollTop)
-    
+  handleScrollHead() {
+    var scrollTop =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop;
+
+    console.log(document.querySelector("#searchBar"));
+    var offsetTop = document.querySelector("#searchBar")["offsetTop"];
+    console.log(scrollTop);
+
     if (scrollTop > offsetTop) {
-    this.searchBarFixed = true
+      this.searchBarFixed = true;
     } else {
-    this.searchBarFixed = false
+      this.searchBarFixed = false;
     }
   }
+  innerWidth = 0;
+  carousel = "";
+  changeSize() {
+    if (window.innerWidth > 1200) {
+      this.carousel = "100vw";
+      this.innerWidth = (window.innerWidth - 1200) / 2;
+    } else {
+      this.innerWidth = 0;
+      this.carousel = "1200px";
+    }
+  }
+  goodsDetailCatId = "-1";
+  goodsDetailSelect(catId) {
+    this.goodsDetailCatId = catId;
+  }
   mounted() {
+    let self = this;
+    self.changeSize();
 
-//     var mySwiper = new Swiper('.swiper-container',{
-// slidesPerView : 'auto',
-//  loop : false,
-// autoplay: {
-//     delay: 100000000,//1秒切换一次
-//   },
-// })
+    //当浏览器窗口大小改变时，设置显示内容的高度
+    window.onresize = function() {
+      self.changeSize();
+    };
 
+    //     var mySwiper = new Swiper('.swiper-container',{
+    // slidesPerView : 'auto',
+    //  loop : false,
+    // autoplay: {
+    //     delay: 100000000,//1秒切换一次
+    //   },
+    // })
 
+    window["changeLoginModel"] = () => {
+      this.changeLoginModel("login");
+    };
+    window["goodsDetailSelect"] = catId => {
+      this.goodsDetailSelect(catId);
+    };
+    window["loginOut"] = () => {
+      this.loginOut();
+    };
+    window["queryuserinfo"] = () => {
+      this.queryuserinfo();
+    };
 
-    window['changeLoginModel'] = ()=>{
-      this.changeLoginModel('login')
-    }
-    window['loginOut'] = ()=>{
-      this.loginOut()
-    }
-    window['queryuserinfo'] = ()=>{
-      this.queryuserinfo()
-    }
-
-    window['getMessageCount'] = ()=>{
+    window["getMessageCount"] = () => {
       this.getMessageCount();
-    }
-
-
+    };
 
     if (localStorage.filterValue) {
       this.stockpile = JSON.parse(localStorage.filterValue);
@@ -1658,7 +1674,7 @@ a.getUserInfo();
     window.addEventListener("scroll", this.handleScroll);
     //监听header滚动固定
     window.addEventListener("scroll", this.handleScrollHead);
-    
+
     this.table ? (this.active = "-1") : "";
     (this.$route.params.active || "") != ""
       ? (this.active = this.$route.params.active)
@@ -1682,20 +1698,17 @@ a.getUserInfo();
     ) {
       this.getCartList();
       this.queryuserinfo();
-    this.getMessageCount();
+      this.getMessageCount();
     }
     this.gethotword();
-
-
- 
-
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .index_headline .user_img {
-  color:#f4c542!important;font-size: 36px;
+  color: #f4c542 !important;
+  font-size: 36px;
 }
 .user_img img {
   width: 30px;
@@ -1728,7 +1741,8 @@ a.getUserInfo();
   }
   // 二维码
   .icon_code {
-    padding: 20px 15px;text-align: center;
+    padding: 20px 15px;
+    text-align: center;
     box-shadow: 2px 5px 19px #888888;
     background: #fff;
     position: absolute;
@@ -1804,7 +1818,7 @@ a.getUserInfo();
   text-align: center;
   cursor: pointer;
 }
-.contentBox span:hover{
+.contentBox span:hover {
   color: #f4c542;
 }
 //消息样式
@@ -1853,11 +1867,11 @@ a.getUserInfo();
   display: flex;
   // flex-wrap: wrap;
   padding: 10px 5px;
-  border-bottom:10px solid #f5f5f5;
+  border-bottom: 10px solid #f5f5f5;
   // justify-content: space-evenly;
-  position:relative;
+  position: relative;
 }
-.goodsBody>div{
+.goodsBody > div {
   cursor: pointer;
 }
 .goodsItem {
@@ -1889,12 +1903,12 @@ a.getUserInfo();
   padding: 0;
   cursor: pointer;
 }
-.two_classifyFexid{
-  background: rgba(255,255,255, 0.8)!important;
-        position: absolute;
-    bottom: -100px;
-    z-index: 100;
-    left:0;
+.two_classifyFexid {
+  background: rgba(255, 255, 255, 0.8) !important;
+  position: absolute;
+  bottom: -100px;
+  z-index: 100;
+  left: 0;
 }
 .two_classify {
   width: 100%;
@@ -1951,7 +1965,7 @@ a.getUserInfo();
 .hotwordItem1 {
   font-size: 14px;
   line-height: 30px;
-  padding-left:15px;
+  padding-left: 15px;
 }
 //定制推荐
 .recommend_list {
@@ -1959,7 +1973,7 @@ a.getUserInfo();
   width: 370px;
   margin-right: 15px;
   border: 1px solid #ededed;
-  
+
   .shop_img {
     border: none;
     margin-bottom: 12px;
@@ -1982,8 +1996,8 @@ a.getUserInfo();
     }
   }
 }
-.second_list{
-  border:none;
+.second_list {
+  border: none;
 }
 .second_list > div {
   border: 1px solid #ededed;
@@ -1997,7 +2011,7 @@ a.getUserInfo();
       font-size: 12px;
     }
   }
-  .shop_img>img{
+  .shop_img > img {
     height: 165px;
   }
   .shop_details {
@@ -2029,7 +2043,7 @@ a.getUserInfo();
       height: 38px;
     }
   }
-  
+
   h4 {
     height: 54px;
     line-height: 54px;
@@ -2041,13 +2055,12 @@ a.getUserInfo();
     padding: 0 5px;
   }
 }
-.shop_img>img {
-    width: 100%;
-    height: 230px;
-  }
+.shop_img > img {
+  width: 100%;
+  height: 230px;
+}
 .shop_details {
   div {
-    margin-bottom: 12px;
     span {
       display: inline-block;
       width: 40px;
@@ -2072,16 +2085,21 @@ a.getUserInfo();
   white-space: nowrap;
   overflow: hidden;
 }
-.textLabel:hover{
-  color:#f4c542;
+.textLabel:hover {
+  color: #f4c542;
 }
-.recommend_list div:nth-of-type(2){
-  margin-bottom:0;
+.recommend_list div:nth-of-type(2) {
+  margin-bottom: 0;
 }
-.more{
-  position: absolute;right:30px;color: #333;cursor:pointer;z-index: 2;top:-65px;
+.more {
+  position: absolute;
+  right: 30px;
+  color: #333;
+  cursor: pointer;
+  z-index: 2;
+  top: -65px;
 }
-.more:hover{
+.more:hover {
   color: #f4c542;
 }
 //新品推荐
@@ -2091,9 +2109,9 @@ a.getUserInfo();
   transform: scale(1);
   -ms-transform: scale(1);
   -webkit-transition: -webkit-transform 0.4s;
-  transition: transform .4s;
+  transition: transform 0.4s;
 }
-.collImg_none:hover{
+.collImg_none:hover {
   -webkit-transform: scale(1.2);
   transform: scale(1.2);
   -ms-transform: scale(1.2);
@@ -2106,44 +2124,41 @@ a.getUserInfo();
   transform: scale(1);
   -ms-transform: scale(1);
   -webkit-transition: -webkit-transform 0.4s;
-  transition: transform .4s;
+  transition: transform 0.4s;
 }
-.collImg:hover{
-  box-shadow:0px 0px 8px 3px #F3F3F3;
-  border:1px solid #FFCF63;
+.collImg:hover {
+  box-shadow: 0px 0px 8px 3px #f3f3f3;
+  border: 1px solid #ffcf63;
   -webkit-transform: scale(1.04);
   transform: scale(1.04);
   -ms-transform: scale(1.04);
 }
 
 //头部导航固定
-.isFixed{
-    position:fixed;
-    background-color:#Fff;
-    top:0;
-    z-index:999;
-    left:200px;
-  }
+.isFixed {
+  position: fixed;
+  background-color: #fff;
+  top: 0;
+  z-index: 999;
+  left: 200px;
+}
 
-  .shop_list {
+.shop_list {
   margin-top: 10px;
   ul {
     overflow: hidden;
-    margin-bottom: 20px;
     padding: 20px 0;
-    padding-left:9px;
+    padding-left: 9px;
     li {
       width: 255px;
       border-radius: 4px;
       float: left;
       margin-right: 20px;
       cursor: pointer;
-      margin-bottom: 20px;
+      margin-bottom:10px;
       .shop_img {
         // overflow: hidden;
-        
         border-radius: 4px;
-        margin-bottom: 20px;
         position: relative;
         // 热卖
         .hot {
@@ -2160,18 +2175,18 @@ a.getUserInfo();
           height: 230px;
         }
         h4 {
-          height: 54px;
-          line-height: 54px;
+          height: 48px;
+          line-height: 48px;
           background: #eff1f1;
           text-align: center;
-          font-size: 22px;
+          font-size: 19px;
           color: #a3a3a3;
           width: 100%;
         }
       }
       .shop_details {
         div {
-          margin-bottom: 12px;
+
           span {
             display: inline-block;
             width: 40px;
@@ -2188,7 +2203,7 @@ a.getUserInfo();
           margin-bottom: 8px;
         }
         p {
-          font-size: 16px;
+          font-size: 18px;
         }
       }
     }
@@ -2200,9 +2215,9 @@ a.getUserInfo();
   }
 }
 .classify_shop {
-  padding:30px;
-  border:1px #e5e5e5 solid;
-  margin-bottom:20px;
+  padding: 30px;
+  border: 1px #e5e5e5 solid;
+  margin-bottom: 20px;
   .classify_top {
     div {
       color: #a8a8a8;
@@ -2228,7 +2243,6 @@ a.getUserInfo();
       }
     }
     div:nth-of-type(2) {
-   
       span:hover {
         color: #f4c542;
       }
@@ -2238,7 +2252,7 @@ a.getUserInfo();
 //商品分类
 
 .classify_shop {
-  margin:20px 0;
+  margin: 20px 0;
   .classify_top {
     div {
       color: #a8a8a8;
@@ -2264,37 +2278,43 @@ a.getUserInfo();
       }
     }
     div:nth-of-type(2) {
-     
       span:hover {
         color: #f4c542;
       }
     }
   }
 }
-.classifyTitle{
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
+.classifyTitle {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 28px;
+  padding: 30px 0;
+  height: auto;
+  h5 {
+    color: #333;
     font-size: 28px;
-    padding: 30px 0;
-    height:auto;
-    h5{
-      color:#333;font-size:28px;font-weight: normal;
-    }
-    p{
-      font-size:20px;
-    }
-}
-  .headerTitle:hover{
-    cursor: pointer;
+    font-weight: normal;
   }
-.searchList{
-  width: 100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;cursor: pointer;line-height:30px;
-  padding-left:15px;
+  p {
+    font-size: 20px;
+  }
 }
-.searchList:hover{
-  background:#f2f2f2;
+.headerTitle:hover {
+  cursor: pointer;
 }
-.swiperPic{
+.searchList {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  line-height: 30px;
+  padding-left: 15px;
+}
+.searchList:hover {
+  background: #f2f2f2;
+}
+.swiperPic {
   position: absolute;
 }
 
@@ -2302,25 +2322,26 @@ a.getUserInfo();
 
 .swiper-slide {
   width: 200px !important;
-  height:100px;
+  height: 100px;
 }
-.scorell{
-
+.scorell {
 }
-.scorell::-webkit-scrollbar {/*滚动条整体样式*/
-            width: 4px;    /*高宽分别对应横竖滚动条的尺寸*/
-            height: 6px; 
-            background: rgba(0,0,0,0.1);
-        }
-        .scorell::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-            border-radius: 5px;
-            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            background: rgba(0,0,0,0.2);
-        }
-        .scorell::-webkit-scrollbar-track {/*滚动条里面轨道*/
-            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            border-radius: 0;
-            background: rgba(0,0,0,0.1);
-        }
-
+.scorell::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.scorell::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+.scorell::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
 </style>

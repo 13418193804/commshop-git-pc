@@ -293,10 +293,7 @@ export default class shopIndex extends Vue {
 .vangoods {
   position: inherit;
 }
-.num_box {
-  font-size: 16px;
-  padding: 20px;
-}
+
 
 @keyframes myfirst0001 {
   from {

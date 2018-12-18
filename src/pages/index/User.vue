@@ -8,7 +8,12 @@
   <div class="user_tab" v-if="user_active == '0'">
       <div class="flex flex-align-center" style="padding:18px 0;margin:0 20px;">
           <div style="font-size:15px;padding:0 20px;width:140px">用户头像：</div>
-          <img v-lazy="userInfo.userIcon" style="width:50px;height:50px;    border-radius: 60px;" @click="clickLogo()"/>
+        <div style="position: relative;width:70px;height:70px;cursor: pointer;"  @click="clickLogo()">
+          <img v-lazy="userInfo.userIcon" style="width:70px;height:70px;border-radius: 60px;"/>
+          <img src="../../assets/image/carame.png" style="    position: absolute;
+    right: 0;
+    bottom: 0;"/>
+        </div>
           <input type="file" ref="logo" @change="changeLogo" style="display:none"/>
       </div>
       <div class="flex flex-align-center" style="padding:18px 0;margin:0 20px;">
@@ -83,71 +88,76 @@ export default class User extends Vue {
   userInfo = {};
   user_active = "0";
   radio = "男";
-  clickLogo(){
-    let a:any = this.$refs['logo']
-     a.click();
+  clickLogo() {
+    if ((<any>this.$refs.logo).files.length == 0) {
+    } else {
+      (<any>this.$refs.logo).value = "";
+    }
+    (<any>this.$refs.logo).click();
   }
-  userSwitchover(user_active){
-    this.user_active = user_active
+  userSwitchover(user_active) {
+    this.user_active = user_active;
   }
-  oldPassword = ''
-  newPassword = ''
-  renewPassword = ''
-  recPassword(){
-       if (this.oldPassword == "") {
-         this["$Message"].warning('请输入原密码');
+  oldPassword = "";
+  newPassword = "";
+  renewPassword = "";
+  recPassword() {
+    if (this.oldPassword == "") {
+      this["$Message"].warning("请输入原密码");
       return;
     }
 
     if (this.newPassword == "") {
-         this["$Message"].warning('新密码不能为空');
+      this["$Message"].warning("新密码不能为空");
       return;
     }
-      if (this.newPassword.length<6) {
-         this["$Message"].warning('新密码长度不能小于6位');
+    if (this.newPassword.length < 6) {
+      this["$Message"].warning("新密码长度不能小于6位");
       return;
     }
-    if (this.renewPassword !== this.renewPassword ) {
-         this["$Message"].warning('两次输入密码不一致');      
+    if (this.renewPassword !== this.renewPassword) {
+      this["$Message"].warning("两次输入密码不一致");
       return;
     }
     Vue.prototype.$reqFormPost1(
-        "/user/password/update",
-        {
-          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .userId,
-          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .token,
-            // oldPassword:this.oldPassword,
-            oldPassword:require('crypto').createHash('md5').update(this.oldPassword).digest('hex'),
-            newPassword:require('crypto').createHash('md5').update(this.newPassword).digest('hex'),
-        },
-        res => {
-          if (res.returnCode != 200) {
-            this["$Message"].warning(res.message);
-            return;
-          }
-          this["$Message"].success('保存成功');
-          this.userInfo = res.data;
-          this.queryuserinfo();
-          console.log(res.data);
-        }
-    );
-  }
-
-  changeLogo(){
-   let a:any = this.$refs.logo;
-    let form = new FormData();
-    form.append('file',a.files[0])
-    Vue.prototype.$reqFormUpload(
-      "/fileupload",
-      form,
+      "/user/password/update",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        // oldPassword:this.oldPassword,
+        oldPassword: require("crypto")
+          .createHash("md5")
+          .update(this.oldPassword)
+          .digest("hex"),
+        newPassword: require("crypto")
+          .createHash("md5")
+          .update(this.newPassword)
+          .digest("hex")
+      },
       res => {
-      this.userInfo['userIcon'] = res.data.data.filename
+        if (res.returnCode != 200) {
+          this["$Message"].warning(res.message);
+          return;
+        }
+        this["$Message"].success("保存成功");
+        this.userInfo = res.data;
+        this.queryuserinfo();
+        console.log(res.data);
       }
     );
   }
-  
+
+  changeLogo() {
+    let a: any = this.$refs.logo;
+    let form = new FormData();
+    form.append("file", a.files[0]);
+    Vue.prototype.$reqFormUpload("/fileupload", form, res => {
+      this.userInfo["userIcon"] = res.data.data.filename;
+    });
+  }
+
   queryuserinfo() {
     Vue.prototype.$reqFormPost1(
       "/user/query",
@@ -159,43 +169,42 @@ export default class User extends Vue {
       },
       res => {
         if (res.returnCode != 200) {
-     this["$Message"].warning(res.message);
-        return;
+          this["$Message"].warning(res.message);
+          return;
         }
- 
+
         this.userInfo = res.data;
-        this.radio = this.userInfo['sex']
-        let a:any = window
-        a.queryuserinfo()
+        this.radio = this.userInfo["sex"];
+        let a: any = window;
+        a.queryuserinfo();
       }
     );
   }
 
-  doUpdate(){
+  doUpdate() {
     Vue.prototype.$reqFormPost1(
-        "/user/update",
-        {
-          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .userId,
-          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-            .token,
-            userIcon:this.userInfo['userIcon'],
-            sex:this.radio,
-            nickName:this.userInfo['nickName']
-        },
-        res => {
-          if (res.returnCode != 200) {
-            this["$Message"].warning(res.message);
-            return;
-          }
-          this["$Message"].success('保存成功');
-          this.userInfo = res.data;
-          this.queryuserinfo();
+      "/user/update",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        userIcon: this.userInfo["userIcon"],
+        sex: this.radio,
+        nickName: this.userInfo["nickName"]
+      },
+      res => {
+        if (res.returnCode != 200) {
+          this["$Message"].warning(res.message);
+          return;
         }
-      );
+        this["$Message"].success("保存成功");
+        this.userInfo = res.data;
+        this.queryuserinfo();
+      }
+    );
   }
   mounted() {
-
     this.queryuserinfo();
   }
 }
@@ -203,18 +212,18 @@ export default class User extends Vue {
 
 <style lang="scss" scoped>
 @import "../../style/utils.scss";
-.taber{
+.taber {
   line-height: 40px;
-  padding:0 30px;
+  padding: 0 30px;
   cursor: pointer;
 }
-.selecttaber{
-  border-bottom:3px #ffc630 solid;
-  background-color:#fff;
+.selecttaber {
+  border-bottom: 3px #ffc630 solid;
+  background-color: #fff;
   box-sizing: border-box;
-  color:#ffc630;
+  color: #ffc630;
 }
-.user_tab input{
-  height:35px;
+.user_tab input {
+  height: 35px;
 }
 </style>

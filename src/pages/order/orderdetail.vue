@@ -52,8 +52,8 @@
 
 
       <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_SENDGOODS'">
-      <van-button v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND'&& detail.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;cursor: pointer;" :style="formatButtonColor()" @click="cancelRefund()">取消退款</van-button>
-      <van-button v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'|| detail.detailList[0].refundStatus == 'FAIL_REFUND' " size="small" style="margin-right:10px;cursor: pointer;" :style="formatButtonColor()" @click="doRefund()">申请退款</van-button>
+      <van-button v-if="detail.goodsType === 'RETAIL' && detail.detailList[0].refundStatus == 'APPLY_REFUND'&& detail.detailList[0].refundStatus !== 'FAIL_REFUND'" size="small" style="margin-right:10px;cursor: pointer;" :style="formatButtonColor()" @click="cancelRefund()">取消退款</van-button>
+      <van-button v-if=" detail.goodsType === 'RETAIL' &&  detail.detailList[0].refundStatus == 'WITHOUT_REFUND'|| detail.detailList[0].refundStatus == 'FAIL_REFUND' " size="small" style="margin-right:10px;cursor: pointer;" :style="formatButtonColor()" @click="doRefund()">申请退款</van-button>
     </div>
 
       <!-- <van-button v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND' && detail.orderStatus !== 'ORDER_CANCEL_PAY' " size="small" style="margin-right:10px;" :style="formatButtonColor()" @click="doRefund()">申请退款</van-button> -->
@@ -62,7 +62,7 @@
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_RECVGOODS'">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'  || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
       <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="getShip()">查看物流</van-button>
-      <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="doRefund(item)">退货/退款</van-button>
+      <van-button size="small" style="margin-right:10px;cursor: pointer;" @click.stop="doRefund(item)" v-if="detail.goodsType === 'RETAIL'">退货/退款</van-button>
       <van-button size="small" style="margin-right:10px;cursor: pointer;"  :style="formatButtonColor()" @click.stop="recvgoods(detail.orderId,detail)">确认收货</van-button>
         </div>
         <div v-if="detail.detailList[0].refundStatus == 'APPLY_REFUND'&& detail.detailList[0].refundStatus !== 'FAIL_REFUND'">
@@ -82,8 +82,8 @@
 
      <div class="settingBody" v-if="detail.orderStatus === 'ORDER_WAIT_REVIEW' ||detail.orderStatus === 'ORDER_FINISH'">
         <div  v-if="detail.detailList[0].refundStatus == 'WITHOUT_REFUND'  || detail.detailList[0].refundStatus == 'FAIL_REFUND' ">
-      <van-button size="small" style="margin-right:10px;cursor: pointer;" :style="formatButtonColor()" @click.stop="buyAgain(detail.orderId)">再次购买</van-button>
-      <van-button size="small" style="margin-right:10px;cursor: pointer;" v-if="detail.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</van-button>
+      <van-button size="small" style="margin-right:10px;cursor: pointer;" :style="formatButtonColor()" @click.stop="buyAgain(detail.orderId)" v-if="detail.goodsType === 'RETAIL'">再次购买</van-button>
+      <van-button size="small" style="margin-right:10px;cursor: pointer;" v-if="detail.goodsType === 'RETAIL' && detail.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</van-button>
       <van-button size="small" style="margin-right:10px;cursor: pointer;" v-if="detail.orderStatus === 'ORDER_WAIT_REVIEW'" :style="formatButtonColor()" @click.stop="gocomment()">评价商品</van-button>
     </div>
 
@@ -151,7 +151,9 @@
          </div>
        </div>
 <div>
-<span class="" style="font-size:20">￥{{item.goodsPrice}}</span>
+<span class="" style="font-size:20">  
+    <span v-if="detail.goodsType === 'RETAIL'">￥</span>{{item.goodsPrice}}<span v-if="detail.goodsType === 'SCORE'">积分</span>
+    </span>
 </div>
 <div style="">
   {{item.goodsNum}}
@@ -159,7 +161,10 @@
 
 
 <div>
-  <span class="marketPrice" style="font-size:20">￥{{(item.goodsPrice * item.goodsNum).toFixed(2)}}</span>
+  <span class="marketPrice" style="font-size:20">
+      <span v-if="detail.goodsType === 'RETAIL'">￥</span>
+                   {{(item.goodsPrice * item.goodsNum).toFixed(2)}}
+                  <span v-if="detail.goodsType === 'SCORE'">积分</span></span>
 </div>
     </div>
     
@@ -174,16 +179,26 @@
 
 <div class="flex flex-pack-justify" style="margin-left:10px;padding:5px 10px;">
                 <div>商品合计：</div>
-                <div style="margin-right:10px;">￥{{detail.goodsPrice.toFixed(2)}}</div>
+                <div style="margin-right:10px;">
+                       <span v-if="detail.goodsType === 'RETAIL'">￥</span>
+             {{detail.goodsPrice.toFixed(2)}}
+                  <span v-if="detail.goodsType === 'SCORE'">积分</span>
+                  </div>
         </div>
         <div class="flex flex-pack-justify" style="margin-left:10px;padding:5px 10px;">
                 <div>运费：</div>
-                <div style="margin-right:10px;">￥{{detail.transportPrice.toFixed(2)}}</div>
+                <div style="margin-right:10px;">
+               {{detail.transportPrice.toFixed(2)}}
+                  </div>
         </div>
 
       <div class="flex flex-pack-justify" style="margin:0 0 0 10px;padding:5px 10px;">
                 <div>总计：</div>
-                <div style="margin-right:10px;" class="marketPrice">￥{{detail.orderTotalPrice.toFixed(2)}}</div>
+                <div style="margin-right:10px;" class="marketPrice">
+                         <span v-if="detail.goodsType === 'RETAIL'">￥</span>
+      {{detail.orderTotalPrice.toFixed(2)}}
+                  <span v-if="detail.goodsType === 'SCORE'">积分</span>
+                  </div>
         </div>
     </div>
 
@@ -203,6 +218,10 @@
     
  <div v-if="detail.shipTime" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
        <div style="    text-align: left;margin-left: 44px;"> 发货时间：</div>{{detail.shipTime}}
+    </div>
+        
+ <div v-if="detail.recvGoodsTime" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
+       <div style="    text-align: left;margin-left: 44px;"> 确认收货时间：</div>{{detail.recvGoodsTime}}
     </div>
     
  <div v-if="detail.detailList[0].refundOrderList[0]" style="border-bottom: 1px #eee dashed;margin:10px 0;padding:10px 0;" class="flex">
@@ -275,32 +294,24 @@ import { Toast, Dialog } from "vant";
 import ship from "../index/ship.vue";
 
 @Component({
-  components: { 
+  components: {
     logistics,
     reimburse,
     ship
-   },
+  },
   mixins: [mixin]
 })
 export default class orderdetail extends Vue {
   orderId = "";
   detail = {};
- orderItem = {};
+  orderItem = {};
 
- //填写物流
- shipGet(){
-
-
-
-
-
-       //  refundId: this.detail["detailList"][0].refundOrderList[0].refundId
-
-
+  //填写物流
+  shipGet() {
+    //  refundId: this.detail["detailList"][0].refundOrderList[0].refundId
   }
 
   inputTransNo() {
-    
     console.log("填写单号");
     // this.$router.push({
     //   name: "refundbackgoods",
@@ -309,21 +320,17 @@ export default class orderdetail extends Vue {
     //   }
     // });
 
-  
-    let a : any = this.$refs.logistics
-        a.wl_model = true
-        a.form.refundId = this.detail["detailList"][0].refundOrderList[0].refundId
-
+    let a: any = this.$refs.logistics;
+    a.wl_model = true;
+    a.form.refundId = this.detail["detailList"][0].refundOrderList[0].refundId;
   }
- 
-   //查看物流信息
+
+  //查看物流信息
   getShip() {
-    let e : any = this.$refs.ship
-    e.ship_model = true
-    e.getShipInfoList(
-      this.detail['transportNo'],this.detail['transportCode']
-    );
-     console.log('触发')
+    let e: any = this.$refs.ship;
+    e.ship_model = true;
+    e.getShipInfoList(this.detail["transportNo"], this.detail["transportCode"]);
+    console.log("触发");
   }
   formatButtonColor() {
     return "border-color:#ffc630;color:#ffc630";
@@ -362,7 +369,7 @@ export default class orderdetail extends Vue {
       }
     );
   }
-  recvgoods(orderId,ORDER_WAIT_REVIEW) {
+  recvgoods(orderId, ORDER_WAIT_REVIEW) {
     Dialog.confirm({
       title: "提示",
       message: "确认收货?"
@@ -395,7 +402,7 @@ export default class orderdetail extends Vue {
               return;
             }
             this.$router.push({
-                name: "orderlist",
+              name: "orderlist"
             });
 
             // add(ORDER_WAIT_REVIEW){
@@ -574,53 +581,47 @@ export default class orderdetail extends Vue {
     );
   }
 
-  doRefund(){
-    this.orderItem =  this.detail
-    let a : any = this.$refs.reimburse
-    a.model = true
+  doRefund() {
+    this.orderItem = this.detail;
+    let a: any = this.$refs.reimburse;
+    a.model = true;
   }
   //doRefund() {
-    
-    // this.$router.push({
-    //   name: "refund",
-    //   query: {
-    //     orderId: this.detail["orderId"]
-    //   }
-    // });
+
+  // this.$router.push({
+  //   name: "refund",
+  //   query: {
+  //     orderId: this.detail["orderId"]
+  //   }
+  // });
   //}
 
   payOrder() {
-
     this.$router.push({
       name: "pay",
       query: {
-     orderId: this.detail['orderId'],
+        orderId: this.detail["orderId"],
         body: this.detail["orderTitle"],
         payId: this.detail["payNo"],
         payTotal: this.detail["payTotal"],
-     createTime:this.detail['createTime']
+        createTime: this.detail["createTime"]
       },
-      params:{
-      }
+      params: {}
     });
   }
   mounted() {
-
     this.orderId = this.$route.query.orderId;
     this.queryDetail();
 
-        this.$emit('selectMenu',{
-      name: '我的订单',
-      url:'/orderdetail',
-    })
-    setTimeout(
-        ()=>{
-          let a:any = window
-a.getMessageCount()
-this.$emit('getMessageCount');
-        },
-    1000)
-
+    this.$emit("selectMenu", {
+      name: "我的订单",
+      url: "/orderdetail"
+    });
+    setTimeout(() => {
+      let a: any = window;
+      a.getMessageCount();
+      this.$emit("getMessageCount");
+    }, 1000);
   }
 }
 </script>
@@ -635,9 +636,9 @@ this.$emit('getMessageCount');
   padding: 10px;
   background-color: #fff;
 }
-.xuxian{
-     border-bottom: 1px #eee dashed;
-     padding:10px 0;
+.xuxian {
+  border-bottom: 1px #eee dashed;
+  padding: 10px 0;
 }
 </style>
 

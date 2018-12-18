@@ -210,12 +210,6 @@ export default class shopIndex extends Vue {
   max-width: 100px;
 }
 
-.num_box {
-  font-size: 16px;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-}
 </style>
 
 

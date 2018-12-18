@@ -3,32 +3,54 @@
 
 
     <div style="padding: 30px 15px;" >
-      <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
+
+      
+      <!-- <el-row :gutter="10" type="flex" justify="start" class="flex-warp-justify">
       <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6"  v-for="(item,index) in goodsList" :key="index" 
-      >
-        <div class="flex flex-align-center" style="width:200px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"  
+      > -->
+ <div class="flex flex-align-center flex-warp-justify"
+        > 
+            <div v-for="(item,index) in goodsList" :key="index" >
+
+
+        <div class="flex flex-align-center" style="width:250px;margin:10px;" @mouseover="over(index)"  @mouseout="out(index)"  
         > 
         <!-- <div class="flex flex-align-center" style="width:200px;margin:10px;"  
         >  -->
-          <div style="position: relative;"  @click="goProductDetail(item.goodsId)">
+          <div style="position: relative;width: 100%;"  @click="goProductDetail(item.goodsId)">
             <div v-if="index==classindex"  style="z-index: 2;position: absolute;top:-10px;right:-20px;">
               <img src="../../assets/image/删除按钮.png" style="width:30px;height:30px;cursor: pointer;" @click.stop="favdelete(item)"/>
             </div>
             <div  class="flex flex-v flex-pack-center collImg">
+              <div style="    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 300px;
+    width: 100%;">
               <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;vertical-align: middle;"/>
-              <div style="width:200px;text-align: center;overflow: hidden;color:#a3a3a3;font-size:16px;text-overflow: ellipsis;white-space: nowrap;height:40px;line-height:45px;background: hsla(0,0%,81%,.3);">{{item.jingle}}</div>
+              </div>
+              <div style="width:100%;text-align: center;overflow: hidden;color:#a3a3a3;font-size:16px;text-overflow: ellipsis;white-space: nowrap;height:40px;line-height:45px;background: hsla(0,0%,81%,.3);">{{item.jingle}}</div>
             </div>
-            <div><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
-            <div> <span class="textLabel marketPrice" >￥{{item.marketPrice.toFixed(2)}}</span></div>
+            <div style="width: 100%;" class="textLabel"><span class="textLabel" style="color:#000000;font-size:15px;">{{item.goodsName}}</span></div>
+            <div style="width: 100%;" class="textLabel"> <span class="textLabel marketPrice" >
+               <span v-if="item.goodsType === 'RETAIL'">￥</span>{{item.marketPrice.toFixed(2)}}<span v-if="item.goodsType === 'SCORE'">积分</span>
+             </span></div>
           </div>
         </div>
-      </el-col>
-      <el-col>
+      <!-- </el-col> -->
+      <!-- <el-col> -->
           <div v-if="goodsList.length == 0">
               <div style="text-align:center;margin-top:50px;">暂无收藏</div>
           </div>
-        </el-col>
-    </el-row>
+
+
+    </div>
+    </div>
+
+
+        <!-- </el-col>
+    </el-row> -->
     </div>
 
 

@@ -95,8 +95,66 @@
 </div>
 </div>
 
-
 <div class=" flex   flex-pack-center ">
+       <div  style="width:1200px;">
+<table class="price_table" >
+ <!-- class="flex flex-pack-justify flex-align-center" -->
+<tr class="price_table_header">
+  <td>
+    <div style="margin-left:40px;width:80px;text-align:center">商品信息</div>
+    </td>
+  <td><div></div></td>
+  <td ><div style="text-align:center;min-width: 80px;">单价</div></td>
+  <td><div style="text-align:center;min-width: 80px;">数量</div></td>
+  <td><div style="text-align:center;min-width: 80px;">小计</div></td>
+
+</tr>
+<tr style="height:10px;"></tr>
+  <tr class="price_table_content" style="    padding: 20px;" v-for="(item,index) in shopCartList" :key="index">
+  <td style="width:100px">
+  <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:20px 10px 20px 40px;overflow:hidden;">
+       <img v-lazy="item.goodsImg.split(',')[0]" style="width:100%;border:1px solid #EAEAEA"/>
+  </div>
+  </td>
+<td style="    text-align: left;
+    padding-left: 28px;">
+        <div>
+           <span class="textLabel" style="color:#000000;font-size:15px">{{item.goodsName}}</span>
+          </div>
+         <div style="color:#666;" class="textLabel">
+     
+        <span v-if="item.skuKeyValue.length>2 ">
+<span v-for="items in JSON.parse(item.skuKeyValue)" style="margin-right:10px;">
+  <span>{{items.key}}:{{items.value}} X {{item.num}}</span>
+</span>
+        </span>
+        <span v-else>
+          X {{item.num}}
+        </span>
+         </div>
+</td>
+<td style="text-align:center;min-width: 80px;">
+  <div>
+<span class="" style="font-size:20">
+   <span v-if="goodsType === 'RETAIL'">￥</span>{{item.price.toFixed(2)}}<span v-if="goodsType === 'SCORE'">积分</span>
+  </span>
+</div>
+</td>
+<td style="text-align:center;min-width: 80px;"> {{item.num}}</td>
+<td style="text-align:center;min-width: 80px;">
+  <span class="marketPrice" style="font-size:20">
+       <span v-if="goodsType === 'RETAIL'">￥</span>{{(item.price * item.num).toFixed(2)}}<span v-if="goodsType === 'SCORE'">积分</span>
+  </span>
+</td>
+
+  </tr>
+
+</table>
+</div>
+</div>
+
+
+<!-- <div class=" flex   flex-pack-center ">
        <div  style="width:1200px;">
 <div style="width:100%;background-color:#f7f7f7;height:47px;padding:0 10px;margin-bottom:10px;" class="flex flex-pack-justify flex-align-center">
     <div style="width:70px;margin-left:40px;">商品信息</div>
@@ -106,13 +164,13 @@
     <div style="margin: 0 20px;">小计</div>
 </div>
 </div>
-</div>
+</div> -->
 
 
 <div class=" flex   flex-pack-center ">
 
 <div class="contentBox2 ">
-
+<!-- 
   
   <div class="cartItem flex  flex-align-center flex-pack-justify" style="    padding: 20px;" v-for="(item,index) in shopCartList" :key="index">
   <div class="flex flex-pack-center flex-align-center" style="width:80px;margin:0 10px 0 20px;overflow:hidden;">
@@ -134,64 +192,26 @@
          </div>
        </div>
 <div>
-<span class="" style="font-size:20">￥{{item.price.toFixed(2)}}</span>
+<span class="" style="font-size:20">
+   <span v-if="goodsType === 'RETAIL'">￥</span>{{item.price.toFixed(2)}}<span v-if="goodsType === 'SCORE'">积分</span>
+  </span>
 </div>
 <div>
   {{item.num}}
 </div>
 <div style="width:82px;"> 
-  <span class="marketPrice" style="font-size:20">￥{{(item.price * item.num).toFixed(2)}}</span>
+  <span class="marketPrice" style="font-size:20">
+       <span v-if="goodsType === 'RETAIL'">￥</span>{{(item.price * item.num).toFixed(2)}}<span v-if="goodsType === 'SCORE'">积分</span>
+  </span>
 </div>
-</div>
-
+</div> -->
   <div style="background-color:#FCFCFC; padding: 0 30px;font-size:14.8px">
-      <!-- <div class="flex flex-pack-justify" style="line-height:30px;border-bottom:1px #e5e5e5 solid;">
-          <div>
-            <div style="color:#666">配送方式</div>
-            <div>快递</div>
-          </div>
-        <div>
-            <div class="flex">
-              <div>商品合计：</div><div>￥{{totalPrice}}</div>
-            </div>
-            <div class="flex">
-              <div>运费：</div><div>{{freight}}</div>
-            </div>
-          </div>
-      </div> -->
-
-      <!-- <div>
-
-      <div style="height:40px;line-height:40px;">给卖家的话（选填） <span style="margin:0 20px;color:#999">选填内容已和卖家协商确认</span></div>
-
-      <div style="border:1px solid #e5e5e5;">
-
-        <textarea type="text" name="content"  rows="7" style="width: 100%;border:none"   
-                          ></textarea>  
-
-      </div>
-      <div style="padding:20px 0;" class="flex flex-pack-justify flex-align-center">
-
-      <div>应付金额</div>
-
-      <div class="flex flex-align-center">
-      <div style="padding:0 20px;">
-          <span style="color:red;font-size:18px;">￥{{totalPrice}}</span>
-        </div>
-        <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
-        @click="onSubmit">
-      <span>去付款</span>
-        </div>
-        </div>
-      </div>
-      </div> -->
-
   </div>
 
-      <div style="background-color:#f8f8f8;padding:0 20px;">
-        <div style="height:30px;line-height:30px;">发票信息</div>
+      <div style="background-color:#f8f8f8;padding:0 20px;" >
+        <div style="height:30px;line-height:30px;"  v-if="goodsType === 'RETAIL'">发票信息</div>
 
-        <div style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;" class="flex flex-pack-justify">
+        <div style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;" class="flex flex-pack-justify" v-if="goodsType === 'RETAIL'">
             <div>
               <div class="couponUp"  :class="haveinvoice?'couponUpCur':''"   @click="isinvoiceshow(3,haveinvoice)">我要开发票</div>
               <div v-if="haveinvoice===true" style="color:#F4C542;cursor:pointer;margin-left:26px;" @click="isupdateinvoiceshow()">修改</div>
@@ -205,7 +225,7 @@
             <div v-show="haveinvoice">发票内容:明细</div>
         </div>
         
-        <div class="flex flex-pack-justify flex-align-center" style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;">
+        <div class="flex flex-pack-justify flex-align-center" style="width:100%;padding:10px 0;boder-bottom:1px solid #eee;"  v-if="goodsType === 'RETAIL'">
           <div class="flex">
             <div @click="couponshowNo('1')" class="couponUp" :class="coupon_active == '1'?'couponUpCur':''" style="color:#858585">不使用优惠券</div>
             <div  class="couponUp" @click="coupon_active = '2'" :class="coupon_active == '2'?'couponUpCur':''" >使用优惠卷</div>
@@ -219,9 +239,9 @@
         </div>
 
         <div style="height:30px;line-height:30px;">配送方式</div>
-        <div class="flex flex-pack-justify flex-align-center" style="padding:10px 0;">
+        <div class="flex flex-pack-justify flex-align-center" style="padding:10px 0;font-weight: 600;">
           <div>快递</div>
-          <div>运费:{{freight}}</div>
+          <div>运费:{{freight.toFixed(2)}}</div>
         </div>
 
         <div style="height:40px;line-height:40px;">给卖家的话（选填） <span style="margin:0 20px;color:#999">选填内容已和卖家协商确认</span></div>
@@ -237,7 +257,9 @@
       <div>应付金额</div>
           <div class="flex flex-align-center">
         <div style="padding:0 20px;">
-            <span style="color:red;font-size:18px;">￥{{totalPrice.toFixed(2)}}</span>
+            <span style="color:red;font-size:18px;">
+              <span v-if="goodsType === 'RETAIL'">￥</span>{{totalPrice.toFixed(2)}}<span v-if="goodsType === 'SCORE'">积分</span>
+            </span>
           </div>
           <div  style="background-color:#F4C542;border-color:#F4C542;color:#FFFFFF;min-width:120px;height:42px;font-size:16px;" class="flex flex-align-center flex-pack-center pointer" 
           @click="onSubmit">
@@ -415,7 +437,6 @@
                         <div class="newtext">        <span v-if="item.conditionType == 'NEW_USER'">新人专享;</span>
               <span v-if="item.rangeType == 'ALL'">全场通用;</span>
               <span v-else>{{item.catName}}类商品适用;</span>特价商品或其他优惠活动商品不可</div>
-
                     </div>
                 </div>
               <div style="text-align: center;margin-top: 30px;">
@@ -449,168 +470,182 @@ import Winbeet from "../../components/Winbeet.vue";
 })
 export default class shopIndex extends Vue {
   // 显示发票框
-  invoiceshow=false;
+  invoiceshow = false;
   // 显示修改发票框
-  updateinvoiceshow=false;
+  updateinvoiceshow = false;
   // 判断有没有选发票
-  haveinvoice=false;
+  haveinvoice = false;
   //使用优惠券切换
-  coupon_active1=false;
-  coupon_active='0';
+  coupon_active1 = false;
+  coupon_active = "0";
   // 发票内容
-  invoicecontent={
-    titleType:'',
-    invoiceTitle:'',
-    invoiceNo:'',
+  invoicecontent = {
+    titleType: "",
+    invoiceTitle: "",
+    invoiceNo: ""
   };
   // 修改的发票内容
-  updateinvoicecontent={
-    titleType:'',
-    invoiceTitle:'',
-    invoiceNo:'',
+  updateinvoicecontent = {
+    titleType: "",
+    invoiceTitle: "",
+    invoiceNo: ""
   };
-  isinvoiceshow(clean,coupon_active){
-   
- console.log(coupon_active)
+  isinvoiceshow(clean, coupon_active) {
+    console.log(coupon_active);
 
     // 如果有传值 清除invoicecontent里全部东西
-    if(clean){
-      this.haveinvoice=false;
-      this.invoicecontent={
-        titleType:'',
-        invoiceTitle:'',
-        invoiceNo:'',
+    if (clean) {
+      this.haveinvoice = false;
+      this.invoicecontent = {
+        titleType: "",
+        invoiceTitle: "",
+        invoiceNo: ""
       };
     }
-if(!coupon_active){
-      this.invoiceshow=!this.invoiceshow
-}
+    if (!coupon_active) {
+      this.invoiceshow = !this.invoiceshow;
+    }
   }
-  isupdateinvoiceshow(){
-    this.updateinvoiceshow=!this.updateinvoiceshow
+  isupdateinvoiceshow() {
+    this.updateinvoiceshow = !this.updateinvoiceshow;
     // 如果updateinvoiceshow是true
-    if(this.updateinvoiceshow===true){
-      this.updateinvoicecontent.titleType=this.invoicecontent.titleType
-      this.updateinvoicecontent.invoiceTitle=this.invoicecontent.invoiceTitle
-      this.updateinvoicecontent.invoiceNo=this.invoicecontent.invoiceNo
+    if (this.updateinvoiceshow === true) {
+      this.updateinvoicecontent.titleType = this.invoicecontent.titleType;
+      this.updateinvoicecontent.invoiceTitle = this.invoicecontent.invoiceTitle;
+      this.updateinvoicecontent.invoiceNo = this.invoicecontent.invoiceNo;
     }
   }
-  addinvoice(){
-    if(this.invoicecontent.titleType==""){
+  addinvoice() {
+    if (this.invoicecontent.titleType == "") {
       this["$Message"].warning("请选择发票类型");
-      return
+      return;
     }
-    if(this.invoicecontent.titleType=='COMPANY'&&this.invoicecontent.invoiceTitle==""){
+    if (
+      this.invoicecontent.titleType == "COMPANY" &&
+      this.invoicecontent.invoiceTitle == ""
+    ) {
       this["$Message"].warning("请填写发票抬头");
-      return
+      return;
     }
-    if(this.invoicecontent.titleType=='COMPANY'&&this.invoicecontent.invoiceNo==""){
+    if (
+      this.invoicecontent.titleType == "COMPANY" &&
+      this.invoicecontent.invoiceNo == ""
+    ) {
       this["$Message"].warning("请填写纳税人识别号");
-      return
+      return;
     }
-    this.invoiceshow=!this.invoiceshow
-    this.haveinvoice=true;
+    this.invoiceshow = !this.invoiceshow;
+    this.haveinvoice = true;
   }
-  updateinvoice(){
-    if(this.updateinvoicecontent.titleType==""){
+  updateinvoice() {
+    if (this.updateinvoicecontent.titleType == "") {
       this["$Message"].warning("请选择发票类型");
-      return
+      return;
     }
-    if(this.updateinvoicecontent.titleType=='COMPANY'&&this.updateinvoicecontent.invoiceTitle==""){
+    if (
+      this.updateinvoicecontent.titleType == "COMPANY" &&
+      this.updateinvoicecontent.invoiceTitle == ""
+    ) {
       this["$Message"].warning("请填写发票抬头");
-      return
+      return;
     }
-    if(this.updateinvoicecontent.titleType=='COMPANY'&&this.updateinvoicecontent.invoiceNo==""){
+    if (
+      this.updateinvoicecontent.titleType == "COMPANY" &&
+      this.updateinvoicecontent.invoiceNo == ""
+    ) {
       this["$Message"].warning("请填写纳税人识别号");
-      return
+      return;
     }
-    this.updateinvoiceshow=!this.updateinvoiceshow
-    this.invoicecontent.titleType=this.updateinvoicecontent.titleType
-    this.invoicecontent.invoiceTitle=this.updateinvoicecontent.invoiceTitle
-    this.invoicecontent.invoiceNo=this.updateinvoicecontent.invoiceNo
+    this.updateinvoiceshow = !this.updateinvoiceshow;
+    this.invoicecontent.titleType = this.updateinvoicecontent.titleType;
+    this.invoicecontent.invoiceTitle = this.updateinvoicecontent.invoiceTitle;
+    this.invoicecontent.invoiceNo = this.updateinvoicecontent.invoiceNo;
   }
-  changetitleType(Type){
-    if(Type=='PERSON'){
-      this.invoicecontent.titleType='PERSON';
+  changetitleType(Type) {
+    if (Type == "PERSON") {
+      this.invoicecontent.titleType = "PERSON";
     }
-    if(Type=='COMPANY'){
-      this.invoicecontent.titleType='COMPANY';
+    if (Type == "COMPANY") {
+      this.invoicecontent.titleType = "COMPANY";
     }
-    console.log('this.invoicecontent.titleType',this.invoicecontent.titleType)
-    console.log('this.updateinvoicecontent.titleType',this.updateinvoicecontent.titleType)
+    console.log("this.invoicecontent.titleType", this.invoicecontent.titleType);
+    console.log(
+      "this.updateinvoicecontent.titleType",
+      this.updateinvoicecontent.titleType
+    );
   }
-  changeupdatetitleType(Type){
-    if(Type=='PERSON'){
-      this.updateinvoicecontent.titleType='PERSON';
+  changeupdatetitleType(Type) {
+    if (Type == "PERSON") {
+      this.updateinvoicecontent.titleType = "PERSON";
     }
-    if(Type=='COMPANY'){
-      this.updateinvoicecontent.titleType='COMPANY';
+    if (Type == "COMPANY") {
+      this.updateinvoicecontent.titleType = "COMPANY";
     }
-    console.log('this.invoicecontent.titleType',this.invoicecontent.titleType)
-    console.log('this.updateinvoicecontent.titleType',this.updateinvoicecontent.titleType)
+    console.log("this.invoicecontent.titleType", this.invoicecontent.titleType);
+    console.log(
+      "this.updateinvoicecontent.titleType",
+      this.updateinvoicecontent.titleType
+    );
   }
-   isdef(){
-    if(this.isDefault==0){
-      this.isDefault=1
-    }else{
-      this.isDefault=0
+  isdef() {
+    if (this.isDefault == 0) {
+      this.isDefault = 1;
+    } else {
+      this.isDefault = 0;
     }
   }
 
-  addcancel(){
-      this.withchangeModel = false
-  this.addshow= false
+  addcancel() {
+    this.withchangeModel = false;
+    this.addshow = false;
   }
 
-
-
-  update(){
-    this.updateaddressid= this.address['addressId'];
-    this.addshow=true;
-    this.provinceid=this.address['provinceid'];
-    this.cityid=this.address['cityid'];
-    this.countryid=this.address['countryid'];
-    this.address1=this.address['address'];
-    this.contactName=this.address['contactname'];
-    this.contactMobile=this.address['contactmobile'];
-    this.isDefault=this.address['isdefault'];
+  update() {
+    this.updateaddressid = this.address["addressId"];
+    this.addshow = true;
+    this.provinceid = this.address["provinceid"];
+    this.cityid = this.address["cityid"];
+    this.countryid = this.address["countryid"];
+    this.address1 = this.address["address"];
+    this.contactName = this.address["contactname"];
+    this.contactMobile = this.address["contactmobile"];
+    this.isDefault = this.address["isdefault"];
     this.getprovince();
     this.querycity();
     this.querycountry();
-
   }
   //增加地址
-    isaddress() {
-    if(this.provinceid==""){
-       this["$Message"].warning("请选择省份");
+  isaddress() {
+    if (this.provinceid == "") {
+      this["$Message"].warning("请选择省份");
       return;
     }
-    if(this.cityid==""){
-       this["$Message"].warning("请选择城市");
-      return;      
-    }
-    if(this.countryid==""){
-       this["$Message"].warning("请选择市区");
+    if (this.cityid == "") {
+      this["$Message"].warning("请选择城市");
       return;
     }
-    if(this.address1==""){
-       this["$Message"].warning("请填写详细地址");
+    if (this.countryid == "") {
+      this["$Message"].warning("请选择市区");
       return;
     }
-    if(this.address1.length<5){
-       this["$Message"].warning("请至少输入五个字符");
+    if (this.address1 == "") {
+      this["$Message"].warning("请填写详细地址");
       return;
     }
-    if(this.contactName==""){
-       this["$Message"].warning("请填写收货人");
+    if (this.address1.length < 5) {
+      this["$Message"].warning("请至少输入五个字符");
       return;
     }
-    if(this.contactMobile==""){
-       this["$Message"].warning("请填写手机号码");
+    if (this.contactName == "") {
+      this["$Message"].warning("请填写收货人");
       return;
     }
-       if(this.contactMobile.length!= 11 ){
-       this["$Message"].warning("请填写正确的手机号码");
+    if (this.contactMobile == "") {
+      this["$Message"].warning("请填写手机号码");
+      return;
+    }
+    if (this.contactMobile.length != 11) {
+      this["$Message"].warning("请填写正确的手机号码");
       return;
     }
     Vue.prototype.$reqFormPost(
@@ -620,13 +655,13 @@ if(!coupon_active){
           .userId,
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
-        provinceId:this.provinceid,
-        cityId:this.cityid,
-        countryId:this.countryid,
-        address:this.address1,
-        contactName:this.contactName,
-        contactMobile:this.contactMobile,
-        isDefault:this.isDefault
+        provinceId: this.provinceid,
+        cityId: this.cityid,
+        countryId: this.countryid,
+        address: this.address1,
+        contactName: this.contactName,
+        contactMobile: this.contactMobile,
+        isDefault: this.isDefault
       },
       res => {
         if (res == null) {
@@ -640,196 +675,189 @@ if(!coupon_active){
           Toast(res.data.message);
           return;
         }
-         
-       this.getAddressList();
-        this.provinceid="";
-        this.cityid="";
-        this.countryid="";
-        this.address1="";
-        this.contactName="";
-        this.contactMobile="";
-        this.isDefault=0;
-        this.addshow=false;
-        this.updateaddressid="";
-
-        console.log('res.data.addressId',res.data.data.addressId)
-        
-        this.doChangePreDis('address',res.data.data.addressId,res=>{
-          this["$Message"].success("新建地址成功");
-        })
-
-        
-      }
-    );
-  }
-addaddress() {
- if(this.provinceid==""){
-       this["$Message"].warning("请选择省份");
-      return;
-    }
-    if(this.cityid==""){
-       this["$Message"].warning("请选择城市");
-      return;      
-    }
-    if(this.countryid==""){
-       this["$Message"].warning("请选择市区");
-      return;
-    }
-    if(this.address1==""){
-       this["$Message"].warning("请填写详细地址");
-      return;
-    }
-    if(this.address1.length<5){
-       this["$Message"].warning("请至少输入五个字符");
-      return;
-    }
-    if(this.contactName==""){
-       this["$Message"].warning("请填写收货人");
-      return;
-    }
-    if(this.contactMobile==""){
-       this["$Message"].warning("请填写手机号码");
-      return;
-    }
-    if(this.contactMobile.length!= 11 ){
-       this["$Message"].warning("请填写正确的手机号码");
-      return;
-    }
-    if((this.updateaddressid||'')!=''){
-      Vue.prototype.$reqFormPost(
-      "/address/update",
-      {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-        addressId:this.updateaddressid,
-        provinceId:this.provinceid,
-        cityId:this.cityid,
-        countryId:this.countryid,
-        address:this.address1,
-        contactName:this.contactName,
-        contactMobile:this.contactMobile,
-        isDefault:this.isDefault
-      },
-      res => {
-        if (res == null) {
-          console.log("网络请求错误！");
-          return;
-        }
-        if (res.data.status != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          Toast(res.data.message);
-          return;
-        }
-        this["$Message"].success("保存成功");
-        
-        this.provinceid="";
-        this.cityid="";
-        this.countryid="";
-        this.address1="";
-        this.contactName="";
-        this.contactMobile="";
-        this.isDefault=0;
-        this.addshow=false;
-        this.updateaddressid="";
-        this.getPreInfo(
-        this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
-      );
-      }
-    );
-    }else{
-      Vue.prototype.$reqFormPost(
-      "/address/add",
-      {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-        provinceId:this.provinceid,
-        cityId:this.cityid,
-        countryId:this.countryid,
-        address:this.address1,
-        contactName:this.contactName,
-        contactMobile:this.contactMobile,
-        isDefault:this.isDefault
-      },
-      res => {
-        if (res == null) {
-          console.log("网络请求错误！");
-          return;
-        }
-        if (res.data.status != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          Toast(res.data.message);
-          return;
-        }
-        Toast("新建地址成功");
-
 
         this.getAddressList();
-      this.doChangePreDis('address',res.data.data.addressId,res=>{
-          this["$Message"].success("新建地址成功");
-        })
-        this.provinceid="";
-        this.cityid="";
-        this.countryid="";
-        this.address1="";
-        this.contactName="";
-        this.contactMobile="";
-        this.isDefault=0;
-        this.addshow=false;
-        this.updateaddressid="";
+        this.provinceid = "";
+        this.cityid = "";
+        this.countryid = "";
+        this.address1 = "";
+        this.contactName = "";
+        this.contactMobile = "";
+        this.isDefault = 0;
+        this.addshow = false;
+        this.updateaddressid = "";
 
+        console.log("res.data.addressId", res.data.data.addressId);
+
+        this.doChangePreDis("address", res.data.data.addressId, res => {
+          this["$Message"].success("新建地址成功");
+        });
       }
     );
+  }
+  addaddress() {
+    if (this.provinceid == "") {
+      this["$Message"].warning("请选择省份");
+      return;
     }
-    
+    if (this.cityid == "") {
+      this["$Message"].warning("请选择城市");
+      return;
+    }
+    if (this.countryid == "") {
+      this["$Message"].warning("请选择市区");
+      return;
+    }
+    if (this.address1 == "") {
+      this["$Message"].warning("请填写详细地址");
+      return;
+    }
+    if (this.address1.length < 5) {
+      this["$Message"].warning("请至少输入五个字符");
+      return;
+    }
+    if (this.contactName == "") {
+      this["$Message"].warning("请填写收货人");
+      return;
+    }
+    if (this.contactMobile == "") {
+      this["$Message"].warning("请填写手机号码");
+      return;
+    }
+    if (this.contactMobile.length != 11) {
+      this["$Message"].warning("请填写正确的手机号码");
+      return;
+    }
+    if ((this.updateaddressid || "") != "") {
+      Vue.prototype.$reqFormPost(
+        "/address/update",
+        {
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .token,
+          addressId: this.updateaddressid,
+          provinceId: this.provinceid,
+          cityId: this.cityid,
+          countryId: this.countryid,
+          address: this.address1,
+          contactName: this.contactName,
+          contactMobile: this.contactMobile,
+          isDefault: this.isDefault
+        },
+        res => {
+          if (res == null) {
+            console.log("网络请求错误！");
+            return;
+          }
+          if (res.data.status != 200) {
+            console.log(
+              "需控制错误码" +
+                res.data.status +
+                ",错误信息：" +
+                res.data.message
+            );
+            Toast(res.data.message);
+            return;
+          }
+          this["$Message"].success("保存成功");
+
+          this.provinceid = "";
+          this.cityid = "";
+          this.countryid = "";
+          this.address1 = "";
+          this.contactName = "";
+          this.contactMobile = "";
+          this.isDefault = 0;
+          this.addshow = false;
+          this.updateaddressid = "";
+          this.getPreInfo(
+            this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
+          );
+        }
+      );
+    } else {
+      Vue.prototype.$reqFormPost(
+        "/address/add",
+        {
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .token,
+          provinceId: this.provinceid,
+          cityId: this.cityid,
+          countryId: this.countryid,
+          address: this.address1,
+          contactName: this.contactName,
+          contactMobile: this.contactMobile,
+          isDefault: this.isDefault
+        },
+        res => {
+          if (res == null) {
+            console.log("网络请求错误！");
+            return;
+          }
+          if (res.data.status != 200) {
+            console.log(
+              "需控制错误码" +
+                res.data.status +
+                ",错误信息：" +
+                res.data.message
+            );
+            Toast(res.data.message);
+            return;
+          }
+          Toast("新建地址成功");
+
+          this.getAddressList();
+          this.doChangePreDis("address", res.data.data.addressId, res => {
+            this["$Message"].success("新建地址成功");
+          });
+          this.provinceid = "";
+          this.cityid = "";
+          this.countryid = "";
+          this.address1 = "";
+          this.contactName = "";
+          this.contactMobile = "";
+          this.isDefault = 0;
+          this.addshow = false;
+          this.updateaddressid = "";
+        }
+      );
+    }
   }
 
-
-
-changeprovince(){
-    this.cityid="";
-    this.city=[];
-    this.countryid="";
-    this.country=[];
+  changeprovince() {
+    this.cityid = "";
+    this.city = [];
+    this.countryid = "";
+    this.country = [];
     this.querycity();
   }
-  changecity(){
-    this.countryid="";
-    this.country=[];
+  changecity() {
+    this.countryid = "";
+    this.country = [];
     this.querycountry();
   }
 
-  setDefaultAddress(addressId){
-    if(addressId==this.address[
-      'addressId'
-    ]){
-      return
+  setDefaultAddress(addressId) {
+    if (addressId == this.address["addressId"]) {
+      return;
     }
 
-
-this.doChangePreDis('address',addressId,res=>{
- this.withchangeModel = false
-  this.addshow= false
-})
-
-
-
+    this.doChangePreDis("address", addressId, res => {
+      this.withchangeModel = false;
+      this.addshow = false;
+    });
   }
 
   // this.surecouponId
 
-  querycity(){
+  querycity() {
     Vue.prototype.$reqFormPost(
       "/address/querycity",
       {
-        provinceId:this.provinceid
+        provinceId: this.provinceid
       },
       res => {
         if (res == null) {
@@ -843,13 +871,13 @@ this.doChangePreDis('address',addressId,res=>{
           Toast(res.data.message);
           return;
         }
-        console.log(res.data.data.region)
-        this.city=res.data.data.region
+        console.log(res.data.data.region);
+        this.city = res.data.data.region;
       }
     );
   }
 
-   getAddressList() {
+  getAddressList() {
     Vue.prototype.$reqFormPost(
       "/address/list",
       {
@@ -873,7 +901,6 @@ this.doChangePreDis('address',addressId,res=>{
         console.log("地址列表", res.data.data.addressList);
         this.addressList = res.data.data.addressList;
         this.addressList.forEach((item, index) => {
-     
           item["id"] = item.addressId;
           item["name"] = item.contactname;
           item["tel"] = item.contactmobile;
@@ -881,16 +908,14 @@ this.doChangePreDis('address',addressId,res=>{
           item["address"] =
             item.province + item.city + item.country + item.address;
         });
-
-
       }
     );
   }
-  querycountry(){
+  querycountry() {
     Vue.prototype.$reqFormPost(
       "/address/querycountry",
       {
-        cityId:this.cityid
+        cityId: this.cityid
       },
       res => {
         if (res == null) {
@@ -904,68 +929,55 @@ this.doChangePreDis('address',addressId,res=>{
           Toast(res.data.message);
           return;
         }
-        console.log(res.data.data.region)
-        this.country=res.data.data.region
+        console.log(res.data.data.region);
+        this.country = res.data.data.region;
       }
     );
   }
 
+  withchangeModel = false;
 
-
-  withchangeModel=false;
-
-addressList = [];
+  addressList = [];
   // 删除地址信息
-  deladdress="";
-  deladdressid=""
-  delshow=false;
+  deladdress = "";
+  deladdressid = "";
+  delshow = false;
   // 新增地址
-  addshow=false;
-  province=[];
-  provinceid="";
-  city=[];
-  cityid="";
-  country=[];
-  countryid="";
+  addshow = false;
+  province = [];
+  provinceid = "";
+  city = [];
+  cityid = "";
+  country = [];
+  countryid = "";
 
-  updateaddressid='';
-  address1:any='';
-  contactName="";
-  contactMobile="";
-  isDefault=0;
+  updateaddressid = "";
+  address1: any = "";
+  contactName = "";
+  contactMobile = "";
+  isDefault = 0;
 
+  changeModel(type) {
+    if (type == "change") {
+      console.log("切换地址");
+      this.withchangeModel = true;
+      this.getAddressList();
+    } else {
+      this.getprovince();
+      this.addshow = false;
+      this.provinceid = "";
+      this.cityid = "";
+      this.countryid = "";
+      this.address1 = "";
+      this.contactName = "";
+      this.contactMobile = "";
+      this.isDefault = 0;
+      this.updateaddressid = "";
+      this.addshow = true;
+    }
+  }
 
-
-
-
-changeModel(type){
-if(type=='change'){
-  console.log('切换地址')
-  this.withchangeModel = true;
-  this.getAddressList()
-}else{
-
-    this.getprovince();
-    this.addshow=false;
-    this.provinceid="";
-    this.cityid="";
-    this.countryid="";
-    this.address1="";
-    this.contactName="";
-    this.contactMobile="";
-    this.isDefault=0;    
-    this.updateaddressid="";
-    this.addshow= true;
-
-}
- 
- 
-}
-
-
-
-
-goodsPrice = ""
+  goodsPrice = "";
   prepareId = "";
   shopCartList = [];
   address = {};
@@ -973,10 +985,9 @@ goodsPrice = ""
   goodsSum = "";
   freight = "";
 
-
-   couponList=[];
-  couponnum='';
- 
+  couponList = [];
+  couponnum = "";
+  goodsType = null;
 
   getPreInfo(prepareId) {
     Vue.prototype.$reqFormPost1(
@@ -989,46 +1000,50 @@ goodsPrice = ""
         prepareId: prepareId
       },
       res => {
-
         if (res.returnCode !== 200) {
-          console.log(res)
+          console.log(res);
           this["$Message"].warning(res.message);
           console.log("网络请求错误！");
           return;
         }
-this.goodsPrice = res.data.goodsPrice
+
+        this.goodsType = res.data.goodsType;
+        this.goodsPrice = res.data.goodsPrice;
         this.shopCartList = res.data.shopCartList;
 
         this.address = res.data.address;
-    if(!this.address){
+        if (!this.address) {
           this.getprovince();
-    }
+        }
         this.totalPrice = res.data.totalPrice;
         this.goodsSum = res.data.goodsSum;
         this.freight = res.data.freight;
-        this.currentCoupon = res.data.currentCoupon
+        this.currentCoupon = res.data.currentCoupon;
 
+        if (res.data.currentCoupon) {
+          console.log("---res.data.currentCoupon", res.data.currentCoupon);
 
-if(res.data.currentCoupon){
-  console.log('---res.data.currentCoupon',res.data.currentCoupon)
+          this.selectcouponId = res.data.currentCoupon.couponId;
+          this.selectcouponName =
+            "满" +
+            res.data.currentCoupon.fullDenomination +
+            "减" +
+            res.data.currentCoupon.couponDenomination;
+          this.selectcouponDenomination =
+            res.data.currentCoupon.couponDenomination;
+          this.surecoupon(true);
+          this.coupon_active = "2";
+        } else {
+          this.coupon_active = "1";
+        }
+        console.log(" this.selectcouponId", this.selectcouponId);
 
-    this.selectcouponId=res.data.currentCoupon.couponId;
-    this.selectcouponName="满"+res.data.currentCoupon.fullDenomination + "减"+res.data.currentCoupon.couponDenomination;
-    this.selectcouponDenomination=res.data.currentCoupon.couponDenomination;
-this.surecoupon(true);
-    this.coupon_active = '2';
-}else{
-    this.coupon_active = '1';
-}
-console.log(' this.selectcouponId', this.selectcouponId)
-
-        this.couponList=res.data.couponList;
-        this.couponnum=res.data.couponList.length;
-
+        this.couponList = res.data.couponList;
+        this.couponnum = res.data.couponList ? res.data.couponList.length : 0;
       }
     );
   }
-  currentCoupon = null
+  currentCoupon = null;
   pageType = "";
   titlevalue = "";
   couponId = "";
@@ -1077,177 +1092,164 @@ console.log(' this.selectcouponId', this.selectcouponId)
               this.address["city"] +
               this.address["country"] +
               this.address["address"],
+            goodsType: this.goodsType,
             body: res.data.data.body,
             payId: res.data.data.payId,
             payTotal: res.data.data.payTotal,
-            createTime:res.data.data.createTime
+            createTime: res.data.data.createTime
           },
-          params:{
-          }
+          params: {}
         });
         console.log(res.data.data);
       }
     );
   }
-   getprovince(){
-    Vue.prototype.$reqFormPost(
-      "/address/queryprovince",
-      {},
-      res => {
-        if (res == null) {
-          console.log("网络请求错误！");
-          return;
-        }
-        if (res.data.status != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          Toast(res.data.message);
-          return;
-        }
-        console.log(res.data.data.region)
-        this.province=res.data.data.region
+  getprovince() {
+    Vue.prototype.$reqFormPost("/address/queryprovince", {}, res => {
+      if (res == null) {
+        console.log("网络请求错误！");
+        return;
       }
-    );
+      if (res.data.status != 200) {
+        console.log(
+          "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+        );
+        Toast(res.data.message);
+        return;
+      }
+      console.log(res.data.data.region);
+      this.province = res.data.data.region;
+    });
   }
-  yetShow =false;
+  yetShow = false;
   // 优惠卷框
-  iscouponshow=false;
+  iscouponshow = false;
   //不使用
-  couponshowNo(coupon_active){
-    this.coupon_active = '1';
-    console.log('dd')
-        this.surecouponId="";
-    this.surecouponName="";
-    this.surecouponDenomination="";
-this.doChangePreDis('dis',"",res=>{
-})
-
+  couponshowNo(coupon_active) {
+    this.coupon_active = "1";
+    console.log("dd");
+    this.surecouponId = "";
+    this.surecouponName = "";
+    this.surecouponDenomination = "";
+    this.doChangePreDis("dis", "", res => {});
   }
 
-
-  couponshow(clean){
-    if(parseInt(this.couponnum)>0){
-      
-      this.iscouponshow=!this.iscouponshow
-        // this.coupon_active = '2';
-        // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
-        if(this.surecouponId!==""){
-          this.selectcouponId=this.surecouponId;
-          this.selectcouponName=this.surecouponName;
-          this.selectcouponDenomination=this.surecouponDenomination;
-        }
-        console.log('------',this.selectcouponId)
-        console.log(this.currentCoupon,clean && !this.currentCoupon)
-        // 有传值就清空选择时的优惠卷
-        if(clean || !this.currentCoupon){
-          this.selectcouponId="";
-          this.selectcouponName="";
-          this.selectcouponDenomination="";
-        }
+  couponshow(clean) {
+    if (parseInt(this.couponnum) > 0) {
+      this.iscouponshow = !this.iscouponshow;
+      // this.coupon_active = '2';
+      // 如果之前有确定优惠卷 把它传会给选择时的selectcouponId
+      if (this.surecouponId !== "") {
+        this.selectcouponId = this.surecouponId;
+        this.selectcouponName = this.surecouponName;
+        this.selectcouponDenomination = this.surecouponDenomination;
+      }
+      console.log("------", this.selectcouponId);
+      console.log(this.currentCoupon, clean && !this.currentCoupon);
+      // 有传值就清空选择时的优惠卷
+      if (clean || !this.currentCoupon) {
+        this.selectcouponId = "";
+        this.selectcouponName = "";
+        this.selectcouponDenomination = "";
+      }
     }
   }
 
+  doChangePreDis(type, value, callback) {
+    console.log("选择的优惠券id", this.surecouponId);
 
-doChangePreDis(type,value,callback){
+    let data = {
+      userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+        .userId,
+      token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+        .token,
+      prepareId: this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
+    };
 
-  console.log('选择的优惠券id',this.surecouponId)
-
-
-
-let data = {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-          prepareId:this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID],
-}
-
-if(type=='address'){
- (<any>Object).assign(data,  {addressId: value});
- if(this.surecouponId){
- (<any>Object).assign(data,  {couponId: this.surecouponId});
- }
-}else if(type=='dis'){
- (<any>Object).assign(data,  {couponId: value});
-if(this.address){
- (<any>Object).assign(data,  {addressId: this.address['addressId']});
-}
-}
-   Vue.prototype.$reqFormPost(
-      "/prepare/update",
-      data,
-      res => {
-       callback();
-        if (res == null) {
-          console.log("网络请求错误！");
-          return;
-        }
-        if (res.data.status != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          Toast(res.data.message);
-          return;
-        }
- this.getPreInfo(
-      this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
-    );
+    if (type == "address") {
+      (<any>Object).assign(data, { addressId: value });
+      if (this.surecouponId) {
+        (<any>Object).assign(data, { couponId: this.surecouponId });
       }
-    );
-}
+    } else if (type == "dis") {
+      (<any>Object).assign(data, { couponId: value });
+      if (this.address) {
+        (<any>Object).assign(data, { addressId: this.address["addressId"] });
+      }
+    }
+    Vue.prototype.$reqFormPost("/prepare/update", data, res => {
+      callback();
+      if (res == null) {
+        console.log("网络请求错误！");
+        return;
+      }
+      if (res.data.status != 200) {
+        console.log(
+          "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+        );
+        Toast(res.data.message);
+        return;
+      }
+      this.getPreInfo(
+        this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
+      );
+    });
+  }
 
   // 选择时的优惠卷
-  selectcouponId="";
-  selectcouponName="";
-  selectcouponDenomination="";
-  selectcoupon(coupon){
-    this.selectcouponId=coupon.couponId;
-    this.selectcouponName= "满"+coupon.fullDenomination + "减"+coupon.couponDenomination;
-    this.selectcouponDenomination=coupon.couponDenomination;
+  selectcouponId = "";
+  selectcouponName = "";
+  selectcouponDenomination = "";
+  selectcoupon(coupon) {
+    this.selectcouponId = coupon.couponId;
+    this.selectcouponName =
+      "满" + coupon.fullDenomination + "减" + coupon.couponDenomination;
+    this.selectcouponDenomination = coupon.couponDenomination;
   }
   // 确定的优惠卷
-  surecouponId="";
-  surecouponName="";
-  surecouponDenomination="";
-  surecoupon(filter){
-     this.yetShow = true;
-    if(this.selectcouponId==""){
+  surecouponId = "";
+  surecouponName = "";
+  surecouponDenomination = "";
+  surecoupon(filter) {
+    this.yetShow = true;
+    if (this.selectcouponId == "") {
       this["$Message"].warning("请选择优惠卷");
       return;
     }
-    this.surecouponId=this.selectcouponId;
-if(!filter){
-    this.iscouponshow=false;
-    this.doChangePreDis('dis', this.surecouponId,res=>{
-    })
-}
-console.log("this.selectcouponName",this.selectcouponName)
-    this.surecouponName=this.selectcouponName;
-    this.surecouponDenomination=this.selectcouponDenomination;
-  this.coupon_active = '2';
+    this.surecouponId = this.selectcouponId;
+    if (!filter) {
+      this.iscouponshow = false;
+      this.doChangePreDis("dis", this.surecouponId, res => {});
+    }
+    console.log("this.selectcouponName", this.selectcouponName);
+    this.surecouponName = this.selectcouponName;
+    this.surecouponDenomination = this.selectcouponDenomination;
+    this.coupon_active = "2";
   }
 
   mounted() {
-    this.prepareId = sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]
-    this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]);
-    if(!this.prepareId){
+    this.prepareId = sessionStorage[Vue.prototype.MutationTreeType.PREPAREID];
+    this.$store.commit(
+      Vue.prototype.MutationTreeType.PREPAREID,
+      sessionStorage[Vue.prototype.MutationTreeType.PREPAREID]
+    );
+    if (!this.prepareId) {
       this.$router.go(-2);
-      return 
+      return;
     }
     this.getPreInfo(
       this.$store.getters[Vue.prototype.MutationTreeType.PREPAREID]
     );
-console.log('this.selectcouponId',this.selectcouponId)
-
-
+    console.log("this.selectcouponId", this.selectcouponId);
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .contentBox2 {
-  border: 1px #e5e5e5 solid;
+  border-right: 1px #e5e5e5 solid;
+  border-bottom: 1px #e5e5e5 solid;
+  border-left: 1px #e5e5e5 solid;
   width: 1200px;
   font-size: 14.2px;
   margin-bottom: 20px;
@@ -1255,95 +1257,172 @@ console.log('this.selectcouponId',this.selectcouponId)
 .content_title {
   min-width: 90px;
 }
-.add_colose{
-  position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
+.add_colose {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 10px;
+  cursor: pointer;
 }
-.add_titile{
-  line-height: 40px;font-size: 18px;
+.add_titile {
+  line-height: 40px;
+  font-size: 18px;
 }
-.region{
-  line-height: 30px;margin-bottom: 20px;
+.region {
+  line-height: 30px;
+  margin-bottom: 20px;
 }
-.region select{
-  height:30px;border:1px solid #e5e5e5;width:180px;margin-right:16px;width:150px;outline: none;
+.region select {
+  height: 30px;
+  border: 1px solid #e5e5e5;
+  width: 180px;
+  margin-right: 16px;
+  width: 150px;
+  outline: none;
   background: #fff;
 }
-.region select:last-child{
-  margin-right:0 ;
+.region select:last-child {
+  margin-right: 0;
 }
-.region input{
-  border:1px solid #e5e5e5;width:198px;padding-left:10px;height:30px;
+.region input {
+  border: 1px solid #e5e5e5;
+  width: 198px;
+  padding-left: 10px;
+  height: 30px;
 }
-.region textarea{
-  border:1px solid #e5e5e5;height:76px;width:482px;resize:none;padding-left: 10px;
+.region textarea {
+  border: 1px solid #e5e5e5;
+  height: 76px;
+  width: 482px;
+  resize: none;
+  padding-left: 10px;
 }
-.region_btn{
-  margin-top:40px;
+.region_btn {
+  margin-top: 40px;
 }
-.region_btn>div{
-    width: 155px;height: 40px;color:#fff;text-align: center;line-height: 40px;
-    border: 1px solid rgb(252, 203, 82);background: rgb(252, 203, 82);cursor: pointer;
+.region_btn > div {
+  width: 155px;
+  height: 40px;
+  color: #fff;
+  text-align: center;
+  line-height: 40px;
+  border: 1px solid rgb(252, 203, 82);
+  background: rgb(252, 203, 82);
+  cursor: pointer;
 }
-.region_btn>div:last-child{
-  background: #fff;color: rgb(252, 203, 82);margin-left:15px;
+.region_btn > div:last-child {
+  background: #fff;
+  color: rgb(252, 203, 82);
+  margin-left: 15px;
 }
-.bc_addres{
-  border:#e5e5e5 1px solid;cursor:pointer;
-  width:500px;
+.bc_addres {
+  border: #e5e5e5 1px solid;
+  cursor: pointer;
+  width: 500px;
   margin: 20px;
-  div{
-    font-size:14px;
-    div{
-      font-size:14px;
+  div {
+    font-size: 14px;
+    div {
+      font-size: 14px;
     }
   }
 }
-.bc_addresCur{
-  border:#ffc630 1px solid;background: url('../../assets/image/打钩.png') no-repeat right top;
+.bc_addresCur {
+  border: #ffc630 1px solid;
+  background: url("../../assets/image/打钩.png") no-repeat right top;
 }
 //优惠券弹窗
-.discountBox{
-  overflow: hidden;padding:30px 25px;padding-right:10px;
-  .dis_list{
-    float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
-    margin-bottom:10px;position: relative;
-      background-size: 100%;
-    .newtext{
-      position: absolute;bottom: 4px;color: #fff;width:91%;font-size: 12px;
+.discountBox {
+  overflow: hidden;
+  padding: 30px 25px;
+  padding-right: 10px;
+  .dis_list {
+    float: left;
+    width: 330px;
+    height: 118px;
+    padding: 15px 15px 0 15px;
+    border-radius: 6px;
+    background: #fccb52;
+    margin-bottom: 10px;
+    position: relative;
+    background-size: 100%;
+    .newtext {
+      position: absolute;
+      bottom: 4px;
+      color: #fff;
+      width: 91%;
+      font-size: 12px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
     }
   }
-  .dis_bgunUse{
+  .dis_bgunUse {
     cursor: pointer;
-    background :url('../../assets/image/未使用优惠卷.png') no-repeat;background-size:100% 100%; 
+    background: url("../../assets/image/未使用优惠卷.png") no-repeat;
+    background-size: 100% 100%;
   }
-    .dis_bgUse{
-    background :url('../../assets/image/已使用优惠卷.png') no-repeat;background-size:100% 100%; 
+  .dis_bgUse {
+    background: url("../../assets/image/已使用优惠卷.png") no-repeat;
+    background-size: 100% 100%;
   }
-  .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
+  .dis_list:nth-of-type(3),
+  .dis_list:nth-of-type(6),
+  .dis_list:nth-of-type(9),
+  .dis_list:nth-of-type(12) {
     margin-right: 0;
   }
-  .distypeCur{
-    height:30px;line-height:30px;color:#fff;position: absolute;right:15px;top:20px;cursor: pointer;
-    text-align: center;padding: 0 10px;border:1px solid #fff;width:80px;
+  .distypeCur {
+    height: 30px;
+    line-height: 30px;
+    color: #fff;
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    cursor: pointer;
+    text-align: center;
+    padding: 0 10px;
+    border: 1px solid #fff;
+    width: 80px;
   }
-  .distypeed{
-    background: #fccb52;color:#fff;
+  .distypeed {
+    background: #fccb52;
+    color: #fff;
   }
-  
 }
-.couponUp{
-  line-height: 30px;cursor: pointer;background: url(../../assets/image/未选择发票.png) no-repeat left center;
-  padding-left:26px;margin-right: 20px;
+.couponUp {
+  line-height: 30px;
+  cursor: pointer;
+  background: url(../../assets/image/未选择发票.png) no-repeat left center;
+  padding-left: 26px;
+  margin-right: 20px;
 }
-.couponUpCur{
+.couponUpCur {
   background: url(../../assets/image/选择发票.png) no-repeat left center;
 }
-.counponNum{
-   border:1px solid #ff5359;color:#ff5359;padding: 0 8px;line-height: 30px;
-   background: url(../../assets/image/优惠卷选中拷贝.png) no-repeat right top;padding-right:30px;
+.counponNum {
+  border: 1px solid #ff5359;
+  color: #ff5359;
+  padding: 0 8px;
+  line-height: 30px;
+  background: url(../../assets/image/优惠卷选中拷贝.png) no-repeat right top;
+  padding-right: 30px;
+}
+.price_table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  .price_table_header {
+    width: 100%;
+    background-color: #f7f7f7;
+    height: 47px;
+    padding: 0 10px;
+  }
+  .price_table_content {
+    border-right: 1px #e5e5e5 solid;
+    border-top: 1px #e5e5e5 solid;
+    border-left: 1px #e5e5e5 solid;
+  }
 }
 </style>
 
