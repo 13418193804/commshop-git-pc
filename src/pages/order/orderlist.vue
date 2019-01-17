@@ -87,15 +87,15 @@
                   </div>
 
                   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_SENDGOODS'">
-                      <span v-if="item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'"  style="margin-right:10px;" :style="formatButtonColor()" 
+                      <span v-if="item.goodsType === 'RETAIL'&& item.detailList[0].refundStatus == 'APPLY_REFUND' && item.detailList[0].refundStatus !== 'FAIL_REFUND'"  style="margin-right:10px;" :style="formatButtonColor()" 
                       @click.stop="goDetail(item)">取消退款</span>
 
-                      <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
+                      <span v-if="item.goodsType === 'RETAIL'&& item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
                       @click.stop="goRefund(item) ">申请退款</span>
                       
                       <!-- <span v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' "  style="margin-right:10px;" :style="formatButtonColor()" 
                       @click.stop="doRefund(item) ">申请退款1</span> -->
-                           <span  v-if="item.detailList[0].refundStatus == 'WAIT_GOODS_BACK'" size="small" style="margin-right:10px;" :style="formatButtonColor()"  @click.stop="inputTransNo(item)">商品寄回</span>
+                           <span  v-if="item.goodsType === 'RETAIL'&& item.detailList[0].refundStatus == 'WAIT_GOODS_BACK'" size="small" style="margin-right:10px;" :style="formatButtonColor()"  @click.stop="inputTransNo(item)">商品寄回</span>
 
                   </div>
 
@@ -103,7 +103,7 @@
                   <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_RECVGOODS'">
                       <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
                         <span style="margin-right:10px;" @click.stop="getShip(item)">查看物流</span>
-                        <span style="margin-right:10px;" @click.stop="doRefund(item)">退货/退款</span>
+                        <span style="margin-right:10px;" @click.stop="doRefund(item)" v-if="item.goodsType === 'RETAIL'">退货/退款</span>
                         <span style="margin-right:10px;"  :style="formatButtonColor()" @click.stop="recvgoods(item.orderId)">确认收货</span>
                       </div>
 
@@ -120,8 +120,8 @@
 
                     <div class="settingBody" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' ||item.orderStatus === 'ORDER_FINISH'">
                         <div  v-if="item.detailList[0].refundStatus == 'WITHOUT_REFUND' || item.detailList[0].refundStatus == 'FAIL_REFUND' ">
-                          <span style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)">再次购买</span>
-                          <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)">退换/售后</span>
+                          <span style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)" v-if="item.goodsType === 'RETAIL'">再次购买</span>
+                          <span style="margin-right:10px;" v-if="item.goodsType === 'RETAIL'&& item.orderStatus === 'ORDER_WAIT_REVIEW' " @click.stop="doRefund(item)" >退换/售后</span>
                           <span style="margin-right:10px;" v-if="item.orderStatus === 'ORDER_WAIT_REVIEW'" :style="formatButtonColor()" @click.stop="gocomment(item)">评价商品</span>
                         </div>
 
@@ -145,14 +145,16 @@
       
                     </div>
 
-                    <div class="settingBody" v-if="item.orderStatus === 'ORDER_CANCEL_PAY'">
+                    <div class="settingBody" v-if="item.orderStatus === 'ORDER_CANCEL_PAY'&& item.goodsType === 'RETAIL'">
                       <span style="margin-right:10px;" :style="formatButtonColor()" @click.stop="buyAgain(item.orderId)">再次购买</span>
                     </div>
                 </div>
 
                 <div style='text-align:center;font-size:16px;width:180px;'>
                   <div style="">
-                      <span>￥{{(items.goodsPrice * items.goodsNum).toFixed(2)}}</span>
+                      <span>
+                          <span v-if="item.goodsType === 'RETAIL'">￥</span>{{(items.goodsPrice * items.goodsNum).toFixed(2)}}<span v-if="item.goodsType === 'SCORE'">积分</span>
+                       </span>
                   </div>
                   <!-- <div style=""><span>￥{{item.orderTotalPrice.toFixed(2)}} {{index}}</span></div> -->
                 </div>
@@ -160,9 +162,9 @@
           </div>
       </div>
       <!-- 已取消订单信息 -->
-      <div class="shoplistSum" v-if="item.orderStatus =='ORDER_CANCEL_PAY'" >共{{item.detailList.length}}件商品 合计：¥{{item.orderTotalPrice.toFixed(2)}} </div>
+      <div class="shoplistSum" v-if="item.orderStatus =='ORDER_CANCEL_PAY'" >共{{item.detailList.length}}件商品 合计：<span v-if="item.goodsType === 'RETAIL'">￥</span>{{item.orderTotalPrice.toFixed(2)}}<span v-if="item.goodsType === 'SCORE'">积分</span> </div>
       <!-- 订单信息 -->
-      <div class="shoplistSum" v-else>共{{item.detailList.length}}件商品 合计：¥{{item.orderTotalPrice.toFixed(2)}}
+      <div class="shoplistSum" v-else>共{{item.detailList.length}}件商品 合计：<span v-if="item.goodsType === 'RETAIL'">￥</span>{{item.orderTotalPrice.toFixed(2)}}<span v-if="item.goodsType === 'SCORE'">积分</span>
         (含运费{{item.transportPrice.toFixed(2)}})
       </div>
 
@@ -227,19 +229,17 @@ import reimburse from "../index/reimburse.vue";
 import reimburseTwo from "../index/reimburseTwo.vue";
 import ship from "../index/ship.vue";
 
-
-
 // import reimburse from "../index/reimburse.vue";
 
 @Component({
   components: {
     Wintabe,
-        logistics,
+    logistics,
     Winbeet,
     reimburse,
     reimburseTwo,
     ship
-},
+  },
   mixins: [mixin]
 })
 export default class orderList extends Vue {
@@ -248,7 +248,7 @@ export default class orderList extends Vue {
   finished = false;
   orderItem = {};
   //删除订单信息
-  orderId ='';
+  orderId = "";
   orderList = {
     orderList: { orderList: [], pageSize: 10, loading: true },
     orderList_pay: { orderList: [], pageSize: 10, loading: true },
@@ -257,15 +257,15 @@ export default class orderList extends Vue {
     orderList_finish: { orderList: [], pageSize: 10, loading: true },
     orderList_refund: { orderList: [], pageSize: 10, loading: true }
   };
-  
-  goRefund(item){
-    this.orderItem =  item
-    let a : any = this.$refs.reimburse
-    a.model = true
+
+  goRefund(item) {
+    this.orderItem = item;
+    let a: any = this.$refs.reimburse;
+    a.model = true;
   }
 
-  getList(){
-        this.getOrderList(this.orderTitleList[this.active].status,true);
+  getList() {
+    this.getOrderList(this.orderTitleList[this.active].status, true);
   }
 
   onLoad() {
@@ -300,12 +300,8 @@ export default class orderList extends Vue {
     }
   ];
 
-
-
-
-//填写单号寄回
-   inputTransNo(item) {
-    
+  //填写单号寄回
+  inputTransNo(item) {
     console.log("填写单号");
     // this.$router.push({
     //   name: "refundbackgoods",
@@ -314,69 +310,60 @@ export default class orderList extends Vue {
     //   }
     // });
 
-  
-    let a : any = this.$refs.logistics
-        a.wl_model = true
-        a.form.refundId = item["detailList"][0].refundOrderList[0].refundId
-
+    let a: any = this.$refs.logistics;
+    a.wl_model = true;
+    a.form.refundId = item["detailList"][0].refundOrderList[0].refundId;
   }
- 
+
   //是否删除
-  doDleterShow(orderId){
+  doDleterShow(orderId) {
     this.currendDeleteOrderId = orderId;
-    this.deleteshow=!this.deleteshow;
+    this.deleteshow = !this.deleteshow;
   }
   //删除订单
-  doDeleteOrder(orderId){
-      this.deleteshow=!this.deleteshow
-      console.log(this.orderId)
-        Vue.prototype.$reqFormPost(
-          "/order/delete",
-          {
-            userId: this.$store.getters[
-              Vue.prototype.MutationTreeType.TOKEN_INFO
-            ].userId,
-            token: this.$store.getters[
-              Vue.prototype.MutationTreeType.TOKEN_INFO
-            ].token,
-            orderId: this.currendDeleteOrderId
-          },
-          res => {
-            if (res == null) {
-              console.log("网络请求错误！");
-              return;
-            }
-            if (res.data.status != 200) {
-              console.log(
-                "需控制错误码" +
-                  res.data.status +
-                  ",错误信息：" +
-                  res.data.message
-              );
-              Toast(res.data.message);
-              return;
-            }
+  doDeleteOrder(orderId) {
+    this.deleteshow = !this.deleteshow;
+    console.log(this.orderId);
+    Vue.prototype.$reqFormPost(
+      "/order/delete",
+      {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        orderId: this.currendDeleteOrderId
+      },
+      res => {
+        if (res == null) {
+          console.log("网络请求错误！");
+          return;
+        }
+        if (res.data.status != 200) {
+          console.log(
+            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
+          );
+          Toast(res.data.message);
+          return;
+        }
 
-            console.log('订单信息',res.data);
-            this.getOrderList(this.orderTitleList[this.active].status,true);
-          }
-        );
-        // on confirm
-
-}
+        console.log("订单信息", res.data);
+        this.getOrderList(this.orderTitleList[this.active].status, true);
+      }
+    );
+    // on confirm
+  }
   payOrder(item) {
-   
     this.$router.push({
       name: "pay",
       query: {
-             orderId:item['orderId'],
+        orderId: item["orderId"],
         body: item.orderTitle,
+        goodsType: item.goodsType,
         payId: item.payNo,
         payTotal: item.payTotal,
-        createTime:item.createTime
+        createTime: item.createTime
       },
-      params:{
-      }
+      params: {}
     });
   }
   loadMore() {
@@ -399,39 +386,43 @@ export default class orderList extends Vue {
       title: "提示",
       message: "是否取消订单?"
     })
-    .then(() => {
-      Vue.prototype.$reqFormPost(
-      "/order/cancel",
-      {
-        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId,
-        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .token,
-        orderId: item.orderId
-      },
-      res => {
-        if (res == null) {
-          console.log("网络请求错误！");
-          return;
-        }
-        if (res.data.status != 200) {
-          console.log(
-            "需控制错误码" + res.data.status + ",错误信息：" + res.data.message
-          );
-          Toast(res.data.message);
-          return;
-        }
-        this.getOrderList(this.orderTitleList[this.active].status,true);
+      .then(() => {
+        Vue.prototype.$reqFormPost(
+          "/order/cancel",
+          {
+            userId: this.$store.getters[
+              Vue.prototype.MutationTreeType.TOKEN_INFO
+            ].userId,
+            token: this.$store.getters[
+              Vue.prototype.MutationTreeType.TOKEN_INFO
+            ].token,
+            orderId: item.orderId
+          },
+          res => {
+            if (res == null) {
+              console.log("网络请求错误！");
+              return;
+            }
+            if (res.data.status != 200) {
+              console.log(
+                "需控制错误码" +
+                  res.data.status +
+                  ",错误信息：" +
+                  res.data.message
+              );
+              Toast(res.data.message);
+              return;
+            }
+            this.getOrderList(this.orderTitleList[this.active].status, true);
 
-        console.log("取消订单");
-        }
-      )
+            console.log("取消订单");
+          }
+        );
       })
       .catch(() => {
         // on cancel
-      }); 
+      });
   }
-
 
   formatStatusColor(status) {
     switch (status) {
@@ -447,28 +438,24 @@ export default class orderList extends Vue {
         return "color:#ffc630";
       case "ORDER_FINISH":
         return "color:#ffc630;";
-          case "ORDER_END_GOODS":
+      case "ORDER_END_GOODS":
         return "color:#ffc630";
-
     }
   }
- 
- //查看物流信息
+
+  //查看物流信息
   getShip(item) {
     // this.$router.push({ name: "ship", query: item });
-    let d : any = this.$refs.ship
-    d.ship_model = true
-    d.getShipInfoList(
-      item.transportNo,item.transportCode
-    );
+    let d: any = this.$refs.ship;
+    d.ship_model = true;
+    d.getShipInfoList(item.transportNo, item.transportCode);
   }
 
   //退货退款
   doRefund(item) {
-    this.orderItem =  item
-    let c : any = this.$refs.reimburseTwo
-    c.reim_model = true
-
+    this.orderItem = item;
+    let c: any = this.$refs.reimburseTwo;
+    c.reim_model = true;
   }
   buyAgain(orderId) {
     Vue.prototype.$reqFormPost(
@@ -527,7 +514,7 @@ export default class orderList extends Vue {
                   res.data.message
               );
               Toast(res.data.message);
-              console.log('订单单号',res.data)
+              console.log("订单单号", res.data);
               return;
             }
             this.changePage(4);
@@ -536,11 +523,10 @@ export default class orderList extends Vue {
         );
         // on confirm
       })
-      
+
       .catch(() => {
         // on cancel
       });
-      
   }
   formatButtonColor() {
     return "border-color:#ffc630;color:#000";
@@ -587,18 +573,16 @@ export default class orderList extends Vue {
         return "orderList_refund";
     }
   }
-       
-       
- pageSize = 10;
+
+  pageSize = 10;
   page = 0;
   total = 0;
-    onPageChange(page) {
+  onPageChange(page) {
     this.page = page - 1;
-    this.getOrderList(this.orderTitleList[this.active].status,true);
+    this.getOrderList(this.orderTitleList[this.active].status, true);
   }
 
-
-  getOrderList(orderStatus,keep:boolean=false) {
+  getOrderList(orderStatus, keep: boolean = false) {
     let valKey = this.returnKey();
 
     Vue.prototype.$reqFormPost(
@@ -624,7 +608,7 @@ export default class orderList extends Vue {
           Toast(res.data.message);
           return;
         }
-        if (this.orderList[valKey].loading||keep) {
+        if (this.orderList[valKey].loading || keep) {
           this.orderList[valKey].orderList = res.data.data.orderList;
           if (
             res.data.data.orderList.length != this.orderList[valKey].pageSize
@@ -633,14 +617,16 @@ export default class orderList extends Vue {
           }
         }
 
-  this.orderList[valKey].orderList = this.orderList[valKey].orderList.filter((item,index)=>{
-return item.detailList.length!==0;
- })
-this.total = res.data.data.page.total
+        this.orderList[valKey].orderList = this.orderList[
+          valKey
+        ].orderList.filter((item, index) => {
+          return item.detailList.length !== 0;
+        });
+        this.total = res.data.data.page.total;
       }
     );
-    
- Vue.prototype.$reqFormPost1(
+
+    Vue.prototype.$reqFormPost1(
       "/user/query",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
@@ -653,23 +639,22 @@ this.total = res.data.data.page.total
           this["$Message"].warning(res.message);
           return;
         }
-          this.waitPayCount = res.data.waitPayCount
-          this.waitRecvgCount = res.data.waitRecvgCount
-          this.waitRefundCount = res.data.waitRefundCount
-          this.waitReviewCount = res.data.waitReviewCount
-          this.waitSendCount = res.data.waitSendCount
+        this.waitPayCount = res.data.waitPayCount;
+        this.waitRecvgCount = res.data.waitRecvgCount;
+        this.waitRefundCount = res.data.waitRefundCount;
+        this.waitReviewCount = res.data.waitReviewCount;
+        this.waitSendCount = res.data.waitSendCount;
       }
     );
-
   }
-    removeByValue(arr, val) {
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i] == val) {
-          arr.splice(i, 1);
-          break;
-        }
+  removeByValue(arr, val) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] == val) {
+        arr.splice(i, 1);
+        break;
       }
     }
+  }
   goDetail(item) {
     this.$router.push({
       name: "orderdetail",
@@ -687,34 +672,28 @@ this.total = res.data.data.page.total
     });
   }
   Pageindex = 0;
-  changePage(index,filter=null) {
-
-    if(this.active == index && !filter){
-      return
+  changePage(index, filter = null) {
+    if (this.active == index && !filter) {
+      return;
     }
 
-    this.page = 0
+    this.page = 0;
     this.active = index;
-    this.Pageindex = index
-    this.getOrderList(this.orderTitleList[index].status,true);
-
+    this.Pageindex = index;
+    this.getOrderList(this.orderTitleList[index].status, true);
   }
- waitPayCount = 0
-waitRecvgCount = 0
-waitRefundCount = 0 
-waitReviewCount = 0 
-waitSendCount = 0
+  waitPayCount = 0;
+  waitRecvgCount = 0;
+  waitRefundCount = 0;
+  waitReviewCount = 0;
+  waitSendCount = 0;
   mounted() {
+    this.$emit("selectMenu", {
+      name: "我的订单",
+      url: "/orderlist"
+    });
 
-
-    this.$emit('selectMenu',{
-      name: '我的订单',
-      url:'/orderlist',
-    })
- 
-
-
-   this.orderTitleList.forEach((item, index) => {
+    this.orderTitleList.forEach((item, index) => {
       if (this.$route.query.orderStatus == item.status) {
         this.active = index;
         this.Pageindex = index;
@@ -722,13 +701,11 @@ waitSendCount = 0
       }
     });
 
-if(this.$route.query.orderStatus == 'ORDER_WAIT_SENDGOODS'){
-    this.changePage(2,true);
-}else{
-    this.getOrderList(this.orderTitleList[this.active].status);
-}
-
-
+    if (this.$route.query.orderStatus == "ORDER_WAIT_SENDGOODS") {
+      this.changePage(2, true);
+    } else {
+      this.getOrderList(this.orderTitleList[this.active].status);
+    }
   }
 }
 </script>
@@ -743,26 +720,24 @@ if(this.$route.query.orderStatus == 'ORDER_WAIT_SENDGOODS'){
   justify-content: center;
 }
 .orderTitle {
-  
-  background-color:#F1F1F1;
+  background-color: #f1f1f1;
   font-size: 14px;
 
   height: 44px;
   line-height: 44px;
-
 }
-.buyBtn{
-  color:#fff;
+.buyBtn {
+  color: #fff;
   background-color: rgb(239, 202, 92);
-    width: 80px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    margin-top: 7px;
-    border-radius: 5px;
-    cursor: pointer;
-    position: absolute;
-    right: 45px;
+  width: 80px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  margin-top: 7px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  right: 45px;
 }
 .detailBody {
   cursor: pointer;
@@ -780,9 +755,9 @@ if(this.$route.query.orderStatus == 'ORDER_WAIT_SENDGOODS'){
   justify-content: center;
   align-items: center;
   height: 50px;
-  
-  span:hover{
-    color: #ffc630!important;
+
+  span:hover {
+    color: #ffc630 !important;
   }
 }
 </style>
@@ -798,11 +773,15 @@ if(this.$route.query.orderStatus == 'ORDER_WAIT_SENDGOODS'){
   background-color: #fff;
 }
 /* 删除弹框提示 */
-.van-dialog{
+.van-dialog {
   width: 25%;
 }
-.shoplistSum{
-  color:red;text-align: right;height:40px;line-height: 40px;padding-right:20px;
+.shoplistSum {
+  color: red;
+  text-align: right;
+  height: 40px;
+  line-height: 40px;
+  padding-right: 20px;
 }
 </style>
 

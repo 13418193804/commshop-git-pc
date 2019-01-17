@@ -19,7 +19,7 @@
           <div style="color:#fff">扫码下载中宜严选app</div>
         </div>
     </div>
-    <div style="height:40px;line-height:40px;text-align: center;">中宜版权所有@ 备案号 粤ICP备15054313号</div>
+    <div style="height:40px;line-height:40px;text-align: center;">中宜版权所有@ 备案号 粤ICP备12001590号-1</div>
   </div>
   <!-- end container -->
 </template>

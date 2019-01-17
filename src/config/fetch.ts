@@ -3,7 +3,7 @@ import Vue from 'vue';
 import { Toast } from "vant";
 import { MutationTreeType } from '../store/mutation-types';
 import Wintabe from "../components/Wintabe.vue";
-// const bizUrl = "http://sr.cncloud.com/qichang"
+// const bizUrl = "https://sr.cncloud.com/qichang"
 const bizUrl = "https://m.yourhr.com.cn/zhongyi";
 
 

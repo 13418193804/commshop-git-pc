@@ -42,7 +42,10 @@
                                   <span v-if="shopItem.isBargain" style="color:#f4c542;border:1px solid #f4c542;">特价</span>
                                 </div>
                                 <h3 class="ellipsis"> {{shopItem.goodsName}}</h3>
-                                <p class="shop_prce" style="color:red">￥{{shopItem.marketPrice.toFixed(2)}}</p>
+                                <p class="shop_prce" style="color:red">
+                                       <span v-if="shopItem.goodsType === 'RETAIL'">￥</span>
+                          {{shopItem.marketPrice.toFixed(2)}}
+                  <span v-if="shopItem.goodsType === 'SCORE'">积分</span></p>
                               </div>
                          </li>
                        </ul>

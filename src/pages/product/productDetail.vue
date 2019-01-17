@@ -31,30 +31,43 @@
 </div>
 </div>
 
-<div class="flex-1" style="padding:0 10px;">
+<div class="flex-1" style="padding:0 20px;">
 <div class="goodsName">
   {{detatil.goodsName}}
 </div>
-  <div style="color:#a3a3a3">
+  <div style="color:#a3a3a3;margin-top: 10px;">
   {{detatil.jingle}}
 </div>
-<div style="border:1px solid #e5e5e5;margin:20px 0;background-color:#FCFCFC;font-size:14px;position: relative;">
-  <!-- 用户评价统计 -->
-  <div class="all_evaluate">
-        用户评价{{detatil.commentNum}}
-  </div>
+<div style="border:1px solid #e5e5e5;margin:15px 0;background-color:#FCFCFC;font-size:14px;position: relative;">
+
+
+
+<div class="flex flex-align-center">
+  <div class="flex-1" style="min-width: 400px;">
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;">
-  <div style="width:50px">价格</div>
-  <div><span class="marketPrice" style="font-size:20px;margin-right:10px">￥{{detatil.marketPrice.toFixed(2)}}</span>
-  <span class="labelPrice">原价￥{{detatil.labelPrice}}</span></div>
+  <strong style="width:50px">价格</strong>
+  <div><span class="marketPrice" style="font-size:20px;margin-right:10px">
+{{detatil.goodsType =='RETAIL' ?skuItem.marketPrice?`${detatil.goodsType =='RETAIL'?'￥':''}`+skuItem.marketPrice.toFixed(2):detatil.sectionMarketPrice:`${detatil.marketPrice}积分`}}
+    </span>
+  
+
+  <span class="labelPrice" v-if="isHiddenLabelPrice">原价：{{skuItem.labelPrice?'￥'+skuItem.labelPrice.toFixed(2) :detatil.sectionLabelPrice}}</span></div>
+</div>
+<div class="flex flex-align-center" style="padding:  0;     margin: 0 20px;" v-if="detatil.sectionScore && detatil.goodsType =='RETAIL'">
+   <div style="width:50px"></div>
+  <div style="font-size:16px;color:red">
+    {{skuItem.awardScore?`购买商品可获得${skuItem.awardScore.toFixed(2)}积分奖励！`
+    :skuItem.awardScore!==0 ?detatil.sectionScore:''}}
+   </div>
 </div>
 
 <div class="flex flex-align-center" style="    padding: 10px 0;     margin: 0 20px;" v-if="detatil.bargainStatus">
-  <div style="width:50px">限制</div>
+  <strong style="width:50px">限制</strong>
   <div>此商品不可与优惠券叠加使用</div>
 </div>
-<div class="flex flex-align-center" v-if="!detatil.bargainStatus" style="    padding: 10px 0;     margin: 0 20px;border-bottom:1px solid #e5e5e5;">
-  <div style="width:50px" v-if="detatil.couponList && detatil.couponList.length>0">领券</div>
+
+<div class="flex flex-align-center" v-if="!detatil.bargainStatus && detatil.goodsType =='RETAIL'" style="padding: 10px 0;margin: 0 20px;" >
+  <strong style="width:50px" v-if="detatil.couponList && detatil.couponList.length>0">领券</strong>
  <div style="    overflow: hidden;text-overflow:ellipsis;margin-right:5px;" > 
    <div class="full_bg" v-if="detatil.couponList&&index<3" v-for="(item,index) in detatil.couponList" >
      满{{item.fullDenomination}}减{{item.couponDenomination}}
@@ -69,13 +82,21 @@
     
   </div>
 </div>
-<div class="flex flex-align-center" style="  padding: 10px 0; margin: 0 20px;">
-  <div style="width:50px">服务</div>
+</div>
+
+  <div class="all_evaluate">
+        用户评价{{detatil.commentNum}}
+  </div>
+</div>
+
+
+<div style="border-bottom:1px solid #e5e5e5;margin: 0 20px;"></div>
+<div class="flex flex-align-center" style="  padding: 10px 0 10px; margin: 0 20px;">
+  <strong style="width:50px">服务</strong>
   <div class="flex flex-around-justify flex-align-center">
-    
     <!-- <div >v-for="(detatil,index) in detatil.slogan"  :key="index" -->
     <div v-for="(item,index) in detatil.slogan.split(';')" :key="index">
-      <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span>
+      <span style="margin-right:12px;"><span style="color:#ffc630;font-weight: 800;margin-right:2px;">·</span>
            <span>{{item}}</span>
       </span> 
     </div>
@@ -92,12 +113,12 @@
 </div>
 
 
- <div style='font-size:14px;max-height:300px;overflow:auto;'>
+ <div style='font-size:14px;max-height:300px;overflow:auto;    margin-left:  20px;'>
       <div v-for='(item,indextop) in detatil.skuKey' :key="indextop" class="flex  flex-align-center">
-      <div style='padding:5px 20px 0;color:#585858;width:87px;'>{{item.skuKeyIdName}}</div>
+      <div style='max-width: 200px;white-space: nowrap;padding: 5px 10px 0px 0px;color:#585858;'>{{item.skuKeyIdName}}</div>
       <div class='skuKeyBox'>
       <div v-for="(items,index) in  item.valueList" :key="index">
-        <div  :class="chosenList[indextop] === items ?'sku_box_select':'sku_box' " 
+        <div  :class="chosenList[indextop] === items ?'sku_box_select':'sku_box1' " 
         :style="items.disable?'color:#ccc;border-color:#ccc;':''+ chosenList[indextop] === 
         items.skuValueId?'border-color:#f4c542;color:#f4c542':'' " 
         @click.stop='selectSku(indextop,items)'  >{{items.skuValueName}}</div>
@@ -105,13 +126,13 @@
       </div>
       </div>
   </div>
-   <div class='num_box flex flex-align-center'>
-      <div class="flex flex-align-center" style="color:#585858;width:87px;">数量</div>
-    <van-stepper v-model="num" style="margin: 10px 0px 0px 20px;cursor: pointer;"/>
+   <div class='num_box2 flex flex-align-center' style=" margin-left:  20px;">
+      <div class="flex flex-align-center" style="color:#585858;width: 50px;">数量</div>
+    <van-stepper v-model="num" style="margin: 20px 0px;cursor: pointer;"/>
     </div>
 <div class="flex">
-      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;height:54px;margin-right:10px;overflow: hidden;cursor: pointer;"  @click.stop="addCar()">立即购买</van-button>
-      <van-button  style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;height:54px;"  @click.stop="addCart()"><img src="../../assets/image/购物车白色.png" style="margin-right: 7px;
+      <van-button  style="border-radius:4%;background-color:#fff;color:#F4C542;border:1px solid #F4C542;min-width:150px;height:54px;margin-right:10px;overflow: hidden;cursor: pointer;" :style="detatil.goodsType =='RETAIL' ? '':'background-color:#F4C542;color:#FFFFFF;border:#F4C542;'"  @click.stop="addCar()">立即购买</van-button>
+      <van-button v-if="detatil.goodsType =='RETAIL'"  style="cursor: pointer;border-radius:4%;background-color:#F4C542;color:#FFFFFF;border:#F4C542;min-width:150px;height:54px;"  @click.stop="addCart()"><img src="../../assets/image/购物车白色.png" style="margin-right: 7px;
     vertical-align: middle;"/>加入购物车</van-button>
 <div>
 <!-- <div :class="detatil.favStatus ? 'collection_cur' :'collection'" @click.stop="updataCollect()">
@@ -139,27 +160,35 @@
       </div>
      
       <!-- 大家还看了 -->
-      <div style="height:320px;" v-if=" new_active== '0'">
-        <div class="flex" style="    overflow: auto;">
-          <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" style="cursor:pointer;">
+      <div style="height:480px;" v-if=" new_active== '0'">
+
+
+
+      <!--  <div style="    overflow: auto;">
+           <div v-for="(items,index) in tabgoodslist" :key="index" @click="goProductDetail(items.goodsId)" style="cursor:pointer;">
               <div class="flex flex-pack-center flex-align-center" style="margin-right:20px;margin-top:10px;border: 1px #e5e5e5 solid;box-sizing: border-box;overflow:hidden;position:relative;padding:100px">
-                  <img src="../../assets/image/热.png" style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:33px;"/>
+                  <img src="../../assets/image/热.png" v-if="items.hotStatus"  style="width:-webkit-fill-available;position: absolute;top: 0;left:0;z-index:2;width:33px;"/>
                   <img v-lazy="items.goodsImg.split(',')[0]" style="width:-webkit-fill-available;position: absolute;top: 0;"/>
                   <div class="textLabel" style="position: absolute;bottom: 0;width: 100%;background-color:rgba(207,207,207,0.3);text-align:center;color:#A3A3A3;height:28px;line-height:28px;" >{{items.jingle}}</div>
                 </div>
                 <div class="flex flex-pack-center flex-v" style="width:-webkit-fill-available;" >
                   <div>
-                    <img src="../../assets/image/满减.png" style="width:40px;margin:10px 0"/>
-                    <img src="../../assets/image/特价.png" style="width:40px;margin:10px 0"/>
+                    <img src="../../assets/image/满减.png" style="width:40px;margin:10px 0" v-if="items.couponList"/>
+                    <img src="../../assets/image/特价.png" style="width:40px;margin:10px 0" v-if="items.isBargain"/>
                   </div>
                   <div class="textLabel" style="font-size:16px;">{{items.goodsName}}</div>
-                  <div style="color:#E05459;font-size:15px;" >￥{{items.marketPrice.toFixed(2)}}</div>
+                  <div style="color:#E05459;font-size:15px;" >
+                     <span v-if="items.goodsType =='RETAIL'">￥</span>{{items.marketPrice.toFixed(2)}}<span v-if="items.goodsType =='SCORE'">积分</span>
+                   </div>
                 </div>
-          </div>
-        </div>
+          </div> 
+        </div>-->
+        <swipeauto  ref="swipeauto" :lists="tabgoodslist" @goProductDetail="goProductDetail"></swipeauto>
+          
       </div>
+
       <!-- 新品 -->
-      <div style="height:320px;" v-if=" new_active== '1'">        
+      <div style="height:480px;" v-if=" new_active== '1'">        
         <swipeauto  ref="swipeauto" :lists="new_detatil" @goProductDetail="goProductDetail"></swipeauto>
 
 
@@ -208,27 +237,25 @@
           <div class="style" style="color:#a1a1a1;display: inline-block;" v-for="item in JSON.parse(item.skuKeyValue)" >
             <span>{{item.key}}:{{item.value}}</span>
           </div>
-          <p>{{item.commentContent}}</p>
+          <p style="word-break:break-all">{{item.commentContent}}</p>
           <div class="flex evaluate_pic">
               <!-- <div v-if="item.commentImg"><img v-lazy="item.commentImg.split(',')[0]" style="width:100px;height:100px;vertical-align: middle;"/></div> -->
          
               <div  v-for="(itemImg,index) in item.commentImg  ? item.commentImg .split(','):[]" :key="index">
                 <img v-lazy="itemImg" style="width:100px;height:100px;vertical-align: middle;"/>                  
-                
               </div>
-           
+
               <!-- <div v-for="(item,index) in detatil.slogan.split(';')" :key="index">
                 <span style="margin:10px;"><span style="color:#ffc630;font-weight: 800;margin:0 5px;">·</span>
                     <span>{{item}}</span>
                 </span> 
               </div> -->
-
           </div>
-          <div class="time">{{item.createTime}}</div>
+            <div>{{item.createTime}}</div>
       </div>
       <div style="margin:20px 0">
             <el-pagination v-if="evaluatetotal>0"
-                      background
+                      background :current-page="page+1"
                       layout="prev, pager, next"
                     :page-size="pageSize" :total="evaluatetotal" @current-change="onPageChange">
                     </el-pagination>
@@ -298,8 +325,7 @@ import Component from "vue-class-component";
 import mixin from "../../config/mixin";
 import { Toast } from "vant";
 import { Action } from "vuex-class";
-import swipeauto from '../../components/SwipeAuto.vue';
-
+import swipeauto from "../../components/SwipeAuto.vue";
 
 import { Cell, CellGroup, ImagePreview } from "vant";
 import Wintabe from "../../components/Wintabe.vue";
@@ -313,18 +339,17 @@ import Winbeet from "../../components/Winbeet.vue";
   mixins: [mixin]
 })
 export default class ProductDetail extends Vue {
-
   mounted() {
     this.goodsId = this.$route.query.goodsId;
-    this.initPage()
+    this.initPage();
   }
-  initPage(){
+  initPage() {
     this.getProductDetail();
     this.evaluateList();
-    this.evaluatePic()
+    this.evaluatePic();
   }
   goodsId = "";
-  detatil:any= {
+  detatil: any = {
     commentList: [],
     detail: {
       imageList: []
@@ -337,7 +362,7 @@ export default class ProductDetail extends Vue {
     onlineStatus: "",
     sku: [],
     skuKey: [],
-    storageNum: 0,
+    storageNum: 0
   };
   num = 1;
   skuattr = [];
@@ -350,9 +375,9 @@ export default class ProductDetail extends Vue {
   commentnum = 0;
   praise = "0";
   tabindex = 0;
-  shop_active = '0';
-  new_active = '0';
-  btn_active = '0';
+  shop_active = "0";
+  new_active = "0";
+  btn_active = "0";
   new_detatil = [];
   goCoupon = [];
   qwerqwre = 0;
@@ -372,92 +397,87 @@ export default class ProductDetail extends Vue {
     this.qwerqwre = index;
   }
   // 新品推荐切换
-  new_actdiv(new_active){
+  new_actdiv(new_active) {
     this.new_active = new_active;
-    console.log('新品',this.new_active)
+    console.log("新品", this.new_active);
   }
-// handleSkuValue(skuValue){
-//  return JSON.parse(skuValue);
-// }
+  // handleSkuValue(skuValue){
+  //  return JSON.parse(skuValue);
+  // }
 
-
- goProductDetail(goodsId) {
-   console.log('点击详情',goodsId)
-   sessionStorage.goodsId = goodsId;
+  goProductDetail(goodsId) {
+    console.log("点击详情", goodsId);
+    sessionStorage.goodsId = goodsId;
     // this.$router.push({
     //   path: "/productDetail",
     //   query: {
     //     goodsId: goodsId
     //   }
     // });
-    window.open(window.location.origin + '/#/productdetail?goodsId='+goodsId )
+    window.open(window.location.origin + "/#/productdetail?goodsId=" + goodsId);
 
-  //  window.location.reload()
+    //  window.location.reload()
   }
-  
+
   pageSize = 20;
   page = 0;
   evaluatetotal = 0;
-    onPageChange(page) {
+  onPageChange(page) {
     this.page = page - 1;
     this.evaluateList();
   }
 
-//获取评价列表
-  evaluateList(){
-        Vue.prototype.$reqFormPost1(
-        "/comment/list",
-        {
-          goodsId: this.goodsId,
-          status:this.btn_active,
-          page:this.page,
-          pageSize:this.pageSize
-        },
-        res => {
-          console.log(res)
+  //获取评价列表
+  evaluateList() {
+    Vue.prototype.$reqFormPost1(
+      "/comment/list",
+      {
+        goodsId: this.goodsId,
+        status: this.btn_active,
+        page: this.page,
+        pageSize: this.pageSize
+      },
+      res => {
+        console.log(res);
         if (res.returnCode != 200) {
-            this["$Message"].warning(res.message);
-            return;
-          }
-          console.log(res.data.page.total)
-          this.appraiseList = res.data.commentList;
-          this.evaluatetotal = res.data.page.total
-          console.log('评论',res.data.commentList)
+          this["$Message"].warning(res.message);
+          return;
         }
-      );
-    
+        console.log(res.data.page.total);
+        this.appraiseList = res.data.commentList;
+        this.evaluatetotal = res.data.page.total;
+        console.log("评论", res.data.commentList);
+      }
+    );
   }
 
-    evaluatePic(){
-        Vue.prototype.$reqFormPost1(
-        "/comment/list",
-        {
-          goodsId: this.goodsId,
-          status:"1"
-        },
-        res => {
-          console.log(res)
+  evaluatePic() {
+    Vue.prototype.$reqFormPost1(
+      "/comment/list",
+      {
+        goodsId: this.goodsId,
+        status: "1"
+      },
+      res => {
+        console.log(res);
         if (res.returnCode != 200) {
-            this["$Message"].warning(res.message);
-            return;
-          }
-          console.log('有图',res.data.page.total)
-          this.total = res.data.page.total;
+          this["$Message"].warning(res.message);
+          return;
         }
-      );
-    
+        console.log("有图", res.data.page.total);
+        this.total = res.data.page.total;
+      }
+    );
   }
-
-
-
 
   //评论筛选
-  btnList(btn_active){
-  this.btn_active = btn_active;
-  this.evaluateList();
-  this.evaluatePic()
+  btnList(btn_active) {
+    this.btn_active = btn_active;
+    this.page = 0;
+    this.evaluateList();
+    this.evaluatePic();
   }
-   addCar() {
+  addCar() {
     if (!this.skuItem["skuId"]) {
       Toast("请选择规格属性");
       return;
@@ -487,95 +507,103 @@ export default class ProductDetail extends Vue {
           Toast(res.data.message);
           return;
         }
-      //  this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
-     
-       sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] = res.data.data.prepareId;
+        //  this.$store.commit(Vue.prototype.MutationTreeType.PREPAREID , res.data.data.prepareId);
+
+        sessionStorage[Vue.prototype.MutationTreeType.PREPAREID] =
+          res.data.data.prepareId;
         this.$router.push({
           path: "/settle"
-        }
-        );
+        });
         console.log("预支付订单ID", res.data.data.prepareId);
       }
     );
     // console.log(this.skuItem.skuId);
   }
   discList = [];
-    // 优惠卷框
-  iscouponshow=false;
-  couponshow(){
-    this.iscouponshow=false;
+  // 优惠卷框
+  iscouponshow = false;
+  couponshow() {
+    this.iscouponshow = false;
   }
 
-
   // 立即领取优惠券
-  getDiccount(item){
-    
-    if(item.getStatus){
+  getDiccount(item) {
+    if (item.getStatus) {
       return;
     }
-    console.log('点击领取',item.id)
+    console.log("点击领取", item.id);
     Vue.prototype.$reqFormPost1(
-        "/coupon/user/linkadd",   
+      "/coupon/user/linkadd",
+      {
+        token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .token,
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId,
+        couponId: item.id
+      },
+      res => {
+        if (res.returnCode != 200) {
+          this["$Message"].warning(res.message);
+          return;
+        }
+        this.queryGoodsCoupon();
+      }
+    );
+  }
+
+  updataCollect() {
+    if (this.detatil.favStatus == 0) {
+      console.log(
+        "添加收藏" +
+          this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId
+      );
+      console.log("this.detatil.favStatus = " + this.detatil.favStatus);
+      Vue.prototype.$reqFormPost1(
+        "/fav/add",
         {
-          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
-          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
-          couponId:item.id
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .token,
+          goodsId: this.goodsId
         },
         res => {
-          if (res.returnCode != 200) {
-            this["$Message"].warning(res.message);
-            return;
-          }
-          this.queryGoodsCoupon()
-        }
-      );
-    }
-
-  updataCollect(){
-    if(this.detatil.favStatus == 0){
-        console.log("添加收藏" + this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId);
-        console.log("this.detatil.favStatus = " + this.detatil.favStatus);
-        Vue.prototype.$reqFormPost1(
-          "/fav/add",
-          {
-            userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
-            token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
-            goodsId: this.goodsId,
-          },
-          res =>{
-            if(res.returnCode !==200){
-              this["$Message"].warning(res.message);
-              console.log("网络请求错误！");
-            }else{
-              this["$Message"].success("收藏成功");
-              this.getProductDetail();
-            }
-          }
-        )
-    } else{
-      console.log("取消收藏" + this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId);
-        Vue.prototype.$reqFormPost1(
-        "/fav/delete",
-        {
-          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId,
-          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token,
-          goodsIds: this.goodsId,
-        },
-        res =>{
-          if(res.returnCode !==200){
+          if (res.returnCode !== 200) {
             this["$Message"].warning(res.message);
             console.log("网络请求错误！");
-          }else{
-            
+          } else {
+            this["$Message"].success("收藏成功");
+            this.getProductDetail();
+          }
+        }
+      );
+    } else {
+      console.log(
+        "取消收藏" +
+          this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId
+      );
+      Vue.prototype.$reqFormPost1(
+        "/fav/delete",
+        {
+          userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .userId,
+          token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+            .token,
+          goodsIds: this.goodsId
+        },
+        res => {
+          if (res.returnCode !== 200) {
+            this["$Message"].warning(res.message);
+            console.log("网络请求错误！");
+          } else {
             this["$Message"].success("已取消收藏");
             this.getProductDetail();
           }
         }
-      )
+      );
     }
-     
   }
-  
+
   addCart() {
     if (!this.skuItem["skuId"]) {
       Toast("请选择规格属性");
@@ -591,7 +619,7 @@ export default class ProductDetail extends Vue {
           .token,
         goodsId: this.goodsId,
         skuId: this.skuItem["skuId"],
-        num:this.num
+        num: this.num
       },
       res => {
         if (res.returnCode !== 200) {
@@ -650,7 +678,9 @@ export default class ProductDetail extends Vue {
             }
           }
           if (tag) {
-            valueItem.disable = false;
+            if (this.detatil.sku[i].storageNum > 0) {
+              valueItem.disable = false;
+            }
             break;
           }
         }
@@ -690,7 +720,6 @@ export default class ProductDetail extends Vue {
     this.chosensku.push();
   }
 
-  
   stars = [
     {
       src: require("../../assets/image/灰色星星.png"),
@@ -713,36 +742,31 @@ export default class ProductDetail extends Vue {
       active: false
     }
   ];
-  scale= 0;
-  click = "0"
-  isshowConp(){
-    
-  }
+  scale = 0;
+  click = "0";
+  isshowConp() {}
 
-
-  show(){
-
+  show() {
     if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
-
-this.iscouponshow=true;
-    this.queryGoodsCoupon();
-    }else{
-      (<any>this.$refs.wintabe).changeLoginModel('login')
+      this.iscouponshow = true;
+      this.queryGoodsCoupon();
+    } else {
+      (<any>this.$refs.wintabe).changeLoginModel("login");
     }
-}
-  queryGoodsCoupon(){
-Vue.prototype.$reqFormPost1(
+  }
+  queryGoodsCoupon() {
+    Vue.prototype.$reqFormPost1(
       "/coupon/goods/list",
       {
         userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .userId,
         token: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
           .token,
-        goodsId: this.goodsId,
+        goodsId: this.goodsId
       },
       res => {
         if (res.returnCode !== 200) {
@@ -750,97 +774,121 @@ Vue.prototype.$reqFormPost1(
           console.log("网络请求错误！");
           return;
         }
-        console.log('zheshisha',res.data)
-        this.goodsCoupon = res.data
-        
+        console.log("zheshisha", res.data);
+        this.goodsCoupon = res.data;
       }
     );
   }
-  goodsCoupon = []
-  
+  goodsCoupon = [];
+
   getProductDetail() {
-    
-    let data ={
-        goodsId: this.goodsId
+    let data = {
+      goodsId: this.goodsId
     };
     if (
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].userId !=
         "" &&
       this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO].token != ""
     ) {
-
-    (<any>Object).assign(data,{ userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
-          .userId});
+      (<any>Object).assign(data, {
+        userId: this.$store.getters[Vue.prototype.MutationTreeType.TOKEN_INFO]
+          .userId
+      });
     }
-    Vue.prototype.$reqFormPost1(
-      "/goods/front/detail",
-      data,
-      res => {
-        if (res.returnCode != 200) {
-          this["$Message"].warning(res.message);
-          return;
-        }
-        this.detatil = res.data;
-        this.new_detatil = res.data.newList;
-        this.goCoupon = res.data.couponList;
-        console.log('满减',this.goCoupon);
-        console.log('详情',res.data);
-
-        if (res.data.singleStatus) {
-          this.skuItem = res.data.sku[0];
-        }
-        console.log("-----------");
-        // 评论数量
-        this.commentnum = res.data.commentNum;
-        console.log('总数',res.data)
-        
-        // 好评计算
-        if (res.data.commentList.length > 0) {
-          let total = 0;
-          for (let i = 0; i < res.data.commentList.length; i++) {
-            total = res.data.commentList[i].star + total;
-          }
-          total = total / (res.data.commentList.length * 5) * 100;
-          const praisenum = total.toFixed(0);
-          this.praise = praisenum;
-          console.log('评论数量',res.data.commentNum)
-        }
-
-        this.tabgoodslist = res.data.likeList;
-        this.likeList = res.data.likeList;
-        this.newList = res.data.newList;
-        this.scale = res.data.scale;
-        this.getstars(res.data.commentStar);
-        // this.couponList = res.data.couponList;
-
-        this.detatil.skuKey.forEach((keyItem, keyIndex) => {
-          keyItem.valueList.forEach((valueItem, valueIndex) => {
-            let opt = { disable: true, chosen: false };
-            this.detatil.sku.forEach((skuItem, skuIndex) => {
-              if (valueItem.skuValueId === skuItem.attrs[keyIndex].valueId) {
-                opt.disable = false;
-                return false;
-              }
-            });
-            (<any>Object).assign(valueItem, opt);
-          });
-        });
-
-        
+    Vue.prototype.$reqFormPost1("/goods/front/detail", data, res => {
+      if (res.returnCode != 200) {
+        this["$Message"].warning(res.message);
+        return;
       }
-    );
+      this.detatil = res.data;
+      console.log(this.detatil.category.catId);
+
+      this.$nextTick(() => {
+        (<any>window).goodsDetailSelect(this.detatil.category.catId);
+      });
+      this.new_detatil = res.data.newList;
+      this.goCoupon = res.data.couponList;
+      console.log("满减", this.goCoupon);
+      console.log("详情", res.data);
+
+      if (res.data.singleStatus) {
+        this.skuItem = res.data.sku[0];
+      }
+      console.log("-----------");
+      // 评论数量
+      this.commentnum = res.data.commentNum;
+      console.log("总数", res.data);
+
+      // 好评计算
+      if (res.data.commentList.length > 0) {
+        let total = 0;
+        for (let i = 0; i < res.data.commentList.length; i++) {
+          total = res.data.commentList[i].star + total;
+        }
+        total = total / (res.data.commentList.length * 5) * 100;
+        const praisenum = total.toFixed(0);
+        this.praise = praisenum;
+        console.log("评论数量", res.data.commentNum);
+      }
+
+      this.tabgoodslist = res.data.likeList;
+      this.likeList = res.data.likeList;
+      this.newList = res.data.newList;
+      this.scale = res.data.scale;
+      this.getstars(res.data.commentStar);
+      // this.couponList = res.data.couponList;
+
+      this.detatil.skuKey.forEach((keyItem, keyIndex) => {
+        keyItem.valueList.forEach((valueItem, valueIndex) => {
+          let opt = { disable: true, chosen: false };
+          this.detatil.sku.forEach((skuItem, skuIndex) => {
+            if (
+              valueItem.skuValueId === skuItem.attrs[keyIndex].valueId &&
+              skuItem.storageNum > 0
+            ) {
+              opt.disable = false;
+              return false;
+            }
+          });
+          (<any>Object).assign(valueItem, opt);
+        });
+      });
+    });
   }
   //切换大图
-  lookPic(index){
-    this.click=index;
-    console.log('下标',this.click);
+  lookPic(index) {
+    this.click = index;
+    console.log("下标", this.click);
   }
-    getstars(num) {
+  getstars(num) {
     for (var i = 0; i < num; i++) {
       this.stars[i].src = require("../../assets/image/星星.png");
       this.stars[i].active = true;
     }
   }
+  get isHiddenLabelPrice() {
+    if (this.detatil.goodsType == "RETAIL") {
+      if (this.skuItem) {
+        if (this.skuItem["labelPrice"] !== 0 ||this.skuItem["labelPrice"]) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+
+        if (this.detatil.labelPrice || this.detatil.labelPrice !== 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+
+    } else {
+      return false;
+    }
+  }
+
   tabgoodslist = [];
   likeList = [];
   newList = [];
@@ -848,12 +896,12 @@ Vue.prototype.$reqFormPost1(
 </script>
 
 <style lang="scss" scoped>
-@import '../../../node_modules/swiper/dist/css/swiper.css';
+@import "../../../node_modules/swiper/dist/css/swiper.css";
 @import "../../style/utils.scss";
 
 .swiper-slide img {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 .goodsName {
   font-weight: 600;
@@ -862,35 +910,30 @@ Vue.prototype.$reqFormPost1(
 .skuKeyBox {
   display: flex;
   flex-wrap: wrap;
-      cursor: pointer;
+  cursor: pointer;
 }
 
-.sku_box {
+.sku_box1 {
   cursor: pointer;
-  margin: 10px 0px 0px 20px;
+  margin: 10px 20px 0px 0px;
   padding: 3px 10px;
   border-radius: 4px;
   border: 1px solid #7f7f7f;
   background-color: #ffffff;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100px;
 }
-.van-stepper__plus{
-cursor: pointer;
+.van-stepper__plus {
+  cursor: pointer;
 }
-.num_box {
+.num_box2 {
   font-size: 16px;
-  padding: 20px;
 }
 .taber {
   line-height: 55px;
-  width:160px;text-align: center;
+  width: 160px;
+  text-align: center;
   cursor: pointer;
 }
 .selecttaber {
-
   border-top: 1px #e5e5e5 solid;
   border-left: 1px #e5e5e5 solid;
   border-right: 1px #e5e5e5 solid;
@@ -898,125 +941,207 @@ cursor: pointer;
   background-color: #fff;
   box-sizing: border-box;
   color: #ffc630;
-  
 }
-.collection{
-  cursor:pointer;color: #949494;margin-left: 20px;
-  background: url(../../assets/image/未收藏.png) no-repeat;width: 54px; height: 54px;
+.collection {
+  cursor: pointer;
+  color: #949494;
+  margin-left: 20px;
+  background: url(../../assets/image/未收藏.png) no-repeat;
+  width: 54px;
+  height: 54px;
 }
-.collection_cur{
-  color: #ffc630; margin-left: 20px;
-  background: url(../../assets/image/已收藏.png) no-repeat;width: 54px; height: 54px;
+.collection_cur {
+  color: #ffc630;
+  margin-left: 20px;
+  background: url(../../assets/image/已收藏.png) no-repeat;
+  width: 54px;
+  height: 54px;
 }
 //评价
-.evaluate_nav{
-  .nav_top{
-    border-bottom: 1px solid #eeeeee;padding:10px 0;overflow: hidden;
-    .evaluate_left{
-      width:225px;height: 130px; border-right: 1px solid #eeeeee;float:left;
-      div{
-        font-size: 16px;margin-bottom: 20px;
-        span{
-          font-size:22px;color: #e05459;
-        }
-      }
-      .star{
-        img{
-          width: 20px;height:20px;
-        }
-      }
-    }
-    .evaluate_right{
-      float:left;
-      h6{
-        color:#a1a1a1;font-size: 14px;margin-bottom:15px; padding-top: 8px;padding-left: 40px;
-      }
-      .btn_evaluate{
-        padding-left: 40px;
-        span{
-          display:inline-block;border: 1px solid #797979;border-radius: 3px;color:#000;font-size:16px;width: 120px;height:35px;
-          line-height: 35px;text-align: center;margin-right: 15px;cursor: pointer;
-        }
-        .btn_border{
-          color:#f4c542;;border: 1px solid #f4c542;
-        }
-      }
-    }
-  }
-}
-
-.evaluate_list{
-  border-bottom: 1px solid #ddd;padding-bottom: 10px;
-  .user{
-    div{
-      margin-right:10px;height: 58px;line-height:58px;margin-bottom:10px;
-      img{
-        width: 38px;height: 38px;border-radius: 50px;vertical-align: middle
-      }
-    }
-  }
-  p{
-    padding:10px 0;color: #585858;font-size: 16px;
-  }
-  .evaluate_pic{
-    div{
-      margin:0 10px 10px 0;
-    }
-  }
-}
- .full_bg{
-   float: left;
-   background: url(../../assets/image/满减背景.png) no-repeat;padding: 0 18px;background-size: 100% 100%;height: 24px;
-   line-height: 24px;color: #ffc630;margin-right:15px;font-size: 10px;
- }
- //优惠券弹窗
-.add_colose{
-  position: absolute;right: 10px;top:10px;padding:10px;cursor: pointer;
-}
-.add_titile{
-  line-height: 40px;font-size: 18px;
-}
-
-.discountBox{
-  overflow: hidden;padding: 30px 15px;padding-right:10px;height: 400px;overflow: auto;
-  .dis_list{
-    float: left;width: 330px;height:118px;padding:15px 15px 0 15px;border-radius: 6px;background: #fccb52;
-    margin-bottom:10px;position: relative;background :url(../../assets/image/领卷中心背景.png) no-repeat;
-      background-size: 100%;
-    .newtext{
-      position: absolute;bottom: 4px;color: #fff;font-size: 10px;width:90%;
-       text-overflow: ellipsis;
-    white-space: nowrap;
+.evaluate_nav {
+  .nav_top {
+    border-bottom: 1px solid #eeeeee;
+    padding: 10px 0;
     overflow: hidden;
+    .evaluate_left {
+      width: 225px;
+      height: 130px;
+      border-right: 1px solid #eeeeee;
+      float: left;
+      div {
+        font-size: 16px;
+        margin-bottom: 20px;
+        span {
+          font-size: 22px;
+          color: #e05459;
+        }
+      }
+      .star {
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .evaluate_right {
+      float: left;
+      h6 {
+        color: #a1a1a1;
+        font-size: 14px;
+        margin-bottom: 15px;
+        padding-top: 8px;
+        padding-left: 40px;
+      }
+      .btn_evaluate {
+        padding-left: 40px;
+        span {
+          display: inline-block;
+          border: 1px solid #797979;
+          border-radius: 3px;
+          color: #000;
+          font-size: 16px;
+          width: 120px;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          margin-right: 15px;
+          cursor: pointer;
+        }
+        .btn_border {
+          color: #f4c542;
+          border: 1px solid #f4c542;
+        }
+      }
     }
   }
-  .dis_list:nth-of-type(3),.dis_list:nth-of-type(6),.dis_list:nth-of-type(9),.dis_list:nth-of-type(12){
+}
+
+.evaluate_list {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  .user {
+    div {
+      margin-right: 10px;
+      height: 58px;
+      line-height: 58px;
+      margin-bottom: 10px;
+      img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50px;
+        vertical-align: middle;
+      }
+    }
+  }
+  p {
+    padding: 10px 0;
+    color: #585858;
+    font-size: 16px;
+  }
+  .evaluate_pic {
+    div {
+      margin: 0 10px 10px 0;
+    }
+  }
+}
+.full_bg {
+  float: left;
+  background: url(../../assets/image/满减背景.png) no-repeat;
+  padding: 0 18px;
+  background-size: 100% 100%;
+  height: 24px;
+  line-height: 24px;
+  color: #ffc630;
+  margin-right: 15px;
+  font-size: 10px;
+}
+//优惠券弹窗
+.add_colose {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.add_titile {
+  line-height: 40px;
+  font-size: 18px;
+}
+
+.discountBox {
+  overflow: hidden;
+  padding: 30px 15px;
+  padding-right: 10px;
+  height: 400px;
+  overflow: auto;
+  .dis_list {
+    float: left;
+    width: 330px;
+    height: 118px;
+    padding: 15px 15px 0 15px;
+    border-radius: 6px;
+    background: #fccb52;
+    margin-bottom: 10px;
+    position: relative;
+    background: url(../../assets/image/领卷中心背景.png) no-repeat;
+    background-size: 100%;
+    .newtext {
+      position: absolute;
+      bottom: 4px;
+      color: #fff;
+      font-size: 10px;
+      width: 90%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+  .dis_list:nth-of-type(3),
+  .dis_list:nth-of-type(6),
+  .dis_list:nth-of-type(9),
+  .dis_list:nth-of-type(12) {
     margin-right: 0;
   }
-  .dis_list:nth-child(even){
-    
+  .dis_list:nth-child(even) {
   }
-  .distype{
-    height:30px;line-height:30px;color:#ffc630;position: absolute;right:15px;top:20px;background: #fff;cursor: pointer;
-    text-align: center;border-radius: 3px;padding: 0 10px;border:1px solid #fff;
+  .distype {
+    height: 30px;
+    line-height: 30px;
+    color: #ffc630;
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 3px;
+    padding: 0 10px;
+    border: 1px solid #fff;
   }
-  .distypeed{
-    background: #fccb52 url('../../assets/已领取白色.png') no-repeat top right;color:#fff;padding-right:20px;
+  .distypeed {
+    background: #fccb52 url("../../assets/已领取白色.png") no-repeat top right;
+    color: #fff;
+    padding-right: 20px;
   }
 }
-.time{
-  position: absolute;right: 16px;color:#fff;
+
+.all_evaluate {
+  // position: absolute;
+  // right: 20px;
+  // top: 35px;
+  color: #f4c542;
+  background: url("../../assets/image/评价.png") no-repeat top center;
+  padding-top: 30px;
+  font-size: 15px;
+  margin: 10px;
 }
-.all_evaluate{
-  position:absolute;right:20px;top:35px;color:#f4c542;background: url('../../assets/image/评价.png') no-repeat right top;
-  padding-top:30px;font-size: 15px;
+.borderImg {
+  box-sizing: content-box;
+  border: 2px solid #fff;
+  height: 104px;
 }
-.borderImg{
-      box-sizing: content-box;
-  border:2px solid #fff;height:104px;
-}
-.border{
-      box-sizing: content-box;
-  border:2px solid #f4c542;
+.border {
+  box-sizing: content-box;
+  border: 2px solid #f4c542;
 }
 </style>

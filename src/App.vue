@@ -40,9 +40,6 @@ html,body,#app{
   min-height: 100%;
   padding-bottom: 140px;
   box-sizing: border-box;
-
-  overflow: visible!important;
-
 }
 .tab-contents{
   
@@ -311,5 +308,13 @@ button{
 }
 .el-pagination{
   text-align:center;
+}
+*:active{
+     outline: -webkit-focus-ring-color auto 0;
+}
+*:focus
+{
+     outline: -webkit-focus-ring-color auto 0;
+    /* border: 0!important; */
 }
 </style>

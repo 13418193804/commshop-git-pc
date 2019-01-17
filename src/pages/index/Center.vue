@@ -343,10 +343,7 @@ messageCount:any = 0
 .vangoods {
   position: inherit;
 }
-.num_box {
-  font-size: 16px;
-  padding: 20px;
-}
+
 
 @keyframes myfirst0001 {
   from {
