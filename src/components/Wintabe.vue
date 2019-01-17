@@ -1,12 +1,8 @@
 <template>
   <div class="alter-container">
    <div class="toplabel flex   flex-pack-center">
-<<<<<<< HEAD
-        <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;">
-=======
    
         <div class="flex flex-end-justify flex-align-center" style="height:100%;width:1200px;color:#fff;font-size:14px;position: relative;">
->>>>>>> 54c64789ca9faac6954d04ae514802bea3444027
             <div v-if="$store.getters[MutationTreeType.TOKEN_INFO].token" class="contentBox" 
             v-on:mouseover="mouseover_select()" v-on:mouseout="mouseout_select()">
                <i class="user_img">
@@ -303,15 +299,10 @@
     <!-- <van-tab v-for="(item,index) in indexList" :title="item.pageName" :key="index"
     > -->
     <!-- v-on:mouseover="two_menu(active)" -->
-<<<<<<< HEAD
-          <div  v-for="(item,index) in indexList"  v-if="active == index" >
-                <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'">
-=======
           <div  v-for="(item,index) in indexList"  v-if="active == index">
               
                 <div v-for="(items,childrenIndex) in item.children" :key="childrenIndex" v-if="items.componentType!=='COMPONENT_TYPE_QUICK_BAR'" >
 
->>>>>>> 54c64789ca9faac6954d04ae514802bea3444027
                   <!-- 轮播图 -->
                   <div v-if="items.componentType === 'COMPONENT_TYPE_SCROLL_HEADER'">
 

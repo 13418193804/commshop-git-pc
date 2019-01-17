@@ -6,7 +6,7 @@ import App from '../App.vue';
 import recommend from '../pages/recommend/recommend.vue';
 
 // ts 按需加载需要@types/webpack-env 这个包
-const search = r => require.ensure([], () => r(require('../pages/search/search')));
+const search = r => require.ensure([], () => r(require('../spages/search/search')));
 const test = r => require.ensure([], () => r(require('../pages/test/test')));
 const index = r => require.ensure([], () => r(require('../pages/index/Index')));
 const TabContainer = r => require.ensure([], () => r(require('../components/TabContainer')));
